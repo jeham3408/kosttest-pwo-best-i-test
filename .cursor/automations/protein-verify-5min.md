@@ -6,7 +6,20 @@
 
 1. **Agents Window** → **Automations** → **+ New automation**
 2. **Navn:** Kosttest – protein verifisering (1 produkt)
-3. **Trigger:** On a schedule → Custom cron → `*/5 * * * *` (hvert 5. minutt)
+3. **Trigger:** On a schedule → Custom cron → **`*/5 * * * *`** (hvert 5. minutt)
+
+   Cron må ha **5 felt**: `minutt time dag måned ukedag`
+
+   | Felt | Verdi | Betydning |
+   |------|-------|-----------|
+   | 1 | `*/5` | Hvert 5. minutt |
+   | 2 | `*` | Hver time |
+   | 3 | `*` | Hver dag i måneden |
+   | 4 | `*` | Hver måned |
+   | 5 | `*` | Hver ukedag |
+
+   ❌ Feil: `*/5 * * *` (kun 4 felt)  
+   ✅ Riktig: `*/5 * * * *`
 4. **Repository:** `jeham3408/kosttest-pwo-best-i-test` · branch `main`
 5. **Agent:** Cloud Agent
 6. **Memory:** På
@@ -15,8 +28,10 @@
 ```
 Følg skill $kosttest-protein-verify
 
-Du skal verifisere NØYAKTIG ÉTT proteinpulver denne kjøringen.
+Les data/protein-verification-status.md før du starter.
+Verifiser NØYAKTIG ÉTT proteinpulver denne kjøringen.
 Start med: node scripts/protein-verify-queue.mjs start
+Avslutt med: sync-md + oppdater kjøringslogg i status-MD.
 Ikke gå videre til neste produkt i køen.
 ```
 

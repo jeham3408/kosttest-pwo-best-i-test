@@ -18,6 +18,10 @@ Du verifiserer **nøyaktig ett** proteinpulver per automasjonskjøring. Ikke hop
 
 ## Arbeidsflyt (følg i rekkefølge)
 
+### Steg 0 — Les statusfil
+
+**Les `data/protein-verification-status.md`** — der står kø, neste produkt og kjøringslogg.
+
 ### Steg 1 — Hent neste produkt
 
 ```bash
@@ -25,6 +29,10 @@ node scripts/protein-verify-queue.mjs start
 ```
 
 Output gir `productId` og `reportPath`. Hvis `done: true`, avslutt uten endring.
+
+Oppdater **Aktuell oppgave** i `data/protein-verification-status.md`:
+- `status`: `in_progress`
+- `productId`, `startet` (ISO-tid)
 
 ### Steg 2 — Les produktet i repo
 
@@ -74,7 +82,16 @@ I `src/data/proteinProducts.ts`, oppdater **kun** det verifiserte produktet med 
 
 ```bash
 node scripts/protein-verify-queue.mjs complete --id <id>
+node scripts/protein-verify-queue.mjs sync-md
 ```
+
+### Steg 6b — Oppdater status-MD
+
+I `data/protein-verification-status.md`:
+
+1. Legg til nytt avsnitt **øverst** under **Kjøringslogg** (dato, id, kilde, endringer, score).
+2. Nullstill **Aktuell oppgave** til `idle`.
+3. `sync-md` oppdaterer oppsummering og produktkø-tabellen automatisk.
 
 ### Steg 7 — Bygg og lever
 
@@ -96,7 +113,8 @@ Etter dataoppdatering regner `gradeProduct()` ut score automatisk ved build:
 
 | Fil | Formål |
 |-----|--------|
-| `scripts/protein-verify-queue.mjs` | Kø: next/start/complete/reject |
+| **`data/protein-verification-status.md`** | **Hovedfil — les og oppdater hver kjøring** |
+| `scripts/protein-verify-queue.mjs` | Kø: start/complete/reject/sync-md |
 | `src/data/proteinVerificationQueue.json` | Status per produkt |
 | `data/protein-verifications/*.json` | Verifikasjonsrapporter |
 | `src/data/proteinProducts.ts` | Produkter (kun ekte data) |
