@@ -125,7 +125,7 @@ const rawProducts: RawProtein[] = [
     strengths: ['Pålitelig merke', 'Protein fra fersk melk', 'Ingen aspartam'],
     watchouts: ['Solges på bodylab.no — ikke Gymgrossisten', 'Lavere protein% enn mange isolates'],
     url: 'https://www.bodylab.no/shop/bodylab-whey-100-663p.html',
-    image: IMG,
+    image: 'https://bodylab.b-cdn.net/media/8a/e6/2d/1756457419/BL-BM0008-whey100-main.png?width=1920',
   },
   {
     id: 'star-whey-100',
@@ -172,8 +172,8 @@ const rawProducts: RawProtein[] = [
     verdict: 'Impact Whey er prisvinneren — god IAAS-profil og blant laveste kr/g protein når det er kampanje.',
     strengths: ['Svært konkurransedyktig pris', 'Høy protein% for concentrate', 'Mange smaker'],
     watchouts: ['Kvalitet varierer med smak/batch', 'Leveringstid fra UK'],
-    url: 'https://www.myprotein.no/sports-nutrition/impact-whey-protein/10852500.html',
-    image: IMG,
+    url: 'https://www.myprotein.no/p/sports-nutrition/impact-whey-protein/13758396/',
+    image: 'https://static.thcdn.com/productimg/original/13758396-1305155914477312.jpg',
   },
   {
     id: 'scitec-100-whey-professional',
@@ -244,8 +244,8 @@ const rawProducts: RawProtein[] = [
     verdict: 'Mutant ISO Surge er et kraftig isolate med topp leucin-tetthet — ideelt for lavt kaloriinntak.',
     strengths: ['Svært høy leucin', 'Ren isolate', 'Lavt fett og karbo'],
     watchouts: ['Dyr per kg', 'Mindre pakke'],
-    url: 'https://www.gymgrossisten.no/mutant-iso-surge',
-    image: IMG,
+    url: 'https://www.gymgrossisten.no/iso-surge-myseproteinisolat-727-g/3897-043R.html',
+    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw3bdaf9c0/images/hi-res/3897-044/3897-044+1.jpg',
   },
   {
     id: 'rule1-r1-protein',
@@ -292,8 +292,8 @@ const rawProducts: RawProtein[] = [
     verdict: 'Nitro-Tech kombinerer whey isolate med creatin — god IAAS, men creatin inkludert i prisen kan skjule ren proteinverdi.',
     strengths: ['Creatin inkludert', 'Sterk merkevare', 'God leucin'],
     watchouts: ['Lavere ren protein% pga creatin', 'Dyrere per ren g protein'],
-    url: 'https://www.gymgrossisten.no/muscletech-nitro-tech',
-    image: IMG,
+    url: 'https://www.muscletech.com/products/nitro-tech-100-whey-gold',
+    image: 'https://www.muscletech.com/cdn/shop/files/mt-nitro-tech-100-whey-gold-cookies-cream-5lb.png',
   },
   {
     id: 'kevin-levrone-levro-whey',
@@ -340,8 +340,8 @@ const rawProducts: RawProtein[] = [
     verdict: 'Ghost Whey scorer høyt på smak og har god aminosyreprofil, men betaler premium for merkevaren.',
     strengths: ['Unike smaker', 'Digestive enzymes', 'God IAAS'],
     watchouts: ['Premium pris per g protein'],
-    url: 'https://www.gymgrossisten.no/ghost-whey',
-    image: IMG,
+    url: 'https://www.ghostlifestyle.com/products/ghost-whey-x-trix-trix-cereal-milk',
+    image: 'http://www.ghostlifestyle.com/cdn/shop/files/WheyTrix_55760dd6-b481-4b0d-b8de-b58c265437ae_grande.webp',
   },
   {
     id: 'esn-designer-whey',
