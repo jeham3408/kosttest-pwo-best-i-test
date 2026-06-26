@@ -1,4 +1,5 @@
 import { blogPosts } from '../data/blog'
+import { testedProteinProducts, type TestedProteinProduct } from '../data/proteinProducts'
 import { testedProducts, type TestedProduct } from '../data/pwoProducts'
 import { normalizePath } from '../routing'
 
@@ -38,11 +39,50 @@ const breadcrumb = (items: { name: string; url: string }[]) => ({
 type JsonLdProps = {
   path?: string
   product?: TestedProduct
+  proteinProduct?: TestedProteinProduct
 }
 
-export default function JsonLd({ path: rawPath, product }: JsonLdProps) {
+export default function JsonLd({ path: rawPath, product, proteinProduct }: JsonLdProps) {
   const path = normalizePath(rawPath || '/')
   const def = [orgSchema, webSiteSchema]
+
+  if (path.startsWith('/protein/') && proteinProduct) {
+    return (
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify([
+            ...def,
+            {
+              '@type': 'Product',
+              name: proteinProduct.name,
+              description: proteinProduct.verdict,
+              url: `${base}${path}/`,
+              image: proteinProduct.image,
+              brand: { '@type': 'Brand', name: proteinProduct.brand },
+              offers: {
+                '@type': 'Offer',
+                price: proteinProduct.priceNok,
+                priceCurrency: 'NOK',
+                availability: 'https://schema.org/InStock',
+              },
+              aggregateRating: {
+                '@type': 'AggregateRating',
+                ratingValue: proteinProduct.score,
+                bestRating: 100,
+                ratingCount: 1,
+              },
+            },
+            breadcrumb([
+              { name: 'Hjem', url: '/' },
+              { name: 'Proteinpulver best i test', url: '/tester/protein/' },
+              { name: proteinProduct.name, url: `/protein/${proteinProduct.id}/` },
+            ]),
+          ]),
+        }}
+      />
+    )
+  }
 
   if (path.startsWith('/pwo/') && product) {
     const content = product.verdict
@@ -104,6 +144,34 @@ export default function JsonLd({ path: rawPath, product }: JsonLdProps) {
             breadcrumb([
               { name: 'Hjem', url: '/' },
               { name: 'Kjøpsguide', url: '/tester/pwo/slik-velger-du/' },
+            ]),
+          ]),
+        }}
+      />
+    )
+  }
+
+  if (path.startsWith('/tester/protein')) {
+    return (
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify([
+            ...def,
+            {
+              '@type': 'ItemList',
+              name: 'Proteinpulver best i test 2026',
+              url: `${base}${path}/`,
+              itemListElement: testedProteinProducts.map((item, index) => ({
+                '@type': 'ListItem',
+                position: index + 1,
+                name: item.name,
+                url: `${base}/protein/${item.id}/`,
+              })),
+            },
+            breadcrumb([
+              { name: 'Hjem', url: '/' },
+              { name: 'Proteinpulver best i test', url: '/tester/protein/' },
             ]),
           ]),
         }}

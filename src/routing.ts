@@ -1,15 +1,20 @@
 import { blogPosts } from './data/blog'
+import { testedProteinProducts } from './data/proteinProducts'
 import { testedProducts } from './data/pwoProducts'
 import { siteStats } from './siteStats'
 
 export type AppPage =
   | 'home'
   | 'lb-pwo'
+  | 'lb-protein'
   | 'blog'
   | 'blog-post'
   | 'product'
+  | 'protein-product'
   | 'buying-guide'
+  | 'protein-guide'
   | 'metode'
+  | 'protein-metode'
 
 export type RouteState = {
   page: AppPage
@@ -18,6 +23,7 @@ export type RouteState = {
   sortAsc: boolean
   caffeineFilter: 'alle' | 'med' | 'uten'
   betaFilter: 'med' | 'uten'
+  proteinFilter: 'alle' | 'whey' | 'vegan' | 'kasein'
 }
 
 export type PageMeta = {
@@ -31,6 +37,16 @@ export type PageMeta = {
 const SITE = 'https://kosttest.no'
 const DEFAULT_OG = `${SITE}/og-share.svg`
 
+const defaultRoute = (): RouteState => ({
+  page: 'home',
+  selectedProduct: null,
+  sortCol: 'score',
+  sortAsc: false,
+  caffeineFilter: 'alle',
+  betaFilter: 'med',
+  proteinFilter: 'alle',
+})
+
 export function normalizePath(path: string) {
   const normalized = path.replace(/\/+$/, '') || '/'
   return normalized.startsWith('/') ? normalized : `/${normalized}`
@@ -39,58 +55,120 @@ export function normalizePath(path: string) {
 export function parseRoute(path: string): RouteState {
   const route = normalizePath(path)
 
+  if (route === '/tester/protein/beste' || route === '/tester/protein') {
+    return { ...defaultRoute(), page: 'lb-protein', sortCol: 'score', sortAsc: false }
+  }
+  if (route === '/tester/protein/billigste') {
+    return { ...defaultRoute(), page: 'lb-protein', sortCol: 'price-protein-asc', sortAsc: true }
+  }
+  if (route === '/tester/protein/vegan') {
+    return { ...defaultRoute(), page: 'lb-protein', proteinFilter: 'vegan' }
+  }
+  if (route === '/tester/protein/kasein') {
+    return { ...defaultRoute(), page: 'lb-protein', proteinFilter: 'kasein' }
+  }
+  if (route.startsWith('/tester/protein/slik-velger-du')) {
+    return { ...defaultRoute(), page: 'protein-guide' }
+  }
+  if (route === '/tester/protein/metode' || route === '/om-metoden/protein') {
+    return { ...defaultRoute(), page: 'protein-metode' }
+  }
+  if (route.startsWith('/protein/')) {
+    const id = route.replace('/protein/', '')
+    return { ...defaultRoute(), page: 'protein-product', selectedProduct: id }
+  }
+
   if (route === '/tester/pwo/beste' || route === '/tester/pwo' || route === '/tester') {
-    return { page: 'lb-pwo', selectedProduct: null, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
+    return { ...defaultRoute(), page: 'lb-pwo', sortCol: 'score', sortAsc: false }
   }
   if (route === '/tester/pwo/sterkeste') {
-    return { page: 'lb-pwo', selectedProduct: null, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
+    return { ...defaultRoute(), page: 'lb-pwo', sortCol: 'score', sortAsc: false }
   }
   if (route === '/tester/pwo/billigste') {
-    return { page: 'lb-pwo', selectedProduct: null, sortCol: 'kgprice-asc', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
+    return { ...defaultRoute(), page: 'lb-pwo', sortCol: 'kgprice-asc', sortAsc: false }
   }
   if (route === '/tester/pwo/stim-free') {
-    return { page: 'lb-pwo', selectedProduct: null, sortCol: 'score', sortAsc: false, caffeineFilter: 'uten', betaFilter: 'med' }
+    return { ...defaultRoute(), page: 'lb-pwo', sortCol: 'score', sortAsc: false, caffeineFilter: 'uten' }
   }
   if (route === '/tester/pwo/nybegynner') {
-    return { page: 'lb-pwo', selectedProduct: null, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
+    return { ...defaultRoute(), page: 'lb-pwo', sortCol: 'score', sortAsc: false }
   }
   if (route.startsWith('/tester/pwo/slik-velger-du')) {
-    return { page: 'buying-guide', selectedProduct: null, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
+    return { ...defaultRoute(), page: 'buying-guide' }
   }
   if (route.startsWith('/pwo/')) {
     const id = route.replace('/pwo/', '')
-    return { page: 'product', selectedProduct: id, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
+    return { ...defaultRoute(), page: 'product', selectedProduct: id }
   }
   if (route === '/blogg') {
-    return { page: 'blog', selectedProduct: null, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
+    return { ...defaultRoute(), page: 'blog' }
   }
   if (route.startsWith('/blogg/')) {
     const slug = route.replace('/blogg/', '')
-    return { page: 'blog-post', selectedProduct: slug, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
+    return { ...defaultRoute(), page: 'blog-post', selectedProduct: slug }
   }
   if (route === '/om-metoden' || route === '/metode') {
-    return { page: 'metode', selectedProduct: null, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
+    return { ...defaultRoute(), page: 'metode' }
   }
   if (route === '/kilder') {
-    return { page: 'home', selectedProduct: null, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
+    return { ...defaultRoute(), page: 'home' }
   }
 
-  return { page: 'home', selectedProduct: null, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
+  return defaultRoute()
 }
 
 export function getPageMeta(state: RouteState): PageMeta {
   const def = {
-    title: 'PWO best i test 2026 | Ærlig PWO-rangering | Kosttest.no',
-    description: `Vi rangerer pre-workout etter deklarert innhold, ikke markedsføring. ${siteStats.testedCount} produkter testet med åpen karaktermotor.`,
+    title: 'Kosttest.no – PWO og proteinpulver best i test 2026',
+    description: `Uavhengig rangering av PWO og proteinpulver i Norge. ${siteStats.pwoTestedCount} PWO og ${siteStats.proteinTestedCount} proteinpulver testet med åpen karaktermotor.`,
     canonical: `${SITE}/`,
     ogType: 'website',
     ogImage: DEFAULT_OG,
   }
 
+  if (state.page === 'lb-protein') {
+    return {
+      title: 'Proteinpulver best i test 2026 – DIAAS + IAAS | Kosttest.no',
+      description: `${siteStats.proteinTestedCount} proteinpulver med DIAAS (primær) og IAAS. Score: DIAAS 70 % + pris per g protein 30 %.`,
+      canonical: `${SITE}/tester/protein/`,
+      ogType: 'website',
+      ogImage: DEFAULT_OG,
+    }
+  }
+  if (state.page === 'protein-product' && state.selectedProduct) {
+    const product = testedProteinProducts.find((p) => p.id === state.selectedProduct)
+    if (product) {
+      return {
+        title: `${product.name} – Proteinpulver vurdering | Kosttest.no`,
+        description: product.verdict.substring(0, 160),
+        canonical: `${SITE}/protein/${product.id}/`,
+        ogType: 'product',
+        ogImage: product.image || DEFAULT_OG,
+      }
+    }
+  }
+  if (state.page === 'protein-guide') {
+    return {
+      title: 'Slik velger du proteinpulver – Kjøpsguide 2026 | Kosttest.no',
+      description: 'Lær hvordan du velger proteinpulver — DIAAS som primær kvalitetsmåling, IAAS for sammenligning.',
+      canonical: `${SITE}/tester/protein/slik-velger-du/`,
+      ogType: 'article',
+      ogImage: DEFAULT_OG,
+    }
+  }
+  if (state.page === 'protein-metode') {
+    return {
+      title: 'Slik scorer vi proteinpulver – DIAAS vs IAAS | Kosttest.no',
+      description: 'DIAAS (70 %) + pris per g protein (30 %) i scoren. IAAS vises for sammenligning. FAO anbefaler DIAAS som gullstandard.',
+      canonical: `${SITE}/tester/protein/metode/`,
+      ogType: 'article',
+      ogImage: DEFAULT_OG,
+    }
+  }
   if (state.page === 'lb-pwo') {
     return {
       title: 'PWO best i test 2026 – Fullstendig rangering | Kosttest.no',
-      description: `Se hele rangeringen av ${siteStats.testedCount} PWO-produkter. Sorter på pris, effekt og ingredienser.`,
+      description: `Se hele rangeringen av ${siteStats.pwoTestedCount} PWO-produkter. Sorter på pris, effekt og ingredienser.`,
       canonical: `${SITE}/tester/pwo/`,
       ogType: 'website',
       ogImage: DEFAULT_OG,
@@ -160,6 +238,13 @@ export function getAllPrerenderRoutes(): string[] {
     '/tester/pwo/billigste',
     '/tester/pwo/stim-free',
     '/tester/pwo/nybegynner',
+    '/tester/protein',
+    '/tester/protein/beste',
+    '/tester/protein/billigste',
+    '/tester/protein/vegan',
+    '/tester/protein/kasein',
+    '/tester/protein/slik-velger-du',
+    '/tester/protein/metode',
     '/blogg',
     '/om-metoden',
     '/kilder',
@@ -168,6 +253,9 @@ export function getAllPrerenderRoutes(): string[] {
 
   for (const product of testedProducts) {
     routes.push(`/pwo/${product.id}`)
+  }
+  for (const product of testedProteinProducts) {
+    routes.push(`/protein/${product.id}`)
   }
   for (const post of blogPosts) {
     routes.push(`/blogg/${post.slug}`)
@@ -179,9 +267,10 @@ export function getAllPrerenderRoutes(): string[] {
 export function buildSitemapXml(routes: string[], lastmod = new Date().toISOString().slice(0, 10)) {
   const priorityFor = (route: string) => {
     if (route === '/') return '1.0'
+    if (route.startsWith('/tester/protein/beste') || route === '/tester/protein') return '0.9'
     if (route.startsWith('/tester/pwo/beste') || route === '/tester/pwo') return '0.9'
-    if (route.startsWith('/blogg/') || route.startsWith('/pwo/')) return '0.7'
-    if (route.startsWith('/tester/pwo')) return '0.8'
+    if (route.startsWith('/blogg/') || route.startsWith('/pwo/') || route.startsWith('/protein/')) return '0.7'
+    if (route.startsWith('/tester/')) return '0.8'
     return '0.6'
   }
 
@@ -226,4 +315,16 @@ export function applyMetaToHtml(html: string, meta: PageMeta) {
       /<meta\s+property="og:image"\s+content="[^"]*"\s*\/>/,
       `<meta property="og:image" content="${esc(meta.ogImage)}" />`,
     )
+}
+
+export function isVeganProtein(sourceType: string) {
+  return sourceType === 'soy-isolate' || sourceType === 'pea-rice-blend'
+}
+
+export function isCaseinProtein(sourceType: string) {
+  return sourceType === 'casein'
+}
+
+export function isWheyProtein(sourceType: string) {
+  return !isVeganProtein(sourceType) && !isCaseinProtein(sourceType)
 }

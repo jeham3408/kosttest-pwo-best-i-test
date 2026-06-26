@@ -27,7 +27,13 @@ import {
 import { blogPosts } from './data/blog'
 import { generateProductContent } from './productContent'
 import LeaderboardSection from './LeaderboardSection'
-import { getPageMeta, normalizePath, parseRoute, type RouteState } from './routing'
+import {
+  ProteinLeaderboardBlock,
+  ProteinMetodeSection,
+  ProteinProductPageView,
+  testedProteinProducts,
+} from './components/ProteinPageViews'
+import { getPageMeta, isCaseinProtein, isVeganProtein, isWheyProtein, normalizePath, parseRoute, type RouteState } from './routing'
 import { siteStats } from './siteStats'
 import { getRelatedProducts, kgPrice } from './utils/productHelpers'
 
@@ -216,6 +222,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
   const [sortAsc, setSortAsc] = useState(initialRoute.sortAsc)
   const [caffeineFilter, setCaffeineFilter] = useState<'alle' | 'med' | 'uten'>(initialRoute.caffeineFilter)
   const [betaFilter, setBetaFilter] = useState<'med' | 'uten'>(initialRoute.betaFilter)
+  const [proteinFilter, setProteinFilter] = useState<'alle' | 'whey' | 'vegan' | 'kasein'>(initialRoute.proteinFilter)
 
   const toggleSort = (col: string) => {
     if (col === 'price') {
@@ -242,6 +249,26 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
     return filtered.sort((a, b) => sortAsc ? cmp(b, a) : cmp(a, b)).map((p, i) => ({ ...p, rank: i + 1 }))
   }, [sortCol, sortAsc, caffeineFilter, betaFilter])
 
+  const toggleProteinSort = (col: string) => {
+    if (sortCol === col) { setSortAsc(!sortAsc); return }
+    setSortCol(col)
+    setSortAsc(col === 'price-protein-asc' || col === 'price-protein')
+  }
+
+  const sortedProteinProducts = useMemo(() => {
+    let filtered = [...testedProteinProducts]
+    if (proteinFilter === 'whey') filtered = filtered.filter((p) => isWheyProtein(p.sourceType))
+    if (proteinFilter === 'vegan') filtered = filtered.filter((p) => isVeganProtein(p.sourceType))
+    if (proteinFilter === 'kasein') filtered = filtered.filter((p) => isCaseinProtein(p.sourceType))
+    const cmp = (a: typeof testedProteinProducts[0], b: typeof testedProteinProducts[0]) => {
+      if (sortCol === 'diaas') return b.diaasScore - a.diaasScore
+      if (sortCol === 'iaas') return b.iaasScore - a.iaasScore
+      if (sortCol === 'price-protein' || sortCol === 'price-protein-asc') return a.pricePerGramProtein - b.pricePerGramProtein
+      return b.score - a.score || a.pricePerGramProtein - b.pricePerGramProtein
+    }
+    return filtered.sort((a, b) => (sortAsc ? cmp(b, a) : cmp(a, b))).map((p, i) => ({ ...p, rank: i + 1 }))
+  }, [sortCol, sortAsc, proteinFilter])
+
   // URL sync on mount
   useEffect(() => {
     const syncFromUrl = () => {
@@ -252,6 +279,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
       setSortAsc(route.sortAsc)
       setCaffeineFilter(route.caffeineFilter)
       setBetaFilter(route.betaFilter)
+      setProteinFilter(route.proteinFilter)
     }
     syncFromUrl()
     window.addEventListener('popstate', syncFromUrl)
@@ -263,6 +291,10 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
     const base = window.location.origin
     let url = base + '/'
     if (page === 'lb-pwo') url = base + '/tester/pwo/'
+    else if (page === 'lb-protein') url = base + '/tester/protein/'
+    else if (page === 'protein-product' && selectedProduct) url = base + '/protein/' + selectedProduct + '/'
+    else if (page === 'protein-guide') url = base + '/tester/protein/slik-velger-du/'
+    else if (page === 'protein-metode') url = base + '/tester/protein/metode/'
     else if (page === 'blog') url = base + '/blogg/'
     else if (page === 'blog-post' && selectedProduct) url = base + '/blogg/' + selectedProduct + '/'
     else if (page === 'product' && selectedProduct) {
@@ -276,8 +308,8 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
   }, [page, selectedProduct])
 
   const pageMeta = useMemo(
-    () => getPageMeta({ page, selectedProduct, sortCol, sortAsc, caffeineFilter, betaFilter }),
-    [page, selectedProduct, sortCol, sortAsc, caffeineFilter, betaFilter],
+    () => getPageMeta({ page, selectedProduct, sortCol, sortAsc, caffeineFilter, betaFilter, proteinFilter }),
+    [page, selectedProduct, sortCol, sortAsc, caffeineFilter, betaFilter, proteinFilter],
   )
 
   useEffect(() => {
@@ -421,6 +453,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
       <JsonLd
         path={seoPath}
         product={page === 'product' && selectedProduct ? testedProducts.find((p) => p.id === selectedProduct) : undefined}
+        proteinProduct={page === 'protein-product' && selectedProduct ? testedProteinProducts.find((p) => p.id === selectedProduct) : undefined}
       />
       <header className="site-header">
         <a className="brand" href="#" onClick={(e) => { e.preventDefault(); setPage('home'); setSelectedProduct(null) }} style={{ cursor: 'pointer' }}>
@@ -430,7 +463,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
           <a href="/" onClick={(e) => { e.preventDefault(); setPage('home'); setSelectedProduct(null) }} className={page === 'home' ? 'nav-active' : ''}>Forside</a>
           <a href="/blogg/" onClick={(e) => { e.preventDefault(); setPage('blog') }} className={page === 'blog' ? 'nav-active' : ''}>Blogg</a>
           <div className="nav-dropdown" onMouseEnter={() => setLbOpen(true)} onMouseLeave={() => setLbOpen(false)}>
-            <button className={'nav-link' + (page === 'lb-pwo' ? ' nav-active' : '')} onClick={() => setLbOpen(!lbOpen)}>Leaderboard ▾</button>
+            <button className={'nav-link' + (page === 'lb-pwo' ? ' nav-active' : '')} onClick={() => setLbOpen(!lbOpen)}>PWO ▾</button>
             {lbOpen && <div className="nav-dropdown-menu">
               <a href="/tester/pwo/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setLbOpen(false) }}>PWO best i test</a>
               <a href="/tester/pwo/beste/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setLbOpen(false) }}>Beste PWO</a>
@@ -439,6 +472,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
               <a href="/tester/pwo/stim-free/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setLbOpen(false) }}>Stim-free</a>
             </div>}
           </div>
+          <a href="/tester/protein/" onClick={(e) => { e.preventDefault(); setPage('lb-protein'); setSelectedProduct(null) }} className={page === 'lb-protein' || page === 'protein-product' || page === 'protein-metode' || page === 'protein-guide' ? 'nav-active' : ''}>Protein</a>
           <a href="/tester/pwo/slik-velger-du/" onClick={(e) => { e.preventDefault(); setPage('buying-guide') }}>Kjøpsguide</a>
           <a href="/om-metoden/" onClick={(e) => { e.preventDefault(); setPage('metode') }}>Om metoden</a>
         </nav>
@@ -449,30 +483,39 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
           <>
             <section className="hero-section">
               <div className="hero-copy">
-                <p className="meta-line">Oppdatert {lastUpdated} · ingen sponsede plasseringer</p>
-                <h1>PWO best i test 2026 – pre-workout rangering</h1>
-                <p className="lead">Vi rangerer pre-workout som faktisk selges i Norge etter deklarert innhold, pris per porsjon og kombinert pumpeffekt.</p>
+                <p className="meta-line">Oppdatert {lastUpdated} · PWO og proteinpulver · ingen sponsede plasseringer</p>
+                <h1>PWO og proteinpulver best i test 2026</h1>
+                <p className="lead">Vi rangerer pre-workout etter ingredienser og proteinpulver etter DIAAS (primær) og pris per g protein — med IAAS vist for sammenligning. Ærlig, kildeåpen og uten betalte plasseringer.</p>
                 <div className="hero-actions">
-                  <button className="button primary" onClick={() => setPage('lb-pwo')}><ArrowDown size={18} /> Heile rangeringa</button>
+                  <button className="button primary" onClick={() => setPage('lb-pwo')}><ArrowDown size={18} /> PWO-rangering</button>
+                  <button className="button primary" onClick={() => setPage('lb-protein')} style={{ background: 'var(--blue)' }}><ArrowDown size={18} /> Proteinpulver</button>
                   <button className="button secondary" onClick={() => setPage('metode')}><Scale size={18} /> Metoden</button>
                 </div>
               </div>
-              <div className="hero-board" aria-label="Topp tre PWO-produkter">
-                {testedProducts.slice(0, 3).map((product) => (
+              <div className="hero-board" aria-label="Topp produkter">
+                {testedProducts.slice(0, 2).map((product) => (
                   <a className="hero-product" href="#" onClick={(e) => { e.preventDefault(); setSelectedProduct(product.id); setPage('product') }} key={product.id}>
-                    <span>#{product.rank}</span>
+                    <span>PWO #{product.rank}</span>
                     <ProductImage product={product} />
                     <span style={{fontWeight:700}}>{product.name}</span>
                     <small>{product.award}</small>
+                  </a>
+                ))}
+                {testedProteinProducts.slice(0, 1).map((product) => (
+                  <a className="hero-product" href="#" onClick={(e) => { e.preventDefault(); setSelectedProduct(product.id); setPage('protein-product') }} key={product.id}>
+                    <span>Protein #{product.rank}</span>
+                    <img src={product.image} alt={product.name} style={{ width: 80, height: 80, objectFit: 'contain' }} loading="lazy" />
+                    <span style={{fontWeight:700}}>{product.brand}</span>
+                    <small>DIAAS {product.diaasScore} · IAAS {product.iaasScore}</small>
                   </a>
                 ))}
               </div>
             </section>
             <section className="summary-band">
               <div className="summary-grid">
-                <div><Search size={21} /> <span style={{fontWeight:700}}>{siteStats.listedCount}</span> produkter kartlagt<br /><span style={{fontSize:12,color:'var(--muted)'}}>Fra 10+ norske butikker</span></div>
-                <div><FlaskConical size={21} /> <span style={{fontWeight:700}}>{siteStats.testedCount}</span> produkter rangert<br /><span style={{fontSize:12,color:'var(--muted)'}}>Etter åpen karaktermotor</span></div>
-                <div><ShieldCheck size={21} /> Pris påvirker ikke score<br /><span style={{fontSize:12,color:'var(--muted)'}}>Bare ingredienser teller</span></div>
+                <div><Search size={21} /> <span style={{fontWeight:700}}>{siteStats.pwoListedCount}</span> PWO kartlagt<br /><span style={{fontSize:12,color:'var(--muted)'}}>{siteStats.pwoTestedCount} rangert</span></div>
+                <div><FlaskConical size={21} /> <span style={{fontWeight:700}}>{siteStats.proteinTestedCount}</span> proteinpulver testet<br /><span style={{fontSize:12,color:'var(--muted)'}}>DIAAS + IAAS + pris/g</span></div>
+                <div><ShieldCheck size={21} /> Åpen karaktermotor<br /><span style={{fontSize:12,color:'var(--muted)'}}>Ingen sponsede plasseringer</span></div>
               </div>
             </section>
             <section className="content-section intro-grid">
@@ -511,7 +554,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
               <div className="blog-grid">
                 <a href="/tester/pwo/beste/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setSortCol('score'); setSortAsc(false); }} style={{padding:12,background:'var(--paper)',borderRadius:8,textDecoration:'none'}}>
                   <span style={{fontWeight:700}}>🏆 Beste PWO</span>
-                  <p style={{fontSize:12,color:'var(--muted)',margin:'4px 0 0'}}>Alle {siteStats.testedCount} produkter rangert etter score. Klikk for å se topplisten.</p>
+                  <p style={{fontSize:12,color:'var(--muted)',margin:'4px 0 0'}}>Alle {siteStats.pwoTestedCount} produkter rangert etter score. Klikk for å se topplisten.</p>
                 </a>
                 <a href="/tester/pwo/stim-free/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setSortCol('score'); setCaffeineFilter('uten'); }} style={{padding:12,background:'var(--paper)',borderRadius:8,textDecoration:'none'}}>
                   <span style={{fontWeight:700}}>🧘 Stim-free</span>
@@ -524,6 +567,27 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
                 <a href="/blogg/samanlikning-peveo-sickpump/" onClick={(e) => { e.preventDefault(); setPage('blog-post'); setSelectedProduct('samanlikning-peveo-sickpump'); }} style={{padding:12,background:'var(--paper)',borderRadius:8,textDecoration:'none'}}>
                   <span style={{fontWeight:700}}>⚔️ Samanlikningar</span>
                   <p style={{fontSize:12,color:'var(--muted)',margin:'4px 0 0'}}>Peveo Maxed vs NutriTac SickPump. Les våre produktsamanlikningar.</p>
+                </a>
+              </div>
+            </section>
+            <section className="content-section">
+              <div className="section-heading"><span>Proteinpulver</span><h2>Protein best i test</h2></div>
+              <div className="blog-grid">
+                <a href="/tester/protein/" onClick={(e) => { e.preventDefault(); setPage('lb-protein') }} style={{padding:12,background:'var(--paper)',borderRadius:8,textDecoration:'none'}}>
+                  <span style={{fontWeight:700}}>🥛 Beste proteinpulver</span>
+                  <p style={{fontSize:12,color:'var(--muted)',margin:'4px 0 0'}}>{siteStats.proteinTestedCount} merker — DIAAS primær, IAAS for sammenligning.</p>
+                </a>
+                <a href="/tester/protein/billigste/" onClick={(e) => { e.preventDefault(); setPage('lb-protein'); setSortCol('price-protein-asc'); setSortAsc(true) }} style={{padding:12,background:'var(--paper)',borderRadius:8,textDecoration:'none'}}>
+                  <span style={{fontWeight:700}}>💰 Billigst per g protein</span>
+                  <p style={{fontSize:12,color:'var(--muted)',margin:'4px 0 0'}}>MyProtein, Bodylab, Protein Series og flere.</p>
+                </a>
+                <a href="/tester/protein/vegan/" onClick={(e) => { e.preventDefault(); setPage('lb-protein'); setProteinFilter('vegan') }} style={{padding:12,background:'var(--paper)',borderRadius:8,textDecoration:'none'}}>
+                  <span style={{fontWeight:700}}>🌱 Vegan protein</span>
+                  <p style={{fontSize:12,color:'var(--muted)',margin:'4px 0 0'}}>Soya og erte/ris — lavere DIAAS-estimat uten lab-test.</p>
+                </a>
+                <a href="/tester/protein/metode/" onClick={(e) => { e.preventDefault(); setPage('protein-metode') }} style={{padding:12,background:'var(--paper)',borderRadius:8,textDecoration:'none'}}>
+                  <span style={{fontWeight:700}}>🧬 DIAAS vs IAAS</span>
+                  <p style={{fontSize:12,color:'var(--muted)',margin:'4px 0 0'}}>DIAAS veier i scoren — IAAS viser aminosyreprofil.</p>
                 </a>
               </div>
             </section>
@@ -600,6 +664,64 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
             {enablePwoScan && <SubmissionPanel />}
             <section className="source-section" id="kilder"><div className="section-heading"><span>Kilder</span><h2>Åpne kilder</h2></div><ul className="source-list">{sourceLinks.map(s => <li key={s.url}><a href={s.url} target="_blank" rel="noreferrer">{s.label}<ExternalLink size={15} /></a></li>)}</ul></section>
           </>
+        )}
+
+        {page === 'lb-protein' && (
+          <ProteinLeaderboardBlock
+            onSelectProduct={(id) => { setSelectedProduct(id); setPage('protein-product') }}
+            sortCol={sortCol}
+            sortAsc={sortAsc}
+            proteinFilter={proteinFilter}
+            onSort={toggleProteinSort}
+            onFilterChange={setProteinFilter}
+            sortedProducts={sortedProteinProducts}
+          />
+        )}
+
+        {page === 'protein-product' && selectedProduct && (() => {
+          const product = testedProteinProducts.find((p) => p.id === selectedProduct)
+          if (!product) return null
+          return (
+            <ProteinProductPageView
+              product={product}
+              onBack={() => { setPage('lb-protein'); setSelectedProduct(null) }}
+              onSelect={(id) => { setSelectedProduct(id); setPage('protein-product') }}
+            />
+          )
+        })()}
+
+        {page === 'protein-metode' && (
+          <section className="content-section">
+            <button className="button secondary" onClick={() => setPage('lb-protein')} style={{ marginBottom: 16 }}>← Proteinrangering</button>
+            <ProteinMetodeSection />
+          </section>
+        )}
+
+        {page === 'protein-guide' && (
+          <section className="content-section">
+            <button className="button secondary" onClick={() => setPage('lb-protein')} style={{ marginBottom: 16 }}>← Se rangeringen</button>
+            <h1>Slik velger du proteinpulver – Kjøpsguide 2026</h1>
+            <p className="muted" style={{ fontSize: 13, marginTop: -8 }}>Oppdatert juni 2026</p>
+            <div style={{ marginTop: 24 }}>
+              <h2>1. Forstå DIAAS og IAAS</h2>
+              <p style={{ lineHeight: 1.65 }}>DIAAS (Digestible Indispensable Amino Acid Score) er FAO anbefalt gullstandard — den måler ileal fordøyelighet av essensielle aminosyrer. IAAS sammenligner bare aminosyreprofilen mot WHO-referansen. Vi viser begge, men DIAAS veier 70 % i totalscore. Offisiell DIAAS krever laboratorietest av ferdig blanding.</p>
+            </div>
+            <div style={{ marginTop: 24 }}>
+              <h2>2. Whey vs kasein vs plante</h2>
+              <ul style={{ lineHeight: 1.7 }}>
+                <li><strong>Whey:</strong> Høyest DIAAS-estimat (typisk 97–109). Best etter trening.</li>
+                <li><strong>Kasein:</strong> God DIAAS, langsom frigjøring — kveldsprotein.</li>
+                <li><strong>Plante:</strong> Kan teoretisk optimaliseres med mikser (potet, soya, raps), men offisiell DIAAS krever test av ferdig produkt.</li>
+              </ul>
+            </div>
+            <div style={{ marginTop: 24 }}>
+              <h2>3. Hva teller i scoren?</h2>
+              <p style={{ lineHeight: 1.65 }}>DIAAS (70 %) og pris per g protein (30 %). IAAS vises for sammenligning, men inngår ikke i poengberegningen.</p>
+            </div>
+            <div style={{ marginTop: 24 }}>
+              <button className="button primary" onClick={() => setPage('lb-protein')}>Se hele proteinrangeringen</button>
+            </div>
+          </section>
         )}
 
         {page === 'product' && selectedProduct && (() => {
