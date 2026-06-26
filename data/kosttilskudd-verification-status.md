@@ -8,7 +8,7 @@
 
 | Verifisert | Gjenstår | Neste | Status-MD |
 |------------|----------|-------|-----------|
-| 0/8 | 8 | `star-creatine-500` | [`data/creatine-verification-status.md`](data/creatine-verification-status.md) |
+| 1/8 | 7 | `star-creatine-300` | [`data/creatine-verification-status.md`](data/creatine-verification-status.md) |
 
 ### Proteinpulver (`protein`)
 
@@ -25,4 +25,4 @@ node scripts/kosttilskudd-verify-queue.mjs complete --id <id> --category creatin
 node scripts/kosttilskudd-verify-queue.mjs sync-master
 ```
 
-Siste master-kjøring: —
+Siste master-kjøring: 2026-06-26 17:04

@@ -6,9 +6,9 @@
 
 | productId | Merke | Navn | Ferdig | Resultat |
 |-----------|-------|------|--------|----------|
-| — | — | Ingen ferdig ennå | — | — |
+| `star-creatine-500` | Star Nutrition | Kreatin Monohydrat 500 g | 2026-06-26 17:04 | ✅ verified |
 
-**FORBUDT å teste på nytt:** ingen ennå
+**FORBUDT å teste på nytt:** `star-creatine-500`
 
 Rapport ligger i `data/creatine-verifications/<id>.json`.
 
@@ -17,38 +17,46 @@ Rapport ligger i `data/creatine-verifications/<id>.json`.
 | Felt | Verdi |
 |------|-------|
 | kategori | **Kreatin (pulver + gummies)** (`creatine`) |
-| productId | `star-creatine-500` |
+| productId | `star-creatine-300` |
 | merke | Star Nutrition |
-| navn | Kreatin Monohydrat 500 g |
-| url i repo (sjekk/fiks) | https://www.gymgrossisten.no/kreatin-monohydrat-500-g/609.MASTER.html |
+| navn | Kreatin Monohydrat 300 g |
+| url i repo (sjekk/fiks) | https://www.gymgrossisten.no/kreatin-monohydrat-300-g/609.MASTER.300.html |
 | kø-status | ⏳ pending |
 | kjøring | ⏳ klar — kjør `node scripts/kosttilskudd-verify-queue.mjs start` |
 | startet | — |
 
-**TEST KUN `star-creatine-500` i denne kjøringen.**
+**TEST KUN `star-creatine-300` i denne kjøringen.**
 
-**IKKE test:** ingen ferdige ennå
+**IKKE test:** `star-creatine-500`
 
-## 3. ⬅️ Sist ferdig (referanse)
+## 3. ⬅️ Sist ferdig (referanse — ikke test igjen)
 
-Ingen produkter ferdig testet ennå i Kreatin (pulver + gummies).
+| Felt | Verdi |
+|------|-------|
+| productId | `star-creatine-500` |
+| merke | Star Nutrition |
+| navn | Kreatin Monohydrat 500 g |
+| resultat | ✅ verified |
+| ferdig | 2026-06-26 17:04 |
+
+Sist ferdig var `star-creatine-500`. Neste er `star-creatine-300`.
 
 ## Oppsummering
 
 | Felt | Verdi |
 |------|-------|
 | Kategori | Kreatin (pulver + gummies) |
-| Verifisert | 0 / 8 |
+| Verifisert | 1 / 8 |
 | Avvist | 0 |
-| Gjenstår | 8 |
-| Neste i kø | `star-creatine-500` |
-| Siste kjøring | — |
+| Gjenstår | 7 |
+| Neste i kø | `star-creatine-300` |
+| Siste kjøring | 2026-06-26 17:04 |
 
 ## Produktkø
 
 | # | ID | Merke | Navn | Status | Verifisert |
 |---|-----|-------|------|--------|------------|
-| 1 | star-creatine-500 | Star Nutrition | Kreatin Monohydrat 500 g | ⏳ pending | — |
+| 1 | star-creatine-500 ← forrige | Star Nutrition | Kreatin Monohydrat 500 g | ✅ verified | 2026-06-26 |
 | 2 | star-creatine-300 | Star Nutrition | Kreatin Monohydrat 300 g | ⏳ pending | — |
 | 3 | smartsupps-creatine-1kg | SmartSupps | Creatine Monohydrate 1 kg | ⏳ pending | — |
 | 4 | on-creatine-600 | Optimum Nutrition | Micronized Creatine Powder 600 g | ⏳ pending | — |
@@ -61,6 +69,11 @@ Ingen produkter ferdig testet ennå i Kreatin (pulver + gummies).
 
 <!-- AGENT: Legg til nytt avsnitt øverst etter hver kjøring. Maks én produkt per kjøring. -->
 
+### 2026-06-26 — star-creatine-500 ✅
+
+- **Kilde:** [Gymgrossisten](https://www.gymgrossisten.no/kreatin-monohydrat-500-g/609.MASTER.html)
+- **Endringer:** Ingen — pris (215 kr), dose (5 g), pakke (500 g/100 porsjoner) stemte med butikk.
+- **Score:** Automatisk beregnet via `creatineScoring.ts`
 
 ## Instruks (automasjon)
 
