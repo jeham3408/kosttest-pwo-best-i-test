@@ -9,6 +9,11 @@ export type BlogPost = {
   relatedProducts?: string[]
 }
 
+export function findBlogPost(idOrSlug: string | null | undefined): BlogPost | undefined {
+  if (!idOrSlug) return undefined
+  return blogPosts.find((p) => p.id === idOrSlug || p.slug === idOrSlug)
+}
+
 export const blogPosts: BlogPost[] = [
   {
     id: 'l-citrulline',
