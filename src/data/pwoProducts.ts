@@ -294,7 +294,7 @@ export const testedProducts: TestedProduct[] = [
   {
     id: 'bsn-noxplode-50',
     rank: 1,
-    award: 'Best på pump og pris',
+    award: 'Best i test totalt',
     score: 91,
     name: 'N.O.-Xplode PWO 50 porsjoner',
     brand: 'BSN',
@@ -567,7 +567,7 @@ export const testedProducts: TestedProduct[] = [
   {
     id: 'peveo-maxed',
     rank: 2,
-    award: 'Best i test totalt',
+    award: 'Sterkste full-dose formel',
     score: 89,
     name: 'Peveo Maxed 700 g',
     brand: 'Peveo',
