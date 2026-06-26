@@ -4,6 +4,7 @@ import {
   type ProteinGradeBreakdown,
   type ProteinSourceType,
 } from './proteinScoring'
+import { getProteinVerificationStatus, proteinVerificationQueue } from './proteinVerification'
 import type { GradeLetter } from './pwoProducts'
 
 export type TestedProteinProduct = {
@@ -41,6 +42,8 @@ export type TestedProteinProduct = {
   watchouts: string[]
   url: string
   image: string
+  verificationStatus?: 'pending' | 'verified' | 'rejected'
+  verifiedAt?: string
 }
 
 type RawProtein = Omit<
@@ -105,23 +108,23 @@ const rawProducts: RawProtein[] = [
     award: 'Best verdi (kvalitet)',
     name: 'Whey 100',
     brand: 'Bodylab',
-    merchant: 'Gymgrossisten',
-    priceNok: 449,
-    packageSize: '1800 g',
-    packageSizeG: 1800,
-    servingSize: '30 g',
-    servingSizeG: 30,
-    servings: 60,
-    proteinPer100g: 84,
-    proteinPerServingG: 25,
-    leucinePerServingG: 2.6,
-    sourceType: 'whey-isolate',
-    sourceLabel: 'Whey isolate',
-    keyFeatures: ['84% protein', 'Norsk favoritt', 'Stor pakke'],
-    verdict: 'Bodylab Whey 100 gir isolate-kvalitet til concentrate-pris. Sterk IAAS og lav pris per g protein.',
-    strengths: ['Utmerket pris per g protein', 'Høy proteinrenhet', 'Stor pakke = god verdi'],
-    watchouts: ['Færre smaker enn internasjonale merker'],
-    url: 'https://www.gymgrossisten.no/bodylab-whey-100',
+    merchant: 'Bodylab',
+    priceNok: 349,
+    packageSize: '1000 g',
+    packageSizeG: 1000,
+    servingSize: '33 g',
+    servingSizeG: 33,
+    servings: 30,
+    proteinPer100g: 70,
+    proteinPerServingG: 23,
+    leucinePerServingG: null,
+    sourceType: 'whey-blend',
+    sourceLabel: 'Whey isolate + concentrate',
+    keyFeatures: ['70 % protein (etikett)', 'Danskprodusert', '0 g tilsatt sukker'],
+    verdict: 'Bodylab Whey 100 er en ekte bestselger på bodylab.no — whey-blend med 70 % protein per 100 g (sjokolade-variant). Verifisert mot produsentens næringsdeklarasjon.',
+    strengths: ['Pålitelig merke', 'Protein fra fersk melk', 'Ingen aspartam'],
+    watchouts: ['Solges på bodylab.no — ikke Gymgrossisten', 'Lavere protein% enn mange isolates'],
+    url: 'https://www.bodylab.no/shop/bodylab-whey-100-663p.html',
     image: IMG,
   },
   {
@@ -695,11 +698,16 @@ function gradeProduct(raw: RawProtein): TestedProteinProduct {
 export const testedProteinProducts: TestedProteinProduct[] = rawProducts
   .map(gradeProduct)
   .sort((a, b) => b.score - a.score || a.pricePerGramProtein - b.pricePerGramProtein)
-  .map((product, index) => ({
-    ...product,
-    rank: index + 1,
-    award: index === 0 ? product.award : index < 3 ? product.award : '',
-  }))
+  .map((product, index) => {
+    const qItem = proteinVerificationQueue.queue.find((item) => item.id === product.id)
+    return {
+      ...product,
+      rank: index + 1,
+      award: index === 0 ? product.award : index < 3 ? product.award : '',
+      verificationStatus: getProteinVerificationStatus(product.id),
+      verifiedAt: qItem?.verifiedAt,
+    }
+  })
 
 export const proteinSourceLinks = [
   { label: 'FAO/WHO aminosyrereferanse (2007)', url: 'https://www.fao.org/fileadmin/user_upload/agn/pdf/AMINO_ACIDS.pdf' },

@@ -316,11 +316,6 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://kosttest.no/protein/bodylab-whey-100/</loc>
-    <lastmod>2026-06-26</lastmod>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://kosttest.no/protein/applied-critical-whey/</loc>
     <lastmod>2026-06-26</lastmod>
     <priority>0.7</priority>
@@ -332,6 +327,11 @@
   </url>
   <url>
     <loc>https://kosttest.no/protein/bulk-pure-whey/</loc>
+    <lastmod>2026-06-26</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://kosttest.no/protein/bodylab-whey-100/</loc>
     <lastmod>2026-06-26</lastmod>
     <priority>0.7</priority>
   </url>

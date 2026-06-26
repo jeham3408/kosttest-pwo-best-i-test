@@ -1,5 +1,6 @@
 import { AlertTriangle, CheckCircle2, ExternalLink } from 'lucide-react'
 import { formulationNote, iaasVsDiaasExplanation, proteinScoringRules } from '../data/proteinScoring'
+import { proteinVerificationStats } from '../data/proteinVerification'
 import { proteinSourceLinks, testedProteinProducts, type TestedProteinProduct } from '../data/proteinProducts'
 import type { GradeLetter } from '../data/pwoProducts'
 import { generateProteinContent } from '../proteinContent'
@@ -64,6 +65,12 @@ export function ProteinRankingTable({
                 <div>
                   <span>{p.name}</span>
                   <span>{p.brand} · {p.sourceLabel}</span>
+                  {p.verificationStatus === 'verified' && (
+                    <span style={{ fontSize: 10, color: 'var(--accent)', display: 'block' }}>✓ Verifisert mot butikk</span>
+                  )}
+                  {p.verificationStatus === 'pending' && (
+                    <span style={{ fontSize: 10, color: 'var(--muted)', display: 'block' }}>⏳ Ikke verifisert ennå</span>
+                  )}
                 </div>
               </td>
               <td>
@@ -106,6 +113,9 @@ export function ProteinProductPageView({
           <div className="review-heading">
             <div>
               {product.award && <span className="award">{product.award}</span>}
+              {product.verificationStatus === 'verified' && (
+                <span style={{ marginLeft: 8, fontSize: 11, color: 'var(--accent)', fontWeight: 700 }}>✓ Verifisert</span>
+              )}
               <h1 style={{ marginTop: 4, fontSize: 22 }}>#{product.rank} {product.name}</h1>
               <p>{content.summary}</p>
             </div>
@@ -264,6 +274,8 @@ export function ProteinLeaderboardBlock({
   onFilterChange: (f: 'alle' | 'whey' | 'vegan' | 'kasein') => void
   sortedProducts: TestedProteinProduct[]
 }) {
+  const vStats = proteinVerificationStats()
+
   return (
     <>
       <ProteinLeaderboardSection onSelectProduct={onSelectProduct} />
@@ -271,10 +283,10 @@ export function ProteinLeaderboardBlock({
         <div className="warning-box" style={{ marginBottom: 20 }}>
           <AlertTriangle size={22} />
           <div>
-            <span style={{ fontWeight: 700 }}>Kun ekte produkter</span>
+            <span style={{ fontWeight: 700 }}>Kun ekte produkter — verifisering pågår</span>
             <p style={{ margin: '4px 0 0', fontSize: 13, lineHeight: 1.55 }}>
-              Vi lister bare proteinpulver som faktisk selges i Norge. Merker som kun selger PWO (f.eks. NutriTac, Peveo) er fjernet.
-              Pris og næringsdata oppdateres mot butikk/produsent — DIAAS uten lab-test er estimat.
+              {vStats.verified}/{vStats.total} produkter verifisert mot ekte butikkside (1 produkt hvert 5. min via automasjon).
+              Merker som kun selger PWO er fjernet. Uverifiserte rader kan ha feil pris/næring — DIAAS uten lab-test er estimat.
             </p>
           </div>
         </div>
