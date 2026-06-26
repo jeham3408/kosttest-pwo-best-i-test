@@ -167,7 +167,7 @@ export const blogPosts: BlogPost[] = [
     content: [
       'Peveo Maxed og NutriTac SickPump VeinBlaster er to av de høyest rangerte PWO-ene på Kosttest.no. Begge scorer B, men har veldig forskjellige profiler.',
       'Peveo Maxed (58 poeng): 10 000 mg L-citrulline (via citrulline malate 2:1), 6400 mg beta-alanin, 5000 mg kreatin, 350 mg koffein. Dette er en komplett PWO med maksimal pump og utholdenhet. Ulempen er 350 mg koffein (mye for nybegynnere) og 5 skjeer for full dose.',
-      'NutriTac SickPump VeinBlaster (55 poeng): 9000 mg L-citrulline, 6000 mg arginin, 200 mg koffein (ved dobbel dose). SickPump har lavere koffein men kompenserer med arginin som gir ekstra NO-produksjon. Perfekt for deg som vil ha pump uten å bli overstimulert.',
+      'NutriTac SickPump VeinBlaster (55 poeng): 9000 mg L-citrulline, 6000 mg arginin, 200 mg koffein (ved full dose, 30 g). SickPump har lavere koffein men kompenserer med arginin som gir ekstra NO-produksjon. Perfekt for deg som vil ha pump uten å bli overstimulert.',
       'Vår vurdering: Velg Peveo Maxed hvis du vil ha maksimal effekt og tåler mye koffein. Velg SickPump hvis du vil ha god pump med moderat stimulans. Peveo vinner på beta-alanin og kreatin, SickPump vinner på lavere koffein og arginin.',
     ],
   },
@@ -203,15 +203,15 @@ export const blogPosts: BlogPost[] = [
   },
   {
     id: 'samanlikning-sickpump-noxplode',
-    title: 'SickPump vs N.O.-Xplode – Beste PWO under 250 kr?',
+    title: 'SickPump vs N.O.-Xplode – Pump eller porsjonspris?',
     slug: 'samanlikning-sickpump-noxplode',
-    excerpt: 'SickPump VeinBlaster (55p) mot klassikeren BSN N.O.-Xplode (38p). Er dobbel dose verdt prisen?',
+    excerpt: 'SickPump VeinBlaster (55p) mot BSN N.O.-Xplode (38p). Hva gir mest for pengene – pump eller lav porsjonspris?',
     category: 'Samanlikning',
     readMinutes: 4,
     relatedProducts: ['nutritac-sickpump', 'bsn-noxplode-50'],
     content: [
       'NutriTac SickPump VeinBlaster (55 poeng) og BSN N.O.-Xplode (38 poeng) er i helt forskjellige prisklasser, men begge populære.',
-      'SickPump (599 kr): 9000 mg L-citrulline, 6000 mg arginin, 200 mg koffein (dobbel dose). Ekstrem pump via kombinasjon av citrulline og arginin.',
+      'SickPump (599 kr): 9000 mg L-citrulline, 6000 mg arginin, 200 mg koffein (full dose, 30 g). Ekstrem pump via kombinasjon av citrulline og arginin.',
       'N.O.-Xplode (679 kr, 50 porsjoner): 6000 mg L-citrulline, 3200 mg beta-alanin, 200 mg koffein. Klassisk formel med rhodiola rosea og piperin.',
       'Vår vurdering: SickPump gir mer pump for pengene, men N.O.-Xplode har lavere pris per porsjon (13,58 kr vs 51,33 kr). SickPump vinner på effekt, N.O.-Xplode på pris.',
     ],

@@ -1,7 +1,7 @@
 import { AlertTriangle, CheckCircle2, ExternalLink } from 'lucide-react'
 import { formulationNote, iaasVsDiaasExplanation, proteinScoringRules } from '../data/proteinScoring'
 import { proteinVerificationStats } from '../data/proteinVerification'
-import { proteinSourceLinks, testedProteinProducts, type TestedProteinProduct } from '../data/proteinProducts'
+import { proteinSourceLinks, type TestedProteinProduct } from '../data/proteinProducts'
 import type { GradeLetter } from '../data/pwoProducts'
 import { generateProteinContent } from '../proteinContent'
 import { getRelatedProteinProducts } from '../utils/proteinHelpers'
@@ -317,5 +317,3 @@ export function ProteinLeaderboardBlock({
     </>
   )
 }
-
-export { testedProteinProducts }
