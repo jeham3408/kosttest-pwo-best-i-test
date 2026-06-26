@@ -4,6 +4,7 @@
 
 ## 🚫 IKKE test disse (ferdig)
 
+- `star-whey-100` — 2026-06-26
 - `bodylab-whey-100` — 2026-06-26
 - `dymatize-iso100` — 2026-06-26
 - `optimum-gold-standard` — 2026-06-26
@@ -12,6 +13,6 @@
 
 | Felt | Verdi |
 |------|-------|
-| productId | `star-whey-100` |
-| merke | Star Nutrition |
-| navn | 100% Whey |
+| productId | `myprotein-impact-whey` |
+| merke | MyProtein |
+| navn | Impact Whey Protein |

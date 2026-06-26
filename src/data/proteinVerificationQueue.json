@@ -1,9 +1,9 @@
 {
   "version": 1,
   "intervalMinutes": 5,
-  "lastRunAt": "2026-06-26T15:54:00.000Z",
-  "lastVerifiedId": "optimum-gold-standard",
-  "lastCompletedId": "optimum-gold-standard",
+  "lastRunAt": "2026-06-26T16:37:12.881Z",
+  "lastVerifiedId": "star-whey-100",
+  "lastCompletedId": "star-whey-100",
   "lastCompletedStatus": "verified",
   "currentProductId": null,
   "currentRunStartedAt": null,
@@ -30,8 +30,10 @@
     },
     {
       "id": "star-whey-100",
-      "status": "pending",
-      "attempts": 0
+      "status": "verified",
+      "attempts": 1,
+      "lastAttemptAt": "2026-06-26T16:36:18.962Z",
+      "verifiedAt": "2026-06-26T16:37:12.881Z"
     },
     {
       "id": "myprotein-impact-whey",
