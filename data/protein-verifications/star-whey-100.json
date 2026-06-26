@@ -1,0 +1,50 @@
+{
+  "id": "star-whey-100",
+  "exists": true,
+  "verifiedAt": "2026-06-26T16:30:00.000Z",
+  "sources": [
+    "https://www.gymgrossisten.no/whey-100-myseprotein-1-kg/575R.html"
+  ],
+  "checks": {
+    "productPageLoads": true,
+    "nameMatches": true,
+    "nutritionFromLabel": true,
+    "priceFromMerchant": true
+  },
+  "corrections": [
+    "Feil URL: /star-nutrition-100-whey (404) → /whey-100-myseprotein-1-kg/575R.html",
+    "Feil navn: «100% Whey» → «Whey-100» (faktisk produktnavn på GG)",
+    "Feil pris: 399 kr → 549 kr",
+    "Feil porsjon: 30 g → 37 g (anbefalt dosering på GG)",
+    "Feil porsjoner: 33 → 27 (1000 g / 37 g)",
+    "Feil protein%: 78 → 84 g/100 g (Chocolate — varierer 83–87 etter smak)",
+    "Feil proteintype: whey-concentrate → whey-isolate (100 % myseproteinisolat)",
+    "Leucin fjernet — ikke oppgitt på NO-etikett"
+  ],
+  "data": {
+    "name": "Whey-100",
+    "brand": "Star Nutrition",
+    "merchant": "Gymgrossisten",
+    "url": "https://www.gymgrossisten.no/whey-100-myseprotein-1-kg/575R.html",
+    "priceNok": 549,
+    "packageSizeG": 1000,
+    "packageSize": "1000 g",
+    "servingSizeG": 37,
+    "servingSize": "37 g",
+    "servings": 27,
+    "proteinPer100g": 84,
+    "proteinPerServingG": 31,
+    "sourceType": "whey-isolate",
+    "sourceLabel": "Whey isolate (100% myseproteinisolat)"
+  },
+  "lactoseAnalysis": {
+    "containsLactose": true,
+    "lactoseLow": true,
+    "description": "Whey isolate med lavt laktoseinnhold (~1 % ifølge produsent). Allergiinformasjon oppgir eksplisitt melkeprotein og laktose — ikke egnet for streng laktoseintoleranse eller melkeallergi, men bedre enn whey concentrate for de med mild laktoseintoleranse.",
+    "allergens": ["melk", "laktose", "soya", "fenylalanin"],
+    "notLactoseFree": true,
+    "containsAspartam": true
+  },
+  "analysis": "Ekte Star Nutrition Whey-100 1 kg på Gymgrossisten (549 kr). Repo hadde feil produktnavn, URL, pris og proteintype — dette er et whey isolate, ikke concentrate. 84–87 % protein per 100 g avhengig av smak. Sterk DIAAS-estimat som isolate, men høyere pris enn opprinnelig 399 kr i repo.",
+  "notes": "Protein% varierer mellom smaker (Chocolate 84 g, Vanilla/Strawberry 85 g, Unflavoured 87 g). Vi bruker 84 % fra standardvariant Chocolate. Flavored varianter inneholder aspartam."
+}
