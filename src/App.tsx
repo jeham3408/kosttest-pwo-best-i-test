@@ -31,8 +31,8 @@ import {
   ProteinLeaderboardBlock,
   ProteinMetodeSection,
   ProteinProductPageView,
-  testedProteinProducts,
 } from './components/ProteinPageViews'
+import { testedProteinProducts } from './data/proteinProducts'
 import { getPageMeta, isCaseinProtein, isVeganProtein, isWheyProtein, normalizePath, parseRoute, type RouteState } from './routing'
 import { siteStats } from './siteStats'
 import { getRelatedProducts, kgPrice } from './utils/productHelpers'
