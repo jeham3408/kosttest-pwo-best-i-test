@@ -1,0 +1,47 @@
+{
+  "id": "dymatize-iso100",
+  "exists": true,
+  "verifiedAt": "2026-06-26T15:42:00.000Z",
+  "sources": [
+    "https://www.gymgrossisten.no/iso-100-myseproteinisolat-932-g/9922-098R.html"
+  ],
+  "checks": {
+    "productPageLoads": true,
+    "nameMatches": true,
+    "nutritionFromLabel": true,
+    "priceFromMerchant": true
+  },
+  "corrections": [
+    "Feil URL: /iso-100-myseproteinisolat-932-g/9922-098R.html (ikke /dymatize-iso100)",
+    "Feil pris: 899 kr veiledende (ikke 699 kr)",
+    "Feil pakke: 932 g (ikke 907 g)",
+    "Feil porsjon: 32 g ifølge næringsdeklarasjon (ikke 31 g)",
+    "Feil protein%: 78 g/100 g (25 g per 32 g porsjon, ikke 86 %)",
+    "Feil leucin: ikke oppgitt på NO-etikett — fjernet 2,7 g estimat"
+  ],
+  "data": {
+    "name": "ISO100 Hydrolyzed 100% Whey Isolate",
+    "brand": "Dymatize",
+    "merchant": "Gymgrossisten",
+    "url": "https://www.gymgrossisten.no/iso-100-myseproteinisolat-932-g/9922-098R.html",
+    "priceNok": 899,
+    "packageSizeG": 932,
+    "packageSize": "932 g",
+    "servingSizeG": 32,
+    "servingSize": "32 g",
+    "servings": 29,
+    "proteinPer100g": 78,
+    "proteinPerServingG": 25,
+    "sourceType": "hydrolyzed-whey",
+    "sourceLabel": "Hydrolysert whey isolate"
+  },
+  "lactoseAndAllergens": {
+    "lactoseStatus": "laktosefattig",
+    "lactoseNote": "Produsenten oppgir at laktose er skilt ut. Næringsdeklarasjon viser 0,5–0,6 g sukkerarter per 32 g porsjon — typisk spor av laktose, ikke laktosefri.",
+    "allergens": ["melk", "soya"],
+    "allergenNote": "Inneholder hydrolysert myseproteinisolat og myseproteinisolat (MELK). Emulgator: solsikke- og SOYAlecitin.",
+    "suitableForLactoseIntolerant": "ofte tolerert, men ikke garantert laktosefri — inneholder melkeallergen"
+  },
+  "analysis": "Ekte Dymatize ISO100 på Gymgrossisten (932 g, 899 kr). Hydrolysert whey isolate + whey isolate — rask absorpsjon og svært lavt laktoseinnhold. Protein% er lavere enn ofte markedsført (~78 % per 100 g, ikke 86 %). God valg for post-trening og laktoseintoleranse, men dyr per kg og ofte utsolgt.",
+  "notes": "Doseringstekst sier 28 g pulver, næringsdeklarasjon bruker 32 g porsjon — vi følger etikett. Leucin ikke på NO-etikett. Produkt ofte utsolgt jun 2026."
+}
