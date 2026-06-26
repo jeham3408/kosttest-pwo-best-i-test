@@ -1,0 +1,52 @@
+{
+  "id": "star-whey-100",
+  "exists": true,
+  "verifiedAt": "2026-06-26T17:24:00.000Z",
+  "sources": [
+    "https://www.gymgrossisten.no/whey-100-myseprotein-1-kg/575R.html",
+    "https://www.gymgrossisten.no/whey-100-1-kg-sjokolade/575.html"
+  ],
+  "checks": {
+    "productPageLoads": true,
+    "nameMatches": true,
+    "nutritionFromLabel": true,
+    "priceFromMerchant": true
+  },
+  "corrections": [
+    "Feil URL: /star-nutrition-100-whey (404) → /whey-100-myseprotein-1-kg/575R.html",
+    "Feil navn: «100% Whey» → «Whey-100 Myseprotein» (faktisk produktnavn på GG)",
+    "Feil pris: 399 kr → 549 kr (veil.pris)",
+    "Feil type: whey concentrate → 100 % myseproteinisolat (whey-isolate)",
+    "Feil porsjon: 30 g → 37 g (anbefalt dosering)",
+    "Feil porsjoner: 33 → 27 (1000 g / 37 g)",
+    "Feil protein%: 78 → 84 g/100 g (Chocolate-variant)",
+    "Feil protein/dose: 23 g → 31 g (beregnet fra 84 g/100 g × 37 g)",
+    "Leucin fjernet — ikke oppgitt på NO-etikett"
+  ],
+  "data": {
+    "name": "Whey-100 Myseprotein",
+    "brand": "Star Nutrition",
+    "merchant": "Gymgrossisten",
+    "url": "https://www.gymgrossisten.no/whey-100-myseprotein-1-kg/575R.html",
+    "priceNok": 549,
+    "packageSizeG": 1000,
+    "packageSize": "1000 g",
+    "servingSizeG": 37,
+    "servingSize": "37 g",
+    "servings": 27,
+    "proteinPer100g": 84,
+    "proteinPerServingG": 31,
+    "sourceType": "whey-isolate",
+    "sourceLabel": "100 % myseproteinisolat"
+  },
+  "lactoseAnalysis": {
+    "containsLactose": true,
+    "lactoseLevel": "low",
+    "description": "100 % myseproteinisolat med lavt laktoseinnhold ifølge produsent og GG FAQ. Ikke helt laktosefritt — allergiinformasjon oppgir melkeprotein og laktose. Egnet for mange med mild laktoseintoleranse, men personer med alvorlig intoleranse bør vurdere alternativer.",
+    "allergens": ["melk", "laktose", "soya", "fenylalanin"],
+    "notLactoseFree": true,
+    "nutFree": true
+  },
+  "analysis": "Ekte Star Nutrition Whey-100 1 kg på Gymgrossisten (549 kr). Premium whey isolate fra Carbery med 84 % protein per 100 g (sjokolade). Sterk DIAAS-profil og god protein%, men prisen var betydelig undervurdert i repo (399 vs 549 kr). Lavt laktoseinnhold, men ikke laktosefritt.",
+  "notes": "Protein% varierer 79–87 % mellom smaker (naturell høyest). Vi bruker sjokolade (84 %) som referanse. Produktet var på lager ved verifisering. Inneholder aspartam."
+}

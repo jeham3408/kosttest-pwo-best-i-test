@@ -6,11 +6,12 @@
 
 | productId | Merke | Navn | Ferdig | Resultat |
 |-----------|-------|------|--------|----------|
+| `star-whey-100` | Star Nutrition | Whey-100 Myseprotein | 2026-06-26 17:25 | ✅ verified |
 | `optimum-gold-standard` | Optimum Nutrition | Gold Standard 100% Whey | 2026-06-26 15:54 | ✅ verified |
 | `dymatize-iso100` | Dymatize | ISO100 Hydrolyzed 100% Whey Isolate | 2026-06-26 15:51 | ✅ verified |
 | `bodylab-whey-100` | Bodylab | Whey 100 | 2026-06-26 12:00 | ✅ verified |
 
-**FORBUDT å teste på nytt:** `optimum-gold-standard`, `dymatize-iso100`, `bodylab-whey-100`
+**FORBUDT å teste på nytt:** `star-whey-100`, `optimum-gold-standard`, `dymatize-iso100`, `bodylab-whey-100`
 
 Rapport ligger i `data/protein-verifications/<id>.json`. Hvis du tester en av disse ID-ene på nytt, er kjøringen FEIL.
 
@@ -18,39 +19,39 @@ Rapport ligger i `data/protein-verifications/<id>.json`. Hvis du tester en av di
 
 | Felt | Verdi |
 |------|-------|
-| productId | `star-whey-100` |
-| merke | Star Nutrition |
-| navn | 100% Whey |
-| url i repo (sjekk/fiks) | https://www.gymgrossisten.no/star-nutrition-100-whey |
+| productId | `myprotein-impact-whey` |
+| merke | MyProtein |
+| navn | Impact Whey Protein |
+| url i repo (sjekk/fiks) | https://www.myprotein.no/sports-nutrition/impact-whey-protein/10852500.html |
 | kø-status | ⏳ pending |
 | kjøring | ⏳ klar — kjør `node scripts/protein-verify-queue.mjs start` |
 | startet | — |
 
-**TEST KUN `star-whey-100` i denne kjøringen.**
+**TEST KUN `myprotein-impact-whey` i denne kjøringen.**
 
-**IKKE test:** `optimum-gold-standard`, `dymatize-iso100`, `bodylab-whey-100`
+**IKKE test:** `star-whey-100`, `optimum-gold-standard`, `dymatize-iso100`, `bodylab-whey-100`
 
 ## 3. ⬅️ Sist ferdig (referanse — ikke test igjen)
 
 | Felt | Verdi |
 |------|-------|
-| productId | `optimum-gold-standard` |
-| merke | Optimum Nutrition |
-| navn | Gold Standard 100% Whey |
+| productId | `star-whey-100` |
+| merke | Star Nutrition |
+| navn | Whey-100 Myseprotein |
 | resultat | ✅ verified |
-| ferdig | 2026-06-26 15:54 |
+| ferdig | 2026-06-26 17:25 |
 
-Sist ferdig var `optimum-gold-standard`. Neste er `star-whey-100`.
+Sist ferdig var `star-whey-100`. Neste er `myprotein-impact-whey`.
 
 ## Oppsummering
 
 | Felt | Verdi |
 |------|-------|
-| Verifisert | 3 / 26 |
+| Verifisert | 4 / 26 |
 | Avvist | 0 |
-| Gjenstår | 23 |
-| Neste i kø | `star-whey-100` |
-| Siste kjøring | 2026-06-26 15:54 |
+| Gjenstår | 22 |
+| Neste i kø | `myprotein-impact-whey` |
+| Siste kjøring | 2026-06-26 17:25 |
 | Cron | `*/5 * * * *` (hvert 5. min) |
 
 ## Produktkø
@@ -58,9 +59,9 @@ Sist ferdig var `optimum-gold-standard`. Neste er `star-whey-100`.
 | # | ID | Merke | Navn | Status | Verifisert |
 |---|-----|-------|------|--------|------------|
 | 1 | dymatize-iso100 | Dymatize | ISO100 Hydrolyzed 100% Whey Isolate | ✅ verified | 2026-06-26 |
-| 2 | optimum-gold-standard ← forrige | Optimum Nutrition | Gold Standard 100% Whey | ✅ verified | 2026-06-26 |
+| 2 | optimum-gold-standard | Optimum Nutrition | Gold Standard 100% Whey | ✅ verified | 2026-06-26 |
 | 3 | bodylab-whey-100 | Bodylab | Whey 100 | ✅ verified | 2026-06-26 |
-| 4 | star-whey-100 | Star Nutrition | 100% Whey | ⏳ pending | — |
+| 4 | star-whey-100 ← forrige | Star Nutrition | Whey-100 Myseprotein | ✅ verified | 2026-06-26 |
 | 5 | myprotein-impact-whey | MyProtein | Impact Whey Protein | ⏳ pending | — |
 | 6 | scitec-100-whey-professional | Scitec Nutrition | 100% Whey Protein Professional | ⏳ pending | — |
 | 7 | applied-critical-whey | Applied Nutrition | Critical Whey | ⏳ pending | — |
@@ -87,6 +88,17 @@ Sist ferdig var `optimum-gold-standard`. Neste er `star-whey-100`.
 ## Kjøringslogg
 
 <!-- AGENT: Legg til nytt avsnitt øverst etter hver kjøring. Maks én produkt per kjøring. -->
+
+### 2026-06-26 — star-whey-100 ✅
+
+- **Kilde:** https://www.gymgrossisten.no/whey-100-myseprotein-1-kg/575R.html
+- **Fant produktet:** ja (404 på gammel URL, riktig produkt funnet)
+- **Endringer:** Feil URL (404), navn (100% Whey→Whey-100 Myseprotein), pris (399→549 kr), type (concentrate→isolate), porsjon (30→37 g), porsjoner (33→27), protein% (78→84), protein/dose (23→31 g), leucin fjernet
+- **Laktose:** Lavt laktoseinnhold (whey isolate), men ikke laktosefritt — inneholder melkeprotein og laktose
+- **Bilde:** `public/images/protein/star-whey-100.jpg` (fra GG)
+- **Score:** 86 (A), DIAAS 1.09, 0,65 kr/g protein
+- **Rapport:** `data/protein-verifications/star-whey-100.json`
+- **➡️ Neste:** `myprotein-impact-whey` — IKKE test `star-whey-100` igjen
 
 ### 2026-06-26 — optimum-gold-standard ✅
 
