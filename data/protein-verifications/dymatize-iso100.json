@@ -1,0 +1,46 @@
+{
+  "id": "dymatize-iso100",
+  "exists": true,
+  "verifiedAt": "2026-06-26T15:52:00.000Z",
+  "sources": [
+    "https://www.gymgrossisten.no/iso-100-myseproteinisolat-932-g/9922-098R.html"
+  ],
+  "checks": {
+    "productPageLoads": true,
+    "nameMatches": true,
+    "nutritionFromLabel": true,
+    "priceFromMerchant": true
+  },
+  "corrections": [
+    "Feil URL: /dymatize-iso100 finnes ikke — riktig er /iso-100-myseproteinisolat-932-g/9922-098R.html",
+    "Feil pris: 699 kr → 899 kr (veil.pris)",
+    "Feil pakke: 907 g → 932 g",
+    "Feil porsjon: 31 g → 32 g (næringsdeklarasjon Gourmet Chocolate)",
+    "Feil protein%: 86 → 78 g/100 g (25 g protein per 32 g porsjon)",
+    "Leucin ikke oppgitt på NO-etikett — fjernet estimat 2,7 g"
+  ],
+  "data": {
+    "name": "ISO100 Hydrolyzed 100% Whey Isolate",
+    "brand": "Dymatize",
+    "merchant": "Gymgrossisten",
+    "url": "https://www.gymgrossisten.no/iso-100-myseproteinisolat-932-g/9922-098R.html",
+    "priceNok": 899,
+    "packageSizeG": 932,
+    "packageSize": "932 g",
+    "servingSizeG": 32,
+    "servingSize": "32 g",
+    "servings": 29,
+    "proteinPer100g": 78,
+    "proteinPerServingG": 25,
+    "sourceType": "hydrolyzed-whey",
+    "sourceLabel": "Hydrolysert whey isolate"
+  },
+  "lactoseAnalysis": {
+    "lactoseFiltered": true,
+    "description": "Produsenten oppgir at laktose og fett er skilt ut fra ISO-100. Egnet for laktoseintolerante, men inneholder fortsatt melkeallergen (MILK).",
+    "allergens": ["melk", "soya"],
+    "notMilkFree": true
+  },
+  "analysis": "Ekte Dymatize ISO100 på Gymgrossisten (932 g, 899 kr). 78 % protein per 100 g ifølge norsk næringsdeklarasjon — lavere enn opprinnelig 86 % i repo. Hydrolysert whey isolate gir sterkt DIAAS-estimat, men høy pris per g protein. Laktosefattig, men ikke egnet ved melkeallergi.",
+  "notes": "Produktet var utsolgt på GG ved verifisering. Leucin ikke på NO-etikett. Dosering på siden sier 28 g, men næringstabell bruker 32 g porsjon — vi følger etikett."
+}
