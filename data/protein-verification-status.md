@@ -11,9 +11,10 @@
 |-----------|-------|------|--------|----------|
 | `dymatize-iso100` | Dymatize | ISO100 Hydrolyzed 100% Whey Isolate | 2026-06-26 15:51 | ✅ ferdig (har bilde) |
 | `optimum-gold-standard` | Optimum Nutrition | Gold Standard 100% Whey | 2026-06-26 15:54 | ✅ ferdig (har bilde) |
+| `bodylab-whey-100` | Bodylab | Whey 100 | 2026-06-26 18:25 | ✅ ferdig (har bilde) |
 | `star-whey-100` | Star Nutrition | Whey-100 | 2026-06-26 17:13 | ✅ ferdig (har bilde) |
 
-**FORBUDT å teste på nytt:** `dymatize-iso100`, `optimum-gold-standard`, `star-whey-100`
+**FORBUDT å teste på nytt:** `dymatize-iso100`, `optimum-gold-standard`, `bodylab-whey-100`, `star-whey-100`
 
 Sjekk live-liste: https://kosttest.no/tester/protein/
 
@@ -21,8 +22,7 @@ Sjekk live-liste: https://kosttest.no/tester/protein/
 
 | productId | Merke | Navn | Kø-status | Bilde |
 |-----------|-------|------|-----------|-------|
-| `bodylab-whey-100` **← NESTE** | Bodylab | Whey 100 | ✅ verified | 🖼️ mangler |
-| `myprotein-impact-whey` | MyProtein | Impact Whey Protein | ⏳ pending | 🖼️ mangler |
+| `myprotein-impact-whey` **← NESTE** | MyProtein | Impact Whey Protein | ⏳ pending | 🖼️ mangler |
 | `scitec-100-whey-professional` | Scitec Nutrition | 100% Whey Protein Professional | ⏳ pending | 🖼️ mangler |
 | `applied-critical-whey` | Applied Nutrition | Critical Whey | ⏳ pending | 🖼️ mangler |
 | `mutant-iso-surge` | Mutant | ISO Surge | ⏳ pending | 🖼️ mangler |
@@ -45,46 +45,46 @@ Sjekk live-liste: https://kosttest.no/tester/protein/
 | `proteinseries-100-whey` | Protein Series | 100% Whey | ⏳ pending | 🖼️ mangler |
 | `bulk-pure-whey` | Bulk | Pure Whey Protein | ⏳ pending | 🖼️ mangler |
 
-**23 produkter uten ekte bilde.** Disse skal verifiseres — ta screenshot av listen og sammenlign.
+**22 produkter uten ekte bilde.** Disse skal verifiseres — ta screenshot av listen og sammenlign.
 
 ## 2. ➡️ NÅ — TEST KUN DETTE (ÉTT PRODUKT)
+
+| Felt | Verdi |
+|------|-------|
+| productId | `myprotein-impact-whey` |
+| merke | MyProtein |
+| navn | Impact Whey Protein |
+| url i repo (sjekk/fiks) | https://www.myprotein.no/sports-nutrition/impact-whey-protein/10852500.html |
+| har bilde | 🖼️ nei — må hentes |
+| kø-status | ⏳ pending |
+| kjøring | ⏳ klar — kjør `node scripts/protein-verify-queue.mjs start` |
+| startet | — |
+
+**TEST KUN `myprotein-impact-whey` i denne kjøringen.** Husk: last ned produktbilde til `public/images/protein/myprotein-impact-whey.jpg` før `complete`.
+
+**IKKE test:** `dymatize-iso100`, `optimum-gold-standard`, `bodylab-whey-100`, `star-whey-100`
+
+## 3. ⬅️ Sist ferdig (referanse — ikke test igjen)
 
 | Felt | Verdi |
 |------|-------|
 | productId | `bodylab-whey-100` |
 | merke | Bodylab |
 | navn | Whey 100 |
-| url i repo (sjekk/fiks) | https://www.bodylab.no/shop/bodylab-whey-100-663p.html |
-| har bilde | 🖼️ nei — må hentes |
-| kø-status | ✅ verified |
-| kjøring | ⏳ klar — kjør `node scripts/protein-verify-queue.mjs start` |
-| startet | — |
-
-**TEST KUN `bodylab-whey-100` i denne kjøringen.** Husk: last ned produktbilde til `public/images/protein/bodylab-whey-100.jpg` før `complete`.
-
-**IKKE test:** `dymatize-iso100`, `optimum-gold-standard`, `star-whey-100`
-
-## 3. ⬅️ Sist ferdig (referanse — ikke test igjen)
-
-| Felt | Verdi |
-|------|-------|
-| productId | `star-whey-100` |
-| merke | Star Nutrition |
-| navn | Whey-100 |
 | resultat | ✅ ferdig (har bilde) |
-| ferdig | 2026-06-26 17:13 |
+| ferdig | 2026-06-26 18:25 |
 
-Sist ferdig var `star-whey-100`. Neste uten bilde: `bodylab-whey-100`.
+Sist ferdig var `bodylab-whey-100`. Neste uten bilde: `myprotein-impact-whey`.
 
 ## Oppsummering
 
 | Felt | Verdi |
 |------|-------|
-| Ferdig (har bilde) | 3 / 26 |
-| Mangler bilde | 23 |
+| Ferdig (har bilde) | 4 / 26 |
+| Mangler bilde | 22 |
 | Avvist | 0 |
-| Neste uten bilde | `bodylab-whey-100` |
-| Siste kjøring | 2026-06-26 17:13 |
+| Neste uten bilde | `myprotein-impact-whey` |
+| Siste kjøring | 2026-06-26 18:25 |
 | Live-liste | https://kosttest.no/tester/protein/ |
 | Cron | `*/5 * * * *` (hvert 5. min) |
 
@@ -94,8 +94,8 @@ Sist ferdig var `star-whey-100`. Neste uten bilde: `bodylab-whey-100`.
 |---|-----|-------|------|-----|-------|------|
 | 1 | dymatize-iso100 | Dymatize | ISO100 Hydrolyzed 100% Whey Isolate | ✅ verified | 🖼️ ✅ | 2026-06-26 |
 | 2 | optimum-gold-standard | Optimum Nutrition | Gold Standard 100% Whey | ✅ verified | 🖼️ ✅ | 2026-06-26 |
-| 3 | bodylab-whey-100 | Bodylab | Whey 100 | ✅ verified | 🖼️ ❌ | 2026-06-26 |
-| 4 | star-whey-100 ← forrige | Star Nutrition | Whey-100 | ✅ verified | 🖼️ ✅ | 2026-06-26 |
+| 3 | bodylab-whey-100 ← forrige | Bodylab | Whey 100 | ✅ verified | 🖼️ ✅ | 2026-06-26 |
+| 4 | star-whey-100 | Star Nutrition | Whey-100 | ✅ verified | 🖼️ ✅ | 2026-06-26 |
 | 5 | myprotein-impact-whey | MyProtein | Impact Whey Protein | ⏳ pending | 🖼️ ❌ | — |
 | 6 | scitec-100-whey-professional | Scitec Nutrition | 100% Whey Protein Professional | ⏳ pending | 🖼️ ❌ | — |
 | 7 | applied-critical-whey | Applied Nutrition | Critical Whey | ⏳ pending | 🖼️ ❌ | — |
@@ -122,6 +122,18 @@ Sist ferdig var `star-whey-100`. Neste uten bilde: `bodylab-whey-100`.
 ## Kjøringslogg
 
 <!-- AGENT: Legg til nytt avsnitt øverst etter hver kjøring. Maks én produkt per kjøring. -->
+
+### 2026-06-26 18:25 — bodylab-whey-100 ✅ FERDIG (med bilde)
+
+- **Kilde:** https://www.bodylab.no/shop/bodylab-whey-100-663p.html
+- **Fant produktet:** ja
+- **Endringer:** Pris (349→369 kr ordinær, kampanje 297 kr), produktbilde lagt til, laktose/watchouts oppdatert
+- **Laktose:** Inneholder laktose fra whey concentrate — ikke laktosefri. Melke- og soyaallergen (lecitin). Sukralose/acesulfam-K, ikke aspartam.
+- **Næring (Ultimate Chocolate):** 70 g protein/100 g, 23 g/dose (33 g), 1000 g, 30 porsjoner
+- **Bilde:** `public/images/protein/bodylab-whey-100.jpg` (fra bodylab.b-cdn.net)
+- **Score:** beregnes på nytt (høyere ordinær pris 369 kr)
+- **Rapport:** `data/protein-verifications/bodylab-whey-100.json`
+- **➡️ Neste:** `myprotein-impact-whey` — **IKKE test `bodylab-whey-100` igjen** (ferdig med bilde)
 
 ### 2026-06-26 — star-whey-100 ✅
 
