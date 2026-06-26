@@ -200,14 +200,14 @@ export const blogPosts: BlogPost[] = [
     relatedProducts: ['nutritac-midnight', 'peveo-stim-free'],
     content: [
       'Peveo PWO-Stim-free (88 poeng) og Midnight Pump Stim-Free (66 poeng) er to av de beste koffeinfrie PWO-ene på markedet.',
-      'Peveo PWO-Stim-free: 10 000 mg L-citrulline (ren), 5000 mg betain, 3000 mg taurin, 3000 mg tyrosin. Tradisjonell pump via L-citrulline med høyest score i stim-free-kategorien.',
+      'Peveo PWO-Stim-free: 10 000 mg L-citrulline (via citrulline malate 2:1), 5000 mg betain, 3000 mg taurin, 3000 mg tyrosin. Tradisjonell pump via L-citrulline med høyest score i stim-free-kategorien.',
       'Midnight Pump: 10 000 mg rødbetekstrakt (gir 9000 mg pump-ekvivalent), 6000 mg beta-alanin, 4000 mg betain. Får pump via nitrat fra rødbeter i stedet for L-citrulline.',
-      'Vår vurdering: Peveo Stim-free scorer høyest med ren L-citrulline og lavere pris per porsjon. Midnight har sterk beta-alanin (6000 mg) og rødbetebasert pump. Velg Peveo for ren citrulline-pump og totalscore, Midnight for beta-alanin-effekt og nitrat-basert pump.',
+      'Vår vurdering: Peveo Stim-free scorer høyest med høy L-citrulline-ekvivalent og lavere pris per porsjon. Midnight har sterk beta-alanin (6000 mg) og rødbetebasert pump. Velg Peveo for citrulline-basert pump og totalscore, Midnight for beta-alanin-effekt og nitrat-basert pump.',
     ],
   },
   {
     id: 'samanlikning-sickpump-noxplode',
-    title: 'SickPump vs N.O.-Xplode – Beste PWO under 250 kr?',
+    title: 'SickPump vs N.O.-Xplode – Høyest score eller mest pump?',
     slug: 'samanlikning-sickpump-noxplode',
     excerpt: 'SickPump VeinBlaster (80p) mot klassikeren BSN N.O.-Xplode (91p). Er dobbel dose verdt prisen?',
     category: 'Samanlikning',

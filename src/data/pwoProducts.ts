@@ -825,7 +825,7 @@ export const testedProducts: TestedProduct[] = [
       'Ikke et toppvalg for maksimal pump eller stimulans',
     ],
     url: 'https://www.tights.no/butikk/bodylab-pwo-200g/',
-    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw95f49bf4/Hi-res/s/m/smartsupps_pwo_strawberrylime_400g.jpg?sw=400',
+    image: 'https://www.tights.no/wp-content/uploads/sites/7/2017/09/Untitled-20jpg.jpg',
   },
   {
     id: 'core-intensity',
@@ -954,7 +954,7 @@ export const testedProducts: TestedProduct[] = [
       'Lav score selv om porsjonsprisen ser imponerende ut',
     ],
     url: 'https://www.tights.no/butikk/lean-lime-pre-workout-300g/',
-    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dwd2272b87/Nya_produktbilder/Proteinfabrikken/30000499_PF_Core_Intensity_300g_Cola.jpg?sw=400',
+    image: 'https://www.tights.no/wp-content/uploads/sites/7/2024/06/Sourleanlimefrontjpg-scaled.jpg',
   },
   {
     id: 'nutritac-midnight',
@@ -1408,7 +1408,7 @@ export const testedProducts: TestedProduct[] = [
       'Høy pris',
     ],
     url: 'https://www.gymgrossisten.no/prolific-pwo-280-g/9891-024R.html',
-    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw95f49bf4/Hi-res/s/m/smartsupps_pwo_strawberrylime_400g.jpg?sw=400',
+    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw63974772/Hi-res/9/8/9891-024.jpg?sw=400',
   },
   {
     id: 'swedish-fucked-up',
@@ -2034,7 +2034,7 @@ export const testedProducts: TestedProduct[] = [
       'Ingen kreatin',
     ],
     url: 'https://myrevolution.no/products/myopwo',
-    image: 'http://myrevolution.no/cdn/shop/files/myopwo-preworkout-pwo_fb8adab4-c074-4041-962f-be0de450dc5f.webp',
+    image: 'https://myrevolution.no/cdn/shop/files/myopwo-preworkout-pwo_fb8adab4-c074-4041-962f-be0de450dc5f.webp',
   },
   {
     id: 'naturecan-pwo',
