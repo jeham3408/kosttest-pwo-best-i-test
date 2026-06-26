@@ -1,0 +1,22 @@
+{
+  "id": "off-the-hook-stim-free",
+  "type": "pwo-listed",
+  "name": "Off the Hook PWO Stim Free 525 g",
+  "brand": "Chained Nutrition",
+  "processedAt": "2026-06-26T18:09:11.422Z",
+  "source": "product-page",
+  "image": "https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dwb6bbf5ce/Nya_produktbilder/Star_Nutrition/SETW80MIX.jpg?sw=266&sh=266&sm=fit&sfrm=png",
+  "url": "https://www.gymgrossisten.no/off-the-hook-pwo-stim-free-525-g/5889R.html",
+  "steps": [
+    {
+      "step": "product-page",
+      "url": "https://www.gymgrossisten.no/off-the-hook-pwo-stim-free-525-g/5889R.html",
+      "found": true
+    },
+    {
+      "step": "product-page-image",
+      "ok": true,
+      "image": "https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dwb6bbf5ce/Nya_produktbilder/Star_Nutrition/SETW80MIX.jpg?sw=266&sh=266&sm=fit&sfrm=png"
+    }
+  ]
+}

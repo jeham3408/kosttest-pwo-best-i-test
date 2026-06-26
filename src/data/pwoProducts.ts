@@ -74,6 +74,7 @@ export type ListedProduct = {
   status: 'Rangert' | 'Ikke rangert' | 'Koffeinfri' | 'Multipakke'
   reason: string
   url: string
+  image?: string
 }
 
 export const lastUpdated = '26. juni 2026'
@@ -2342,6 +2343,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Koffeinfri',
     reason: 'Pump-produkt uten full teksttabell i kildeutdrag; må dosekontrolleres før score.',
     url: 'https://whitelion.no/products/pure-pump-v2',
+    image: 'http://whitelion.no/cdn/shop/files/PP_siste.png?v=1762262257',
   },
   {
     id: 'white-lion-stim-free-blue-citrus',
@@ -2353,6 +2355,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Koffeinfri',
     reason: 'Utsolgt stim-free-produkt; ikke direkte scoret mot tilgjengelige produkter.',
     url: 'https://whitelion.no/products/stim-free-blue-citrus-230g',
+    image: 'http://whitelion.no/cdn/shop/files/Blue.png?v=1738808198',
   },
   {
     id: 'white-lion-natural',
@@ -2364,6 +2367,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Outlet/natural-variant med koffein fra plantekilder; eksakte doser må kontrolleres.',
     url: 'https://whitelion.no/products/natural-pwo-pink-grapefruit-230g',
+    image: 'http://whitelion.no/cdn/shop/files/pinkg.png?v=1738808184',
   },
   {
     id: 'white-lion-electro',
@@ -2375,6 +2379,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Elektrolytt-/hydrering-PWO, ikke direkte sammenlignet med komplett PWO.',
     url: 'https://whitelion.no/products/electro-pwo-green-punch-230g',
+    image: 'http://whitelion.no/cdn/shop/files/greenp.png?v=1738808090',
   },
   {
     id: 'white-lion-oblivion',
@@ -2386,6 +2391,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Booster/stimulantprodukt; krever egen sikkerhetsvurdering før eventuell score.',
     url: 'https://whitelion.no/products/oblivion-pwo-stacker',
+    image: 'http://whitelion.no/cdn/shop/files/Jar-2.jpg?v=1715530766',
   },
   {
     id: 'chained-unchained',
@@ -2572,7 +2578,9 @@ export const listedProducts: ListedProduct[] = [
     packageSize: '525 g',
     status: 'Koffeinfri',
     reason: 'Stim-free variant av Off The Hook. Må dosekontrollerast før ev. score.',
-    url: 'https://www.gymgrossisten.no/off-the-hook-pwo-stim-free-525-g/5889R.html',
+    url: 'https://www.gymgrossisten.no/off-the-hook-pwo-stim-free-525-g/5887R.html',
+    image:
+      'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw9206d713/Nya_produktbilder/Chained_Nutrition/5887R_Chained_Nutrition_OffTheHook_STIMFREE_Blueberry_nov20.jpg?sw=400',
   },
   {
     id: 'sns-hemopump',
@@ -2628,6 +2636,8 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Manglar ferdig manuell dosekontroll.',
     url: 'https://www.gymgrossisten.no/re-take-300-g/6677-123R.html',
+    image:
+      'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw7fb991f2/Nya_produktbilder/Star_Nutrition/6792-RE-TAKE_300g_CitrusElderflowerPick.jpg?sw=400',
   },
   {
     id: 'bloody-pump',
@@ -2639,6 +2649,8 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Manglar ferdig manuell dosekontroll.',
     url: 'https://www.gymgrossisten.no/bloody-pump-pwo-300-g/83001R.html',
+    image:
+      'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw7a24ae2c/media/GG-Produktbilder/Swedish-supplements/890992-321R_Swedish-Supplements_Bloody-Pump-300g-Pineapple-Passion_sep23.jpg?sw=400',
   },
   {
     id: 'abe-pump-500',
@@ -2672,6 +2684,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Koffeinfri',
     reason: 'Stim-free pump. Manglar manuell dosekontroll.',
     url: 'https://www.getfit.no/hype-pump-stim-free-pwo-420g',
+    image: 'https://www.getfit.no/acd-cgi/img/v1/wp-content/uploads/2026/06/Hype-Pump-2-Pakk-New.png',
   },
   {
     id: 'dns-dynamite',
@@ -2793,6 +2806,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Ikkje tradisjonell PWO; endurance-fokus. Treng eigen vurdering.',
     url: 'https://www.kost1.no/products/marathon-endurance-400-gram',
+    image: 'https://www.kost1.no/users/kristiankost1_mystore_no/images/y6WAD_Trec_Nutrition_Marathon_Endurance_-_400_gram_1.jpg',
   },
   {
     id: 'ghost-legend',

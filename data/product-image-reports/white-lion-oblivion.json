@@ -1,0 +1,22 @@
+{
+  "id": "white-lion-oblivion",
+  "type": "pwo-listed",
+  "name": "Oblivion PWO Booster",
+  "brand": "White Lion",
+  "processedAt": "2026-06-26T18:07:54.000Z",
+  "source": "product-page",
+  "image": "http://whitelion.no/cdn/shop/files/Jar-2.jpg?v=1715530766",
+  "url": "https://whitelion.no/products/oblivion-pwo-stacker",
+  "steps": [
+    {
+      "step": "product-page-status",
+      "ok": true,
+      "url": "https://whitelion.no/products/oblivion-pwo-stacker"
+    },
+    {
+      "step": "product-page-og",
+      "ok": true,
+      "image": "http://whitelion.no/cdn/shop/files/Jar-2.jpg?v=1715530766"
+    }
+  ]
+}

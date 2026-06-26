@@ -1,0 +1,764 @@
+{
+  "version": 1,
+  "createdAt": "2026-06-26T18:06:47.770Z",
+  "updatedAt": "2026-06-26T18:10:59.077Z",
+  "queue": [
+    {
+      "id": "bsn-noxplode-50",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dwe7d7878b/media/GG-Produktbilder/BSN/2729-095R_BSN_N.O.-Xplode-Legendary-50-servings-green-burst_0521.jpg?sw=266&sh=266&sm=fit&sfrm=png",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "applied-abe",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dwad0743e0/images/hi-res/52/52+1.jpg",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "white-lion-supervillain",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://cdn.shopify.com/s/files/1/0570/6560/3256/files/nyhero.png?v=1738854192",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "star-ultimate",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw01712300/Nya_produktbilder/Star_Nutrition/5671_Star-Nutrition_UltimatePWO_citrus__elderflower-april21.jpg?sw=266&sh=266&sm=fit&sfrm=png",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "peveo-stim-free",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://peveo.no/assets/peveo-competition-product-DuqGy7fm.jpg",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "star-supreme",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw38165263/media/GG-Produktbilder/Gymgrossisten/6677R.tropical.jpg?sw=266&sh=266&sm=fit&sfrm=png",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "peveo-maxed",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://peveo.no/assets/peveo-maxed-product-CqUHOHCx.jpg",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "smartsupps-pwo",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw95f49bf4/Hi-res/s/m/smartsupps_pwo_strawberrylime_400g.jpg?sw=266&sh=266&sm=fit&sfrm=png",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "white-lion-original",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://cdn.shopify.com/s/files/1/0570/6560/3256/files/pinNY.png?v=1738809143",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "off-the-hook",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dwe528eed9/Nya_produktbilder/Chained_Nutrition/5888R_Chained_Nutrition_OffTheHook_Sourapple_nov20.jpg?sw=266&sh=266&sm=fit&sfrm=png",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "gold-standard",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw3cc79ab4/media/GG-Produktbilder/Optimum/6947-158_Optimum-nutrition_Gold-Standard-Pre-Workout-330g-Watermelon_nov20.jpg?sw=266&sh=266&sm=fit&sfrm=png",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "bodylab-pwo",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw95f49bf4/Hi-res/s/m/smartsupps_pwo_strawberrylime_400g.jpg?sw=400",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "core-intensity",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dwd2272b87/Nya_produktbilder/Proteinfabrikken/30000499_PF_Core_Intensity_300g_Cola.jpg?sw=266&sh=266&sm=fit&sfrm=png",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "nutritac-sickpump",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://cdn.shopify.com/s/files/1/0580/2364/1168/files/29.png?v=1769765086",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "lean-lime",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dwd2272b87/Nya_produktbilder/Proteinfabrikken/30000499_PF_Core_Intensity_300g_Cola.jpg?sw=400",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "nutritac-midnight",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://cdn.shopify.com/s/files/1/0580/2364/1168/files/26.png?v=1769764946",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "chained-unchained",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw0d376abd/Nya_produktbilder/Chained_Nutrition/67101R_Chained_nutrition_unchained_PWO_poppingcandy_candycola.jpg?sw=400",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "mutant-madness",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dwc515bb2d/media/GG-Produktbilder/Mutant/3897-025R-_-Mutant-Madness_30-servings-Fruit-Punch_sep24.jpg?sw=400",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "jnx-curse",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw51609176/images/hi-res/9866-001/9866-001+1.jpg?sw=400",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "stacker-extasis",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw04cdbfbe/media/GG-Produktbilder/Stacker/9968-4123_Stacker-extasis_tropical-fruit_0920.jpg?sw=400",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "c4-ripped",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dwad66d44a/Hi-res/9/9/9995-05_c4ripped_30servings_icyblueraspberry.jpg?sw=400",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "elit-savage",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw47d93bee/media/GG-Produktbilder/Elit-nutrition/10512-5_Elit_Savage-PWO-300g-Tropical_ju23.jpg?sw=400",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "biosalma-pwo",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw99422a9c/images/hi-res/A2120-93/A2120-93+1.jpg?sw=400",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "olimp-r-weiler-focus",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw1ffd7530/media/GG-Produktbilder/Olimp/820924-99R_Olimp_R-weiler-Focus-300-g_1220.jpg?sw=400",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "pes-prolific",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw95f49bf4/Hi-res/s/m/smartsupps_pwo_strawberrylime_400g.jpg?sw=400",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "swedish-fucked-up",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.tights.no/wp-content/uploads/sites/7/2024/06/Sourleanlimefrontjpg-scaled.jpg",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "ignite-stim-free",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.tights.no/wp-content/uploads/sites/7/2024/06/Sourleanlimefrontjpg-scaled.jpg",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "valhall",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.tights.no/wp-content/uploads/sites/7/2024/06/Sourleanlimefrontjpg-scaled.jpg",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "cellucor-c4-pulver",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw0bab841a/images/hi-res/9995-016/9995-016+1.jpg?sw=400",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "swedish-joker",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw171a6077/media/GG-Produktbilder/Swedish-supplements/820251r_forest.jpg?sw=400",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "dns-dynamite",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.kost1.no/users/kristiankost1_mystore_no/images/127_Sport_1.jpg",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "dns-piraya",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.kost1.no/users/kristiankost1_mystore_no/images/UsOzN_DNS_Piraya_PWO_-_Blue_Raspberry_Blast_1.jpg",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "ak47-paranoia",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.kost1.no/users/kristiankost1_mystore_no/images/09420_AK47_Pre-Workout_-_240_gram_1.jpg",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "zoomad-moonstruck",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.kost1.no/users/kristiankost1_mystore_no/images/lZ2mm_Zoomad_Moonstruck_Zero_Stim-Free_V2_Koffeinf_1.png",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "qnt-overdrive",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.kost1.no/users/kristiankost1_mystore_no/images/95UtE_QNT_QNT_Pre-Workout_Overdrive_-_390_gram_1.png",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "trec-saw",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.kost1.no/users/kristiankost1_mystore_no/images/2020-09-16/476296c60e95696e17e2905a0a699d49.jpg",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "g4n-eaa-pwo",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.kost1.no/users/kristiankost1_mystore_no/images/04406_Good4Nutrition_EAA_Pre-Workout_-300_gram_1.jpg",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "abe-pump-3g",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.kost1.no/users/kristiankost1_mystore_no/images/GnKN4_Applied_Nutrition_Pump_3G_-_Stimfree_PWO_-37_1.jpg",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "myopwo",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "http://myrevolution.no/cdn/shop/files/myopwo-preworkout-pwo_fb8adab4-c074-4041-962f-be0de450dc5f.webp",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "naturecan-pwo",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://cdn.shopify.com/s/files/1/0552/1604/7653/files/Naturecan-PWO-Pre-Workout-400g.png",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "hype-beast",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.getfit.no/wp-content/uploads/2019/12/Hype-Beast-PWO-Berry-Mix.png",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "bodylab-gummies",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.tights.no/wp-content/uploads/sites/7/2024/07/bodylab-pre-workout-gummies-lemon-lime-60-stk.png",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "olimp-redweiler",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dwe219de94/media/GG-Produktbilder/Olimp/redweiler_olimp.jpg?sw=400",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "evolite-ultrapump",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.kost1.no/users/kristiankost1_mystore_no/images/XtIKs_Evolite_Ultra_Pump_Stim_Free_PWO_-__1.jpg",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "abe-pump-500",
+      "type": "pwo-tested",
+      "status": "done",
+      "attempts": 0,
+      "image": "https://www.getfit.no/wp-content/uploads/2026/02/ABE-Pump-Blue-Raspberry.png",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "white-lion-pure-pump",
+      "type": "pwo-listed",
+      "status": "done",
+      "attempts": 1,
+      "lastAttemptAt": "2026-06-26T18:07:48.415Z",
+      "completedAt": "2026-06-26T18:07:50.937Z",
+      "image": "http://whitelion.no/cdn/shop/files/PP_siste.png?v=1762262257",
+      "source": "product-page"
+    },
+    {
+      "id": "white-lion-stim-free-blue-citrus",
+      "type": "pwo-listed",
+      "status": "done",
+      "attempts": 1,
+      "lastAttemptAt": "2026-06-26T18:07:50.937Z",
+      "completedAt": "2026-06-26T18:07:51.560Z",
+      "image": "http://whitelion.no/cdn/shop/files/Blue.png?v=1738808198",
+      "source": "product-page"
+    },
+    {
+      "id": "white-lion-natural",
+      "type": "pwo-listed",
+      "status": "done",
+      "attempts": 1,
+      "lastAttemptAt": "2026-06-26T18:07:51.560Z",
+      "completedAt": "2026-06-26T18:07:52.187Z",
+      "image": "http://whitelion.no/cdn/shop/files/pinkg.png?v=1738808184",
+      "source": "product-page"
+    },
+    {
+      "id": "white-lion-electro",
+      "type": "pwo-listed",
+      "status": "done",
+      "attempts": 1,
+      "lastAttemptAt": "2026-06-26T18:07:52.187Z",
+      "completedAt": "2026-06-26T18:07:53.131Z",
+      "image": "http://whitelion.no/cdn/shop/files/greenp.png?v=1738808090",
+      "source": "product-page"
+    },
+    {
+      "id": "white-lion-oblivion",
+      "type": "pwo-listed",
+      "status": "done",
+      "attempts": 1,
+      "lastAttemptAt": "2026-06-26T18:07:53.131Z",
+      "completedAt": "2026-06-26T18:07:54.000Z",
+      "image": "http://whitelion.no/cdn/shop/files/Jar-2.jpg?v=1715530766",
+      "source": "product-page"
+    },
+    {
+      "id": "off-the-hook-stim-free",
+      "type": "pwo-listed",
+      "status": "done",
+      "attempts": 3,
+      "lastAttemptAt": "2026-06-26T18:09:10.844Z",
+      "completedAt": "2026-06-26T18:09:11.422Z",
+      "image": "https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dwb6bbf5ce/Nya_produktbilder/Star_Nutrition/SETW80MIX.jpg?sw=266&sh=266&sm=fit&sfrm=png",
+      "source": "product-page"
+    },
+    {
+      "id": "sns-hemopump",
+      "type": "pwo-listed",
+      "status": "failed",
+      "attempts": 2,
+      "lastAttemptAt": "2026-06-26T18:08:20.174Z",
+      "error": "Fant ikke bilde på nett"
+    },
+    {
+      "id": "swedish-butcher",
+      "type": "pwo-listed",
+      "status": "failed",
+      "attempts": 2,
+      "lastAttemptAt": "2026-06-26T18:08:22.260Z",
+      "error": "Fant ikke bilde på nett"
+    },
+    {
+      "id": "stacker2-alpha-male",
+      "type": "pwo-listed",
+      "status": "failed",
+      "attempts": 2,
+      "lastAttemptAt": "2026-06-26T18:08:24.780Z",
+      "error": "Fant ikke bilde på nett"
+    },
+    {
+      "id": "on-amino-energy",
+      "type": "pwo-listed",
+      "status": "failed",
+      "attempts": 2,
+      "lastAttemptAt": "2026-06-26T18:08:26.788Z",
+      "error": "Fant ikke bilde på nett"
+    },
+    {
+      "id": "star-retake",
+      "type": "pwo-listed",
+      "status": "done",
+      "attempts": 1,
+      "lastAttemptAt": "2026-06-26T18:09:11.422Z",
+      "completedAt": "2026-06-26T18:09:11.844Z",
+      "image": "https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dwb6bbf5ce/Nya_produktbilder/Star_Nutrition/SETW80MIX.jpg?sw=266&sh=266&sm=fit&sfrm=png",
+      "source": "product-page"
+    },
+    {
+      "id": "bloody-pump",
+      "type": "pwo-listed",
+      "status": "done",
+      "attempts": 1,
+      "lastAttemptAt": "2026-06-26T18:09:11.844Z",
+      "completedAt": "2026-06-26T18:09:12.195Z",
+      "image": "https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dwb6bbf5ce/Nya_produktbilder/Star_Nutrition/SETW80MIX.jpg?sw=266&sh=266&sm=fit&sfrm=png",
+      "source": "product-page"
+    },
+    {
+      "id": "hype-pump-stim-free",
+      "type": "pwo-listed",
+      "status": "done",
+      "attempts": 1,
+      "lastAttemptAt": "2026-06-26T18:09:12.195Z",
+      "completedAt": "2026-06-26T18:09:13.746Z",
+      "image": "https://www.getfit.no/acd-cgi/img/v1/wp-content/uploads/2026/06/Hype-Pump-2-Pakk-New.png",
+      "source": "product-page"
+    },
+    {
+      "id": "usp-jack3d",
+      "type": "pwo-listed",
+      "status": "failed",
+      "attempts": 1,
+      "lastAttemptAt": "2026-06-26T18:09:13.746Z",
+      "error": "Fant ikke bilde på nett"
+    },
+    {
+      "id": "trec-marathon",
+      "type": "pwo-listed",
+      "status": "done",
+      "attempts": 1,
+      "lastAttemptAt": "2026-06-26T18:10:56.102Z",
+      "completedAt": "2026-06-26T18:10:57.216Z",
+      "image": "https://www.kost1.no/users/kristiankost1_mystore_no/images/y6WAD_Trec_Nutrition_Marathon_Endurance_-_400_gram_1.jpg",
+      "source": "product-page"
+    },
+    {
+      "id": "ghost-legend",
+      "type": "pwo-listed",
+      "status": "failed",
+      "attempts": 1,
+      "lastAttemptAt": "2026-06-26T18:10:57.216Z",
+      "error": "Fant ikke bilde på nett"
+    },
+    {
+      "id": "ghost-pump",
+      "type": "pwo-listed",
+      "status": "failed",
+      "attempts": 1,
+      "lastAttemptAt": "2026-06-26T18:10:58.163Z",
+      "error": "Fant ikke bilde på nett"
+    },
+    {
+      "id": "tommi-winning",
+      "type": "pwo-listed",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "tommi-die-hard",
+      "type": "pwo-listed",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "mr-hyde-v2",
+      "type": "pwo-listed",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "pump-red-breezer",
+      "type": "pwo-listed",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "unl-flow",
+      "type": "pwo-listed",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "dymatize-iso100",
+      "type": "protein",
+      "status": "done",
+      "attempts": 0,
+      "image": "/images/protein/dymatize-iso100.jpg",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "optimum-gold-standard",
+      "type": "protein",
+      "status": "done",
+      "attempts": 0,
+      "image": "/images/protein/optimum-gold-standard.jpg",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "bodylab-whey-100",
+      "type": "protein",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "star-whey-100",
+      "type": "protein",
+      "status": "done",
+      "attempts": 0,
+      "image": "/images/protein/star-whey-100.jpg",
+      "source": "existing-data",
+      "completedAt": "2026-06-26T18:07:34.854Z"
+    },
+    {
+      "id": "myprotein-impact-whey",
+      "type": "protein",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "scitec-100-whey-professional",
+      "type": "protein",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "applied-critical-whey",
+      "type": "protein",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "mutant-iso-surge",
+      "type": "protein",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "rule1-r1-protein",
+      "type": "protein",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "muscletech-nitrotech",
+      "type": "protein",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "kevin-levrone-levro-whey",
+      "type": "protein",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "ghost-whey",
+      "type": "protein",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "esn-designer-whey",
+      "type": "protein",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "biotech-iso-whey-zero",
+      "type": "protein",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "weider-premium-whey",
+      "type": "protein",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "proteinfabrikken-whey",
+      "type": "protein",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "smartsupps-whey",
+      "type": "protein",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "bsn-syntha6-isolate",
+      "type": "protein",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "olimp-pure-whey",
+      "type": "protein",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "qnt-delicious-whey",
+      "type": "protein",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "esn-isoclear",
+      "type": "protein",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "optimum-gold-standard-casein",
+      "type": "protein",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "myprotein-soy-isolate",
+      "type": "protein",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "myprotein-vegan-blend",
+      "type": "protein",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "proteinseries-100-whey",
+      "type": "protein",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "bulk-pure-whey",
+      "type": "protein",
+      "status": "pending",
+      "attempts": 0
+    }
+  ],
+  "lastRunAt": "2026-06-26T18:10:59.077Z"
+}
