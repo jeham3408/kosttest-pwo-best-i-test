@@ -15,7 +15,7 @@ Finn og implementer 1–3 konkrete forbedringer per kjøring. Kvalitet over kvan
 
 ### 1. Faktasjekk (høyest prioritet)
 
-- Verifiser doser, priser, karakterer og påstander i `src/data/pwoProducts.ts` og `src/data/blog.ts`.
+- Verifiser doser, priser, karakterer og påstander i `src/data/pwoProducts.ts`, `src/data/proteinProducts.ts`, `src/data/creatineProducts.ts` og `src/data/blog.ts`.
 - Sammenlign med offisielle produktsider, etiketter og kjente kilder.
 - Ikke finn på eller gjett data. Ved usikkerhet: noter det i PR-beskrivelsen i stedet for å endre.
 - Ikke endre `ingredientRules` eller karakterregler uten dokumentert kilde.
@@ -60,7 +60,9 @@ Finn og implementer 1–3 konkrete forbedringer per kjøring. Kvalitet over kvan
 
 | Fil | Formål |
 |-----|--------|
-| `src/data/pwoProducts.ts` | Produkter, doser, priser, karakterer |
+| `src/data/pwoProducts.ts` | PWO-produkter, doser, priser, karakterer |
+| `src/data/proteinProducts.ts` | Proteinpulver, DIAAS, priser |
+| `src/data/creatineProducts.ts` | Kreatin pulver + gummies |
 | `src/data/blog.ts` | Bloggposter |
 | `src/routing.ts` | URL, meta, sitemap |
 | `src/App.tsx` | Hovedlayout og sider |
