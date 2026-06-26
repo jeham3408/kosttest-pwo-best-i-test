@@ -3,13 +3,13 @@ import { listedProducts, testedProducts } from './data/pwoProducts'
 
 export const siteStats = {
   pwoTestedCount: testedProducts.length,
-  pwoListedCount: listedProducts.length,
+  pwoListedCount: new Set(listedProducts.map((product) => product.id)).size,
   pwoUnrankedCount: listedProducts.filter((product) => product.status !== 'Rangert').length,
   proteinTestedCount: testedProteinProducts.length,
   /** @deprecated use pwoTestedCount */
   testedCount: testedProducts.length,
   /** @deprecated use pwoListedCount */
-  listedCount: listedProducts.length,
+  listedCount: new Set(listedProducts.map((product) => product.id)).size,
   /** @deprecated use pwoUnrankedCount */
   unrankedCount: listedProducts.filter((product) => product.status !== 'Rangert').length,
 }
