@@ -292,8 +292,8 @@ export function ProteinLeaderboardBlock({
         </div>
         <div className="section-heading">
           <span>Proteinpulver best i test</span>
-          <h2>Fullstendig rangering</h2>
-          <p>Rangert etter DIAAS (primær) og pris per g protein. IAAS vises for sammenligning av aminosyreprofil.</p>
+          <h1>Fullstendig rangering</h1>
+          <p className="section-intro">Rangert etter DIAAS (primær) og pris per g protein. IAAS vises for sammenligning av aminosyreprofil.</p>
         </div>
         <div className="filter-bar">
           <span className="filter-label" style={{ fontSize: 11 }}>Type:</span>

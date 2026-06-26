@@ -1,4 +1,4 @@
-import { blogPosts } from './data/blog'
+import { blogPosts, findBlogPost } from './data/blog'
 import { testedProteinProducts } from './data/proteinProducts'
 import { testedProducts } from './data/pwoProducts'
 import { siteStats } from './siteStats'
@@ -15,6 +15,7 @@ export type AppPage =
   | 'protein-guide'
   | 'metode'
   | 'protein-metode'
+  | 'kilder'
 
 export type RouteState = {
   page: AppPage
@@ -111,7 +112,7 @@ export function parseRoute(path: string): RouteState {
     return { ...defaultRoute(), page: 'metode' }
   }
   if (route === '/kilder') {
-    return { ...defaultRoute(), page: 'home' }
+    return { ...defaultRoute(), page: 'kilder' }
   }
 
   return defaultRoute()
@@ -184,7 +185,7 @@ export function getPageMeta(state: RouteState): PageMeta {
     }
   }
   if (state.page === 'blog-post' && state.selectedProduct) {
-    const post = blogPosts.find((p) => p.id === state.selectedProduct)
+    const post = findBlogPost(state.selectedProduct)
     if (post) {
       return {
         title: `${post.title} | Kosttest.no`,
@@ -221,6 +222,15 @@ export function getPageMeta(state: RouteState): PageMeta {
       title: 'Slik scorer vi PWO – Åpen karaktermotor | Kosttest.no',
       description: 'Se hvordan vår transparente karaktermotor regner ut poeng for hvert produkt.',
       canonical: `${SITE}/om-metoden/`,
+      ogType: 'article',
+      ogImage: DEFAULT_OG,
+    }
+  }
+  if (state.page === 'kilder') {
+    return {
+      title: 'Kilder og referanser | Kosttest.no',
+      description: 'Åpne kilder bak PWO- og proteinrangeringen: ISSN-retningslinjer, produktsider og vitenskapelige referanser.',
+      canonical: `${SITE}/kilder/`,
       ogType: 'article',
       ogImage: DEFAULT_OG,
     }

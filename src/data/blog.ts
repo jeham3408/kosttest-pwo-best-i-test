@@ -232,3 +232,7 @@ export const blogPosts: BlogPost[] = [
     ],
   },
 ]
+
+export function findBlogPost(idOrSlug: string) {
+  return blogPosts.find((p) => p.id === idOrSlug || p.slug === idOrSlug)
+}
