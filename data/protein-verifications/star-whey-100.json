@@ -1,0 +1,50 @@
+{
+  "id": "star-whey-100",
+  "exists": true,
+  "verifiedAt": "2026-06-26T16:35:00.000Z",
+  "sources": [
+    "https://www.gymgrossisten.no/whey-100-myseprotein-1-kg/575R.html"
+  ],
+  "checks": {
+    "productPageLoads": true,
+    "nameMatches": true,
+    "nutritionFromLabel": true,
+    "priceFromMerchant": true
+  },
+  "corrections": [
+    "Feil URL: /star-nutrition-100-whey (404) → /whey-100-myseprotein-1-kg/575R.html",
+    "Feil navn: 100% Whey → Whey-100 (faktisk produktnavn på GG)",
+    "Feil pris: 399 → 549 kr (veil.pris sjokolade 1 kg)",
+    "Feil porsjon: 30 g → 37 g (anbefalt dosering på GG)",
+    "Feil porsjoner: 33 → 27 (1000 g / 37 g)",
+    "Feil protein%: 78 → 84 g/100 g (Double Rich Chocolate / Choklad-variant)",
+    "Feil proteintype: whey concentrate → whey isolate (100 % myseproteinisolat)",
+    "Leucin fjernet — ikke oppgitt på NO-etikett"
+  ],
+  "data": {
+    "name": "Whey-100",
+    "brand": "Star Nutrition",
+    "merchant": "Gymgrossisten",
+    "url": "https://www.gymgrossisten.no/whey-100-myseprotein-1-kg/575R.html",
+    "priceNok": 549,
+    "packageSizeG": 1000,
+    "packageSize": "1000 g",
+    "servingSizeG": 37,
+    "servingSize": "37 g",
+    "servings": 27,
+    "proteinPer100g": 84,
+    "proteinPerServingG": 31,
+    "sourceType": "whey-isolate",
+    "sourceLabel": "Whey isolate"
+  },
+  "lactoseAnalysis": {
+    "containsLactose": true,
+    "lowLactose": true,
+    "notLactoseFree": true,
+    "description": "Whey-100 er 100 % myseproteinisolat med svært lavt laktoseinnhold ifølge produsent. GG oppgir at det ikke er helt laktosefritt — personer med alvorlig laktoseintoleranse bør vurdere om produktet passer. Inneholder melkeallergen.",
+    "allergens": ["melk", "soya", "fenylalanin"],
+    "nutFree": true
+  },
+  "analysis": "Ekte Star Nutrition Whey-100 1 kg på Gymgrossisten (549 kr). Produktet er whey isolate fra Carbery med 82–87 % protein per 100 g avhengig av smak — vi bruker 84 % (sjokolade). Høyere kvalitet enn Whey-80, men også høyere pris. Lavt laktoseinnhold, men ikke egnet ved alvorlig intoleranse.",
+  "notes": "Protein% varierer mellom smaker (79–87 %). Pris kan variere mellom smaker (529–549 kr). Leucin/BCAA ikke på NO-etikett."
+}
