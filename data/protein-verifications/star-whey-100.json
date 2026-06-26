@@ -1,0 +1,50 @@
+{
+  "id": "star-whey-100",
+  "exists": true,
+  "verifiedAt": "2026-06-26T16:16:00.000Z",
+  "sources": [
+    "https://www.gymgrossisten.no/whey-100-myseprotein-1-kg/575R.html"
+  ],
+  "checks": {
+    "productPageLoads": true,
+    "nameMatches": true,
+    "nutritionFromLabel": true,
+    "priceFromMerchant": true
+  },
+  "corrections": [
+    "Feil URL: /star-nutrition-100-whey (404) → /whey-100-myseprotein-1-kg/575R.html",
+    "Navn: «100% Whey» → «Whey-100 Myseprotein» (faktisk produktnavn på GG)",
+    "Pris: 399 → 549 kr",
+    "Kildetype: whey-concentrate → whey-isolate (100 % myseproteinisolat)",
+    "Protein%: 78 → 84 (sjokolade, per 100 g etikett)",
+    "Porsjon: 30 g → 37 g (anbefalt dosering på GG)",
+    "Porsjoner: 33 → 27",
+    "Protein/dose: 23 → 31 g (84 % × 37 g)",
+    "Leucin fjernet — ikke oppgitt på NO-etikett"
+  ],
+  "data": {
+    "name": "Whey-100 Myseprotein",
+    "brand": "Star Nutrition",
+    "merchant": "Gymgrossisten",
+    "url": "https://www.gymgrossisten.no/whey-100-myseprotein-1-kg/575R.html",
+    "priceNok": 549,
+    "packageSizeG": 1000,
+    "packageSize": "1000 g",
+    "servingSizeG": 37,
+    "servingSize": "37 g",
+    "servings": 27,
+    "proteinPer100g": 84,
+    "proteinPerServingG": 31,
+    "sourceType": "whey-isolate",
+    "sourceLabel": "100% whey protein isolate"
+  },
+  "lactoseAnalysis": {
+    "containsLactose": true,
+    "description": "100 % myseproteinisolat med lavt laktoseinnhold ifølge produsent, men ikke laktosefritt. GG oppgir at personer med alvorlig laktoseintoleranse bør vurdere om produktet passer. Inneholder melkeprotein og laktose som allergener.",
+    "allergens": ["melk", "laktose", "soya", "fenylalanin"],
+    "notLactoseFree": true,
+    "lowLactose": true
+  },
+  "analysis": "Star Nutrition Whey-100 er et svensk/nordisk whey isolate med svært høyt proteininnhold (84 % sjokolade) og 31 g protein per 37 g dose. Pris 549 kr for 1 kg er høyere enn repo antok (399 kr), men kvaliteten som ren isolate er bedre enn opprinnelig concentrate-data. Lav laktose, men ikke egnet for alle med laktoseintoleranse.",
+  "notes": "Protein% varierer 79–87 % mellom smaker — vi bruker 84 % (Chocolate). Inneholder aspartam*. Måleskje følger ikke med."
+}
