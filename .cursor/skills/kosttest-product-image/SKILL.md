@@ -65,10 +65,19 @@ node scripts/product-image-queue.mjs init
 
 ## Bildesøk-prioritet
 
-1. `og:image` / `twitter:image` fra produkt-URL
+1. `og:image` / `twitter:image` fra produkt-URL (inkl. oppdagede URL-er via Gymgrossisten-søk)
 2. Shopify JSON-LD / Demandware-bilder i HTML
-3. Bing bildesøk (`merke + navn + pre workout produkt`)
+3. Bing bildesøk med `site:gymgrossisten.no` / `site:myprotein.no` når relevant
 4. DuckDuckGo bildesøk (fallback)
+
+Ved funnet bilde via annen URL enn i datafilen: oppdater også produkt-URL (faktasjekk).
+
+### Nytt forsøk etter forbedringer
+
+```bash
+npm run product:image:retry
+npm run product:image:run
+```
 
 ## Nøkkelfiler
 

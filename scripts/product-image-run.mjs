@@ -11,6 +11,7 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import {
   applyImageUpdate,
+  applyUrlUpdate,
   assessProduct,
   findProductImage,
   loadAllProducts,
@@ -96,6 +97,10 @@ async function main() {
     entry.search = { query: found.query, source: found.source, candidates: found.candidates?.length || 0 }
 
     if (found.image) {
+      if (found.resolvedUrl && found.resolvedUrl !== product.url) {
+        applyUrlUpdate({ catalog: product.catalog, productId: id, productUrl: found.resolvedUrl })
+        entry.urlCorrected = { from: product.url, to: found.resolvedUrl }
+      }
       applyImageUpdate({ catalog: product.catalog, productId: id, imageUrl: found.image })
       fs.mkdirSync(REPORTS_DIR, { recursive: true })
       fs.writeFileSync(
@@ -108,7 +113,8 @@ async function main() {
             pageOk: assessment.pageOk,
             imageAdded: found.image,
             imageSource: found.source,
-            productUrl: product.url,
+            productUrl: found.resolvedUrl || product.url,
+            previousUrl: product.url !== found.resolvedUrl ? product.url : undefined,
             sources: found.sources,
           },
           null,

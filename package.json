@@ -14,7 +14,8 @@
     "protein:verify:sync-md": "node scripts/protein-verify-queue.mjs sync-md",
     "product:image:init": "node scripts/product-image-queue.mjs init",
     "product:image:run": "node scripts/product-image-run.mjs",
-    "product:image:status": "node scripts/product-image-queue.mjs status"
+    "product:image:status": "node scripts/product-image-queue.mjs status",
+    "product:image:retry": "node scripts/product-image-queue.mjs retry-failed"
   },
   "dependencies": {
     "lucide-react": "^1.14.0",

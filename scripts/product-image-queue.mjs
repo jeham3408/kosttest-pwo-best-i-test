@@ -353,6 +353,24 @@ function cmdSkip(args) {
   console.log(JSON.stringify({ ok: true, id, status: 'failed', reason }))
 }
 
+function cmdRetryFailed() {
+  const queue = readQueue()
+  let count = 0
+  for (const item of queue.queue) {
+    if (item.status !== 'failed') continue
+    item.status = 'pending'
+    item.completedAt = null
+    item.failReason = null
+    item.attempts = 0
+    count++
+  }
+  queue.currentBatchIds = []
+  queue.currentRunStartedAt = null
+  writeQueue(queue)
+  syncMarkdown()
+  console.log(JSON.stringify({ ok: true, retried: count }))
+}
+
 function cmdStatus() {
   const q = readQueue()
   const counts = q.queue.reduce((acc, item) => {
@@ -383,6 +401,9 @@ switch (command) {
     break
   case 'start':
     cmdStart()
+    break
+  case 'retry-failed':
+    cmdRetryFailed()
     break
   case 'status':
     cmdStatus()

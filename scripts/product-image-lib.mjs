@@ -146,6 +146,21 @@ function decodeHtmlEntities(value) {
     .replace(/&gt;/g, '>')
 }
 
+export function normalizeImageUrl(imageUrl) {
+  if (!imageUrl) return imageUrl
+  let cleaned = imageUrl.split('&format=')[0].split('?')[0]
+  try {
+    const parsed = new URL(cleaned)
+    if (parsed.hostname.includes('thgimages.com') || parsed.hostname.includes('myprotein.no')) {
+      const nested = parsed.searchParams.get('url')
+      if (nested) return decodeURIComponent(nested).split('&format=')[0].split('?')[0]
+    }
+  } catch {
+    // keep original
+  }
+  return cleaned
+}
+
 function extractMetaImages(html, baseUrl) {
   const images = []
   const patterns = [
@@ -155,12 +170,16 @@ function extractMetaImages(html, baseUrl) {
     /<meta[^>]+content=["']([^"']+)["'][^>]+name=["']twitter:image["']/gi,
     /"image"\s*:\s*"(https?:[^"]+\.(?:jpg|jpeg|png|webp)[^"]*)"/gi,
     /"image"\s*:\s*\[\s*"(https?:[^"]+\.(?:jpg|jpeg|png|webp)[^"]*)"/gi,
+    /https?:\/\/static\.thcdn\.com\/productimg\/[^"'\s]+/gi,
+    /https?:\/\/[^"'\s]+demandware\.static[^"'\s]+\.(?:jpg|jpeg|png|webp)[^"'\s]*/gi,
+    /https?:\/\/cdn\.shopify\.com\/[^"'\s]+\.(?:jpg|jpeg|png|webp)[^"'\s]*/gi,
   ]
   for (const re of patterns) {
     let m
     while ((m = re.exec(html)) !== null) {
       try {
-        const absolute = new URL(decodeHtmlEntities(m[1]), baseUrl).href
+        const raw = decodeHtmlEntities(m[1] ?? m[0])
+        const absolute = normalizeImageUrl(new URL(raw, baseUrl).href)
         if (!images.includes(absolute)) images.push(absolute)
       } catch {
         // skip invalid URLs
@@ -185,6 +204,141 @@ function extractShopifyProductImage(html, pageUrl) {
     // ignore
   }
   return null
+}
+
+const BLOCKED_PAGE_PATTERNS = [
+  'Retur-angrerett',
+  'medlemspris',
+  'hvorfor-velge',
+  'kampanje',
+  'landing',
+  'artikel',
+]
+
+function scoreProductPageUrl(href, brand, name, catalog = '') {
+  const slug = href.toLowerCase()
+  const brandTokens = tokenize(brand).filter((t) => t.length > 3)
+  const nameTokens = tokenize(name).filter((t) => !['protein', 'whey', 'blend', 'isolate', 'gold', 'standard', 'tech'].includes(t))
+  let score = 0
+  if (brandTokens.some((t) => slug.includes(t))) score += 2
+  score += nameTokens.filter((t) => slug.includes(t)).length * 2
+  const requiredTokens = tokenize(name).filter((t) => ['nitro', 'impact', 'surge', 'iso', 'levro', 'hyde'].includes(t))
+  if (requiredTokens.length && !requiredTokens.some((t) => slug.includes(t))) score -= 4
+  if (catalog === 'protein') {
+    if (slug.includes('myseprotein') || slug.includes('protein') || slug.includes('whey') || slug.includes('casein') || slug.includes('isolate')) {
+      score += 2
+    }
+    if (slug.includes('pant') || slug.includes('shaker') || slug.includes('intra') || slug.includes('klær') || slug.includes('apparel')) {
+      score -= 6
+    }
+  }
+  if (catalog === 'pwo-tested' || catalog === 'pwo-listed-only') {
+    if (slug.includes('pwo') || slug.includes('pre-workout') || slug.includes('preworkout')) score += 2
+  }
+  return score
+}
+
+function isProductPageImage(imageUrl, pageUrl) {
+  const haystack = imageUrl.toLowerCase()
+  if (
+    haystack.includes('campaign_banners') ||
+    haystack.includes('banner_bank') ||
+    haystack.includes('landningssida') ||
+    haystack.includes('/logo.') ||
+    haystack.includes('/assets/logo') ||
+    haystack.endsWith('logo.png')
+  ) {
+    return false
+  }
+  if (pageUrl?.includes('gymgrossisten') && haystack.includes('demandware.static')) {
+    return haystack.includes('produktbilder') || haystack.includes('hi-res') || haystack.includes('nya_produktbilder')
+  }
+  return true
+}
+
+async function fetchShopifyProductJson(pageUrl) {
+  try {
+    const jsonUrl = pageUrl.replace(/\/$/, '') + '.json'
+    const res = await fetch(jsonUrl, { headers: { 'User-Agent': USER_AGENT } })
+    if (!res.ok) return null
+    const data = await res.json()
+    const images = data?.product?.images || []
+    return images.map((img) => img.src).filter(Boolean)
+  } catch {
+    return null
+  }
+}
+
+async function searchGymgrossisten(brand, name, catalog = '') {
+  const query = `${brand} ${name}`.replace(/\s+/g, ' ').trim()
+  const searchUrl = `https://www.gymgrossisten.no/search?q=${encodeURIComponent(query)}`
+  try {
+    const res = await fetch(searchUrl, { headers: { 'User-Agent': USER_AGENT } })
+    if (!res.ok) return []
+    const html = await res.text()
+    const links = [...html.matchAll(/href="(\/[^"]+\.html)"/g)]
+      .map((m) => m[1])
+      .filter((href) => !BLOCKED_PAGE_PATTERNS.some((blocked) => href.includes(blocked)))
+      .map((href) => `https://www.gymgrossisten.no${href}`)
+      .sort((a, b) => scoreProductPageUrl(b, brand, name, catalog) - scoreProductPageUrl(a, brand, name, catalog))
+      .filter((href) => scoreProductPageUrl(href, brand, name, catalog) >= 2)
+    return [...new Set(links)].slice(0, 5)
+  } catch {
+    return []
+  }
+}
+
+async function searchMyprotein(brand, name) {
+  const query = `${name}`.replace(/\s+/g, ' ').trim()
+  const searchUrl = `https://www.myprotein.no/search?q=${encodeURIComponent(query)}`
+  try {
+    const res = await fetch(searchUrl, { headers: { 'User-Agent': USER_AGENT } })
+    if (!res.ok) return []
+    const html = await res.text()
+    const nameTokens = tokenize(name).filter((t) => !['protein', 'whey', 'blend', 'isolate'].includes(t))
+    const links = [...html.matchAll(/href="(\/p\/[^"]+)"/g)]
+      .map((m) => `https://www.myprotein.no${m[1]}`)
+      .filter((href) => {
+        const slug = href.toLowerCase()
+        const hits = nameTokens.filter((t) => slug.includes(t))
+        return hits.length >= Math.min(2, nameTokens.length)
+      })
+    return [...new Set(links)].slice(0, 5)
+  } catch {
+    return []
+  }
+}
+
+async function discoverProductUrls({ brand, name, url, merchant, catalog = '' }) {
+  const urls = []
+  if (url) urls.push(url)
+
+  if (url?.includes('gymgrossisten.no') || merchant?.toLowerCase().includes('gymgrossisten')) {
+    for (const found of await searchGymgrossisten(brand, name, catalog)) {
+      if (!urls.includes(found)) urls.push(found)
+    }
+  }
+
+  if (brand?.toLowerCase() === 'muscletech' && name.toLowerCase().includes('nitro')) {
+    urls.push('https://www.muscletech.com/products/nitro-tech-100-whey-gold')
+  }
+
+  if (brand?.toLowerCase() === 'ghost' && catalog === 'protein') {
+    urls.unshift('https://www.ghostlifestyle.com/products/ghost-whey-x-trix-trix-cereal-milk')
+  }
+
+  if (url?.includes('myprotein.no') || brand?.toLowerCase().includes('myprotein')) {
+    for (const found of await searchMyprotein(brand, name)) {
+      if (!urls.includes(found)) urls.push(found)
+    }
+    const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+    urls.push(`https://www.myprotein.no/p/sports-nutrition-nc/${slug}/`)
+    if (name.toLowerCase().includes('impact whey')) {
+      urls.push('https://www.myprotein.no/p/sports-nutrition-nc/impact-whey-protein-chocolate-1kg/11068071/')
+    }
+  }
+
+  return [...new Set(urls)]
 }
 
 async function searchBingImages(query) {
@@ -244,6 +398,12 @@ const BLOCKED_IMAGE_HOSTS = [
   'ftcdn.net',
   'pinimg.com',
   'media-amazon.com',
+  'srcdn.com',
+  'wordpress.com',
+  'bp.blogspot.com',
+  'boredpanda.com',
+  'buzzfeed.com',
+  'wallpapers.com',
 ]
 
 function tokenize(...parts) {
@@ -262,11 +422,15 @@ function isRelevantImage(imageUrl, { brand, name, merchant, catalog }) {
 
   const haystack = imageUrl.toLowerCase()
   const tokens = tokenize(brand, name, merchant)
-  const productTokens = tokens.filter(
-    (t) => !['nutrition', 'sports', 'labs', 'europe', 'pre', 'workout', 'stim', 'free', 'pwo'].includes(t),
-  )
+  const stopWords = new Set([
+    'nutrition', 'sports', 'labs', 'europe', 'pre', 'workout', 'stim', 'free', 'pwo', 'protein', 'whey', 'the', 'and',
+  ])
+  const productTokens = tokens.filter((t) => !stopWords.has(t))
   const hits = productTokens.filter((t) => haystack.includes(t))
-  if (hits.length >= 1) return { ok: true, score: hits.length }
+  if (hits.length >= 2) return { ok: true, score: hits.length }
+  if (hits.length >= 1 && (catalog === 'protein' ? haystack.includes('protein') || haystack.includes('whey') : haystack.includes('pwo') || haystack.includes('pre'))) {
+    return { ok: true, score: hits.length + 1 }
+  }
 
   const trustedHosts = [
     'gymgrossisten.no',
@@ -282,10 +446,10 @@ function isRelevantImage(imageUrl, { brand, name, merchant, catalog }) {
     'myrevolution.no',
     'naturecan.no',
     'helsekost.no',
+    'thcdn.com',
+    'ghostlifestyle.com',
   ]
-  if (trustedHosts.some((h) => haystack.includes(h))) return { ok: true, score: 2 }
-
-  if (catalog === 'protein' && haystack.includes('protein')) return { ok: true, score: 1 }
+  if (trustedHosts.some((h) => haystack.includes(h)) && hits.length >= 1) return { ok: true, score: 2 }
 
   return { ok: false, score: 0 }
 }
@@ -293,41 +457,78 @@ function isRelevantImage(imageUrl, { brand, name, merchant, catalog }) {
 export async function findProductImage({ name, brand, url, catalog, merchant = '' }) {
   const sources = []
   const candidates = []
+  let resolvedUrl = url
 
-  if (url) {
-    const page = await checkProductUrl(url)
-    if (page.ok) {
-      sources.push(url)
-      for (const img of extractMetaImages(page.html, url)) candidates.push({ url: img, source: 'og:image' })
-      const shopify = extractShopifyProductImage(page.html, url)
-      if (shopify) candidates.push({ url: shopify, source: 'shopify-json' })
-      const demandware = page.html.match(/https?:\/\/[^"'\s]+demandware\.static[^"'\s]+\.(?:jpg|jpeg|png|webp)[^"'\s]*/i)
-      if (demandware) candidates.push({ url: demandware[0].replace(/\\u0026/g, '&'), source: 'demandware' })
+  const urlsToTry = await discoverProductUrls({ brand, name, url, merchant, catalog })
+  for (const tryUrl of urlsToTry) {
+    const page = await checkProductUrl(tryUrl)
+    if (!page.ok) continue
+    const pageScore = scoreProductPageUrl(tryUrl, brand, name, catalog)
+    if (pageScore < 2 && tryUrl !== url) continue
+    sources.push(tryUrl)
+    if (!resolvedUrl || resolvedUrl === url) resolvedUrl = tryUrl
+    for (const img of extractMetaImages(page.html, tryUrl)) {
+      const normalized = normalizeImageUrl(img)
+      if (isProductPageImage(normalized, tryUrl)) {
+        candidates.push({ url: normalized, source: 'og:image', pageScore })
+      }
     }
+    const shopify = extractShopifyProductImage(page.html, tryUrl)
+    if (shopify && isProductPageImage(shopify, tryUrl)) {
+      candidates.push({ url: normalizeImageUrl(shopify), source: 'shopify-json', pageScore })
+    }
+    if (tryUrl.includes('shopify') || tryUrl.includes('ghostlifestyle') || tryUrl.includes('myrevolution')) {
+      for (const img of (await fetchShopifyProductJson(tryUrl)) || []) {
+        if (isProductPageImage(img, tryUrl)) {
+          candidates.push({ url: normalizeImageUrl(img), source: 'shopify-json', pageScore: Math.max(pageScore, 2) })
+        }
+      }
+    }
+    const demandware = page.html.match(/https?:\/\/[^"'\s]+demandware\.static[^"'\s]+\.(?:jpg|jpeg|png|webp)[^"'\s]*/i)
+    if (demandware) {
+      const img = normalizeImageUrl(demandware[0].replace(/\\u0026/g, '&'))
+      if (isProductPageImage(img, tryUrl)) candidates.push({ url: img, source: 'demandware', pageScore })
+    }
+    if (candidates.length) break
   }
 
   const productKind = catalog === 'protein' ? 'proteinpulver' : 'pre workout PWO'
   const query = `${brand} ${name} ${productKind}`.replace(/\s+/g, ' ').trim()
-  for (const img of await searchBingImages(query)) candidates.push({ url: img, source: 'bing' })
+  const siteQuery =
+    merchant?.toLowerCase().includes('gymgrossisten') || url?.includes('gymgrossisten')
+      ? `site:gymgrossisten.no ${brand} ${name}`
+      : url?.includes('myprotein')
+        ? `site:myprotein.no ${brand} ${name}`
+        : query
+  for (const img of await searchBingImages(siteQuery)) candidates.push({ url: normalizeImageUrl(img), source: 'bing' })
   if (!candidates.length) {
-    for (const img of await searchDuckDuckGoImages(query)) candidates.push({ url: img, source: 'duckduckgo' })
+    for (const img of await searchBingImages(query)) candidates.push({ url: normalizeImageUrl(img), source: 'bing' })
+  }
+  if (!candidates.length) {
+    for (const img of await searchDuckDuckGoImages(query)) candidates.push({ url: normalizeImageUrl(img), source: 'duckduckgo' })
   }
 
   const seen = new Set()
   for (const candidate of candidates) {
-    if (seen.has(candidate.url)) continue
-    seen.add(candidate.url)
-    const relevance = isRelevantImage(candidate.url, { brand, name, merchant, catalog })
-    if (!relevance.ok) continue
+    const imageUrl = normalizeImageUrl(candidate.url)
+    if (seen.has(imageUrl)) continue
+    seen.add(imageUrl)
+    const relevance = isRelevantImage(imageUrl, { brand, name, merchant, catalog })
+    const trustedPageImage = ['og:image', 'shopify-json', 'demandware'].includes(candidate.source) && (candidate.pageScore ?? 0) >= 2
+    if (!relevance.ok && !trustedPageImage) continue
     if (candidate.source === 'bing' || candidate.source === 'duckduckgo') {
       if (relevance.score < 2) continue
     }
-    if (await checkImageUrl(candidate.url)) {
-      return { image: candidate.url, source: candidate.source, sources, query }
+    if (await checkImageUrl(imageUrl)) {
+      const urlChanged = resolvedUrl && resolvedUrl !== url
+      if (urlChanged && scoreProductPageUrl(resolvedUrl, brand, name, catalog) < 2) {
+        resolvedUrl = undefined
+      }
+      return { image: imageUrl, source: candidate.source, sources, query, resolvedUrl }
     }
   }
 
-  return { image: null, source: null, sources, query, candidates: candidates.map((c) => c.url) }
+  return { image: null, source: null, sources, query, resolvedUrl, candidates: candidates.map((c) => c.url) }
 }
 
 export function escapeForTs(value) {
@@ -371,6 +572,47 @@ export function updateProteinProductImage(proteinSrc, productId, imageUrl) {
   const idPattern = new RegExp(`(id:\\s*'${productId}'[\\s\\S]*?image:\\s*)(?:IMG|'[^']*'|\"[^\"]*\")(,)`)
   if (!idPattern.test(proteinSrc)) return null
   return proteinSrc.replace(idPattern, `$1'${escapeForTs(imageUrl)}'$2`)
+}
+
+function updateProductUrlInBlock(src, productId, newUrl, { listedOnly = false } = {}) {
+  if (listedOnly) {
+    const listedStart = src.indexOf('export const listedProducts')
+    const listedEnd = src.indexOf('export const sourceLinks', listedStart)
+    if (listedStart === -1 || listedEnd === -1) return null
+    const listedSection = src.slice(listedStart, listedEnd)
+    const idIdx = listedSection.indexOf(`id: '${productId}'`)
+    if (idIdx === -1) return null
+    const blockStart = listedSection.lastIndexOf('{', idIdx)
+    const blockEnd = listedSection.indexOf('},', idIdx)
+    if (blockStart === -1 || blockEnd === -1) return null
+    let block = listedSection.slice(blockStart, blockEnd + 2)
+    block = block.replace(/url:\s*'[^']*'/, `url: '${escapeForTs(newUrl)}'`)
+    const updatedListed = listedSection.slice(0, blockStart) + block + listedSection.slice(blockEnd + 2)
+    return src.slice(0, listedStart) + updatedListed + src.slice(listedEnd)
+  }
+
+  const idPattern = new RegExp(`(id:\\s*'${productId}'[\\s\\S]*?url:\\s*)'[^']*'`)
+  if (!idPattern.test(src)) return null
+  return src.replace(idPattern, `$1'${escapeForTs(newUrl)}'`)
+}
+
+export function applyUrlUpdate({ catalog, productId, productUrl }) {
+  if (catalog === 'pwo-listed-only') {
+    const src = readText(PWO_PATH)
+    const updated = updateProductUrlInBlock(src, productId, productUrl, { listedOnly: true })
+    if (!updated) throw new Error(`Kunne ikke oppdatere URL for listed-only product ${productId}`)
+    writeText(PWO_PATH, updated)
+    return PWO_PATH
+  }
+  if (catalog === 'pwo-tested' || catalog === 'protein') {
+    const filePath = catalog === 'protein' ? PROTEIN_PATH : PWO_PATH
+    const src = readText(filePath)
+    const updated = updateProductUrlInBlock(src, productId, productUrl)
+    if (!updated) throw new Error(`Kunne ikke oppdatere URL for ${productId}`)
+    writeText(filePath, updated)
+    return filePath
+  }
+  throw new Error(`Ukjent catalog: ${catalog}`)
 }
 
 export function applyImageUpdate({ catalog, productId, imageUrl }) {
