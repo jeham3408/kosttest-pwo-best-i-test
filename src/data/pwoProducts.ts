@@ -2573,7 +2573,8 @@ export const listedProducts: ListedProduct[] = [
     packageSize: '525 g',
     status: 'Koffeinfri',
     reason: 'Stim-free variant av Off The Hook. Må dosekontrollerast før ev. score.',
-    url: 'https://www.gymgrossisten.no/off-the-hook-pwo-stim-free-525-g/5889R.html',
+    url: 'https://www.gymgrossisten.no/off-the-hook-pwo-stim-free-525-g/5887R.html',
+    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw9206d713/Nya_produktbilder/Chained_Nutrition/5887R_Chained_Nutrition_OffTheHook_STIMFREE_Blueberry_nov20.png',
   },
   {
     id: 'sns-hemopump',

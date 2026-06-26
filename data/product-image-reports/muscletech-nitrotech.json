@@ -1,5 +1,13 @@
 {
   "id": "muscletech-nitrotech",
-  "failedAt": "2026-06-26T16:08:32.047Z",
-  "reason": "Fant ikke gyldig bilde på nett"
+  "catalog": "protein",
+  "verifiedAt": "2026-06-26T17:11:33.366Z",
+  "pageOk": false,
+  "imageAdded": "https://www.muscletech.com/cdn/shop/files/mt-nitro-tech-100-whey-gold-cookies-cream-5lb.png",
+  "imageSource": "og:image",
+  "productUrl": "https://www.muscletech.com/products/nitro-tech-100-whey-gold",
+  "previousUrl": "https://www.gymgrossisten.no/muscletech-nitro-tech",
+  "sources": [
+    "https://www.muscletech.com/products/nitro-tech-100-whey-gold"
+  ]
 }

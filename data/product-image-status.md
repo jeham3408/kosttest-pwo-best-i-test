@@ -6,42 +6,42 @@
 
 | productId | Merke | Navn | Ferdig | Resultat |
 |-----------|-------|------|--------|----------|
-| `muscletech-nitrotech` | MuscleTech | Nitro-Tech Whey Gold | 2026-06-26 16:08 | ❌ feilet |
-| `mr-hyde-v2` | ProSupps | Mr Hyde Signature V2 PWO | 2026-06-26 16:08 | ❌ feilet |
-| `kevin-levrone-levro-whey` | Kevin Levrone | Levro Whey Supreme | 2026-06-26 16:08 | ❌ feilet |
+| `off-the-hook-stim-free` | Chained Nutrition | Off the Hook PWO Stim Free 525 g | 2026-06-26 17:11 | 🖼️ bilde lagt til |
+| `myprotein-vegan-blend` | MyProtein | Vegan Protein Blend | 2026-06-26 17:11 | ❌ feilet |
+| `myprotein-soy-isolate` | MyProtein | Soy Protein Isolate | 2026-06-26 17:11 | ❌ feilet |
+| `myprotein-impact-whey` | MyProtein | Impact Whey Protein | 2026-06-26 17:11 | 🖼️ bilde lagt til |
+| `muscletech-nitrotech` | MuscleTech | Nitro-Tech Whey Gold | 2026-06-26 17:11 | 🖼️ bilde lagt til |
+| `ghost-whey` | Ghost | Ghost Whey | 2026-06-26 17:11 | 🖼️ bilde lagt til |
+| `mutant-iso-surge` | Mutant | ISO Surge | 2026-06-26 17:09 | 🖼️ bilde lagt til |
+| `mr-hyde-v2` | ProSupps | Mr Hyde Signature V2 PWO | 2026-06-26 17:09 | ❌ feilet |
+| `kevin-levrone-levro-whey` | Kevin Levrone | Levro Whey Supreme | 2026-06-26 17:09 | ❌ feilet |
 | `hype-pump-stim-free` | Näno Supps | Hype Pump Stim Free PWO 420 g | 2026-06-26 16:08 | 🖼️ bilde lagt til |
-| `ghost-whey` | Ghost | Ghost Whey | 2026-06-26 16:08 | ❌ feilet |
 | `ghost-pump` | Ghost | Ghost Pump (stim-free) | 2026-06-26 16:07 | 🖼️ bilde lagt til |
 | `ghost-legend` | Ghost | Ghost Legend Pre-Workout | 2026-06-26 16:07 | 🖼️ bilde lagt til |
 | `esn-isoclear` | ESN | Isoclear Whey Isolate | 2026-06-26 16:07 | 🖼️ bilde lagt til |
 | `esn-designer-whey` | ESN | Designer Whey Protein | 2026-06-26 16:07 | 🖼️ bilde lagt til |
-| `bulk-pure-whey` | Bulk | Pure Whey Protein | 2026-06-26 16:07 | ❌ feilet |
-| `bsn-syntha6-isolate` | BSN | Syntha-6 Isolate | 2026-06-26 16:07 | ❌ feilet |
 | `bodylab-whey-100` | Bodylab | Whey 100 | 2026-06-26 16:07 | 🖼️ bilde lagt til |
-| `bloody-pump` | Gymgrossisten | Bloody Pump PWO 300 g | 2026-06-26 16:07 | ❌ feilet |
-| `biotech-iso-whey-zero` | BioTech USA | Iso Whey Zero | 2026-06-26 16:07 | ❌ feilet |
-| `applied-critical-whey` | Applied Nutrition | Critical Whey | 2026-06-26 16:07 | ❌ feilet |
 | `peveo-stim-free` | Peveo | PWO-Stim-free | 2026-06-26 16:06 | ✅ bilde OK |
 | `star-ultimate` | Star Nutrition | Ultimate PWO 275 g | 2026-06-26 16:06 | ✅ bilde OK |
 | `white-lion-supervillain` | White Lion | Supervillain PWO Hero Punch | 2026-06-26 16:06 | ✅ bilde OK |
 | `applied-abe` | Applied Nutrition | ABE PWO 315 g | 2026-06-26 16:06 | ✅ bilde OK |
 | `bsn-noxplode-50` | BSN | N.O.-Xplode PWO 50 porsjoner | 2026-06-26 16:06 | ✅ bilde OK |
 
-**Ferdig behandlet:** `muscletech-nitrotech`, `mr-hyde-v2`, `kevin-levrone-levro-whey`, `hype-pump-stim-free`, `ghost-whey`, `ghost-pump`, `ghost-legend`, `esn-isoclear`, `esn-designer-whey`, `bulk-pure-whey`, `bsn-syntha6-isolate`, `bodylab-whey-100`, `bloody-pump`, `biotech-iso-whey-zero`, `applied-critical-whey`, `peveo-stim-free`, `star-ultimate`, `white-lion-supervillain`, `applied-abe`, `bsn-noxplode-50`
+**Ferdig behandlet:** `off-the-hook-stim-free`, `myprotein-vegan-blend`, `myprotein-soy-isolate`, `myprotein-impact-whey`, `muscletech-nitrotech`, `ghost-whey`, `mutant-iso-surge`, `mr-hyde-v2`, `kevin-levrone-levro-whey`, `hype-pump-stim-free`, `ghost-pump`, `ghost-legend`, `esn-isoclear`, `esn-designer-whey`, `bodylab-whey-100`, `peveo-stim-free`, `star-ultimate`, `white-lion-supervillain`, `applied-abe`, `bsn-noxplode-50`
 
 ## 2. ➡️ NÅ — BEHANDLE NESTE BATCH
 
-Kjør `node scripts/product-image-queue.mjs start` eller `node scripts/product-image-run.mjs` for å låse neste 5 produkter.
+Kjør `node scripts/product-image-queue.mjs start` eller `node scripts/product-image-run.mjs` for å låse neste 6 produkter.
 
-Neste i kø: `mutant-iso-surge`, `myprotein-impact-whey`, `myprotein-soy-isolate`, `myprotein-vegan-blend`, `off-the-hook-stim-free`
+Neste i kø: `olimp-pure-whey`, `on-amino-energy`, `optimum-gold-standard-casein`, `proteinfabrikken-whey`, `proteinseries-100-whey`, `pump-red-breezer`
 
 ## 3. ⬅️ Sist ferdig
 
 | Felt | Verdi |
 |------|-------|
-| productId | `muscletech-nitrotech` |
-| resultat | ❌ feilet |
-| ferdig | 2026-06-26 16:08 |
+| productId | `off-the-hook-stim-free` |
+| resultat | 🖼️ bilde lagt til |
+| ferdig | 2026-06-26 17:11 |
 
 ## Oppsummering
 
@@ -50,26 +50,26 @@ Neste i kø: `mutant-iso-surge`, `myprotein-impact-whey`, `myprotein-soy-isolate
 | Totalt | 93 |
 | Venter | 73 |
 | Bilde OK | 5 |
-| Bilde lagt til | 6 |
-| Feilet | 9 |
-| Batch-størrelse | 5 |
-| Siste kjøring | 2026-06-26 16:08 |
+| Bilde lagt til | 11 |
+| Feilet | 4 |
+| Batch-størrelse | 6 |
+| Siste kjøring | 2026-06-26 17:11 |
 | Cron | `0 * * * *` (hver time) |
 
 ## Produktkø
 
 | # | ID | Merke | Navn | Katalog | Status | Ferdig |
 |---|-----|-------|------|---------|--------|--------|
-| 1 | ghost-whey | Ghost | Ghost Whey | protein | ❌ feilet | 2026-06-26 |
+| 1 | ghost-whey | Ghost | Ghost Whey | protein | 🖼️ bilde lagt til | 2026-06-26 |
 | 2 | hype-pump-stim-free | Näno Supps | Hype Pump Stim Free PWO 420 g | pwo-listed-only | 🖼️ bilde lagt til | 2026-06-26 |
 | 3 | kevin-levrone-levro-whey | Kevin Levrone | Levro Whey Supreme | protein | ❌ feilet | 2026-06-26 |
 | 4 | mr-hyde-v2 | ProSupps | Mr Hyde Signature V2 PWO | pwo-listed-only | ❌ feilet | 2026-06-26 |
-| 5 | muscletech-nitrotech | MuscleTech | Nitro-Tech Whey Gold | protein | ❌ feilet | 2026-06-26 |
-| 6 | mutant-iso-surge | Mutant | ISO Surge | protein | ⏳ venter | — |
-| 7 | myprotein-impact-whey | MyProtein | Impact Whey Protein | protein | ⏳ venter | — |
-| 8 | myprotein-soy-isolate | MyProtein | Soy Protein Isolate | protein | ⏳ venter | — |
-| 9 | myprotein-vegan-blend | MyProtein | Vegan Protein Blend | protein | ⏳ venter | — |
-| 10 | off-the-hook-stim-free | Chained Nutrition | Off the Hook PWO Stim Free 525 g | pwo-listed-only | ⏳ venter | — |
+| 5 | muscletech-nitrotech | MuscleTech | Nitro-Tech Whey Gold | protein | 🖼️ bilde lagt til | 2026-06-26 |
+| 6 | mutant-iso-surge | Mutant | ISO Surge | protein | 🖼️ bilde lagt til | 2026-06-26 |
+| 7 | myprotein-impact-whey | MyProtein | Impact Whey Protein | protein | 🖼️ bilde lagt til | 2026-06-26 |
+| 8 | myprotein-soy-isolate | MyProtein | Soy Protein Isolate | protein | ❌ feilet | 2026-06-26 |
+| 9 | myprotein-vegan-blend | MyProtein | Vegan Protein Blend | protein | ❌ feilet | 2026-06-26 |
+| 10 | off-the-hook-stim-free | Chained Nutrition | Off the Hook PWO Stim Free 525 g | pwo-listed-only | 🖼️ bilde lagt til | 2026-06-26 |
 | 11 | olimp-pure-whey | Olimp | Pure Whey Isolate 95 | protein | ⏳ venter | — |
 | 12 | on-amino-energy | Optimum Nutrition | Amino Energy PWO 270 g | pwo-listed-only | ⏳ venter | — |
 | 13 | optimum-gold-standard-casein | Optimum Nutrition | Gold Standard 100% Casein | protein | ⏳ venter | — |
@@ -138,12 +138,12 @@ Neste i kø: `mutant-iso-surge`, `myprotein-impact-whey`, `myprotein-soy-isolate
 | 76 | valhall | Lean Lime | Valhall Pre-Workout 300 g | pwo-tested | ⏳ venter | — |
 | 77 | white-lion-original | White Lion | Original PWO Pink Lemonade | pwo-tested | ⏳ venter | — |
 | 78 | zoomad-moonstruck | Zoomad | Moonstruck Zero Stim-Free V2 540 g | pwo-tested | ⏳ venter | — |
-| 79 | applied-critical-whey | Applied Nutrition | Critical Whey | protein | ❌ feilet | 2026-06-26 |
-| 80 | biotech-iso-whey-zero | BioTech USA | Iso Whey Zero | protein | ❌ feilet | 2026-06-26 |
-| 81 | bloody-pump | Gymgrossisten | Bloody Pump PWO 300 g | pwo-listed-only | ❌ feilet | 2026-06-26 |
+| 79 | applied-critical-whey | Applied Nutrition | Critical Whey | protein | ⏳ venter | — |
+| 80 | biotech-iso-whey-zero | BioTech USA | Iso Whey Zero | protein | ⏳ venter | — |
+| 81 | bloody-pump | Gymgrossisten | Bloody Pump PWO 300 g | pwo-listed-only | ⏳ venter | — |
 | 82 | bodylab-whey-100 | Bodylab | Whey 100 | protein | 🖼️ bilde lagt til | 2026-06-26 |
-| 83 | bsn-syntha6-isolate | BSN | Syntha-6 Isolate | protein | ❌ feilet | 2026-06-26 |
-| 84 | bulk-pure-whey | Bulk | Pure Whey Protein | protein | ❌ feilet | 2026-06-26 |
+| 83 | bsn-syntha6-isolate | BSN | Syntha-6 Isolate | protein | ⏳ venter | — |
+| 84 | bulk-pure-whey | Bulk | Pure Whey Protein | protein | ⏳ venter | — |
 | 85 | esn-designer-whey | ESN | Designer Whey Protein | protein | 🖼️ bilde lagt til | 2026-06-26 |
 | 86 | esn-isoclear | ESN | Isoclear Whey Isolate | protein | 🖼️ bilde lagt til | 2026-06-26 |
 | 87 | ghost-legend | Ghost | Ghost Legend Pre-Workout | pwo-listed-only | 🖼️ bilde lagt til | 2026-06-26 |
