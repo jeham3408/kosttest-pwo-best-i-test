@@ -1,0 +1,45 @@
+{
+  "id": "optimum-gold-standard",
+  "exists": true,
+  "verifiedAt": "2026-06-26T16:00:00.000Z",
+  "sources": [
+    "https://www.gymgrossisten.no/100-whey-gold-standard-myseprotein-908-g/6870R.html"
+  ],
+  "checks": {
+    "productPageLoads": true,
+    "nameMatches": true,
+    "nutritionFromLabel": true,
+    "priceFromMerchant": true
+  },
+  "corrections": [
+    "Feil URL: /optimum-nutrition-gold-standard-whey (404) → /100-whey-gold-standard-myseprotein-908-g/6870R.html",
+    "Porsjon: 30,4 g → 30 g (GG anbefaler ca 30 g måleskje)",
+    "Porsjoner: 29 → 30 (908 g / 30 g)",
+    "Leucin fjernet — ikke oppgitt på NO-etikett",
+    "sourceLabel utvidet: inkluderer hydrolysert mysepeptider"
+  ],
+  "data": {
+    "name": "Gold Standard 100% Whey",
+    "brand": "Optimum Nutrition",
+    "merchant": "Gymgrossisten",
+    "url": "https://www.gymgrossisten.no/100-whey-gold-standard-myseprotein-908-g/6870R.html",
+    "priceNok": 549,
+    "packageSizeG": 908,
+    "packageSize": "908 g",
+    "servingSizeG": 30,
+    "servingSize": "30 g",
+    "servings": 30,
+    "proteinPer100g": 79,
+    "proteinPerServingG": 24,
+    "sourceType": "whey-blend",
+    "sourceLabel": "Whey isolate + concentrate + hydrolysert"
+  },
+  "lactoseAnalysis": {
+    "containsLactose": true,
+    "description": "Whey-blend med myseproteinkonsentrat som inneholder laktose. Isolat-delen er filtrert for laktose, men konsentratet gjør produktet uegnet for laktoseintolerante med lav toleranse. Inneholder melkeallergen.",
+    "allergens": ["melk", "soya"],
+    "notLactoseFree": true
+  },
+  "analysis": "Ekte ON Gold Standard 908 g på Gymgrossisten (549 kr). Pris og pakke stemte — hovedfeilen var 404-URL. Protein 72–82 % per 100 g avhengig av smak (Double Rich Chocolate: 78,5 %). Solid whey-blend med god pris, men laktose fra konsentratet er viktig å merke seg.",
+  "notes": "Produktet var utsolgt på GG ved verifisering. Protein% varierer mellom smaker — vi bruker 79 % som representativt snitt. Leucin/BCAA ikke på NO-etikett."
+}

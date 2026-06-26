@@ -6,15 +6,15 @@
 
 | Felt | Verdi |
 |------|-------|
-| productId | `optimum-gold-standard` |
-| merke | Optimum Nutrition |
-| navn | Gold Standard 100% Whey |
-| url i repo (sjekk/fiks) | https://www.gymgrossisten.no/optimum-nutrition-gold-standard-whey |
+| productId | `star-whey-100` |
+| merke | Star Nutrition |
+| navn | 100% Whey |
+| url i repo (sjekk/fiks) | https://www.gymgrossisten.no/star-nutrition-100-whey |
 
 ## ⬅️ Nettopp ferdig (IKKE test igjen)
 
 | Felt | Verdi |
 |------|-------|
-| productId | `dymatize-iso100` |
+| productId | `optimum-gold-standard` |
 | ferdig | 2026-06-26 |
 | resultat | ✅ verified |

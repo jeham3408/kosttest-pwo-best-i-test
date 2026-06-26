@@ -6,46 +6,46 @@
 
 | Felt | Verdi |
 |------|-------|
-| productId | `dymatize-iso100` |
-| merke | Dymatize |
-| navn | ISO100 Hydrolyzed 100% Whey Isolate |
+| productId | `optimum-gold-standard` |
+| merke | Optimum Nutrition |
+| navn | Gold Standard 100% Whey |
 | resultat | ✅ verified |
-| ferdig | 2026-06-26 15:51 |
-| url i repo | https://www.gymgrossisten.no/iso-100-myseproteinisolat-932-g/9922-098R.html |
+| ferdig | 2026-06-26 15:54 |
+| url i repo | https://www.gymgrossisten.no/100-whey-gold-standard-myseprotein-908-g/6870R.html |
 
-**Du skal IKKE teste `dymatize-iso100` igjen.**
+**Du skal IKKE teste `optimum-gold-standard` igjen.**
 
 ## ➡️ NÅ (test KUN dette produktet i denne kjøringen)
 
 | Felt | Verdi |
 |------|-------|
-| productId | `optimum-gold-standard` |
-| merke | Optimum Nutrition |
-| navn | Gold Standard 100% Whey |
-| url i repo (sjekk/fiks) | https://www.gymgrossisten.no/optimum-nutrition-gold-standard-whey |
+| productId | `star-whey-100` |
+| merke | Star Nutrition |
+| navn | 100% Whey |
+| url i repo (sjekk/fiks) | https://www.gymgrossisten.no/star-nutrition-100-whey |
 | kø-status | ⏳ pending |
 | kjøring | ⏳ klar — kjør `node scripts/protein-verify-queue.mjs start` |
 | startet | — |
 
-**TEST KUN `optimum-gold-standard` i denne kjøringen. Ett produkt. Ikke hopp over. Ikke test flere.**
+**TEST KUN `star-whey-100` i denne kjøringen. Ett produkt. Ikke hopp over. Ikke test flere.**
 
 ## Oppsummering
 
 | Felt | Verdi |
 |------|-------|
-| Verifisert | 2 / 26 |
+| Verifisert | 3 / 26 |
 | Avvist | 0 |
-| Gjenstår | 24 |
-| Neste i kø | `optimum-gold-standard` |
-| Siste kjøring | 2026-06-26 15:51 |
+| Gjenstår | 23 |
+| Neste i kø | `star-whey-100` |
+| Siste kjøring | 2026-06-26 15:54 |
 | Cron | `*/5 * * * *` (hvert 5. min) |
 
 ## Produktkø
 
 | # | ID | Merke | Navn | Status | Verifisert |
 |---|-----|-------|------|--------|------------|
-| 1 | dymatize-iso100 ← forrige | Dymatize | ISO100 Hydrolyzed 100% Whey Isolate | ✅ verified | 2026-06-26 |
-| 2 | optimum-gold-standard | Optimum Nutrition | Gold Standard 100% Whey | ⏳ pending | — |
+| 1 | dymatize-iso100 | Dymatize | ISO100 Hydrolyzed 100% Whey Isolate | ✅ verified | 2026-06-26 |
+| 2 | optimum-gold-standard ← forrige | Optimum Nutrition | Gold Standard 100% Whey | ✅ verified | 2026-06-26 |
 | 3 | bodylab-whey-100 | Bodylab | Whey 100 | ✅ verified | 2026-06-26 |
 | 4 | star-whey-100 | Star Nutrition | 100% Whey | ⏳ pending | — |
 | 5 | myprotein-impact-whey | MyProtein | Impact Whey Protein | ⏳ pending | — |
@@ -74,6 +74,17 @@
 ## Kjøringslogg
 
 <!-- AGENT: Legg til nytt avsnitt øverst etter hver kjøring. Maks én produkt per kjøring. -->
+
+### 2026-06-26 — optimum-gold-standard ✅
+
+- **Kilde:** https://www.gymgrossisten.no/100-whey-gold-standard-myseprotein-908-g/6870R.html
+- **Fant produktet:** ja (utsolgt, men siden og data gyldig)
+- **Endringer:** Feil URL (404), porsjon (30,4→30 g), porsjoner (29→30), leucin fjernet (ikke på NO-etikett)
+- **Laktose:** Inneholder laktose fra whey concentrate — ikke laktosefri
+- **Bilde:** `public/images/protein/optimum-gold-standard.jpg`
+- **Score:** beregnes på nytt (pris/g uendret, små porsjonsjusteringer)
+- **Rapport:** `data/protein-verifications/optimum-gold-standard.json`
+- **➡️ Neste:** `star-whey-100` — IKKE test `optimum-gold-standard` igjen
 
 ### 2026-06-26 — dymatize-iso100 ✅
 

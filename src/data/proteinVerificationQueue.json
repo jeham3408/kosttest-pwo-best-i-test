@@ -1,9 +1,9 @@
 {
   "version": 1,
   "intervalMinutes": 5,
-  "lastRunAt": "2026-06-26T15:51:44.234Z",
-  "lastVerifiedId": "dymatize-iso100",
-  "lastCompletedId": "dymatize-iso100",
+  "lastRunAt": "2026-06-26T15:54:59.011Z",
+  "lastVerifiedId": "optimum-gold-standard",
+  "lastCompletedId": "optimum-gold-standard",
   "lastCompletedStatus": "verified",
   "currentProductId": null,
   "currentRunStartedAt": null,
@@ -17,8 +17,10 @@
     },
     {
       "id": "optimum-gold-standard",
-      "status": "pending",
-      "attempts": 0
+      "status": "verified",
+      "attempts": 1,
+      "lastAttemptAt": "2026-06-26T15:53:53.972Z",
+      "verifiedAt": "2026-06-26T15:54:59.011Z"
     },
     {
       "id": "bodylab-whey-100",
