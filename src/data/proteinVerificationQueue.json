@@ -1,9 +1,9 @@
 {
   "version": 1,
   "intervalMinutes": 5,
-  "lastRunAt": "2026-06-26T17:13:27.779Z",
-  "lastVerifiedId": "star-whey-100",
-  "lastCompletedId": "star-whey-100",
+  "lastRunAt": "2026-06-26T17:32:16.725Z",
+  "lastVerifiedId": "myprotein-impact-whey",
+  "lastCompletedId": "myprotein-impact-whey",
   "lastCompletedStatus": "verified",
   "currentProductId": null,
   "currentRunStartedAt": null,
@@ -37,8 +37,10 @@
     },
     {
       "id": "myprotein-impact-whey",
-      "status": "pending",
-      "attempts": 0
+      "status": "verified",
+      "attempts": 1,
+      "lastAttemptAt": "2026-06-26T17:28:25.015Z",
+      "verifiedAt": "2026-06-26T17:32:16.725Z"
     },
     {
       "id": "scitec-100-whey-professional",

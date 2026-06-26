@@ -1,0 +1,49 @@
+{
+  "id": "myprotein-impact-whey",
+  "exists": true,
+  "verifiedAt": "2026-06-26T17:32:00.000Z",
+  "sources": [
+    "https://www.myprotein.no/p/sports-nutrition-nc/myprotein-impact-whey-protein-chocolate-1kg/11068071/",
+    "https://www.myprotein.ie/p/sports-nutrition-nc/myprotein-impact-whey-protein-chocolate-1kg/11068071/"
+  ],
+  "checks": {
+    "productPageLoads": true,
+    "nameMatches": true,
+    "nutritionFromLabel": true,
+    "priceFromMerchant": true
+  },
+  "corrections": [
+    "Feil URL: /impact-whey-protein/10852500.html (404) → /myprotein-impact-whey-protein-chocolate-1kg/11068071/",
+    "Feil pris: 349 → 169 kr (kampanjepris på myprotein.no)",
+    "Feil porsjon: 25 g → 30 g (næringsdeklarasjon for sjokolade 1 kg)",
+    "Feil porsjoner: 40 → 33 (1 kg / 30 g, oppgitt som «1KG - 33servings»)",
+    "Feil protein%: 82 → 72 g/100 g (sjokolade-variant, næringsdeklarasjon)",
+    "Feil protein/dose: 21 → 22 g (per 30 g porsjon)",
+    "Leucin fjernet — ikke oppgitt i næringstabell, kun markedsføringstekst"
+  ],
+  "data": {
+    "name": "Impact Whey Protein",
+    "brand": "MyProtein",
+    "merchant": "MyProtein.no",
+    "url": "https://www.myprotein.no/p/sports-nutrition-nc/myprotein-impact-whey-protein-chocolate-1kg/11068071/",
+    "priceNok": 169,
+    "packageSizeG": 1000,
+    "packageSize": "1000 g",
+    "servingSizeG": 30,
+    "servingSize": "30 g",
+    "servings": 33,
+    "proteinPer100g": 72,
+    "proteinPerServingG": 22,
+    "sourceType": "whey-concentrate",
+    "sourceLabel": "Whey protein concentrate (96 %)"
+  },
+  "lactoseAnalysis": {
+    "containsLactose": true,
+    "description": "Impact Whey er 100 % whey protein concentrate (96 % i ingredienslisten) og inneholder laktose fra melk. Ikke laktosefri — personer med laktoseintoleranse bør vurdere Impact Whey Isolate i stedet. Inneholder melk som allergen, samt soya og solsikke (lecitin). Vegetarisk.",
+    "allergens": ["melk", "laktose", "soya"],
+    "notLactoseFree": true,
+    "lowLactose": false
+  },
+  "analysis": "Ekte MyProtein Impact Whey Protein sjokolade 1 kg (SKU 11068071) på myprotein.no. Repo-URL var 404. Næringsdeklarasjon viser 72 g protein/100 g og 22 g/30 g porsjon — lavere enn den generiske «82 %»-markedsføringen. Pris 169 kr er svært lav (kampanje/utsolgt 26.06.2026), noe som gjør produktet til en prisvinner per g protein.",
+  "notes": "Protein% varierer etter smak (ca. 72–82 g/100 g). Vi bruker sjokolade 1 kg som referansevariant. Pris svinger mye med MyProtein-kampanjer — 169 kr er ikke normalpris. Produkt utsolgt ved verifisering."
+}
