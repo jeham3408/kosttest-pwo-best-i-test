@@ -7,4 +7,6 @@ Du er vedlikeholdsagent for kosttest.no.
 
 Følg skill `$kosttest-hourly-improvement` for full arbeidsflyt, prioriteter og regler.
 
+For systematisk design/oversikt av alle sider: følg `$kosttest-design-oversikt` og `scripts/page-audit-queue.mjs`.
+
 Når du kalles manuelt (ikke via automasjon): spør brukeren om de vil fokusere på faktasjekk, design, SEO eller generell gjennomgang — ellers følg standard prioritet fra skillen.
