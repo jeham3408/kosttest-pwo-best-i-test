@@ -1,0 +1,53 @@
+{
+  "id": "star-whey-100",
+  "exists": true,
+  "verifiedAt": "2026-06-26T16:05:00.000Z",
+  "sources": [
+    "https://www.gymgrossisten.no/whey-100-myseprotein-1-kg/575R.html"
+  ],
+  "checks": {
+    "productPageLoads": true,
+    "nameMatches": true,
+    "nutritionFromLabel": true,
+    "priceFromMerchant": true
+  },
+  "corrections": [
+    "Feil URL: /star-nutrition-100-whey (404) → /whey-100-myseprotein-1-kg/575R.html",
+    "Feil navn: «100% Whey» → «Whey-100» (faktisk produktnavn på GG)",
+    "Pris: 399 → 549 kr",
+    "Porsjon: 30 g → 37 g (anbefalt dosering på etikett)",
+    "Porsjoner: 33 → 27",
+    "Protein%: 78 → 84 (sjokolade-variant, varierer 79–87 etter smak)",
+    "Protein/porsjon: 23 → 31 g",
+    "Feil type: whey-concentrate → whey-isolate (100 % myseproteinisolat)",
+    "Leucin fjernet — ikke oppgitt på NO-etikett",
+    "«Norsk merke» fjernet — Star Nutrition er svensk/nordisk"
+  ],
+  "data": {
+    "name": "Whey-100",
+    "brand": "Star Nutrition",
+    "merchant": "Gymgrossisten",
+    "url": "https://www.gymgrossisten.no/whey-100-myseprotein-1-kg/575R.html",
+    "priceNok": 549,
+    "packageSizeG": 1000,
+    "packageSize": "1000 g",
+    "servingSizeG": 37,
+    "servingSize": "37 g",
+    "servings": 27,
+    "proteinPer100g": 84,
+    "proteinPerServingG": 31,
+    "sourceType": "whey-isolate",
+    "sourceLabel": "Whey isolate (100 % myseproteinisolat)"
+  },
+  "lactoseAnalysis": {
+    "containsLactose": true,
+    "lowLactose": true,
+    "lactoseFree": false,
+    "description": "100 % whey isolate med lav laktose etter filtrering — GG oppgir at det ikke er helt laktosefritt. Egnet for mange med mild laktoseintoleranse, men allergideklarasjonen lister laktose eksplisitt. Personer med alvorlig laktoseintoleranse bør vurdere alternativer.",
+    "allergens": ["melk", "laktose", "soya", "fenylalanin"],
+    "notLactoseFree": true,
+    "nutFree": true
+  },
+  "analysis": "Star Nutrition Whey-100 er et ekte toppprodukt på Gymgrossisten — 100 % whey isolate fra Carbery med opptil 87 % protein per 100 g (sjokolade: 84 %). Høyere pris enn repo hadde (549 kr), men solid DIAAS-estimat og lav laktose gjør det til et sterkt nordisk alternativ. Repo hadde feil URL, feil proteintype (concentrate vs isolate) og undervurdert proteininnhold.",
+  "notes": "Protein% varierer mellom smaker (79–87 %). Vi bruker 84 % (Chocolate). Inneholder aspartam. Måleskje følger ikke med."
+}
