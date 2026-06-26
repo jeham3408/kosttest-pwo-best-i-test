@@ -341,6 +341,11 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://kosttest.no/protein/star-whey-100/</loc>
+    <lastmod>2026-06-26</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://kosttest.no/protein/myprotein-soy-isolate/</loc>
     <lastmod>2026-06-26</lastmod>
     <priority>0.7</priority>
@@ -352,11 +357,6 @@
   </url>
   <url>
     <loc>https://kosttest.no/protein/biotech-iso-whey-zero/</loc>
-    <lastmod>2026-06-26</lastmod>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://kosttest.no/protein/star-whey-100/</loc>
     <lastmod>2026-06-26</lastmod>
     <priority>0.7</priority>
   </url>
