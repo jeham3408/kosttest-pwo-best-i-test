@@ -1,0 +1,99 @@
+{
+  "startedAt": "2026-06-26T16:08:26.143Z",
+  "batchIds": [
+    "ghost-whey",
+    "hype-pump-stim-free",
+    "kevin-levrone-levro-whey",
+    "mr-hyde-v2",
+    "muscletech-nitrotech"
+  ],
+  "results": [
+    {
+      "id": "ghost-whey",
+      "catalog": "protein",
+      "name": "Ghost Whey",
+      "brand": "Ghost",
+      "url": "https://www.gymgrossisten.no/ghost-whey",
+      "pageOk": false,
+      "imageOk": false,
+      "needsImage": true,
+      "search": {
+        "query": "Ghost Ghost Whey proteinpulver",
+        "source": null,
+        "candidates": 8
+      },
+      "status": "failed",
+      "reason": "no_image_found"
+    },
+    {
+      "id": "hype-pump-stim-free",
+      "catalog": "pwo-listed-only",
+      "name": "Hype Pump Stim Free PWO 420 g",
+      "brand": "Näno Supps",
+      "url": "https://www.getfit.no/hype-pump-stim-free-pwo-420g",
+      "pageOk": true,
+      "imageOk": false,
+      "needsImage": true,
+      "search": {
+        "query": "Näno Supps Hype Pump Stim Free PWO 420 g pre workout PWO",
+        "source": "og:image",
+        "candidates": 0
+      },
+      "status": "added",
+      "image": "https://www.getfit.no/acd-cgi/img/v1/wp-content/uploads/2026/06/Hype-Pump-2-Pakk-New.png",
+      "imageSource": "og:image"
+    },
+    {
+      "id": "kevin-levrone-levro-whey",
+      "catalog": "protein",
+      "name": "Levro Whey Supreme",
+      "brand": "Kevin Levrone",
+      "url": "https://www.gymgrossisten.no/kevin-levrone-levro-whey-supreme",
+      "pageOk": false,
+      "imageOk": false,
+      "needsImage": true,
+      "search": {
+        "query": "Kevin Levrone Levro Whey Supreme proteinpulver",
+        "source": null,
+        "candidates": 8
+      },
+      "status": "failed",
+      "reason": "no_image_found"
+    },
+    {
+      "id": "mr-hyde-v2",
+      "catalog": "pwo-listed-only",
+      "name": "Mr Hyde Signature V2 PWO",
+      "brand": "ProSupps",
+      "url": "https://www.fitnessmarket.no/mr-hyde-signature-v2-pwo",
+      "pageOk": false,
+      "imageOk": false,
+      "needsImage": true,
+      "search": {
+        "query": "ProSupps Mr Hyde Signature V2 PWO pre workout PWO",
+        "source": null,
+        "candidates": 2
+      },
+      "status": "failed",
+      "reason": "no_image_found"
+    },
+    {
+      "id": "muscletech-nitrotech",
+      "catalog": "protein",
+      "name": "Nitro-Tech Whey Gold",
+      "brand": "MuscleTech",
+      "url": "https://www.gymgrossisten.no/muscletech-nitro-tech",
+      "pageOk": false,
+      "imageOk": false,
+      "needsImage": true,
+      "search": {
+        "query": "MuscleTech Nitro-Tech Whey Gold proteinpulver",
+        "source": null,
+        "candidates": 1
+      },
+      "status": "failed",
+      "reason": "no_image_found"
+    }
+  ],
+  "finishedAt": "2026-06-26T16:08:32.082Z"
+}
