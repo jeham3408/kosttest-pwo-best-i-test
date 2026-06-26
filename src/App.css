@@ -339,6 +339,14 @@ h2 {
   margin-bottom: 28px;
 }
 
+.lb-page-intro {
+  padding-bottom: 0;
+}
+
+.lb-page-intro .section-heading {
+  margin-bottom: 12px;
+}
+
 .table-shell {
   overflow: auto;
   border: 1px solid var(--border);

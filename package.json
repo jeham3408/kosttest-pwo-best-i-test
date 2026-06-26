@@ -8,7 +8,9 @@
     "build": "tsc -b && vite build && vite build --ssr src/entry-server.tsx --outDir dist/server && node scripts/prerender.mjs",
     "postbuild": "node scripts/indexnow.mjs",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "routes": "node scripts/list-routes.mjs",
+    "audit:pages": "node scripts/page-audit.mjs"
   },
   "dependencies": {
     "lucide-react": "^1.14.0",

@@ -1,4 +1,4 @@
-import { blogPosts } from './data/blog'
+import { blogPosts, findBlogPost } from './data/blog'
 import { testedProducts } from './data/pwoProducts'
 import { siteStats } from './siteStats'
 
@@ -13,6 +13,7 @@ export type AppPage =
 
 export type RouteState = {
   page: AppPage
+  path: string
   selectedProduct: string | null
   sortCol: string
   sortAsc: boolean
@@ -38,44 +39,87 @@ export function normalizePath(path: string) {
 
 export function parseRoute(path: string): RouteState {
   const route = normalizePath(path)
+  const base = { path: route, selectedProduct: null as string | null, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle' as const, betaFilter: 'med' as const }
 
   if (route === '/tester/pwo/beste' || route === '/tester/pwo' || route === '/tester') {
-    return { page: 'lb-pwo', selectedProduct: null, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
+    return { ...base, page: 'lb-pwo' }
   }
   if (route === '/tester/pwo/sterkeste') {
-    return { page: 'lb-pwo', selectedProduct: null, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
+    return { ...base, page: 'lb-pwo' }
   }
   if (route === '/tester/pwo/billigste') {
-    return { page: 'lb-pwo', selectedProduct: null, sortCol: 'kgprice-asc', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
+    return { ...base, page: 'lb-pwo', sortCol: 'kgprice-asc' }
   }
   if (route === '/tester/pwo/stim-free') {
-    return { page: 'lb-pwo', selectedProduct: null, sortCol: 'score', sortAsc: false, caffeineFilter: 'uten', betaFilter: 'med' }
+    return { ...base, page: 'lb-pwo', caffeineFilter: 'uten' }
   }
   if (route === '/tester/pwo/nybegynner') {
-    return { page: 'lb-pwo', selectedProduct: null, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
+    return { ...base, page: 'lb-pwo' }
   }
   if (route.startsWith('/tester/pwo/slik-velger-du')) {
-    return { page: 'buying-guide', selectedProduct: null, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
+    return { ...base, page: 'buying-guide' }
   }
   if (route.startsWith('/pwo/')) {
     const id = route.replace('/pwo/', '')
-    return { page: 'product', selectedProduct: id, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
+    return { ...base, page: 'product', selectedProduct: id }
   }
   if (route === '/blogg') {
-    return { page: 'blog', selectedProduct: null, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
+    return { ...base, page: 'blog' }
   }
   if (route.startsWith('/blogg/')) {
     const slug = route.replace('/blogg/', '')
-    return { page: 'blog-post', selectedProduct: slug, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
+    return { ...base, page: 'blog-post', selectedProduct: slug }
   }
   if (route === '/om-metoden' || route === '/metode') {
-    return { page: 'metode', selectedProduct: null, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
+    return { ...base, page: 'metode' }
   }
   if (route === '/kilder') {
-    return { page: 'home', selectedProduct: null, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
+    return { ...base, page: 'lb-pwo', path: '/kilder' }
   }
 
-  return { page: 'home', selectedProduct: null, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
+  return { ...base, page: 'home' }
+}
+
+const LEADERBOARD_VARIANTS: Record<string, { title: string; description: string; h1: string; lead: string }> = {
+  '/tester/pwo/beste': {
+    title: 'Beste PWO 2026 – Topp rangering | Kosttest.no',
+    description: `Se topp ${siteStats.testedCount} PWO-produkter rangert etter ingredienser og effekt. Oppdatert åpen test.`,
+    h1: 'Beste PWO i test 2026',
+    lead: 'Alle produkter sortert etter totalscore fra vår åpne karaktermotor.',
+  },
+  '/tester/pwo/sterkeste': {
+    title: 'Sterkeste PWO 2026 – Høyest score | Kosttest.no',
+    description: 'Finn PWO med høyest poengsum for pump, utholdenhet og stimulanter.',
+    h1: 'Sterkeste PWO i test',
+    lead: 'Produkter med høyest totalscore – maks effekt per dose.',
+  },
+  '/tester/pwo/billigste': {
+    title: 'Billigste PWO 2026 – Best verdi per kg | Kosttest.no',
+    description: 'Sammenlign PWO etter pris per kilogram og finn mest effekt for pengene.',
+    h1: 'Billigste PWO per kilogram',
+    lead: 'Sortert etter pris per kg – se hvor mye pump du får for kronene.',
+  },
+  '/tester/pwo/stim-free': {
+    title: 'Stim-free PWO 2026 – Uten koffein | Kosttest.no',
+    description: 'Koffeinfrie pre-workout alternativer for kveldstrening og sensitivitet.',
+    h1: 'Stim-free PWO uten koffein',
+    lead: 'Kun produkter uten koffein – for trening sent på dagen.',
+  },
+  '/tester/pwo/nybegynner': {
+    title: 'PWO for nybegynnere 2026 | Kosttest.no',
+    description: 'Anbefalte pre-workout for deg som starter – moderate doser og tydelig innhold.',
+    h1: 'PWO for nybegynnere',
+    lead: 'Moderate doser og oversiktlige produkter for deg som er ny med PWO.',
+  },
+}
+
+export function getLeaderboardHeading(path: string) {
+  return LEADERBOARD_VARIANTS[path] ?? {
+    title: 'PWO best i test 2026 – Fullstendig rangering | Kosttest.no',
+    description: `Se hele rangeringen av ${siteStats.testedCount} PWO-produkter. Sorter på pris, effekt og ingredienser.`,
+    h1: 'PWO best i test 2026',
+    lead: 'Fullstendig rangering med åpen karaktermotor – ingen sponsede plasseringer.',
+  }
 }
 
 export function getPageMeta(state: RouteState): PageMeta {
@@ -88,9 +132,30 @@ export function getPageMeta(state: RouteState): PageMeta {
   }
 
   if (state.page === 'lb-pwo') {
+    const variant = LEADERBOARD_VARIANTS[state.path]
+    const canonicalPath = state.path === '/kilder' ? '/kilder' : (variant ? state.path : '/tester/pwo')
+    const heading = getLeaderboardHeading(state.path === '/kilder' ? '/tester/pwo' : state.path)
+    if (state.path === '/kilder') {
+      return {
+        title: 'Kilder og referanser – PWO-test | Kosttest.no',
+        description: 'Åpne kilder, retningslinjer og referanser bak PWO-rangeringen på Kosttest.no.',
+        canonical: `${SITE}/kilder/`,
+        ogType: 'website',
+        ogImage: DEFAULT_OG,
+      }
+    }
+    if (variant) {
+      return {
+        title: variant.title,
+        description: variant.description,
+        canonical: `${SITE}${canonicalPath}/`,
+        ogType: 'website',
+        ogImage: DEFAULT_OG,
+      }
+    }
     return {
-      title: 'PWO best i test 2026 – Fullstendig rangering | Kosttest.no',
-      description: `Se hele rangeringen av ${siteStats.testedCount} PWO-produkter. Sorter på pris, effekt og ingredienser.`,
+      title: heading.title,
+      description: heading.description,
       canonical: `${SITE}/tester/pwo/`,
       ogType: 'website',
       ogImage: DEFAULT_OG,
@@ -106,7 +171,7 @@ export function getPageMeta(state: RouteState): PageMeta {
     }
   }
   if (state.page === 'blog-post' && state.selectedProduct) {
-    const post = blogPosts.find((p) => p.id === state.selectedProduct)
+    const post = findBlogPost(state.selectedProduct)
     if (post) {
       return {
         title: `${post.title} | Kosttest.no`,

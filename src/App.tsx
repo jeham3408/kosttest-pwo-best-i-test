@@ -24,10 +24,10 @@ import {
   type GradeLetter,
   type TestedProduct,
 } from './data/pwoProducts'
-import { blogPosts } from './data/blog'
+import { blogPosts, findBlogPost } from './data/blog'
 import { generateProductContent } from './productContent'
 import LeaderboardSection from './LeaderboardSection'
-import { getPageMeta, normalizePath, parseRoute, type RouteState } from './routing'
+import { getLeaderboardHeading, getPageMeta, normalizePath, parseRoute, type RouteState } from './routing'
 import { siteStats } from './siteStats'
 import { getRelatedProducts, kgPrice } from './utils/productHelpers'
 
@@ -210,6 +210,7 @@ function GradingSystemSection() {
 function App({ initialPath = '/' }: { initialPath?: string }) {
   const initialRoute = parseRoute(initialPath)
   const [page, setPage] = useState<RouteState['page']>(initialRoute.page)
+  const [routePath, setRoutePath] = useState(initialRoute.path)
   const [selectedProduct, setSelectedProduct] = useState<string | null>(initialRoute.selectedProduct)
   const [lbOpen, setLbOpen] = useState(false)
   const [sortCol, setSortCol] = useState(initialRoute.sortCol)
@@ -247,6 +248,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
     const syncFromUrl = () => {
       const route = parseRoute(window.location.pathname)
       setPage(route.page)
+      setRoutePath(route.path)
       setSelectedProduct(route.selectedProduct)
       setSortCol(route.sortCol)
       setSortAsc(route.sortAsc)
@@ -258,27 +260,50 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
     return () => window.removeEventListener('popstate', syncFromUrl)
   }, [])
 
+  useEffect(() => {
+    if (routePath === '/kilder') {
+      document.getElementById('kilder')?.scrollIntoView({ behavior: 'smooth' })
+    }
+  }, [routePath, page])
+
+  const navigate = (path: string) => {
+    const route = parseRoute(path)
+    setPage(route.page)
+    setRoutePath(route.path)
+    setSelectedProduct(route.selectedProduct)
+    setSortCol(route.sortCol)
+    setSortAsc(route.sortAsc)
+    setCaffeineFilter(route.caffeineFilter)
+    setBetaFilter(route.betaFilter)
+    setLbOpen(false)
+  }
+
   // URL update on page change
   useEffect(() => {
     const base = window.location.origin
-    let url = base + '/'
-    if (page === 'lb-pwo') url = base + '/tester/pwo/'
-    else if (page === 'blog') url = base + '/blogg/'
-    else if (page === 'blog-post' && selectedProduct) url = base + '/blogg/' + selectedProduct + '/'
-    else if (page === 'product' && selectedProduct) {
-      const p = testedProducts.find(x => x.id === selectedProduct)
-      const slug = p ? p.id : selectedProduct
-      url = base + '/pwo/' + slug + '/'
+    let path = '/'
+    if (page === 'lb-pwo') {
+      path = routePath === '/kilder' ? '/kilder' : (routePath.startsWith('/tester') ? routePath : '/tester/pwo')
+    } else if (page === 'blog') path = '/blogg'
+    else if (page === 'blog-post' && selectedProduct) {
+      const post = findBlogPost(selectedProduct)
+      path = '/blogg/' + (post?.slug ?? selectedProduct)
+    } else if (page === 'product' && selectedProduct) path = '/pwo/' + selectedProduct
+    else if (page === 'buying-guide') path = '/tester/pwo/slik-velger-du'
+    else if (page === 'metode') path = '/om-metoden'
+
+    const url = path === '/' ? base + '/' : base + path + '/'
+    if (normalizePath(window.location.pathname) !== normalizePath(path)) {
+      window.history.pushState({}, '', url)
     }
-    else if (page === 'buying-guide') url = base + '/tester/pwo/slik-velger-du/'
-    else if (page === 'metode') url = base + '/om-metoden/'
-    window.history.pushState({}, '', url)
-  }, [page, selectedProduct])
+  }, [page, selectedProduct, routePath])
 
   const pageMeta = useMemo(
-    () => getPageMeta({ page, selectedProduct, sortCol, sortAsc, caffeineFilter, betaFilter }),
-    [page, selectedProduct, sortCol, sortAsc, caffeineFilter, betaFilter],
+    () => getPageMeta({ page, path: routePath, selectedProduct, sortCol, sortAsc, caffeineFilter, betaFilter }),
+    [page, routePath, selectedProduct, sortCol, sortAsc, caffeineFilter, betaFilter],
   )
+
+  const lbHeading = useMemo(() => getLeaderboardHeading(routePath === '/kilder' ? '/tester/pwo' : routePath), [routePath])
 
   useEffect(() => {
     document.title = pageMeta.title
@@ -423,24 +448,24 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
         product={page === 'product' && selectedProduct ? testedProducts.find((p) => p.id === selectedProduct) : undefined}
       />
       <header className="site-header">
-        <a className="brand" href="#" onClick={(e) => { e.preventDefault(); setPage('home'); setSelectedProduct(null) }} style={{ cursor: 'pointer' }}>
+        <a className="brand" href="#" onClick={(e) => { e.preventDefault(); navigate('/') }} style={{ cursor: 'pointer' }}>
           <span>K</span> Kosttest.no
         </a>
         <nav aria-label="Hovednavigasjon" className="nav-main">
-          <a href="/" onClick={(e) => { e.preventDefault(); setPage('home'); setSelectedProduct(null) }} className={page === 'home' ? 'nav-active' : ''}>Forside</a>
-          <a href="/blogg/" onClick={(e) => { e.preventDefault(); setPage('blog') }} className={page === 'blog' ? 'nav-active' : ''}>Blogg</a>
+          <a href="/" onClick={(e) => { e.preventDefault(); navigate('/') }} className={page === 'home' ? 'nav-active' : ''}>Forside</a>
+          <a href="/blogg/" onClick={(e) => { e.preventDefault(); navigate('/blogg') }} className={page === 'blog' ? 'nav-active' : ''}>Blogg</a>
           <div className="nav-dropdown" onMouseEnter={() => setLbOpen(true)} onMouseLeave={() => setLbOpen(false)}>
             <button className={'nav-link' + (page === 'lb-pwo' ? ' nav-active' : '')} onClick={() => setLbOpen(!lbOpen)}>Leaderboard ▾</button>
             {lbOpen && <div className="nav-dropdown-menu">
-              <a href="/tester/pwo/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setLbOpen(false) }}>PWO best i test</a>
-              <a href="/tester/pwo/beste/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setLbOpen(false) }}>Beste PWO</a>
-              <a href="/tester/pwo/sterkeste/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setLbOpen(false) }}>Sterkeste PWO</a>
-              <a href="/tester/pwo/billigste/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setLbOpen(false) }}>Billigste PWO</a>
-              <a href="/tester/pwo/stim-free/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setLbOpen(false) }}>Stim-free</a>
+              <a href="/tester/pwo/" onClick={(e) => { e.preventDefault(); navigate('/tester/pwo') }}>PWO best i test</a>
+              <a href="/tester/pwo/beste/" onClick={(e) => { e.preventDefault(); navigate('/tester/pwo/beste') }}>Beste PWO</a>
+              <a href="/tester/pwo/sterkeste/" onClick={(e) => { e.preventDefault(); navigate('/tester/pwo/sterkeste') }}>Sterkeste PWO</a>
+              <a href="/tester/pwo/billigste/" onClick={(e) => { e.preventDefault(); navigate('/tester/pwo/billigste') }}>Billigste PWO</a>
+              <a href="/tester/pwo/stim-free/" onClick={(e) => { e.preventDefault(); navigate('/tester/pwo/stim-free') }}>Stim-free</a>
             </div>}
           </div>
-          <a href="/tester/pwo/slik-velger-du/" onClick={(e) => { e.preventDefault(); setPage('buying-guide') }}>Kjøpsguide</a>
-          <a href="/om-metoden/" onClick={(e) => { e.preventDefault(); setPage('metode') }}>Om metoden</a>
+          <a href="/tester/pwo/slik-velger-du/" onClick={(e) => { e.preventDefault(); navigate('/tester/pwo/slik-velger-du') }}>Kjøpsguide</a>
+          <a href="/om-metoden/" onClick={(e) => { e.preventDefault(); navigate('/om-metoden') }}>Om metoden</a>
         </nav>
       </header>
 
@@ -533,10 +558,10 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
 
         {page === 'blog' && (
           <section className="content-section">
-            <div className="section-heading"><span>Blogg</span><h2>Ingredienser og vitenskap</h2></div>
+            <div className="section-heading"><span>Blogg</span><h1>Ingredienser og vitenskap</h1><p className="muted">Kunnskapsbaserte artikler om PWO-ingredienser og samanlikningar.</p></div>
             <div className="blog-grid">
               {blogPosts.map(post => (
-                <button key={post.id} className="blog-card" onClick={() => { setSelectedProduct(post.id); setPage('blog-post') }}>
+                <button key={post.id} className="blog-card" onClick={() => { setSelectedProduct(post.slug); setPage('blog-post'); setRoutePath('/blogg/' + post.slug) }}>
                   <h3>{post.title}</h3><p>{post.excerpt}</p>
                   <span className="blog-meta">{post.category} · {post.readMinutes} min</span>
                 </button>
@@ -546,9 +571,9 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
         )}
 
         {page === 'blog-post' && selectedProduct && (() => {
-          const post = blogPosts.find(p => p.id === selectedProduct)
-          if (!post) return null
-          return (<section className="content-section"><button className="button secondary" onClick={() => setPage('blog')} style={{marginBottom:16}}>← Blogg</button><article><h1>{post.title}</h1><p className="muted" style={{marginTop:-8}}>{post.category} · {post.readMinutes} min · Av Kosttest.no</p>
+          const post = findBlogPost(selectedProduct)
+          if (!post) return (<section className="content-section"><p>Artikkelen finnes ikke. <button className="button secondary" onClick={() => navigate('/blogg')}>← Blogg</button></p></section>)
+          return (<section className="content-section"><button className="button secondary" onClick={() => navigate('/blogg')} style={{marginBottom:16}}>← Blogg</button><article><h1>{post.title}</h1><p className="muted" style={{marginTop:-8}}>{post.category} · {post.readMinutes} min · Av Kosttest.no</p>
           {post.category === 'Samanlikning' && post.relatedProducts && (
             <div style={{display:'flex',gap:14,margin:'16px 0',padding:16,background:'var(--paper)',borderRadius:8}}>
               {post.relatedProducts.map(id => {
@@ -585,7 +610,14 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
 
         {page === 'lb-pwo' && (
           <>
-            <LeaderboardSection kgPrice={kgPrice} onSelectProduct={(id) => { setSelectedProduct(id); setPage('product') }} />
+            <section className="content-section lb-page-intro">
+              <div className="section-heading">
+                <span>PWO rangering</span>
+                <h1>{lbHeading.h1}</h1>
+                <p>{lbHeading.lead}</p>
+              </div>
+            </section>
+            <LeaderboardSection kgPrice={kgPrice} onSelectProduct={(id) => { setSelectedProduct(id); setPage('product'); setRoutePath('/pwo/' + id) }} />
             <section className="content-section">
               <div className="section-heading"><span>PWO best i test</span><h2>Fullstendig rangering</h2><p>⇅ Klikk på kolonneoverskrift for å sortere</p></div>
               <div className="filter-bar">
@@ -676,7 +708,12 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
 
         {page === 'metode' && (
           <section className="content-section">
-            <button className="button secondary" onClick={() => setPage('home')} style={{marginBottom:16}}>← Hjem</button>
+            <button className="button secondary" onClick={() => navigate('/')} style={{marginBottom:16}}>← Hjem</button>
+            <div className="section-heading">
+              <span>Metode</span>
+              <h1>Slik scorer vi PWO</h1>
+              <p>Åpen karaktermotor basert på deklarert innhold per dose – pris påvirker ikke score.</p>
+            </div>
             <GradingSystemSection />
           </section>
         )}
