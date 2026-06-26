@@ -11,7 +11,9 @@
     "preview": "vite preview",
     "protein:verify:status": "node scripts/protein-verify-queue.mjs status",
     "protein:verify:next": "node scripts/protein-verify-queue.mjs next",
-    "protein:verify:sync-md": "node scripts/protein-verify-queue.mjs sync-md"
+    "protein:verify:sync-md": "node scripts/protein-verify-queue.mjs sync-md",
+    "audit:routes": "node scripts/list-routes.mjs",
+    "audit:pages": "node scripts/audit-pages.mjs"
   },
   "dependencies": {
     "lucide-react": "^1.14.0",
