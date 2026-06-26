@@ -7,15 +7,16 @@
 
 - `dymatize-iso100` — 2026-06-26
 - `optimum-gold-standard` — 2026-06-26
+- `bodylab-whey-100` — 2026-06-26
 - `star-whey-100` — 2026-06-26
 
 ## ➡️ Neste produkt (mangler bilde)
 
 | Felt | Verdi |
 |------|-------|
-| productId | `bodylab-whey-100` |
-| merke | Bodylab |
-| navn | Whey 100 |
-| grunn | Mangler produktbilde — data verifisert men bilde ikke lastet ned |
+| productId | `myprotein-impact-whey` |
+| merke | MyProtein |
+| navn | Impact Whey Protein |
+| grunn | Neste i køen uten ekte produktbilde |
 
 Kjør `node scripts/protein-verify-queue.mjs audit` for oppdatert liste.
