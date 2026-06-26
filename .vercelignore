@@ -1,0 +1,9 @@
+.qa
+.vercel
+dist
+node_modules
+README 2.md
+public/favicon 2.svg
+src/App 2.css
+src/App 2.tsx
+src/index 2.css

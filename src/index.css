@@ -1,0 +1,12 @@
+#root {
+  min-height: 100vh;
+}
+
+img {
+  border: 0;
+}
+
+::selection {
+  color: #fff;
+  background: #116149;
+}
