@@ -1,0 +1,49 @@
+{
+  "id": "dymatize-iso100",
+  "exists": true,
+  "verifiedAt": "2026-06-26T15:36:00.000Z",
+  "sources": [
+    "https://www.gymgrossisten.no/iso-100-myseproteinisolat-932-g/9922-098R.html"
+  ],
+  "checks": {
+    "productPageLoads": true,
+    "nameMatches": true,
+    "nutritionFromLabel": true,
+    "priceFromMerchant": true
+  },
+  "corrections": [
+    "Feil URL: /dymatize-iso100 finnes ikke — riktig er /iso-100-myseproteinisolat-932-g/9922-098R.html",
+    "Feil pris: 899 kr veil.pris (ikke 699 kr)",
+    "Feil pakke: 932 g (ikke 907 g)",
+    "Feil porsjon: 32 g ifølge NO-etikett (ikke 31 g)",
+    "Feil protein%: 25 g per 32 g porsjon = 78 g/100 g (ikke 86 %)",
+    "Generisk bilde erstattet med ekte produktbilde fra Gymgrossisten"
+  ],
+  "data": {
+    "name": "ISO100 Hydrolyzed 100% Whey Isolate",
+    "brand": "Dymatize",
+    "merchant": "Gymgrossisten",
+    "url": "https://www.gymgrossisten.no/iso-100-myseproteinisolat-932-g/9922-098R.html",
+    "priceNok": 899,
+    "packageSizeG": 932,
+    "packageSize": "932 g",
+    "servingSizeG": 32,
+    "servingSize": "32 g",
+    "servings": 29,
+    "proteinPer100g": 78,
+    "proteinPerServingG": 25,
+    "sourceType": "hydrolyzed-whey",
+    "sourceLabel": "Hydrolysert whey isolate"
+  },
+  "lactoseAndAllergens": {
+    "lactoseStatus": "laktosefattig",
+    "lactoseNote": "Produsenten oppgir at laktose er skilt ut sammen med fett i isolate-prosessen. Inneholder fortsatt melk (allergen).",
+    "allergens": ["melk", "soya"],
+    "soySource": "SOJAlecitin som emulgator i smaksvarianter",
+    "carbsPerServingG": 2.4,
+    "fatPerServingG": 0.4,
+    "marketingMismatch": "Markedsføring sier «uten karbohydrater og fett», men NO-etikett viser 2,4 g karbohydrater og 0,4 g fett per 32 g porsjon (Gourmet Chocolate)"
+  },
+  "analysis": "Ekte premium hydrolysert whey isolate fra Dymatize, verifisert mot Gymgrossisten NO (932 g, 899 kr). 78 % protein per 100 g og 25 g per 32 g porsjon — lavere enn opprinnelig 86 %-påstand. Laktosefattig isolate, men inneholder melk og soya. Sterk DIAAS-estimat fra hydrolysert whey, men dyr per gram protein.",
+  "notes": "Næringsdata fra Gourmet Chocolate-variant. Andre smaker varierer marginalt (2,2–3,1 g karbohydrater per porsjon). Doseringstekst sier 28 g, men næringsdeklarasjon er per 32 g. Leucin ikke oppgitt på NO-etikett — estimat fra profil."
+}
