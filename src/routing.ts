@@ -1,5 +1,6 @@
 import { blogPosts } from './data/blog'
 import { testedProducts } from './data/pwoProducts'
+import { siteStats } from './siteStats'
 
 export type AppPage =
   | 'home'
@@ -28,7 +29,7 @@ export type PageMeta = {
 }
 
 const SITE = 'https://kosttest.no'
-const DEFAULT_OG = `${SITE}/favicon-512.svg`
+const DEFAULT_OG = `${SITE}/og-share.svg`
 
 export function normalizePath(path: string) {
   const normalized = path.replace(/\/+$/, '') || '/'
@@ -80,8 +81,7 @@ export function parseRoute(path: string): RouteState {
 export function getPageMeta(state: RouteState): PageMeta {
   const def = {
     title: 'PWO best i test 2026 | Ærlig PWO-rangering | Kosttest.no',
-    description:
-      'Vi rangerer pre-workout etter deklarert innhold, ikke markedsføring. 45 produkter testet med åpen karaktermotor.',
+    description: `Vi rangerer pre-workout etter deklarert innhold, ikke markedsføring. ${siteStats.testedCount} produkter testet med åpen karaktermotor.`,
     canonical: `${SITE}/`,
     ogType: 'website',
     ogImage: DEFAULT_OG,
@@ -90,7 +90,7 @@ export function getPageMeta(state: RouteState): PageMeta {
   if (state.page === 'lb-pwo') {
     return {
       title: 'PWO best i test 2026 – Fullstendig rangering | Kosttest.no',
-      description: 'Se hele rangeringen av 45 PWO-produkter. Sorter på pris, effekt og ingredienser.',
+      description: `Se hele rangeringen av ${siteStats.testedCount} PWO-produkter. Sorter på pris, effekt og ingredienser.`,
       canonical: `${SITE}/tester/pwo/`,
       ogType: 'website',
       ogImage: DEFAULT_OG,
@@ -174,6 +174,25 @@ export function getAllPrerenderRoutes(): string[] {
   }
 
   return routes
+}
+
+export function buildSitemapXml(routes: string[], lastmod = new Date().toISOString().slice(0, 10)) {
+  const priorityFor = (route: string) => {
+    if (route === '/') return '1.0'
+    if (route.startsWith('/tester/pwo/beste') || route === '/tester/pwo') return '0.9'
+    if (route.startsWith('/blogg/') || route.startsWith('/pwo/')) return '0.7'
+    if (route.startsWith('/tester/pwo')) return '0.8'
+    return '0.6'
+  }
+
+  const urls = routes
+    .map((route) => {
+      const loc = route === '/' ? `${SITE}/` : `${SITE}${route}/`
+      return `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <priority>${priorityFor(route)}</priority>\n  </url>`
+    })
+    .join('\n')
+
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`
 }
 
 export function applyMetaToHtml(html: string, meta: PageMeta) {

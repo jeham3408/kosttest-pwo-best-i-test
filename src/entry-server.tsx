@@ -4,6 +4,7 @@ import App from './App'
 
 export {
   applyMetaToHtml,
+  buildSitemapXml,
   getAllPrerenderRoutes,
   getPageMeta,
   normalizePath,

@@ -32,7 +32,7 @@ export default function LeaderboardSection({ kgPrice, onSelectProduct }: { kgPri
     const prNo = testedProducts.filter(p => (!p.caffeineMg || p.caffeineMg === 0) && isFinite(kgPrice(p))).sort((a, b) => kgPrice(b) - kgPrice(a)).slice(0, 10)
     const maxPrNo = prNo.length ? Math.max(...prNo.map(kgPrice)) : 1
     return { withCaf, noCaf, prCaf, prNo, maxCaf, maxNo, maxPrCaf, maxPrNo }
-  }, [])
+  }, [kgPrice])
 
   return (
     <section className="lb-section">

@@ -7,9 +7,8 @@ const root = resolve(__dirname, '..')
 const dist = resolve(root, 'dist')
 const serverEntry = resolve(dist, 'server/entry-server.js')
 
-const { render, getAllPrerenderRoutes, applyMetaToHtml, parseRoute, getPageMeta } = await import(
-  `file://${serverEntry}`,
-)
+const { render, getAllPrerenderRoutes, applyMetaToHtml, parseRoute, getPageMeta, buildSitemapXml } =
+  await import(`file://${serverEntry}`)
 
 const htmlPath = resolve(dist, 'index.html')
 const template = await readFile(htmlPath, 'utf8')
@@ -36,6 +35,11 @@ for (const route of routes) {
   await writeFile(resolve(dirPath, 'index.html'), html)
   console.log('Created:', route + '/')
 }
+
+const sitemap = buildSitemapXml(routes)
+await writeFile(resolve(dist, 'sitemap.xml'), sitemap)
+await writeFile(resolve(root, 'public/sitemap.xml'), sitemap)
+console.log('Updated sitemap.xml with', routes.length, 'URLs')
 
 await rm(resolve(dist, 'server'), { recursive: true, force: true })
 console.log('Done — generated', routes.length, 'HTML files')

@@ -1,22 +1,22 @@
-import { type ChangeEvent, type FormEvent, useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   AlertTriangle,
   ArrowDown,
   CheckCircle2,
   ExternalLink,
   FlaskConical,
-  ScanLine,
   Scale,
   Search,
   ShieldCheck,
-  Upload,
 } from 'lucide-react'
 import './App.css'
+import JsonLd from './components/JsonLd'
+import SubmissionPanel from './components/SubmissionPanel'
+import UnrankedProductsSection from './components/UnrankedProductsSection'
 import {
   calculateProductGrade,
   ingredientRules,
   lastUpdated,
-  listedProducts,
   priceRule,
   sourceLinks,
   testedProducts,
@@ -28,6 +28,10 @@ import { blogPosts } from './data/blog'
 import { generateProductContent } from './productContent'
 import LeaderboardSection from './LeaderboardSection'
 import { getPageMeta, normalizePath, parseRoute, type RouteState } from './routing'
+import { siteStats } from './siteStats'
+import { getRelatedProducts, kgPrice } from './utils/productHelpers'
+
+const enablePwoScan = import.meta.env.VITE_ENABLE_PWO_SCAN === 'true'
 
 const formatPrice = (price: number) =>
   new Intl.NumberFormat('nb-NO', {
@@ -48,154 +52,6 @@ const gradeScale: Array<{ grade: GradeLetter; label: string; description: string
 ]
 
 const formatMg = (value: number) => `${Math.round(value).toLocaleString('nb-NO')} mg`
-
-type ScanResponse = {
-  status?: 'ok' | 'raw' | 'needs_api_key'
-  message?: string
-  parsed?: {
-    productName?: string
-    brand?: string
-    ingredients?: unknown[]
-  }
-  raw?: string
-  error?: string
-}
-
-const fileToDataUrl = (file: File) =>
-  new Promise<string>((resolve, reject) => {
-    const reader = new FileReader()
-    reader.onload = () => {
-      if (typeof reader.result === 'string') resolve(reader.result)
-      else reject(new Error('Kunne ikkje lese bilde som data-URL.'))
-    }
-    reader.onerror = () => reject(reader.error ?? new Error('Kunne ikkje lese bilde.'))
-    reader.readAsDataURL(file)
-  })
-
-const numberFromInput = (value: string) => {
-  const number = Number(value.replace(',', '.').trim())
-  return Number.isFinite(number) ? number : null
-}
-
-function JsonLd({ path: p, product }: { path?: string; product?: TestedProduct }) {
-  const path = (p || '/').replace(/\/$/, '') || '/'
-  const base = 'https://kosttest.no'
-
-  const orgSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: 'Kosttest.no',
-    url: base + '/',
-    description: 'Uavhengig rangering av kosttilskudd med åpen karaktermotor. Ingen sponsede plasseringer.',
-    sameAs: [base + '/', 'https://www.facebook.com/kosttest.no', 'https://twitter.com/kosttestno'],
-  }
-
-  const webSiteSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    name: 'Kosttest.no',
-    url: base + '/',
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: base + '/tester/pwo/?q={search_term_string}',
-      'query-input': 'required name=search_term_string',
-    },
-  }
-
-  const breadcrumb = (items: { name: string; url: string }[]) => ({
-    '@type': 'BreadcrumbList',
-    itemListElement: items.map((item, i) => ({
-      '@type': 'ListItem',
-      position: i + 1,
-      name: item.name,
-      item: base + item.url,
-    })),
-  })
-
-  const articleSchema = {
-    '@type': 'Article',
-    headline: 'PWO best i test 2026: ærlig rangering av pre-workout i Norge',
-    datePublished: '2026-05-04',
-    dateModified: '2026-05-05',
-    author: { '@type': 'Organization', name: 'Kosttest.no' },
-    publisher: { '@type': 'Organization', name: 'Kosttest.no' },
-  }
-
-  const def = [orgSchema, webSiteSchema]
-
-  // Product page: Product + FAQPage + Breadcrumb
-  if (path.startsWith('/pwo/') && product) {
-    return (
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify([...def, {
-        '@type': 'Product',
-        name: product.name,
-        description: product.verdict,
-        url: base + path + '/',
-        brand: { '@type': 'Brand', name: product.brand },
-        offers: {
-          '@type': 'Offer',
-          price: product.priceNok,
-          priceCurrency: 'NOK',
-          availability: 'https://schema.org/InStock',
-        },
-        aggregateRating: {
-          '@type': 'AggregateRating',
-          ratingValue: product.score,
-          bestRating: 100,
-          ratingCount: 1,
-        },
-        mainEntityOfPage: {
-          '@type': 'FAQPage',
-          mainEntity: [
-            { '@type': 'Question', name: 'Hvor mye koffein inneholder ' + product.name + '?', acceptedAnswer: { '@type': 'Answer', text: (product.caffeineMg ?? 0) > 0 ? product.name + ' inneholder ' + product.caffeineMg + ' mg koffein per dose.' : product.name + ' er koffeinfritt.' } },
-            { '@type': 'Question', name: 'Hva er hovedingrediensen i ' + product.name + '?', acceptedAnswer: { '@type': 'Answer', text: (product.citrullineMg ?? 0) > 0 ? 'L-citrulline med ' + product.citrullineMg + ' mg ekvivalent.' : 'Produktet mangler L-citrulline.' } },
-          ],
-        },
-      }, breadcrumb([{ name: 'Hjem', url: '/' }, { name: 'PWO best i test', url: '/tester/pwo/' }, { name: product.name, url: '/pwo/' + product.id + '/' }])]) }} />
-    )
-  }
-
-  // Kjøpsguide: HowTo + Breadcrumb
-  if (path.includes('/slik-velger-du')) {
-    return (
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify([...def, {
-        '@type': 'HowTo',
-        name: 'Slik velger du riktig PWO',
-        step: [
-          { '@type': 'HowToStep', position: 1, name: 'Forstå hva en PWO er', text: 'En PWO (Pre-Workout) er et kosttilskudd du tar før trening for energi, fokus, utholdenhet og muskelpump.' },
-          { '@type': 'HowToStep', position: 2, name: 'Se etter nøkkelingredienser', text: 'L-citrulline (4000-10000 mg), beta-alanin (3200-6400 mg), koffein (100-300 mg) og rødbetekstrakt er de viktigste ingrediensene i en PWO.' },
-          { '@type': 'HowToStep', position: 3, name: 'Velg etter behov', text: 'Maksimal pump: 6000+ mg L-citrulline. Kveldstrening: velg stim-free. Nybegynner: start med lav koffein (100-200 mg).' },
-          { '@type': 'HowToStep', position: 4, name: 'Unngå fellene', text: 'Styr unna proprietary blends og produkter uten oppgitte mengder. BCAA i PWO er unødvendig ved tilstrekkelig proteininntak.' },
-          { '@type': 'HowToStep', position: 5, name: 'Bruk en åpen karaktermotor', text: 'Vår test vektlegger L-citrulline, arginin, rødbetekstrakt og andre ingredienser — ikke koffein eller pris. Se hele rangeringen på kosttest.no.' },
-        ],
-      }, breadcrumb([{ name: 'Hjem', url: '/' }, { name: 'Kjøpsguide', url: '/tester/pwo/slik-velger-du/' }])]) }} />
-    )
-  }
-
-  // Tester page: ItemList + Breadcrumb
-  if (path.startsWith('/tester/pwo')) {
-    return (
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify([...def, {
-        '@type': 'ItemList',
-        name: 'PWO best i test 2026',
-        url: base + path + '/',
-        itemListElement: [],
-      }, breadcrumb([{ name: 'Hjem', url: '/' }, { name: 'PWO best i test', url: '/tester/pwo/' }])]) }} />
-    )
-  }
-
-  // Blog post: Article + Breadcrumb
-  if (path.startsWith('/blogg/') && path !== '/blogg') {
-    return (
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify([...def, articleSchema, breadcrumb([{ name: 'Hjem', url: '/' }, { name: 'Blogg', url: '/blogg/' }])]) }} />
-    )
-  }
-
-  // Default: Article + Breadcrumb
-  return (
-    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify([...def, articleSchema, breadcrumb([{ name: 'Hjem', url: '/' }, { name: 'PWO best i test', url: '/tester/pwo/' }])]) }} />
-  )
-}
 
 function ScoreBar({ product }: { product: TestedProduct }) {
   return (
@@ -351,150 +207,6 @@ function GradingSystemSection() {
   )
 }
 
-function SubmissionPanel() {
-  const [productName, setProductName] = useState('')
-  const [brand, setBrand] = useState('')
-  const [price, setPrice] = useState('')
-  const [servings, setServings] = useState('')
-  const [selectedFile, setSelectedFile] = useState<File | null>(null)
-  const [fileName, setFileName] = useState('')
-  const [saved, setSaved] = useState(false)
-  const [isScanning, setIsScanning] = useState(false)
-  const [scanMessage, setScanMessage] = useState('')
-
-  const readiness = useMemo(() => {
-    const completed = [productName, brand, price, servings, fileName].filter(Boolean).length
-    return Math.round((completed / 5) * 100)
-  }, [brand, fileName, price, productName, servings])
-
-  const handleFile = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    setSelectedFile(file ?? null)
-    setFileName(file?.name ?? '')
-    setSaved(false)
-    setScanMessage('')
-  }
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const payload = {
-      productName,
-      brand,
-      price: numberFromInput(price),
-      servings: numberFromInput(servings),
-      fileName,
-      createdAt: new Date().toISOString(),
-    }
-    localStorage.setItem('kosttest-pwo-submission-draft', JSON.stringify(payload))
-    setSaved(true)
-
-    if (!selectedFile) {
-      setScanMessage('Utkastet er lagra lokalt. Legg ved bilde av baksida for AI-skanning.')
-      return
-    }
-
-    setIsScanning(true)
-    setScanMessage('Les bilde og sender til AI-skanning...')
-
-    try {
-      const imageDataUrl = await fileToDataUrl(selectedFile)
-      const response = await fetch('/api/scan-pwo', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...payload, imageDataUrl }),
-      })
-      const result = (await response.json()) as ScanResponse
-
-      if (!response.ok) {
-        setScanMessage(`Skanning feila: ${result.error ?? 'ukjent feil'}. Utkastet er lagra lokalt.`)
-        return
-      }
-
-      if (result.status === 'needs_api_key') {
-        setScanMessage(result.message ?? 'OPENAI_API_KEY manglar. Utkastet er lagra lokalt.')
-        return
-      }
-
-      if (result.status === 'ok') {
-        const ingredientCount = result.parsed?.ingredients?.length ?? 0
-        const scannedName = result.parsed?.productName || productName || 'produktet'
-        setScanMessage(
-          `AI-skanning ferdig for ${scannedName}: ${ingredientCount} ingrediensar funne. Klar for manuell kontroll før publisering.`,
-        )
-        return
-      }
-
-      setScanMessage('AI fann tekst, men ikkje strukturert JSON. Utkastet er lagra for manuell kontroll.')
-    } catch {
-      setScanMessage('Utkastet er lagra lokalt. AI-skanning køyrer på Vercel når API og OPENAI_API_KEY er klart.')
-    } finally {
-      setIsScanning(false)
-    }
-  }
-
-  return (
-    <section className="submission-section" id="bidra">
-      <div className="section-heading">
-        <span>Bidra</span>
-        <h2>Send inn ein ny PWO</h2>
-        <p>
-          Målet er at alle skal kunne skrive inn produktet, ta bilde av baksida og la AI lese
-          næringstabellen. Når API-nøkkelen er aktivert, går innsendinga gjennom same opne
-          karaktermotor.
-        </p>
-      </div>
-
-      <div className="submission-layout">
-        <form className="submission-form" onSubmit={handleSubmit}>
-          <label>
-            Produktnamn
-            <input value={productName} onChange={(event) => setProductName(event.target.value)} />
-          </label>
-          <label>
-            Merke
-            <input value={brand} onChange={(event) => setBrand(event.target.value)} />
-          </label>
-          <label>
-            Pris
-            <input inputMode="decimal" value={price} onChange={(event) => setPrice(event.target.value)} />
-          </label>
-          <label>
-            Porsjonar
-            <input inputMode="numeric" value={servings} onChange={(event) => setServings(event.target.value)} />
-          </label>
-          <label className="file-input">
-            Bilde av baksida
-            <input accept="image/*" capture="environment" type="file" onChange={handleFile} />
-            <span>
-              <Upload size={16} />
-              {fileName || 'Vel bilde'}
-            </span>
-          </label>
-          <button className="button primary" type="submit">
-            <ScanLine size={18} />
-            {isScanning ? 'Skannar bilde...' : 'Klargjer for AI-skanning'}
-          </button>
-          {saved && <p className="saved-note">Forslaget er lagra lokalt som utkast.</p>}
-          {scanMessage && <p className="saved-note">{scanMessage}</p>}
-        </form>
-
-        <div className="scan-flow">
-          <strong>{readiness}% klar</strong>
-          <div className="scorebar" aria-label={`${readiness}% klar`}>
-            <span style={{ width: `${readiness}%` }} />
-          </div>
-          <ol>
-            <li>AI les ingrediensar, mg, porsjonar og pris frå bilde/tekst.</li>
-            <li>Citrulline-form blir normalisert til L-citrulline-ekvivalent.</li>
-            <li>Regelmotoren gir F-A per ingrediens og reknar totalpoeng.</li>
-            <li>Produktet blir lagt inn i rangeringa med kjelde og kontrollspor.</li>
-          </ol>
-        </div>
-      </div>
-    </section>
-  )
-}
-
 function App({ initialPath = '/' }: { initialPath?: string }) {
   const initialRoute = parseRoute(initialPath)
   const [page, setPage] = useState<RouteState['page']>(initialRoute.page)
@@ -504,14 +216,6 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
   const [sortAsc, setSortAsc] = useState(initialRoute.sortAsc)
   const [caffeineFilter, setCaffeineFilter] = useState<'alle' | 'med' | 'uten'>(initialRoute.caffeineFilter)
   const [betaFilter, setBetaFilter] = useState<'med' | 'uten'>(initialRoute.betaFilter)
-
-  const kgPrice = (p: TestedProduct) => {
-    const m = p.packageSize.match(/([\d.,]+)\s*g/i)
-    if (m) return p.priceNok / (parseFloat(m[1].replace(',', '.')) / 1000)
-    const s = p.servingSize.match(/([\d.,]+)\s*g/i)
-    if (s) return p.priceNok / ((parseFloat(s[1].replace(',', '.')) * p.servings) / 1000)
-    return Infinity
-  }
 
   const toggleSort = (col: string) => {
     if (col === 'price') {
@@ -610,6 +314,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
 
   const ProductPage = ({ product }: { product: TestedProduct }) => {
     const content = generateProductContent(product)
+    const related = getRelatedProducts(product)
     return (
     <section className="content-section">
       <button className="button secondary" onClick={() => { setPage('lb-pwo'); setSelectedProduct(null) }} style={{ marginBottom: 16 }}>← Tilbake til benchmark</button>
@@ -676,6 +381,30 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
           <a className="source-link" href={product.url} target="_blank" rel="noreferrer" style={{ marginTop: 14, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
             Kjøp hos {product.merchant} <ExternalLink size={16} />
           </a>
+
+          {related.length > 0 && (
+            <div style={{ marginTop: 20 }}>
+              <h3 style={{ fontSize: 15, margin: '0 0 10px' }}>Lignende produkter i testen</h3>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 10 }}>
+                {related.map((item) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => {
+                      setSelectedProduct(item.id)
+                      setPage('product')
+                    }}
+                    style={{ border: '1px solid var(--border)', background: 'var(--paper)', borderRadius: 8, padding: 10, cursor: 'pointer', textAlign: 'left' }}
+                  >
+                    <ProductImage product={item} />
+                    <span style={{ display: 'block', fontSize: 12, fontWeight: 700, marginTop: 6 }}>{item.name.split(' ').slice(0, 3).join(' ')}</span>
+                    <span style={{ display: 'block', fontSize: 11, color: 'var(--muted)' }}>Score {item.score}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
           <div style={{marginTop:10,display:'flex',gap:6,alignItems:'center'}}>
             <span style={{fontSize:11,color:'var(--muted)'}}>Del:</span>
             <a href={'https://www.facebook.com/sharer.php?u=https://kosttest.no/pwo/' + product.id + '/'} target="_blank" rel="noreferrer" style={{padding:'3px 8px',background:'#1877F2',color:'#fff',borderRadius:3,fontSize:11,textDecoration:'none'}}>Facebook</a>
@@ -741,8 +470,8 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
             </section>
             <section className="summary-band">
               <div className="summary-grid">
-                <div><Search size={21} /> <span style={{fontWeight:700}}>{listedProducts.length}</span> produkter kartlagt<br /><span style={{fontSize:12,color:'var(--muted)'}}>Fra 10+ norske butikker</span></div>
-                <div><FlaskConical size={21} /> <span style={{fontWeight:700}}>{testedProducts.length}</span> produkter rangert<br /><span style={{fontSize:12,color:'var(--muted)'}}>Etter åpen karaktermotor</span></div>
+                <div><Search size={21} /> <span style={{fontWeight:700}}>{siteStats.listedCount}</span> produkter kartlagt<br /><span style={{fontSize:12,color:'var(--muted)'}}>Fra 10+ norske butikker</span></div>
+                <div><FlaskConical size={21} /> <span style={{fontWeight:700}}>{siteStats.testedCount}</span> produkter rangert<br /><span style={{fontSize:12,color:'var(--muted)'}}>Etter åpen karaktermotor</span></div>
                 <div><ShieldCheck size={21} /> Pris påvirker ikke score<br /><span style={{fontSize:12,color:'var(--muted)'}}>Bare ingredienser teller</span></div>
               </div>
             </section>
@@ -782,7 +511,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
               <div className="blog-grid">
                 <a href="/tester/pwo/beste/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setSortCol('score'); setSortAsc(false); }} style={{padding:12,background:'var(--paper)',borderRadius:8,textDecoration:'none'}}>
                   <span style={{fontWeight:700}}>🏆 Beste PWO</span>
-                  <p style={{fontSize:12,color:'var(--muted)',margin:'4px 0 0'}}>Alle 45 produkter rangert etter score. Klikk for å se topplisten.</p>
+                  <p style={{fontSize:12,color:'var(--muted)',margin:'4px 0 0'}}>Alle {siteStats.testedCount} produkter rangert etter score. Klikk for å se topplisten.</p>
                 </a>
                 <a href="/tester/pwo/stim-free/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setSortCol('score'); setCaffeineFilter('uten'); }} style={{padding:12,background:'var(--paper)',borderRadius:8,textDecoration:'none'}}>
                   <span style={{fontWeight:700}}>🧘 Stim-free</span>
@@ -867,7 +596,8 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
               </div>
               <RankingTable products={sortedProducts} sortCol={sortCol} sortAsc={sortAsc} onSort={toggleSort} kgPrice={kgPrice} />
             </section>
-            <SubmissionPanel />
+            <UnrankedProductsSection />
+            {enablePwoScan && <SubmissionPanel />}
             <section className="source-section" id="kilder"><div className="section-heading"><span>Kilder</span><h2>Åpne kilder</h2></div><ul className="source-list">{sourceLinks.map(s => <li key={s.url}><a href={s.url} target="_blank" rel="noreferrer">{s.label}<ExternalLink size={15} /></a></li>)}</ul></section>
           </>
         )}
