@@ -1,4 +1,5 @@
 import { blogPosts } from '../data/blog'
+import { testedCreatineProducts, type TestedCreatineProduct } from '../data/creatineProducts'
 import { testedProteinProducts, type TestedProteinProduct } from '../data/proteinProducts'
 import { testedProducts, type TestedProduct } from '../data/pwoProducts'
 import { normalizePath } from '../routing'
@@ -40,9 +41,10 @@ type JsonLdProps = {
   path?: string
   product?: TestedProduct
   proteinProduct?: TestedProteinProduct
+  creatineProduct?: TestedCreatineProduct
 }
 
-export default function JsonLd({ path: rawPath, product, proteinProduct }: JsonLdProps) {
+export default function JsonLd({ path: rawPath, product, proteinProduct, creatineProduct }: JsonLdProps) {
   const path = normalizePath(rawPath || '/')
   const def = [orgSchema, webSiteSchema]
 
@@ -77,6 +79,44 @@ export default function JsonLd({ path: rawPath, product, proteinProduct }: JsonL
               { name: 'Hjem', url: '/' },
               { name: 'Proteinpulver best i test', url: '/tester/protein/' },
               { name: proteinProduct.name, url: `/protein/${proteinProduct.id}/` },
+            ]),
+          ]),
+        }}
+      />
+    )
+  }
+
+  if (path.startsWith('/kreatin/') && creatineProduct) {
+    return (
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify([
+            ...def,
+            {
+              '@type': 'Product',
+              name: creatineProduct.name,
+              description: creatineProduct.verdict,
+              url: `${base}${path}/`,
+              image: creatineProduct.image,
+              brand: { '@type': 'Brand', name: creatineProduct.brand },
+              offers: {
+                '@type': 'Offer',
+                price: creatineProduct.priceNok,
+                priceCurrency: 'NOK',
+                availability: 'https://schema.org/InStock',
+              },
+              aggregateRating: {
+                '@type': 'AggregateRating',
+                ratingValue: creatineProduct.score,
+                bestRating: 100,
+                ratingCount: 1,
+              },
+            },
+            breadcrumb([
+              { name: 'Hjem', url: '/' },
+              { name: 'Kreatin best i test', url: '/tester/kreatin/' },
+              { name: creatineProduct.name, url: `/kreatin/${creatineProduct.id}/` },
             ]),
           ]),
         }}
@@ -144,6 +184,34 @@ export default function JsonLd({ path: rawPath, product, proteinProduct }: JsonL
             breadcrumb([
               { name: 'Hjem', url: '/' },
               { name: 'Kjøpsguide', url: '/tester/pwo/slik-velger-du/' },
+            ]),
+          ]),
+        }}
+      />
+    )
+  }
+
+  if (path.startsWith('/tester/kreatin')) {
+    return (
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify([
+            ...def,
+            {
+              '@type': 'ItemList',
+              name: 'Kreatin best i test 2026',
+              url: `${base}${path}/`,
+              itemListElement: testedCreatineProducts.map((item, index) => ({
+                '@type': 'ListItem',
+                position: index + 1,
+                name: item.name,
+                url: `${base}/kreatin/${item.id}/`,
+              })),
+            },
+            breadcrumb([
+              { name: 'Hjem', url: '/' },
+              { name: 'Kreatin best i test', url: '/tester/kreatin/' },
             ]),
           ]),
         }}
