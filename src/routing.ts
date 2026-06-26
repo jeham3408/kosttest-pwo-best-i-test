@@ -1,4 +1,4 @@
-import { blogPosts } from './data/blog'
+import { blogPosts, findBlogPost } from './data/blog'
 import { testedProteinProducts } from './data/proteinProducts'
 import { testedProducts } from './data/pwoProducts'
 import { siteStats } from './siteStats'
@@ -184,7 +184,7 @@ export function getPageMeta(state: RouteState): PageMeta {
     }
   }
   if (state.page === 'blog-post' && state.selectedProduct) {
-    const post = blogPosts.find((p) => p.id === state.selectedProduct)
+    const post = findBlogPost(state.selectedProduct)
     if (post) {
       return {
         title: `${post.title} | Kosttest.no`,

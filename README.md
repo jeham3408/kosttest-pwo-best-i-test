@@ -66,3 +66,14 @@ Produktdata i `src/data/pwoProducts.ts` er manuelt verifisert mot norske butikke
 - Oppdater priser: rediger `priceNok` i `pwoProducts.ts`
 - Nye produkter: legg til i `testedProducts` eller `listedProducts`
 - `lastUpdated` i `pwoProducts.ts` bør oppdateres ved innholdsendringer
+
+### Design/oversikt-audit (alle sider)
+
+```bash
+npm run build
+npm run audit:pages              # statisk audit av alle sider
+npm run audit:routes             # list ruter
+node scripts/page-audit-queue.mjs status
+```
+
+Cursor-automasjon: se `.cursor/automations/design-overview-audit.md`
