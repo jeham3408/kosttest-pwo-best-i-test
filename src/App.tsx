@@ -31,8 +31,8 @@ import {
   ProteinLeaderboardBlock,
   ProteinMetodeSection,
   ProteinProductPageView,
-  testedProteinProducts,
 } from './components/ProteinPageViews'
+import { testedProteinProducts } from './data/proteinProducts'
 import { getPageMeta, isCaseinProtein, isVeganProtein, isWheyProtein, normalizePath, parseRoute, type RouteState } from './routing'
 import { siteStats } from './siteStats'
 import { getRelatedProducts, kgPrice } from './utils/productHelpers'
@@ -627,6 +627,23 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
             </div>
           )}
           {post.content.map((p, i) => <p key={i} style={{marginTop:14,lineHeight:1.65}}>{p}</p>)}
+          {post.category === 'Samanlikning' && (
+            <nav aria-label="Andre sammenlikninger" style={{marginTop:28,paddingTop:20,borderTop:'1px solid var(--border)'}}>
+              <h3 style={{fontSize:14,margin:'0 0 10px'}}>Andre sammenlikninger</h3>
+              <div style={{display:'flex',flexWrap:'wrap',gap:8}}>
+                {blogPosts.filter((entry) => entry.category === 'Samanlikning' && entry.id !== post.id).map((entry) => (
+                  <a
+                    key={entry.id}
+                    href={'/blogg/' + entry.slug + '/'}
+                    onClick={(e) => { e.preventDefault(); setSelectedProduct(entry.id); setPage('blog-post') }}
+                    style={{padding:'6px 12px',background:'var(--paper)',border:'1px solid var(--border)',borderRadius:6,fontSize:12,textDecoration:'none',color:'var(--text)'}}
+                  >
+                    {entry.title.replace(/ – .+$/, '')}
+                  </a>
+                ))}
+              </div>
+            </nav>
+          )}
           {post.relatedProducts && post.relatedProducts.length > 0 && post.category !== 'Samanlikning' && (
             <div style={{marginTop:24,padding:16,background:'var(--paper)',borderRadius:8}}>
               <h3 style={{fontSize:14,margin:'0 0 8px'}}>🔗 Produkter med dette innholdsstoffet</h3>
