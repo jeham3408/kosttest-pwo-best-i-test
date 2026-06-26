@@ -7,19 +7,6 @@
 1. **Agents Window** → **Automations** → **+ New automation**
 2. **Navn:** Kosttest – protein verifisering (1 produkt)
 3. **Trigger:** On a schedule → Custom cron → **`*/5 * * * *`** (hvert 5. minutt)
-
-   Cron må ha **5 felt**: `minutt time dag måned ukedag`
-
-   | Felt | Verdi | Betydning |
-   |------|-------|-----------|
-   | 1 | `*/5` | Hvert 5. minutt |
-   | 2 | `*` | Hver time |
-   | 3 | `*` | Hver dag i måneden |
-   | 4 | `*` | Hver måned |
-   | 5 | `*` | Hver ukedag |
-
-   ❌ Feil: `*/5 * * *` (kun 4 felt)  
-   ✅ Riktig: `*/5 * * * *`
 4. **Repository:** `jeham3408/kosttest-pwo-best-i-test` · branch `main`
 5. **Agent:** Cloud Agent
 6. **Memory:** På
@@ -28,27 +15,31 @@
 ```
 Følg skill $kosttest-protein-verify
 
-Les data/protein-verification-status.md — seksjon 1 (🚫 ferdig testet) og seksjon 2 (➡️ NÅ).
-Verifiser NØYAKTIG ÉTT proteinpulver (kun productId under seksjon 2).
-Start med: node scripts/protein-verify-queue.mjs start
-Avslutt med: complete/reject + sync-md + kjøringslogg.
-ALDRI test productId fra seksjon 1. Ikke hopp til neste før cron.
+STEG 0: Ta screenshot av https://kosttest.no/tester/protein/
+Produkter UTEN ekte bilde (generisk placeholder) = IKKE ferdig analysert.
+
+Les data/protein-verification-status.md — seksjon 1 (ferdig med bilde) og 1b (mangler bilde).
+
+Kjør:
+  node scripts/protein-verify-queue.mjs audit
+  node scripts/protein-verify-queue.mjs start
+
+Verifiser NØYAKTIG ÉTT produkt (kun productId under ➡️ NÅ).
+Last ned produktbilde til public/images/protein/<id>.jpg før complete.
+ALDRI test produkter som allerede har bilde. Ikke hopp til neste før cron.
 ```
 
 8. **Run now** én gang for å teste.
 
-## Tidsestimat
+## Ferdig-signal
 
-26 produkter × 5 min ≈ **2 timer 10 min** for full første gjennomgang. Deretter kan du senke frekvens eller kjøre kun `pending`.
+Produkt er ferdig når `public/images/protein/<id>.jpg` finnes og `image` i proteinProducts.ts peker dit.
+`complete` feiler uten bilde.
 
 ## Manuell status
 
 ```bash
+node scripts/protein-verify-queue.mjs audit
 node scripts/protein-verify-queue.mjs status
 node scripts/protein-verify-queue.mjs next
 ```
-
-## Viktig
-
-- Agenten **må** avvise/fjerne produkter som ikke finnes (som NutriTac/Peveo protein).
-- Hver kjøring = **maks 1 commit** med ett produkt.

@@ -7,6 +7,14 @@ description: Verifiserer ÉTT proteinpulver per kjøring mot ekte butikkside. Br
 
 Du verifiserer **nøyaktig ett** proteinpulver per automasjonskjøring. Ikke hopp over. Ikke gjør flere produkter i samme kjøring — cron kjører igjen om 5 minutter.
 
+## Ferdig = har produktbilde
+
+**Regel:** Et produkt er først ferdig analysert når det har **ekte produktbilde** i `public/images/protein/<id>.jpg` (ikke generisk placeholder `IMG`).
+
+- Produkter **med bilde** på listen = ferdig — **ALDRI test igjen**
+- Produkter **uten bilde** (generisk whey-placeholder) = **ikke ferdig** — disse skal verifiseres
+- `complete` feiler uten bilde
+
 ## Hard regler
 
 1. **Aldri finn på produkter, priser, protein% eller URL-er.**
@@ -15,28 +23,31 @@ Du verifiserer **nøyaktig ett** proteinpulver per automasjonskjøring. Ikke hop
 4. **Næringsdata** skal komme fra næringsdeklarasjon på produktsiden — ikke gjetning.
 5. **DIAAS uten lab-test** = estimat (`diaasIsOfficial: false`). Ikke kall det offisiell DIAAS.
 6. **Score** beregnes via eksisterende `calculateProteinGrade()` — oppdater rådata, ikke score manuelt.
+7. **Alltid last ned produktbilde** til `public/images/protein/<id>.jpg` og oppdater `image` i `proteinProducts.ts`.
 
 ## Arbeidsflyt (følg i rekkefølge)
 
-### Steg 0 — Les statusfil
+### Steg 0 — Screenshot + les statusfil
 
-**Les `data/protein-verification-status.md`** — start med seksjonene **øverst**:
+1. **Ta screenshot** av https://kosttest.no/tester/protein/ — produkter med generisk bilde er IKKE ferdig.
+2. **Les `data/protein-verification-status.md`** — seksjonene **øverst**:
+   - **🚫 FERDIG ANALYSERT** — har bilde. **ALDRI test disse igjen.**
+   - **🖼️ MANGLER BILDE** — ikke ferdig. Neste kandidater.
+   - **➡️ NÅ** — det eneste produktet du skal teste.
 
-1. **🚫 FERDIG TESTET** — alle ID-er som allerede er verifisert/avvist. **ALDRI test disse igjen.**
-2. **➡️ NÅ** — det eneste produktet du skal teste i denne kjøringen.
-3. **⬅️ Sist ferdig** — kun referanse (siste som ble fullført).
+Hvis `productId` du tenker å teste har bilde: **STOPP** — det er feil produkt.
 
-Hvis `productId` du tenker å teste finnes i seksjon 1: **STOPP** — det er feil produkt.
-
-### Steg 1 — Lås neste produkt
+### Steg 1 — Bilde-audit og lås produkt
 
 ```bash
+node scripts/protein-verify-queue.mjs audit
 node scripts/protein-verify-queue.mjs start
 ```
 
-Output sier eksplisitt `previousProduct` (forrige), `testNowProduct` (nå) og `doNotTestIds` (forbudt). Hvis `done: true`, avslutt.
+`audit` viser `withImage` / `withoutImage` / `nextWithoutImage`.  
+`start` låser neste produkt **uten bilde**. Hvis `done: true`, avslutt.
 
-**Test kun `productId` fra seksjon 2 (➡️ NÅ).** Ikke noen ID fra seksjon 1. Ikke flere produkter.
+**Test kun `productId` fra seksjon 2 (➡️ NÅ).** Ikke noen ID fra seksjon 1.
 
 ### Steg 2 — Les produktet i repo
 
@@ -46,8 +57,10 @@ Finn oppføringen i `src/data/proteinProducts.ts` for `productId`.
 
 - Åpne produktets `url` og **søk på nett** om URL er feil.
 - Bekreft: produktnavn, merke, pris (NOK), pakkestørrelse, protein per 100 g, dosestørrelse.
+- **Last ned produktbilde** fra butikksiden → `public/images/protein/<id>.jpg`
 - Noter **ekte produkt-URL** (Gymgrossisten, MyProtein, Bodylab, Proteinfabrikken, osv.).
-- Hvis produktet **ikke finnes**: kjør `node scripts/protein-verify-queue.mjs reject --id <id> --reason "..."`, **fjern** fra `rawProducts`, commit, stopp.
+- Analyser **laktose** og allergener fra etikett.
+- Hvis produktet **ikke finnes**: kjør `reject`, **fjern** fra `rawProducts`, commit, stopp.
 
 ### Steg 4 — Skriv rapport
 
@@ -63,14 +76,12 @@ Lag/oppdater `data/protein-verifications/<id>.json`:
     "productPageLoads": true,
     "nameMatches": true,
     "nutritionFromLabel": true,
-    "priceFromMerchant": true
+    "priceFromMerchant": true,
+    "imageDownloaded": true
   },
   "corrections": ["liste over hva som var feil"],
-  "data": {
-    "name", "brand", "merchant", "url", "priceNok",
-    "packageSizeG", "packageSize", "servingSizeG", "servingSize", "servings",
-    "proteinPer100g", "proteinPerServingG", "sourceType", "sourceLabel"
-  },
+  "data": { "..." },
+  "lactoseAnalysis": { "containsLactose": true, "description": "...", "allergens": [] },
   "analysis": "2-4 setninger ærlig vurdering",
   "notes": "usikkerhet eller kampanjepris"
 }
@@ -78,9 +89,10 @@ Lag/oppdater `data/protein-verifications/<id>.json`:
 
 ### Steg 5 — Oppdater produktdata
 
-I `src/data/proteinProducts.ts`, oppdater **kun** det verifiserte produktet med data fra rapporten. Oppdater også `verdict`, `strengths`, `watchouts` hvis de var basert på feil info.
-
-`sourceType` må matche `ProteinSourceType` i `proteinScoring.ts`.
+I `src/data/proteinProducts.ts`, oppdater **kun** det verifiserte produktet:
+- Rådata fra rapporten
+- `image: '/images/protein/<id>.jpg'`
+- `verdict`, `strengths`, `watchouts` hvis feil
 
 ### Steg 6 — Merk verifisert i kø
 
@@ -89,11 +101,11 @@ node scripts/protein-verify-queue.mjs complete --id <id>
 node scripts/protein-verify-queue.mjs sync-md
 ```
 
+`complete` feiler hvis bildefilen mangler.
+
 ### Steg 6b — Oppdater status-MD
 
-Etter `complete`/`reject` + `sync-md` oppdateres **FORRIGE** og **NÅ** automatisk.
-
-Legg kun til nytt avsnitt **øverst** under **Kjøringslogg** (dato, id, kilde, endringer, score).
+Legg til nytt avsnitt **øverst** under **Kjøringslogg** (dato, id, kilde, endringer, bilde, neste).
 
 ### Steg 7 — Bygg og lever
 
@@ -101,13 +113,11 @@ Legg kun til nytt avsnitt **øverst** under **Kjøringslogg** (dato, id, kilde, 
 npm run build
 ```
 
-Commit med melding: `Verify protein: <id> — <kort beskrivelse>`
-
+Commit: `Verify protein: <id> — <kort beskrivelse>`  
 Push til `main` (én commit per produkt).
 
 ## Scoring
 
-Etter dataoppdatering regner `gradeProduct()` ut score automatisk ved build:
 - **DIAAS 70 %** + **pris per g protein 30 %**
 - **IAAS** fra aminosyreprofil-mal (ikke i totalscore)
 
@@ -116,11 +126,9 @@ Etter dataoppdatering regner `gradeProduct()` ut score automatisk ved build:
 | Fil | Formål |
 |-----|--------|
 | **`data/protein-verification-status.md`** | **Hovedfil — les og oppdater hver kjøring** |
-| `scripts/protein-verify-queue.mjs` | Kø: start/complete/reject/sync-md |
-| `src/data/proteinVerificationQueue.json` | Status per produkt |
+| `scripts/protein-verify-queue.mjs` | Kø: audit/start/complete/reject/sync-md |
+| `public/images/protein/<id>.jpg` | **Ferdig-signal** — mangler = ikke ferdig |
 | `data/protein-verifications/*.json` | Verifikasjonsrapporter |
 | `src/data/proteinProducts.ts` | Produkter (kun ekte data) |
-| `src/data/proteinScoring.ts` | DIAAS/IAAS motor |
 
-Live: https://kosttest.no  
-Repo: `jeham3408/kosttest-pwo-best-i-test`
+Live-liste: https://kosttest.no/tester/protein/

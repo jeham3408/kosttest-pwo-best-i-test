@@ -1,35 +1,68 @@
 # Protein verifisering — status
 
-> **STOPP:** Les seksjon **1** (ferdig testet) og **2** (nå) før du gjør noe. Test **aldri** produkter i seksjon 1.
+> **STOPP:** Les seksjon **1** (ferdig med bilde) og **1b** (mangler bilde) før du gjør noe.
+> **Regel:** Ingen ekte produktbilde = ikke ferdig analysert — selv om køen sier «verified».
 
-## 1. 🚫 FERDIG TESTET — ALDRI TEST DISSE IGJEN
+## 1. 🚫 FERDIG ANALYSERT — HAR BILDE (ALDRI TEST IGJEN)
+
+> **Regel:** Produkt med ekte bilde i `public/images/protein/` = ferdig. Generisk placeholder = IKKE ferdig.
 
 | productId | Merke | Navn | Ferdig | Resultat |
 |-----------|-------|------|--------|----------|
-| `star-whey-100` | Star Nutrition | Whey-100 | 2026-06-26 17:13 | ✅ verified |
-| `optimum-gold-standard` | Optimum Nutrition | Gold Standard 100% Whey | 2026-06-26 15:54 | ✅ verified |
-| `dymatize-iso100` | Dymatize | ISO100 Hydrolyzed 100% Whey Isolate | 2026-06-26 15:51 | ✅ verified |
-| `bodylab-whey-100` | Bodylab | Whey 100 | 2026-06-26 12:00 | ✅ verified |
+| `dymatize-iso100` | Dymatize | ISO100 Hydrolyzed 100% Whey Isolate | 2026-06-26 15:51 | ✅ ferdig (har bilde) |
+| `optimum-gold-standard` | Optimum Nutrition | Gold Standard 100% Whey | 2026-06-26 15:54 | ✅ ferdig (har bilde) |
+| `star-whey-100` | Star Nutrition | Whey-100 | 2026-06-26 17:13 | ✅ ferdig (har bilde) |
 
-**FORBUDT å teste på nytt:** `star-whey-100`, `optimum-gold-standard`, `dymatize-iso100`, `bodylab-whey-100`
+**FORBUDT å teste på nytt:** `dymatize-iso100`, `optimum-gold-standard`, `star-whey-100`
 
-Rapport ligger i `data/protein-verifications/<id>.json`. Hvis du tester en av disse ID-ene på nytt, er kjøringen FEIL.
+Sjekk live-liste: https://kosttest.no/tester/protein/
+
+## 1b. 🖼️ MANGLER BILDE — IKKE FERDIG ANALYSERT
+
+| productId | Merke | Navn | Kø-status | Bilde |
+|-----------|-------|------|-----------|-------|
+| `bodylab-whey-100` **← NESTE** | Bodylab | Whey 100 | ✅ verified | 🖼️ mangler |
+| `myprotein-impact-whey` | MyProtein | Impact Whey Protein | ⏳ pending | 🖼️ mangler |
+| `scitec-100-whey-professional` | Scitec Nutrition | 100% Whey Protein Professional | ⏳ pending | 🖼️ mangler |
+| `applied-critical-whey` | Applied Nutrition | Critical Whey | ⏳ pending | 🖼️ mangler |
+| `mutant-iso-surge` | Mutant | ISO Surge | ⏳ pending | 🖼️ mangler |
+| `rule1-r1-protein` | Rule 1 | R1 Protein | ⏳ pending | 🖼️ mangler |
+| `muscletech-nitrotech` | MuscleTech | Nitro-Tech Whey Gold | ⏳ pending | 🖼️ mangler |
+| `kevin-levrone-levro-whey` | Kevin Levrone | Levro Whey Supreme | ⏳ pending | 🖼️ mangler |
+| `ghost-whey` | Ghost | Ghost Whey | ⏳ pending | 🖼️ mangler |
+| `esn-designer-whey` | ESN | Designer Whey Protein | ⏳ pending | 🖼️ mangler |
+| `biotech-iso-whey-zero` | BioTech USA | Iso Whey Zero | ⏳ pending | 🖼️ mangler |
+| `weider-premium-whey` | Weider | Premium Whey Protein | ⏳ pending | 🖼️ mangler |
+| `proteinfabrikken-whey` | Proteinfabrikken | 100% Whey | ⏳ pending | 🖼️ mangler |
+| `smartsupps-whey` | SmartSupps | Whey Protein | ⏳ pending | 🖼️ mangler |
+| `bsn-syntha6-isolate` | BSN | Syntha-6 Isolate | ⏳ pending | 🖼️ mangler |
+| `olimp-pure-whey` | Olimp | Pure Whey Isolate 95 | ⏳ pending | 🖼️ mangler |
+| `qnt-delicious-whey` | QNT | Delicious Whey Protein | ⏳ pending | 🖼️ mangler |
+| `esn-isoclear` | ESN | Isoclear Whey Isolate | ⏳ pending | 🖼️ mangler |
+| `optimum-gold-standard-casein` | Optimum Nutrition | Gold Standard 100% Casein | ⏳ pending | 🖼️ mangler |
+| `myprotein-soy-isolate` | MyProtein | Soy Protein Isolate | ⏳ pending | 🖼️ mangler |
+| `myprotein-vegan-blend` | MyProtein | Vegan Protein Blend | ⏳ pending | 🖼️ mangler |
+| `proteinseries-100-whey` | Protein Series | 100% Whey | ⏳ pending | 🖼️ mangler |
+| `bulk-pure-whey` | Bulk | Pure Whey Protein | ⏳ pending | 🖼️ mangler |
+
+**23 produkter uten ekte bilde.** Disse skal verifiseres — ta screenshot av listen og sammenlign.
 
 ## 2. ➡️ NÅ — TEST KUN DETTE (ÉTT PRODUKT)
 
 | Felt | Verdi |
 |------|-------|
-| productId | `myprotein-impact-whey` |
-| merke | MyProtein |
-| navn | Impact Whey Protein |
-| url i repo (sjekk/fiks) | https://www.myprotein.no/sports-nutrition/impact-whey-protein/10852500.html |
-| kø-status | ⏳ pending |
+| productId | `bodylab-whey-100` |
+| merke | Bodylab |
+| navn | Whey 100 |
+| url i repo (sjekk/fiks) | https://www.bodylab.no/shop/bodylab-whey-100-663p.html |
+| har bilde | 🖼️ nei — må hentes |
+| kø-status | ✅ verified |
 | kjøring | ⏳ klar — kjør `node scripts/protein-verify-queue.mjs start` |
 | startet | — |
 
-**TEST KUN `myprotein-impact-whey` i denne kjøringen.**
+**TEST KUN `bodylab-whey-100` i denne kjøringen.** Husk: last ned produktbilde til `public/images/protein/bodylab-whey-100.jpg` før `complete`.
 
-**IKKE test:** `star-whey-100`, `optimum-gold-standard`, `dymatize-iso100`, `bodylab-whey-100`
+**IKKE test:** `dymatize-iso100`, `optimum-gold-standard`, `star-whey-100`
 
 ## 3. ⬅️ Sist ferdig (referanse — ikke test igjen)
 
@@ -38,52 +71,53 @@ Rapport ligger i `data/protein-verifications/<id>.json`. Hvis du tester en av di
 | productId | `star-whey-100` |
 | merke | Star Nutrition |
 | navn | Whey-100 |
-| resultat | ✅ verified |
+| resultat | ✅ ferdig (har bilde) |
 | ferdig | 2026-06-26 17:13 |
 
-Sist ferdig var `star-whey-100`. Neste er `myprotein-impact-whey`.
+Sist ferdig var `star-whey-100`. Neste uten bilde: `bodylab-whey-100`.
 
 ## Oppsummering
 
 | Felt | Verdi |
 |------|-------|
-| Verifisert | 4 / 26 |
+| Ferdig (har bilde) | 3 / 26 |
+| Mangler bilde | 23 |
 | Avvist | 0 |
-| Gjenstår | 22 |
-| Neste i kø | `myprotein-impact-whey` |
+| Neste uten bilde | `bodylab-whey-100` |
 | Siste kjøring | 2026-06-26 17:13 |
+| Live-liste | https://kosttest.no/tester/protein/ |
 | Cron | `*/5 * * * *` (hvert 5. min) |
 
 ## Produktkø
 
-| # | ID | Merke | Navn | Status | Verifisert |
-|---|-----|-------|------|--------|------------|
-| 1 | dymatize-iso100 | Dymatize | ISO100 Hydrolyzed 100% Whey Isolate | ✅ verified | 2026-06-26 |
-| 2 | optimum-gold-standard | Optimum Nutrition | Gold Standard 100% Whey | ✅ verified | 2026-06-26 |
-| 3 | bodylab-whey-100 | Bodylab | Whey 100 | ✅ verified | 2026-06-26 |
-| 4 | star-whey-100 ← forrige | Star Nutrition | Whey-100 | ✅ verified | 2026-06-26 |
-| 5 | myprotein-impact-whey | MyProtein | Impact Whey Protein | ⏳ pending | — |
-| 6 | scitec-100-whey-professional | Scitec Nutrition | 100% Whey Protein Professional | ⏳ pending | — |
-| 7 | applied-critical-whey | Applied Nutrition | Critical Whey | ⏳ pending | — |
-| 8 | mutant-iso-surge | Mutant | ISO Surge | ⏳ pending | — |
-| 9 | rule1-r1-protein | Rule 1 | R1 Protein | ⏳ pending | — |
-| 10 | muscletech-nitrotech | MuscleTech | Nitro-Tech Whey Gold | ⏳ pending | — |
-| 11 | kevin-levrone-levro-whey | Kevin Levrone | Levro Whey Supreme | ⏳ pending | — |
-| 12 | ghost-whey | Ghost | Ghost Whey | ⏳ pending | — |
-| 13 | esn-designer-whey | ESN | Designer Whey Protein | ⏳ pending | — |
-| 14 | biotech-iso-whey-zero | BioTech USA | Iso Whey Zero | ⏳ pending | — |
-| 15 | weider-premium-whey | Weider | Premium Whey Protein | ⏳ pending | — |
-| 16 | proteinfabrikken-whey | Proteinfabrikken | 100% Whey | ⏳ pending | — |
-| 17 | smartsupps-whey | SmartSupps | Whey Protein | ⏳ pending | — |
-| 18 | bsn-syntha6-isolate | BSN | Syntha-6 Isolate | ⏳ pending | — |
-| 19 | olimp-pure-whey | Olimp | Pure Whey Isolate 95 | ⏳ pending | — |
-| 20 | qnt-delicious-whey | QNT | Delicious Whey Protein | ⏳ pending | — |
-| 21 | esn-isoclear | ESN | Isoclear Whey Isolate | ⏳ pending | — |
-| 22 | optimum-gold-standard-casein | Optimum Nutrition | Gold Standard 100% Casein | ⏳ pending | — |
-| 23 | myprotein-soy-isolate | MyProtein | Soy Protein Isolate | ⏳ pending | — |
-| 24 | myprotein-vegan-blend | MyProtein | Vegan Protein Blend | ⏳ pending | — |
-| 25 | proteinseries-100-whey | Protein Series | 100% Whey | ⏳ pending | — |
-| 26 | bulk-pure-whey | Bulk | Pure Whey Protein | ⏳ pending | — |
+| # | ID | Merke | Navn | Kø | Bilde | Dato |
+|---|-----|-------|------|-----|-------|------|
+| 1 | dymatize-iso100 | Dymatize | ISO100 Hydrolyzed 100% Whey Isolate | ✅ verified | 🖼️ ✅ | 2026-06-26 |
+| 2 | optimum-gold-standard | Optimum Nutrition | Gold Standard 100% Whey | ✅ verified | 🖼️ ✅ | 2026-06-26 |
+| 3 | bodylab-whey-100 | Bodylab | Whey 100 | ✅ verified | 🖼️ ❌ | 2026-06-26 |
+| 4 | star-whey-100 ← forrige | Star Nutrition | Whey-100 | ✅ verified | 🖼️ ✅ | 2026-06-26 |
+| 5 | myprotein-impact-whey | MyProtein | Impact Whey Protein | ⏳ pending | 🖼️ ❌ | — |
+| 6 | scitec-100-whey-professional | Scitec Nutrition | 100% Whey Protein Professional | ⏳ pending | 🖼️ ❌ | — |
+| 7 | applied-critical-whey | Applied Nutrition | Critical Whey | ⏳ pending | 🖼️ ❌ | — |
+| 8 | mutant-iso-surge | Mutant | ISO Surge | ⏳ pending | 🖼️ ❌ | — |
+| 9 | rule1-r1-protein | Rule 1 | R1 Protein | ⏳ pending | 🖼️ ❌ | — |
+| 10 | muscletech-nitrotech | MuscleTech | Nitro-Tech Whey Gold | ⏳ pending | 🖼️ ❌ | — |
+| 11 | kevin-levrone-levro-whey | Kevin Levrone | Levro Whey Supreme | ⏳ pending | 🖼️ ❌ | — |
+| 12 | ghost-whey | Ghost | Ghost Whey | ⏳ pending | 🖼️ ❌ | — |
+| 13 | esn-designer-whey | ESN | Designer Whey Protein | ⏳ pending | 🖼️ ❌ | — |
+| 14 | biotech-iso-whey-zero | BioTech USA | Iso Whey Zero | ⏳ pending | 🖼️ ❌ | — |
+| 15 | weider-premium-whey | Weider | Premium Whey Protein | ⏳ pending | 🖼️ ❌ | — |
+| 16 | proteinfabrikken-whey | Proteinfabrikken | 100% Whey | ⏳ pending | 🖼️ ❌ | — |
+| 17 | smartsupps-whey | SmartSupps | Whey Protein | ⏳ pending | 🖼️ ❌ | — |
+| 18 | bsn-syntha6-isolate | BSN | Syntha-6 Isolate | ⏳ pending | 🖼️ ❌ | — |
+| 19 | olimp-pure-whey | Olimp | Pure Whey Isolate 95 | ⏳ pending | 🖼️ ❌ | — |
+| 20 | qnt-delicious-whey | QNT | Delicious Whey Protein | ⏳ pending | 🖼️ ❌ | — |
+| 21 | esn-isoclear | ESN | Isoclear Whey Isolate | ⏳ pending | 🖼️ ❌ | — |
+| 22 | optimum-gold-standard-casein | Optimum Nutrition | Gold Standard 100% Casein | ⏳ pending | 🖼️ ❌ | — |
+| 23 | myprotein-soy-isolate | MyProtein | Soy Protein Isolate | ⏳ pending | 🖼️ ❌ | — |
+| 24 | myprotein-vegan-blend | MyProtein | Vegan Protein Blend | ⏳ pending | 🖼️ ❌ | — |
+| 25 | proteinseries-100-whey | Protein Series | 100% Whey | ⏳ pending | 🖼️ ❌ | — |
+| 26 | bulk-pure-whey | Bulk | Pure Whey Protein | ⏳ pending | 🖼️ ❌ | — |
 
 ## Kjøringslogg
 
@@ -132,12 +166,14 @@ Sist ferdig var `star-whey-100`. Neste er `myprotein-impact-whey`.
 
 ## Instruks (automasjon)
 
-1. Les **seksjon 1** (🚫 ferdig testet) — disse ID-ene er **forbudt**.
-2. Les **seksjon 2** (➡️ NÅ) — dette er det **eneste** produktet du skal teste.
-3. `node scripts/protein-verify-queue.mjs start` → låser produktet under **NÅ**.
-4. Verifiser **kun** productId fra seksjon 2 mot ekte butikkside.
-5. Oppdater `src/data/proteinProducts.ts` + `data/protein-verifications/<id>.json`.
-6. `node scripts/protein-verify-queue.mjs complete --id <id>` eller `reject`.
-7. `node scripts/protein-verify-queue.mjs sync-md` → oppdater seksjon 1 og 2.
-8. Legg til oppføring i **Kjøringslogg**.
-9. `npm run build` → commit → push.
+1. **Screenshot:** Ta bilde av https://kosttest.no/tester/protein/ — produkter uten ekte bilde er ikke ferdig.
+2. `node scripts/protein-verify-queue.mjs audit` → bekreft hvem som mangler bilde.
+3. Les **seksjon 1** (🚫 ferdig med bilde) — disse ID-ene er **forbudt**.
+4. Les **seksjon 2** (➡️ NÅ) — dette er det **eneste** produktet du skal teste.
+5. `node scripts/protein-verify-queue.mjs start` → låser neste produkt **uten bilde**.
+6. Verifiser mot ekte butikkside + **last ned produktbilde** til `public/images/protein/<id>.jpg`.
+7. Oppdater `src/data/proteinProducts.ts` + `data/protein-verifications/<id>.json`.
+8. `node scripts/protein-verify-queue.mjs complete --id <id>` (feiler uten bilde) eller `reject`.
+9. `node scripts/protein-verify-queue.mjs sync-md` → oppdater seksjon 1 og 2.
+10. Legg til oppføring i **Kjøringslogg**.
+11. `npm run build` → commit → push.
