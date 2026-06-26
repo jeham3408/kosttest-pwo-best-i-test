@@ -11,7 +11,10 @@
     "preview": "vite preview",
     "protein:verify:status": "node scripts/protein-verify-queue.mjs status",
     "protein:verify:next": "node scripts/protein-verify-queue.mjs next",
-    "protein:verify:sync-md": "node scripts/protein-verify-queue.mjs sync-md"
+    "protein:verify:sync-md": "node scripts/protein-verify-queue.mjs sync-md",
+    "kosttilskudd:verify:status": "node scripts/kosttilskudd-verify-queue.mjs status",
+    "kosttilskudd:verify:start": "node scripts/kosttilskudd-verify-queue.mjs start",
+    "kosttilskudd:verify:sync-master": "node scripts/kosttilskudd-verify-queue.mjs sync-master"
   },
   "dependencies": {
     "lucide-react": "^1.14.0",

@@ -28,12 +28,18 @@ import { blogPosts } from './data/blog'
 import { generateProductContent } from './productContent'
 import LeaderboardSection from './LeaderboardSection'
 import {
+  CreatineLeaderboardBlock,
+  CreatineMetodeSection,
+  CreatineProductPageView,
+} from './components/CreatinePageViews'
+import { testedCreatineProducts } from './data/creatineProducts'
+import {
   ProteinLeaderboardBlock,
   ProteinMetodeSection,
   ProteinProductPageView,
   testedProteinProducts,
 } from './components/ProteinPageViews'
-import { getPageMeta, isCaseinProtein, isVeganProtein, isWheyProtein, normalizePath, parseRoute, type RouteState } from './routing'
+import { getPageMeta, isCaseinProtein, isCreatineGummies, isCreatinePowder, isVeganProtein, isWheyProtein, normalizePath, parseRoute, type RouteState } from './routing'
 import { siteStats } from './siteStats'
 import { getRelatedProducts, kgPrice } from './utils/productHelpers'
 
@@ -223,6 +229,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
   const [caffeineFilter, setCaffeineFilter] = useState<'alle' | 'med' | 'uten'>(initialRoute.caffeineFilter)
   const [betaFilter, setBetaFilter] = useState<'med' | 'uten'>(initialRoute.betaFilter)
   const [proteinFilter, setProteinFilter] = useState<'alle' | 'whey' | 'vegan' | 'kasein'>(initialRoute.proteinFilter)
+  const [creatineFilter, setCreatineFilter] = useState<'alle' | 'pulver' | 'gummies'>(initialRoute.creatineFilter)
 
   const toggleSort = (col: string) => {
     if (col === 'price') {
@@ -269,6 +276,24 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
     return filtered.sort((a, b) => (sortAsc ? cmp(b, a) : cmp(a, b))).map((p, i) => ({ ...p, rank: i + 1 }))
   }, [sortCol, sortAsc, proteinFilter])
 
+  const toggleCreatineSort = (col: string) => {
+    if (sortCol === col) { setSortAsc(!sortAsc); return }
+    setSortCol(col)
+    setSortAsc(col === 'price-creatine')
+  }
+
+  const sortedCreatineProducts = useMemo(() => {
+    let filtered = [...testedCreatineProducts]
+    if (creatineFilter === 'pulver') filtered = filtered.filter((p) => isCreatinePowder(p.format))
+    if (creatineFilter === 'gummies') filtered = filtered.filter((p) => isCreatineGummies(p.format))
+    const cmp = (a: typeof testedCreatineProducts[0], b: typeof testedCreatineProducts[0]) => {
+      if (sortCol === 'dose') return b.creatinePerServingG - a.creatinePerServingG
+      if (sortCol === 'price-creatine') return a.pricePerGramCreatine - b.pricePerGramCreatine
+      return b.score - a.score || a.pricePerGramCreatine - b.pricePerGramCreatine
+    }
+    return filtered.sort((a, b) => (sortAsc ? cmp(b, a) : cmp(a, b))).map((p, i) => ({ ...p, rank: i + 1 }))
+  }, [sortCol, sortAsc, creatineFilter])
+
   // URL sync on mount
   useEffect(() => {
     const syncFromUrl = () => {
@@ -280,6 +305,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
       setCaffeineFilter(route.caffeineFilter)
       setBetaFilter(route.betaFilter)
       setProteinFilter(route.proteinFilter)
+      setCreatineFilter(route.creatineFilter)
     }
     syncFromUrl()
     window.addEventListener('popstate', syncFromUrl)
@@ -292,6 +318,9 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
     let url = base + '/'
     if (page === 'lb-pwo') url = base + '/tester/pwo/'
     else if (page === 'lb-protein') url = base + '/tester/protein/'
+    else if (page === 'lb-creatine') url = base + '/tester/kreatin/'
+    else if (page === 'creatine-product' && selectedProduct) url = base + '/kreatin/' + selectedProduct + '/'
+    else if (page === 'creatine-metode') url = base + '/tester/kreatin/metode/'
     else if (page === 'protein-product' && selectedProduct) url = base + '/protein/' + selectedProduct + '/'
     else if (page === 'protein-guide') url = base + '/tester/protein/slik-velger-du/'
     else if (page === 'protein-metode') url = base + '/tester/protein/metode/'
@@ -308,8 +337,8 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
   }, [page, selectedProduct])
 
   const pageMeta = useMemo(
-    () => getPageMeta({ page, selectedProduct, sortCol, sortAsc, caffeineFilter, betaFilter, proteinFilter }),
-    [page, selectedProduct, sortCol, sortAsc, caffeineFilter, betaFilter, proteinFilter],
+    () => getPageMeta({ page, selectedProduct, sortCol, sortAsc, caffeineFilter, betaFilter, proteinFilter, creatineFilter }),
+    [page, selectedProduct, sortCol, sortAsc, caffeineFilter, betaFilter, proteinFilter, creatineFilter],
   )
 
   useEffect(() => {
@@ -454,6 +483,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
         path={seoPath}
         product={page === 'product' && selectedProduct ? testedProducts.find((p) => p.id === selectedProduct) : undefined}
         proteinProduct={page === 'protein-product' && selectedProduct ? testedProteinProducts.find((p) => p.id === selectedProduct) : undefined}
+        creatineProduct={page === 'creatine-product' && selectedProduct ? testedCreatineProducts.find((p) => p.id === selectedProduct) : undefined}
       />
       <header className="site-header">
         <a className="brand" href="#" onClick={(e) => { e.preventDefault(); setPage('home'); setSelectedProduct(null) }} style={{ cursor: 'pointer' }}>
@@ -473,6 +503,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
             </div>}
           </div>
           <a href="/tester/protein/" onClick={(e) => { e.preventDefault(); setPage('lb-protein'); setSelectedProduct(null) }} className={page === 'lb-protein' || page === 'protein-product' || page === 'protein-metode' || page === 'protein-guide' ? 'nav-active' : ''}>Protein</a>
+          <a href="/tester/kreatin/" onClick={(e) => { e.preventDefault(); setPage('lb-creatine'); setSelectedProduct(null) }} className={page === 'lb-creatine' || page === 'creatine-product' || page === 'creatine-metode' ? 'nav-active' : ''}>Kreatin</a>
           <a href="/tester/pwo/slik-velger-du/" onClick={(e) => { e.preventDefault(); setPage('buying-guide') }}>Kjøpsguide</a>
           <a href="/om-metoden/" onClick={(e) => { e.preventDefault(); setPage('metode') }}>Om metoden</a>
         </nav>
@@ -483,12 +514,13 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
           <>
             <section className="hero-section">
               <div className="hero-copy">
-                <p className="meta-line">Oppdatert {lastUpdated} · PWO og proteinpulver · ingen sponsede plasseringer</p>
-                <h1>PWO og proteinpulver best i test 2026</h1>
-                <p className="lead">Vi rangerer pre-workout etter ingredienser og proteinpulver etter DIAAS (primær) og pris per g protein — med IAAS vist for sammenligning. Ærlig, kildeåpen og uten betalte plasseringer.</p>
+                <p className="meta-line">Oppdatert {lastUpdated} · PWO, protein og kreatin · ingen sponsede plasseringer</p>
+                <h1>PWO, protein og kreatin best i test 2026</h1>
+                <p className="lead">Vi rangerer pre-workout etter ingredienser, proteinpulver etter DIAAS og kreatin etter dose, form og pris per gram — ærlig, kildeåpen og uten betalte plasseringer.</p>
                 <div className="hero-actions">
                   <button className="button primary" onClick={() => setPage('lb-pwo')}><ArrowDown size={18} /> PWO-rangering</button>
                   <button className="button primary" onClick={() => setPage('lb-protein')} style={{ background: 'var(--blue)' }}><ArrowDown size={18} /> Proteinpulver</button>
+                  <button className="button primary" onClick={() => setPage('lb-creatine')} style={{ background: '#6b4c9a' }}><ArrowDown size={18} /> Kreatin</button>
                   <button className="button secondary" onClick={() => setPage('metode')}><Scale size={18} /> Metoden</button>
                 </div>
               </div>
@@ -514,6 +546,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
             <section className="summary-band">
               <div className="summary-grid">
                 <div><Search size={21} /> <span style={{fontWeight:700}}>{siteStats.pwoListedCount}</span> PWO kartlagt<br /><span style={{fontSize:12,color:'var(--muted)'}}>{siteStats.pwoTestedCount} rangert</span></div>
+                <div><FlaskConical size={21} /> <span style={{fontWeight:700}}>{siteStats.creatineTestedCount}</span> kreatin testet<br /><span style={{fontSize:12,color:'var(--muted)'}}>Pulver + gummies</span></div>
                 <div><FlaskConical size={21} /> <span style={{fontWeight:700}}>{siteStats.proteinTestedCount}</span> proteinpulver testet<br /><span style={{fontSize:12,color:'var(--muted)'}}>DIAAS + IAAS + pris/g</span></div>
                 <div><ShieldCheck size={21} /> Åpen karaktermotor<br /><span style={{fontSize:12,color:'var(--muted)'}}>Ingen sponsede plasseringer</span></div>
               </div>
@@ -584,6 +617,14 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
                 <a href="/tester/protein/vegan/" onClick={(e) => { e.preventDefault(); setPage('lb-protein'); setProteinFilter('vegan') }} style={{padding:12,background:'var(--paper)',borderRadius:8,textDecoration:'none'}}>
                   <span style={{fontWeight:700}}>🌱 Vegan protein</span>
                   <p style={{fontSize:12,color:'var(--muted)',margin:'4px 0 0'}}>Soya og erte/ris — lavere DIAAS-estimat uten lab-test.</p>
+                </a>
+                <a href="/tester/kreatin/" onClick={(e) => { e.preventDefault(); setPage('lb-creatine') }} style={{padding:12,background:'var(--paper)',borderRadius:8,textDecoration:'none'}}>
+                  <span style={{fontWeight:700}}>💪 Beste kreatin</span>
+                  <p style={{fontSize:12,color:'var(--muted)',margin:'4px 0 0'}}>{siteStats.creatineTestedCount} produkter — pulver og gummies.</p>
+                </a>
+                <a href="/tester/kreatin/gummies/" onClick={(e) => { e.preventDefault(); setPage('lb-creatine'); setCreatineFilter('gummies') }} style={{padding:12,background:'var(--paper)',borderRadius:8,textDecoration:'none'}}>
+                  <span style={{fontWeight:700}}>🍬 Kreatin gummies</span>
+                  <p style={{fontSize:12,color:'var(--muted)',margin:'4px 0 0'}}>Vurderes mot effektiv daglig dose.</p>
                 </a>
                 <a href="/tester/protein/metode/" onClick={(e) => { e.preventDefault(); setPage('protein-metode') }} style={{padding:12,background:'var(--paper)',borderRadius:8,textDecoration:'none'}}>
                   <span style={{fontWeight:700}}>🧬 DIAAS vs IAAS</span>
@@ -664,6 +705,37 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
             {enablePwoScan && <SubmissionPanel />}
             <section className="source-section" id="kilder"><div className="section-heading"><span>Kilder</span><h2>Åpne kilder</h2></div><ul className="source-list">{sourceLinks.map(s => <li key={s.url}><a href={s.url} target="_blank" rel="noreferrer">{s.label}<ExternalLink size={15} /></a></li>)}</ul></section>
           </>
+        )}
+
+        {page === 'lb-creatine' && (
+          <CreatineLeaderboardBlock
+            onSelectProduct={(id) => { setSelectedProduct(id); setPage('creatine-product') }}
+            sortCol={sortCol}
+            sortAsc={sortAsc}
+            creatineFilter={creatineFilter}
+            onSort={toggleCreatineSort}
+            onFilterChange={setCreatineFilter}
+            sortedProducts={sortedCreatineProducts}
+          />
+        )}
+
+        {page === 'creatine-product' && selectedProduct && (() => {
+          const product = testedCreatineProducts.find((p) => p.id === selectedProduct)
+          if (!product) return null
+          return (
+            <CreatineProductPageView
+              product={product}
+              onBack={() => { setPage('lb-creatine'); setSelectedProduct(null) }}
+              onSelect={(id) => { setSelectedProduct(id); setPage('creatine-product') }}
+            />
+          )
+        })()}
+
+        {page === 'creatine-metode' && (
+          <section className="content-section">
+            <button className="button secondary" onClick={() => setPage('lb-creatine')} style={{ marginBottom: 16 }}>← Kreatinrangering</button>
+            <CreatineMetodeSection />
+          </section>
         )}
 
         {page === 'lb-protein' && (
