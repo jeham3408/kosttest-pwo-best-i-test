@@ -1,4 +1,4 @@
-import { blogPosts } from '../data/blog'
+import { findBlogPost } from '../data/blog'
 import { testedProteinProducts, type TestedProteinProduct } from '../data/proteinProducts'
 import { testedProducts, type TestedProduct } from '../data/pwoProducts'
 import { normalizePath } from '../routing'
@@ -124,6 +124,7 @@ export default function JsonLd({ path: rawPath, product, proteinProduct }: JsonL
   }
 
   if (path.includes('/slik-velger-du')) {
+    const isProteinGuide = path.startsWith('/tester/protein/')
     return (
       <script
         type="application/ld+json"
@@ -132,18 +133,26 @@ export default function JsonLd({ path: rawPath, product, proteinProduct }: JsonL
             ...def,
             {
               '@type': 'HowTo',
-              name: 'Slik velger du riktig PWO',
-              step: [
-                { '@type': 'HowToStep', position: 1, name: 'Forstå hva en PWO er', text: 'En PWO (Pre-Workout) er et kosttilskudd du tar før trening for energi, fokus, utholdenhet og muskelpump.' },
-                { '@type': 'HowToStep', position: 2, name: 'Se etter nøkkelingredienser', text: 'L-citrulline (4000-10000 mg), beta-alanin (3200-6400 mg), koffein (100-300 mg) og rødbetekstrakt er de viktigste ingrediensene i en PWO.' },
-                { '@type': 'HowToStep', position: 3, name: 'Velg etter behov', text: 'Maksimal pump: 6000+ mg L-citrulline. Kveldstrening: velg stim-free. Nybegynner: start med lav koffein (100-200 mg).' },
-                { '@type': 'HowToStep', position: 4, name: 'Unngå fellene', text: 'Styr unna proprietary blends og produkter uten oppgitte mengder. BCAA i PWO er unødvendig ved tilstrekkelig proteininntak.' },
-                { '@type': 'HowToStep', position: 5, name: 'Bruk en åpen karaktermotor', text: 'Vår test vektlegger L-citrulline, arginin, rødbetekstrakt og andre ingredienser — ikke koffein eller pris. Se hele rangeringen på kosttest.no.' },
-              ],
+              name: isProteinGuide ? 'Slik velger du proteinpulver' : 'Slik velger du riktig PWO',
+              step: isProteinGuide
+                ? [
+                    { '@type': 'HowToStep', position: 1, name: 'Forstå proteinbehovet', text: 'Proteinpulver er et praktisk tilskudd når du ikke dekker behovet via mat. Målet er tilstrekkelig protein per dag — ikke et bestemt merke.' },
+                    { '@type': 'HowToStep', position: 2, name: 'Sjekk proteininnhold og type', text: 'Velg whey for rask opptak, kasein for langsom frigjøring, eller plantebasert om du unngår melk. Sjekk protein per 100 g og tilsatt sukker.' },
+                    { '@type': 'HowToStep', position: 3, name: 'Vurder kvalitet med DIAAS', text: 'DIAAS måler hvor godt proteinet utnyttes i kroppen. Vi bruker DIAAS som primær score og viser IAAS for sammenligning.' },
+                    { '@type': 'HowToStep', position: 4, name: 'Sammenlign pris per gram protein', text: 'Billigst per kilo er ikke alltid billigst per gram protein. Se pris per g protein i rangeringen vår.' },
+                    { '@type': 'HowToStep', position: 5, name: 'Bruk en åpen karaktermotor', text: 'Vår test vektlegger DIAAS (70 %) og pris per g protein (30 %). Se hele rangeringen på kosttest.no.' },
+                  ]
+                : [
+                    { '@type': 'HowToStep', position: 1, name: 'Forstå hva en PWO er', text: 'En PWO (Pre-Workout) er et kosttilskudd du tar før trening for energi, fokus, utholdenhet og muskelpump.' },
+                    { '@type': 'HowToStep', position: 2, name: 'Se etter nøkkelingredienser', text: 'L-citrulline (4000-10000 mg), beta-alanin (3200-6400 mg), koffein (100-300 mg) og rødbetekstrakt er de viktigste ingrediensene i en PWO.' },
+                    { '@type': 'HowToStep', position: 3, name: 'Velg etter behov', text: 'Maksimal pump: 6000+ mg L-citrulline. Kveldstrening: velg stim-free. Nybegynner: start med lav koffein (100-200 mg).' },
+                    { '@type': 'HowToStep', position: 4, name: 'Unngå fellene', text: 'Styr unna proprietary blends og produkter uten oppgitte mengder. BCAA i PWO er unødvendig ved tilstrekkelig proteininntak.' },
+                    { '@type': 'HowToStep', position: 5, name: 'Bruk en åpen karaktermotor', text: 'Vår test vektlegger L-citrulline, arginin, rødbetekstrakt og andre ingredienser — ikke koffein eller pris. Se hele rangeringen på kosttest.no.' },
+                  ],
             },
             breadcrumb([
               { name: 'Hjem', url: '/' },
-              { name: 'Kjøpsguide', url: '/tester/pwo/slik-velger-du/' },
+              { name: isProteinGuide ? 'Proteinkjøpsguide' : 'Kjøpsguide', url: isProteinGuide ? '/tester/protein/slik-velger-du/' : '/tester/pwo/slik-velger-du/' },
             ]),
           ]),
         }}
@@ -209,7 +218,7 @@ export default function JsonLd({ path: rawPath, product, proteinProduct }: JsonL
 
   if (path.startsWith('/blogg/') && path !== '/blogg') {
     const slug = path.replace('/blogg/', '')
-    const post = blogPosts.find((entry) => entry.slug === slug || entry.id === slug)
+    const post = findBlogPost(slug)
     if (post) {
       return (
         <script
