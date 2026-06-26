@@ -1,0 +1,2138 @@
+{
+  "version": 1,
+  "cycle": 1,
+  "lastFullAudit": "2026-06-26T18:06:52.772Z",
+  "pages": {
+    "/": {
+      "route": "/",
+      "type": "home",
+      "label": "Forside",
+      "url": "https://kosttest.no/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "4 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": true,
+      "lastAutoAudit": "2026-06-26T18:06:56.785Z"
+    },
+    "/tester/pwo": {
+      "route": "/tester/pwo",
+      "type": "pwo-hub",
+      "label": "PWO-hub: /tester/pwo",
+      "url": "https://kosttest.no/tester/pwo/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "missing-h1",
+          "severity": "error",
+          "message": "Mangler h1 — svekker oversikt og SEO"
+        },
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/tester/pwo/beste": {
+      "route": "/tester/pwo/beste",
+      "type": "pwo-hub",
+      "label": "PWO-hub: /tester/pwo/beste",
+      "url": "https://kosttest.no/tester/pwo/beste/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "missing-h1",
+          "severity": "error",
+          "message": "Mangler h1 — svekker oversikt og SEO"
+        },
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/tester/pwo/sterkeste": {
+      "route": "/tester/pwo/sterkeste",
+      "type": "pwo-hub",
+      "label": "PWO-hub: /tester/pwo/sterkeste",
+      "url": "https://kosttest.no/tester/pwo/sterkeste/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "missing-h1",
+          "severity": "error",
+          "message": "Mangler h1 — svekker oversikt og SEO"
+        },
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/tester/pwo/billigste": {
+      "route": "/tester/pwo/billigste",
+      "type": "pwo-hub",
+      "label": "PWO-hub: /tester/pwo/billigste",
+      "url": "https://kosttest.no/tester/pwo/billigste/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "missing-h1",
+          "severity": "error",
+          "message": "Mangler h1 — svekker oversikt og SEO"
+        },
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/tester/pwo/stim-free": {
+      "route": "/tester/pwo/stim-free",
+      "type": "pwo-hub",
+      "label": "PWO-hub: /tester/pwo/stim-free",
+      "url": "https://kosttest.no/tester/pwo/stim-free/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "missing-h1",
+          "severity": "error",
+          "message": "Mangler h1 — svekker oversikt og SEO"
+        },
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/tester/pwo/nybegynner": {
+      "route": "/tester/pwo/nybegynner",
+      "type": "pwo-hub",
+      "label": "PWO-hub: /tester/pwo/nybegynner",
+      "url": "https://kosttest.no/tester/pwo/nybegynner/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "missing-h1",
+          "severity": "error",
+          "message": "Mangler h1 — svekker oversikt og SEO"
+        },
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/tester/protein": {
+      "route": "/tester/protein",
+      "type": "protein-hub",
+      "label": "Protein-hub: /tester/protein",
+      "url": "https://kosttest.no/tester/protein/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "missing-h1",
+          "severity": "error",
+          "message": "Mangler h1 — svekker oversikt og SEO"
+        },
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/tester/protein/beste": {
+      "route": "/tester/protein/beste",
+      "type": "protein-hub",
+      "label": "Protein-hub: /tester/protein/beste",
+      "url": "https://kosttest.no/tester/protein/beste/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "missing-h1",
+          "severity": "error",
+          "message": "Mangler h1 — svekker oversikt og SEO"
+        },
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/tester/protein/billigste": {
+      "route": "/tester/protein/billigste",
+      "type": "protein-hub",
+      "label": "Protein-hub: /tester/protein/billigste",
+      "url": "https://kosttest.no/tester/protein/billigste/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "missing-h1",
+          "severity": "error",
+          "message": "Mangler h1 — svekker oversikt og SEO"
+        },
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/tester/protein/vegan": {
+      "route": "/tester/protein/vegan",
+      "type": "protein-hub",
+      "label": "Protein-hub: /tester/protein/vegan",
+      "url": "https://kosttest.no/tester/protein/vegan/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "missing-h1",
+          "severity": "error",
+          "message": "Mangler h1 — svekker oversikt og SEO"
+        },
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/tester/protein/kasein": {
+      "route": "/tester/protein/kasein",
+      "type": "protein-hub",
+      "label": "Protein-hub: /tester/protein/kasein",
+      "url": "https://kosttest.no/tester/protein/kasein/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "missing-h1",
+          "severity": "error",
+          "message": "Mangler h1 — svekker oversikt og SEO"
+        },
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/tester/protein/slik-velger-du": {
+      "route": "/tester/protein/slik-velger-du",
+      "type": "protein-hub",
+      "label": "Protein-hub: /tester/protein/slik-velger-du",
+      "url": "https://kosttest.no/tester/protein/slik-velger-du/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        },
+        {
+          "code": "missing-table",
+          "severity": "warning",
+          "message": "Rangeringsside uten tabell — sjekk oversikt"
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/tester/protein/metode": {
+      "route": "/tester/protein/metode",
+      "type": "protein-hub",
+      "label": "Protein-hub: /tester/protein/metode",
+      "url": "https://kosttest.no/tester/protein/metode/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "missing-h1",
+          "severity": "error",
+          "message": "Mangler h1 — svekker oversikt og SEO"
+        },
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/blogg": {
+      "route": "/blogg",
+      "type": "blog-index",
+      "label": "Blogg",
+      "url": "https://kosttest.no/blogg/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "missing-h1",
+          "severity": "error",
+          "message": "Mangler h1 — svekker oversikt og SEO"
+        },
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/om-metoden": {
+      "route": "/om-metoden",
+      "type": "method",
+      "label": "Metode",
+      "url": "https://kosttest.no/om-metoden/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "missing-h1",
+          "severity": "error",
+          "message": "Mangler h1 — svekker oversikt og SEO"
+        },
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/kilder": {
+      "route": "/kilder",
+      "type": "sources",
+      "label": "Kilder",
+      "url": "https://kosttest.no/kilder/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "4 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/tester/pwo/slik-velger-du": {
+      "route": "/tester/pwo/slik-velger-du",
+      "type": "pwo-hub",
+      "label": "PWO-hub: /tester/pwo/slik-velger-du",
+      "url": "https://kosttest.no/tester/pwo/slik-velger-du/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        },
+        {
+          "code": "missing-table",
+          "severity": "warning",
+          "message": "Rangeringsside uten tabell — sjekk oversikt"
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/bsn-noxplode-50": {
+      "route": "/pwo/bsn-noxplode-50",
+      "type": "pwo-product",
+      "label": "PWO: bsn-noxplode-50",
+      "url": "https://kosttest.no/pwo/bsn-noxplode-50/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/applied-abe": {
+      "route": "/pwo/applied-abe",
+      "type": "pwo-product",
+      "label": "PWO: applied-abe",
+      "url": "https://kosttest.no/pwo/applied-abe/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/white-lion-supervillain": {
+      "route": "/pwo/white-lion-supervillain",
+      "type": "pwo-product",
+      "label": "PWO: white-lion-supervillain",
+      "url": "https://kosttest.no/pwo/white-lion-supervillain/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/star-ultimate": {
+      "route": "/pwo/star-ultimate",
+      "type": "pwo-product",
+      "label": "PWO: star-ultimate",
+      "url": "https://kosttest.no/pwo/star-ultimate/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/peveo-stim-free": {
+      "route": "/pwo/peveo-stim-free",
+      "type": "pwo-product",
+      "label": "PWO: peveo-stim-free",
+      "url": "https://kosttest.no/pwo/peveo-stim-free/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/star-supreme": {
+      "route": "/pwo/star-supreme",
+      "type": "pwo-product",
+      "label": "PWO: star-supreme",
+      "url": "https://kosttest.no/pwo/star-supreme/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/peveo-maxed": {
+      "route": "/pwo/peveo-maxed",
+      "type": "pwo-product",
+      "label": "PWO: peveo-maxed",
+      "url": "https://kosttest.no/pwo/peveo-maxed/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/smartsupps-pwo": {
+      "route": "/pwo/smartsupps-pwo",
+      "type": "pwo-product",
+      "label": "PWO: smartsupps-pwo",
+      "url": "https://kosttest.no/pwo/smartsupps-pwo/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/white-lion-original": {
+      "route": "/pwo/white-lion-original",
+      "type": "pwo-product",
+      "label": "PWO: white-lion-original",
+      "url": "https://kosttest.no/pwo/white-lion-original/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/off-the-hook": {
+      "route": "/pwo/off-the-hook",
+      "type": "pwo-product",
+      "label": "PWO: off-the-hook",
+      "url": "https://kosttest.no/pwo/off-the-hook/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/gold-standard": {
+      "route": "/pwo/gold-standard",
+      "type": "pwo-product",
+      "label": "PWO: gold-standard",
+      "url": "https://kosttest.no/pwo/gold-standard/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/bodylab-pwo": {
+      "route": "/pwo/bodylab-pwo",
+      "type": "pwo-product",
+      "label": "PWO: bodylab-pwo",
+      "url": "https://kosttest.no/pwo/bodylab-pwo/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/core-intensity": {
+      "route": "/pwo/core-intensity",
+      "type": "pwo-product",
+      "label": "PWO: core-intensity",
+      "url": "https://kosttest.no/pwo/core-intensity/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/nutritac-sickpump": {
+      "route": "/pwo/nutritac-sickpump",
+      "type": "pwo-product",
+      "label": "PWO: nutritac-sickpump",
+      "url": "https://kosttest.no/pwo/nutritac-sickpump/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/lean-lime": {
+      "route": "/pwo/lean-lime",
+      "type": "pwo-product",
+      "label": "PWO: lean-lime",
+      "url": "https://kosttest.no/pwo/lean-lime/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/nutritac-midnight": {
+      "route": "/pwo/nutritac-midnight",
+      "type": "pwo-product",
+      "label": "PWO: nutritac-midnight",
+      "url": "https://kosttest.no/pwo/nutritac-midnight/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/chained-unchained": {
+      "route": "/pwo/chained-unchained",
+      "type": "pwo-product",
+      "label": "PWO: chained-unchained",
+      "url": "https://kosttest.no/pwo/chained-unchained/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/mutant-madness": {
+      "route": "/pwo/mutant-madness",
+      "type": "pwo-product",
+      "label": "PWO: mutant-madness",
+      "url": "https://kosttest.no/pwo/mutant-madness/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/jnx-curse": {
+      "route": "/pwo/jnx-curse",
+      "type": "pwo-product",
+      "label": "PWO: jnx-curse",
+      "url": "https://kosttest.no/pwo/jnx-curse/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/stacker-extasis": {
+      "route": "/pwo/stacker-extasis",
+      "type": "pwo-product",
+      "label": "PWO: stacker-extasis",
+      "url": "https://kosttest.no/pwo/stacker-extasis/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "meta-title-long",
+          "severity": "warning",
+          "message": "Tittel for lang (67 tegn)"
+        },
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/c4-ripped": {
+      "route": "/pwo/c4-ripped",
+      "type": "pwo-product",
+      "label": "PWO: c4-ripped",
+      "url": "https://kosttest.no/pwo/c4-ripped/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/elit-savage": {
+      "route": "/pwo/elit-savage",
+      "type": "pwo-product",
+      "label": "PWO: elit-savage",
+      "url": "https://kosttest.no/pwo/elit-savage/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/biosalma-pwo": {
+      "route": "/pwo/biosalma-pwo",
+      "type": "pwo-product",
+      "label": "PWO: biosalma-pwo",
+      "url": "https://kosttest.no/pwo/biosalma-pwo/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/olimp-r-weiler-focus": {
+      "route": "/pwo/olimp-r-weiler-focus",
+      "type": "pwo-product",
+      "label": "PWO: olimp-r-weiler-focus",
+      "url": "https://kosttest.no/pwo/olimp-r-weiler-focus/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/pes-prolific": {
+      "route": "/pwo/pes-prolific",
+      "type": "pwo-product",
+      "label": "PWO: pes-prolific",
+      "url": "https://kosttest.no/pwo/pes-prolific/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/swedish-fucked-up": {
+      "route": "/pwo/swedish-fucked-up",
+      "type": "pwo-product",
+      "label": "PWO: swedish-fucked-up",
+      "url": "https://kosttest.no/pwo/swedish-fucked-up/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/ignite-stim-free": {
+      "route": "/pwo/ignite-stim-free",
+      "type": "pwo-product",
+      "label": "PWO: ignite-stim-free",
+      "url": "https://kosttest.no/pwo/ignite-stim-free/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "meta-title-long",
+          "severity": "warning",
+          "message": "Tittel for lang (69 tegn)"
+        },
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/valhall": {
+      "route": "/pwo/valhall",
+      "type": "pwo-product",
+      "label": "PWO: valhall",
+      "url": "https://kosttest.no/pwo/valhall/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/cellucor-c4-pulver": {
+      "route": "/pwo/cellucor-c4-pulver",
+      "type": "pwo-product",
+      "label": "PWO: cellucor-c4-pulver",
+      "url": "https://kosttest.no/pwo/cellucor-c4-pulver/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/swedish-joker": {
+      "route": "/pwo/swedish-joker",
+      "type": "pwo-product",
+      "label": "PWO: swedish-joker",
+      "url": "https://kosttest.no/pwo/swedish-joker/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/dns-dynamite": {
+      "route": "/pwo/dns-dynamite",
+      "type": "pwo-product",
+      "label": "PWO: dns-dynamite",
+      "url": "https://kosttest.no/pwo/dns-dynamite/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/dns-piraya": {
+      "route": "/pwo/dns-piraya",
+      "type": "pwo-product",
+      "label": "PWO: dns-piraya",
+      "url": "https://kosttest.no/pwo/dns-piraya/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/ak47-paranoia": {
+      "route": "/pwo/ak47-paranoia",
+      "type": "pwo-product",
+      "label": "PWO: ak47-paranoia",
+      "url": "https://kosttest.no/pwo/ak47-paranoia/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "meta-title-long",
+          "severity": "warning",
+          "message": "Tittel for lang (67 tegn)"
+        },
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/zoomad-moonstruck": {
+      "route": "/pwo/zoomad-moonstruck",
+      "type": "pwo-product",
+      "label": "PWO: zoomad-moonstruck",
+      "url": "https://kosttest.no/pwo/zoomad-moonstruck/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "meta-title-long",
+          "severity": "warning",
+          "message": "Tittel for lang (69 tegn)"
+        },
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/qnt-overdrive": {
+      "route": "/pwo/qnt-overdrive",
+      "type": "pwo-product",
+      "label": "PWO: qnt-overdrive",
+      "url": "https://kosttest.no/pwo/qnt-overdrive/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "meta-title-long",
+          "severity": "warning",
+          "message": "Tittel for lang (66 tegn)"
+        },
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/trec-saw": {
+      "route": "/pwo/trec-saw",
+      "type": "pwo-product",
+      "label": "PWO: trec-saw",
+      "url": "https://kosttest.no/pwo/trec-saw/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "meta-title-long",
+          "severity": "warning",
+          "message": "Tittel for lang (72 tegn)"
+        },
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/g4n-eaa-pwo": {
+      "route": "/pwo/g4n-eaa-pwo",
+      "type": "pwo-product",
+      "label": "PWO: g4n-eaa-pwo",
+      "url": "https://kosttest.no/pwo/g4n-eaa-pwo/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/abe-pump-3g": {
+      "route": "/pwo/abe-pump-3g",
+      "type": "pwo-product",
+      "label": "PWO: abe-pump-3g",
+      "url": "https://kosttest.no/pwo/abe-pump-3g/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/myopwo": {
+      "route": "/pwo/myopwo",
+      "type": "pwo-product",
+      "label": "PWO: myopwo",
+      "url": "https://kosttest.no/pwo/myopwo/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/naturecan-pwo": {
+      "route": "/pwo/naturecan-pwo",
+      "type": "pwo-product",
+      "label": "PWO: naturecan-pwo",
+      "url": "https://kosttest.no/pwo/naturecan-pwo/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/hype-beast": {
+      "route": "/pwo/hype-beast",
+      "type": "pwo-product",
+      "label": "PWO: hype-beast",
+      "url": "https://kosttest.no/pwo/hype-beast/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/bodylab-gummies": {
+      "route": "/pwo/bodylab-gummies",
+      "type": "pwo-product",
+      "label": "PWO: bodylab-gummies",
+      "url": "https://kosttest.no/pwo/bodylab-gummies/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/olimp-redweiler": {
+      "route": "/pwo/olimp-redweiler",
+      "type": "pwo-product",
+      "label": "PWO: olimp-redweiler",
+      "url": "https://kosttest.no/pwo/olimp-redweiler/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/evolite-ultrapump": {
+      "route": "/pwo/evolite-ultrapump",
+      "type": "pwo-product",
+      "label": "PWO: evolite-ultrapump",
+      "url": "https://kosttest.no/pwo/evolite-ultrapump/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/pwo/abe-pump-500": {
+      "route": "/pwo/abe-pump-500",
+      "type": "pwo-product",
+      "label": "PWO: abe-pump-500",
+      "url": "https://kosttest.no/pwo/abe-pump-500/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/protein/dymatize-iso100": {
+      "route": "/protein/dymatize-iso100",
+      "type": "protein-product",
+      "label": "Protein: dymatize-iso100",
+      "url": "https://kosttest.no/protein/dymatize-iso100/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "meta-title-long",
+          "severity": "warning",
+          "message": "Tittel for lang (75 tegn)"
+        },
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/protein/optimum-gold-standard": {
+      "route": "/protein/optimum-gold-standard",
+      "type": "protein-product",
+      "label": "Protein: optimum-gold-standard",
+      "url": "https://kosttest.no/protein/optimum-gold-standard/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/protein/bodylab-whey-100": {
+      "route": "/protein/bodylab-whey-100",
+      "type": "protein-product",
+      "label": "Protein: bodylab-whey-100",
+      "url": "https://kosttest.no/protein/bodylab-whey-100/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/protein/star-whey-100": {
+      "route": "/protein/star-whey-100",
+      "type": "protein-product",
+      "label": "Protein: star-whey-100",
+      "url": "https://kosttest.no/protein/star-whey-100/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/protein/myprotein-impact-whey": {
+      "route": "/protein/myprotein-impact-whey",
+      "type": "protein-product",
+      "label": "Protein: myprotein-impact-whey",
+      "url": "https://kosttest.no/protein/myprotein-impact-whey/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/protein/scitec-100-whey-professional": {
+      "route": "/protein/scitec-100-whey-professional",
+      "type": "protein-product",
+      "label": "Protein: scitec-100-whey-professional",
+      "url": "https://kosttest.no/protein/scitec-100-whey-professional/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "meta-title-long",
+          "severity": "warning",
+          "message": "Tittel for lang (70 tegn)"
+        },
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/protein/applied-critical-whey": {
+      "route": "/protein/applied-critical-whey",
+      "type": "protein-product",
+      "label": "Protein: applied-critical-whey",
+      "url": "https://kosttest.no/protein/applied-critical-whey/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/protein/mutant-iso-surge": {
+      "route": "/protein/mutant-iso-surge",
+      "type": "protein-product",
+      "label": "Protein: mutant-iso-surge",
+      "url": "https://kosttest.no/protein/mutant-iso-surge/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/protein/rule1-r1-protein": {
+      "route": "/protein/rule1-r1-protein",
+      "type": "protein-product",
+      "label": "Protein: rule1-r1-protein",
+      "url": "https://kosttest.no/protein/rule1-r1-protein/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/protein/muscletech-nitrotech": {
+      "route": "/protein/muscletech-nitrotech",
+      "type": "protein-product",
+      "label": "Protein: muscletech-nitrotech",
+      "url": "https://kosttest.no/protein/muscletech-nitrotech/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/protein/kevin-levrone-levro-whey": {
+      "route": "/protein/kevin-levrone-levro-whey",
+      "type": "protein-product",
+      "label": "Protein: kevin-levrone-levro-whey",
+      "url": "https://kosttest.no/protein/kevin-levrone-levro-whey/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/protein/ghost-whey": {
+      "route": "/protein/ghost-whey",
+      "type": "protein-product",
+      "label": "Protein: ghost-whey",
+      "url": "https://kosttest.no/protein/ghost-whey/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/protein/esn-designer-whey": {
+      "route": "/protein/esn-designer-whey",
+      "type": "protein-product",
+      "label": "Protein: esn-designer-whey",
+      "url": "https://kosttest.no/protein/esn-designer-whey/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/protein/biotech-iso-whey-zero": {
+      "route": "/protein/biotech-iso-whey-zero",
+      "type": "protein-product",
+      "label": "Protein: biotech-iso-whey-zero",
+      "url": "https://kosttest.no/protein/biotech-iso-whey-zero/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/protein/weider-premium-whey": {
+      "route": "/protein/weider-premium-whey",
+      "type": "protein-product",
+      "label": "Protein: weider-premium-whey",
+      "url": "https://kosttest.no/protein/weider-premium-whey/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/protein/proteinfabrikken-whey": {
+      "route": "/protein/proteinfabrikken-whey",
+      "type": "protein-product",
+      "label": "Protein: proteinfabrikken-whey",
+      "url": "https://kosttest.no/protein/proteinfabrikken-whey/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/protein/smartsupps-whey": {
+      "route": "/protein/smartsupps-whey",
+      "type": "protein-product",
+      "label": "Protein: smartsupps-whey",
+      "url": "https://kosttest.no/protein/smartsupps-whey/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/protein/bsn-syntha6-isolate": {
+      "route": "/protein/bsn-syntha6-isolate",
+      "type": "protein-product",
+      "label": "Protein: bsn-syntha6-isolate",
+      "url": "https://kosttest.no/protein/bsn-syntha6-isolate/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/protein/olimp-pure-whey": {
+      "route": "/protein/olimp-pure-whey",
+      "type": "protein-product",
+      "label": "Protein: olimp-pure-whey",
+      "url": "https://kosttest.no/protein/olimp-pure-whey/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/protein/qnt-delicious-whey": {
+      "route": "/protein/qnt-delicious-whey",
+      "type": "protein-product",
+      "label": "Protein: qnt-delicious-whey",
+      "url": "https://kosttest.no/protein/qnt-delicious-whey/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/protein/esn-isoclear": {
+      "route": "/protein/esn-isoclear",
+      "type": "protein-product",
+      "label": "Protein: esn-isoclear",
+      "url": "https://kosttest.no/protein/esn-isoclear/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/protein/optimum-gold-standard-casein": {
+      "route": "/protein/optimum-gold-standard-casein",
+      "type": "protein-product",
+      "label": "Protein: optimum-gold-standard-casein",
+      "url": "https://kosttest.no/protein/optimum-gold-standard-casein/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/protein/myprotein-soy-isolate": {
+      "route": "/protein/myprotein-soy-isolate",
+      "type": "protein-product",
+      "label": "Protein: myprotein-soy-isolate",
+      "url": "https://kosttest.no/protein/myprotein-soy-isolate/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/protein/myprotein-vegan-blend": {
+      "route": "/protein/myprotein-vegan-blend",
+      "type": "protein-product",
+      "label": "Protein: myprotein-vegan-blend",
+      "url": "https://kosttest.no/protein/myprotein-vegan-blend/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/protein/proteinseries-100-whey": {
+      "route": "/protein/proteinseries-100-whey",
+      "type": "protein-product",
+      "label": "Protein: proteinseries-100-whey",
+      "url": "https://kosttest.no/protein/proteinseries-100-whey/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/protein/bulk-pure-whey": {
+      "route": "/protein/bulk-pure-whey",
+      "type": "protein-product",
+      "label": "Protein: bulk-pure-whey",
+      "url": "https://kosttest.no/protein/bulk-pure-whey/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/blogg/l-citrulline": {
+      "route": "/blogg/l-citrulline",
+      "type": "blog-post",
+      "label": "Blogg: l-citrulline",
+      "url": "https://kosttest.no/blogg/l-citrulline/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/blogg/beta-alanin": {
+      "route": "/blogg/beta-alanin",
+      "type": "blog-post",
+      "label": "Blogg: beta-alanin",
+      "url": "https://kosttest.no/blogg/beta-alanin/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "meta-title-long",
+          "severity": "warning",
+          "message": "Tittel for lang (67 tegn)"
+        },
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/blogg/kreatin": {
+      "route": "/blogg/kreatin",
+      "type": "blog-post",
+      "label": "Blogg: kreatin",
+      "url": "https://kosttest.no/blogg/kreatin/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/blogg/koffein": {
+      "route": "/blogg/koffein",
+      "type": "blog-post",
+      "label": "Blogg: koffein",
+      "url": "https://kosttest.no/blogg/koffein/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/blogg/arginin": {
+      "route": "/blogg/arginin",
+      "type": "blog-post",
+      "label": "Blogg: arginin",
+      "url": "https://kosttest.no/blogg/arginin/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/blogg/glycerol": {
+      "route": "/blogg/glycerol",
+      "type": "blog-post",
+      "label": "Blogg: glycerol",
+      "url": "https://kosttest.no/blogg/glycerol/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/blogg/rodbetekstrakt": {
+      "route": "/blogg/rodbetekstrakt",
+      "type": "blog-post",
+      "label": "Blogg: rodbetekstrakt",
+      "url": "https://kosttest.no/blogg/rodbetekstrakt/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "missing-h1",
+          "severity": "error",
+          "message": "Mangler h1 — svekker oversikt og SEO"
+        },
+        {
+          "code": "thin-content",
+          "severity": "warning",
+          "message": "Lite synlig tekst (63 tegn etter stripping)"
+        },
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        },
+        {
+          "code": "blog-thin",
+          "severity": "warning",
+          "message": "Bloggpost virker tynn — sjekk innhold og layout"
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/blogg/betain": {
+      "route": "/blogg/betain",
+      "type": "blog-post",
+      "label": "Blogg: betain",
+      "url": "https://kosttest.no/blogg/betain/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/blogg/taurin": {
+      "route": "/blogg/taurin",
+      "type": "blog-post",
+      "label": "Blogg: taurin",
+      "url": "https://kosttest.no/blogg/taurin/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/blogg/tyrosin": {
+      "route": "/blogg/tyrosin",
+      "type": "blog-post",
+      "label": "Blogg: tyrosin",
+      "url": "https://kosttest.no/blogg/tyrosin/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/blogg/samanlikning-peveo-sickpump": {
+      "route": "/blogg/samanlikning-peveo-sickpump",
+      "type": "blog-post",
+      "label": "Blogg: samanlikning-peveo-sickpump",
+      "url": "https://kosttest.no/blogg/samanlikning-peveo-sickpump/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "meta-title-long",
+          "severity": "warning",
+          "message": "Tittel for lang (69 tegn)"
+        },
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/blogg/samanlikning-peveo-supervillain": {
+      "route": "/blogg/samanlikning-peveo-supervillain",
+      "type": "blog-post",
+      "label": "Blogg: samanlikning-peveo-supervillain",
+      "url": "https://kosttest.no/blogg/samanlikning-peveo-supervillain/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "meta-title-long",
+          "severity": "warning",
+          "message": "Tittel for lang (75 tegn)"
+        },
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/blogg/samanlikning-midnight-stimfree": {
+      "route": "/blogg/samanlikning-midnight-stimfree",
+      "type": "blog-post",
+      "label": "Blogg: samanlikning-midnight-stimfree",
+      "url": "https://kosttest.no/blogg/samanlikning-midnight-stimfree/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "meta-title-long",
+          "severity": "warning",
+          "message": "Tittel for lang (67 tegn)"
+        },
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/blogg/samanlikning-sickpump-noxplode": {
+      "route": "/blogg/samanlikning-sickpump-noxplode",
+      "type": "blog-post",
+      "label": "Blogg: samanlikning-sickpump-noxplode",
+      "url": "https://kosttest.no/blogg/samanlikning-sickpump-noxplode/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    },
+    "/blogg/samanlikning-gold-supreme": {
+      "route": "/blogg/samanlikning-gold-supreme",
+      "type": "blog-post",
+      "label": "Blogg: samanlikning-gold-supreme",
+      "url": "https://kosttest.no/blogg/samanlikning-gold-supreme/",
+      "status": "pending",
+      "autoIssues": [
+        {
+          "code": "empty-link",
+          "severity": "warning",
+          "message": "1 lenke(r) med href=\"#\""
+        }
+      ],
+      "manualNotes": null,
+      "fixedInPr": false,
+      "completedAt": null,
+      "inProgress": false,
+      "lastAutoAudit": "2026-06-26T18:06:52.772Z"
+    }
+  }
+}
