@@ -1,4 +1,4 @@
-import { blogPosts } from '../data/blog'
+import { findBlogPost } from '../data/blog'
 import { testedProducts, type TestedProduct } from '../data/pwoProducts'
 import { normalizePath } from '../routing'
 
@@ -141,7 +141,7 @@ export default function JsonLd({ path: rawPath, product }: JsonLdProps) {
 
   if (path.startsWith('/blogg/') && path !== '/blogg') {
     const slug = path.replace('/blogg/', '')
-    const post = blogPosts.find((entry) => entry.slug === slug || entry.id === slug)
+    const post = findBlogPost(slug)
     if (post) {
       return (
         <script
