@@ -1,7 +1,7 @@
 {
   "id": "bodylab-whey-100",
   "exists": true,
-  "verifiedAt": "2026-06-26T12:00:00.000Z",
+  "verifiedAt": "2026-06-26T18:05:00.000Z",
   "sources": [
     "https://www.bodylab.no/shop/bodylab-whey-100-663p.html"
   ],
@@ -9,20 +9,23 @@
     "productPageLoads": true,
     "nameMatches": true,
     "nutritionFromLabel": true,
-    "priceFromMerchant": true
+    "priceFromMerchant": true,
+    "imageDownloaded": true
   },
   "corrections": [
     "Feil merchant: solges på bodylab.no, ikke Gymgrossisten",
     "Feil pakke: 1000 g (ikke 1800 g)",
     "Feil protein%: 70 g/100 g ifølge næringsdeklarasjon (Ultimate Chocolate)",
-    "Feil type: whey-blend (isolat + konsentrat), ikke ren isolate"
+    "Feil type: whey-blend (isolat + konsentrat), ikke ren isolate",
+    "Feil pris: 349 → 297 kr (kampanje; ordinær 369 kr)",
+    "Produktbilde lastet ned fra bodylab.b-cdn.net"
   ],
   "data": {
     "name": "Whey 100",
     "brand": "Bodylab",
     "merchant": "Bodylab",
     "url": "https://www.bodylab.no/shop/bodylab-whey-100-663p.html",
-    "priceNok": 349,
+    "priceNok": 297,
     "packageSizeG": 1000,
     "packageSize": "1000 g",
     "servingSizeG": 33,
@@ -33,6 +36,13 @@
     "sourceType": "whey-blend",
     "sourceLabel": "Whey isolate + concentrate"
   },
-  "analysis": "Ekte bestselger fra Bodylab.no. 70 % protein per 100 g (sjokolade-variant). DIAAS-estimat basert på whey-blend. God merkevare, men høyere pris per g protein enn mange konkurrenter på Gymgrossisten.",
-  "notes": "Pris varierer med kampanje på bodylab.no. Leucin ikke oppgitt på etikett — estimat fra profil."
+  "lactoseAnalysis": {
+    "containsLactose": true,
+    "description": "Whey 100 er en blanding av myseproteinkonsentrat og -isolat (87 % melkeprotein). Konsentrat-delen inneholder laktose — produktet er ikke laktosefritt. Isolat-delen er filtrert, men total laktoseinnhold gjør det uegnet for de med lav toleranse. Inneholder melkeprotein som allergen, samt soya- og solsikkelecitin.",
+    "allergens": ["melk", "soya"],
+    "notLactoseFree": true,
+    "lowLactose": false
+  },
+  "analysis": "Ekte Bodylab Whey 100 1 kg på bodylab.no (297 kr kampanje, ordinær 369 kr). 70 % protein per 100 g (Ultimate Chocolate) bekreftet mot næringsdeklarasjon. Danskprodusert whey-blend med god smak og ingen amino-spiking, men lavere protein% enn rene isolater og inneholder laktose fra konsentratet.",
+  "notes": "Pris varierer med kampanje på bodylab.no (297 kr ved verifisering, ordinær 369 kr). Protein% kan variere mellom smaker. Anbefalt dosering 30–35 g; vi bruker 33 g. Leucin ikke oppgitt på etikett."
 }
