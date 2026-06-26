@@ -268,6 +268,16 @@ export function ProteinLeaderboardBlock({
     <>
       <ProteinLeaderboardSection onSelectProduct={onSelectProduct} />
       <section className="content-section">
+        <div className="warning-box" style={{ marginBottom: 20 }}>
+          <AlertTriangle size={22} />
+          <div>
+            <span style={{ fontWeight: 700 }}>Kun ekte produkter</span>
+            <p style={{ margin: '4px 0 0', fontSize: 13, lineHeight: 1.55 }}>
+              Vi lister bare proteinpulver som faktisk selges i Norge. Merker som kun selger PWO (f.eks. NutriTac, Peveo) er fjernet.
+              Pris og næringsdata oppdateres mot butikk/produsent — DIAAS uten lab-test er estimat.
+            </p>
+          </div>
+        </div>
         <div className="section-heading">
           <span>Proteinpulver best i test</span>
           <h2>Fullstendig rangering</h2>
