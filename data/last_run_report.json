@@ -1,0 +1,199 @@
+{
+  "started_at": "2026-06-26T15:08:51.608846+00:00",
+  "finished_at": "2026-06-26T15:09:56.866169+00:00",
+  "dry_run": false,
+  "products_checked": 17,
+  "images_added": 17,
+  "images_fixed": 0,
+  "url_failures": 7,
+  "image_failures": 0,
+  "results": [
+    {
+      "product_id": "zoomad-moonstruck",
+      "name": "Moonstruck Zero Stim-Free V2 540 g",
+      "url_ok": true,
+      "had_image": false,
+      "image_ok": null,
+      "image_found": "https://www.kost1.no/users/kristiankost1_mystore_no/images/lZ2mm_Zoomad_Moonstruck_Zero_Stim-Free_V2_Koffeinf_1.png",
+      "image_source": "product_page",
+      "action": "added",
+      "note": ""
+    },
+    {
+      "product_id": "qnt-overdrive",
+      "name": "QNT Pre-Workout Overdrive 390 g",
+      "url_ok": true,
+      "had_image": false,
+      "image_ok": null,
+      "image_found": "https://www.kost1.no/users/kristiankost1_mystore_no/images/192_PWO_1.jpg",
+      "image_source": "product_page",
+      "action": "added",
+      "note": ""
+    },
+    {
+      "product_id": "usp-jack3d",
+      "name": "Jack3d Advanced PWO 315 g",
+      "url_ok": false,
+      "had_image": false,
+      "image_ok": null,
+      "image_found": "https://www.sportkost.se/pub_images/original/jack3d_strawberry_vanilla_315g.jpg",
+      "image_source": "bing",
+      "action": "added",
+      "note": "Produkt-URL utilgjengelig: https://www.kost1.no/products/jack3d-advanced-pwo-315g"
+    },
+    {
+      "product_id": "trec-saw",
+      "name": "S.A.W. Super Aggressive Workout 400 g",
+      "url_ok": true,
+      "had_image": false,
+      "image_ok": null,
+      "image_found": "https://www.kost1.no/users/kristiankost1_mystore_no/images/2020-09-16/476296c60e95696e17e2905a0a699d49.jpeg",
+      "image_source": "product_page",
+      "action": "added",
+      "note": ""
+    },
+    {
+      "product_id": "g4n-eaa-pwo",
+      "name": "EAA Pre-Workout 300 g",
+      "url_ok": true,
+      "had_image": false,
+      "image_ok": null,
+      "image_found": "https://www.kost1.no/users/kristiankost1_mystore_no/images/129_Amino_1.jpg",
+      "image_source": "product_page",
+      "action": "added",
+      "note": ""
+    },
+    {
+      "product_id": "abe-pump-3g",
+      "name": "Pump 3G Stimfree PWO 375 g",
+      "url_ok": true,
+      "had_image": false,
+      "image_ok": null,
+      "image_found": "https://www.kost1.no/users/kristiankost1_mystore_no/images/GnKN4_Applied_Nutrition_Pump_3G_-_Stimfree_PWO_-37_1.jpg",
+      "image_source": "product_page",
+      "action": "added",
+      "note": ""
+    },
+    {
+      "product_id": "evolite-ultrapump",
+      "name": "Evolite Ultrapump PWO 420 g",
+      "url_ok": true,
+      "had_image": false,
+      "image_ok": null,
+      "image_found": "https://www.kost1.no/users/kristiankost1_mystore_no/images/XtIKs_Evolite_Ultra_Pump_Stim_Free_PWO_-__1.jpg",
+      "image_source": "product_page",
+      "action": "added",
+      "note": ""
+    },
+    {
+      "product_id": "trec-marathon",
+      "name": "Marathon Endurance 400 g",
+      "url_ok": true,
+      "had_image": false,
+      "image_ok": null,
+      "image_found": "https://www.kost1.no/users/kristiankost1_mystore_no/images/y6WAD_Trec_Nutrition_Marathon_Endurance_-_400_gram_1.jpg",
+      "image_source": "product_page",
+      "action": "added",
+      "note": ""
+    },
+    {
+      "product_id": "ghost-legend",
+      "name": "Ghost Legend Pre-Workout",
+      "url_ok": false,
+      "had_image": false,
+      "image_ok": null,
+      "image_found": "https://g-fit.com.mx/wp-content/uploads/2024/06/ghost-Legend.png",
+      "image_source": "bing",
+      "action": "added",
+      "note": "Produkt-URL utilgjengelig: https://helsekost.no/products/ghost-legend-pre-workout"
+    },
+    {
+      "product_id": "ghost-pump",
+      "name": "Ghost Pump (stim-free)",
+      "url_ok": false,
+      "had_image": false,
+      "image_ok": null,
+      "image_found": "https://megapump.ie/cdn/shop/products/buy-ghost-pump-megapump-shop.jpg?v=1646149899",
+      "image_source": "bing",
+      "action": "added",
+      "note": "Produkt-URL utilgjengelig: https://helsekost.no/products/ghost-pump"
+    },
+    {
+      "product_id": "tommi-winning",
+      "name": "Winning Whatever It Takes 300 g",
+      "url_ok": false,
+      "had_image": false,
+      "image_ok": null,
+      "image_found": "http://tomminutrition.com/cdn/shop/collections/tommi-pre-workout-pwo-8706436.jpg?v=1761738200",
+      "image_source": "bing",
+      "action": "added",
+      "note": "Produkt-URL utilgjengelig: https://tomminutrition.com/products/winning-300g"
+    },
+    {
+      "product_id": "tommi-die-hard",
+      "name": "Die Hard Pumped 550 g",
+      "url_ok": true,
+      "had_image": false,
+      "image_ok": null,
+      "image_found": "http://tomminutrition.com/cdn/shop/files/9.png?v=1758295978",
+      "image_source": "product_page",
+      "action": "added",
+      "note": ""
+    },
+    {
+      "product_id": "myopwo",
+      "name": "MyoPWO 240 g",
+      "url_ok": true,
+      "had_image": false,
+      "image_ok": null,
+      "image_found": "http://myrevolution.no/cdn/shop/files/myopwo-preworkout-pwo_fb8adab4-c074-4041-962f-be0de450dc5f.webp?v=1775812492",
+      "image_source": "product_page",
+      "action": "added",
+      "note": ""
+    },
+    {
+      "product_id": "mr-hyde-v2",
+      "name": "Mr Hyde Signature V2 PWO",
+      "url_ok": false,
+      "had_image": false,
+      "image_ok": null,
+      "image_found": "https://www.bodypower.se/pub_images/original/mr-hyde-signature-30-serve-intl-blue-razz-1.png",
+      "image_source": "bing",
+      "action": "added",
+      "note": "Produkt-URL utilgjengelig: https://www.fitnessmarket.no/mr-hyde-signature-v2-pwo"
+    },
+    {
+      "product_id": "pump-red-breezer",
+      "name": "Pump PWO Red Breezer 300 g",
+      "url_ok": false,
+      "had_image": false,
+      "image_ok": null,
+      "image_found": "https://www.med24.dk/imgsrv/2024-05-15/19595314/3/purepower-pre-workout-icetea-peach-300-g.jpg?c=ICTKFw",
+      "image_source": "bing",
+      "action": "added",
+      "note": "Produkt-URL utilgjengelig: https://www.fitnessmarket.no/pump-pwo-red-breezer-300-g"
+    },
+    {
+      "product_id": "unl-flow",
+      "name": "Flow PWO Mango Lemon Fusion",
+      "url_ok": false,
+      "had_image": false,
+      "image_ok": null,
+      "image_found": "https://www.hyjiyastore.com/assets/images/image-data/nutriversum-flow-pwo-liquid-500-ml-mango-01.jpg",
+      "image_source": "bing",
+      "action": "added",
+      "note": "Produkt-URL utilgjengelig: https://go-on-shop.no/products/flow-pwo"
+    },
+    {
+      "product_id": "naturecan-pwo",
+      "name": "PWO Pre-Workout 400 g",
+      "url_ok": true,
+      "had_image": false,
+      "image_ok": null,
+      "image_found": "http://www.naturecan.no/cdn/shop/files/Pre-Workout-Product-Imagery_Web.jpg?v=1736427178",
+      "image_source": "product_page",
+      "action": "added",
+      "note": ""
+    }
+  ]
+}

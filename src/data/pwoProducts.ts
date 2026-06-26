@@ -74,6 +74,7 @@ export type ListedProduct = {
   status: 'Rangert' | 'Ikke rangert' | 'Koffeinfri' | 'Multipakke'
   reason: string
   url: string
+  image?: string
 }
 
 export const lastUpdated = '26. juni 2026'
@@ -1046,7 +1047,7 @@ export const testedProducts: TestedProduct[] = [
       'Høy koffeinmengde (300 mg)',
     ],
     url: 'https://www.gymgrossisten.no/unchained-pwo-500-g/67101R.html',
-    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw0d376abd/Nya_produktbilder/Chained_Nutrition/67101R_Chained_nutrition_unchained_PWO_poppingcandy_candycola.jpg?sw=400',
+    image: 'https://www.getfit.no/wp-content/uploads/Unchained-PWO-768x768.png',
   },
   {
     id: 'mutant-madness',
@@ -1091,7 +1092,7 @@ export const testedProducts: TestedProduct[] = [
       'Grønn kaffebønne gir uklar total koffeinmengde',
     ],
     url: 'https://www.gymgrossisten.no/madness-pwo-30-porsjoner/3897-025R.html',
-    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dwc515bb2d/media/GG-Produktbilder/Mutant/3897-025R-_-Mutant-Madness_30-servings-Fruit-Punch_sep24.jpg?sw=400',
+    image: 'https://nordicpower.no/wp-content/uploads/2025/03/3897-025R_Mutant-Madness_30-servings-Blue-sweeticetea_sep24-600x600.webp',
   },
   {
     id: 'jnx-curse',
@@ -1135,7 +1136,7 @@ export const testedProducts: TestedProduct[] = [
       'Kun 93 mg koffein per porsjon',
     ],
     url: 'https://www.gymgrossisten.no/the-curse-pwo-250-g/9866-001R.html',
-    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw51609176/images/hi-res/9866-001/9866-001+1.jpg?sw=400',
+    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw51609176/images/hi-res/9866-001/9866-001+1.jpg',
   },
   {
     id: 'stacker-extasis',
@@ -1183,7 +1184,7 @@ export const testedProducts: TestedProduct[] = [
       'Glycerolmonostearat gir minimalt med glycerol',
     ],
     url: 'https://www.gymgrossisten.no/extasis-pre-workout-20-porsjoner/9968-4R.html',
-    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw04cdbfbe/media/GG-Produktbilder/Stacker/9968-4123_Stacker-extasis_tropical-fruit_0920.jpg?sw=400',
+    image: 'https://cdn.webshopapp.com/shops/112758/files/477942116/1000x1000x2/stacker2-europe-stacker-2-extasis-pre-workout-400g.jpg',
   },
   {
     id: 'c4-ripped',
@@ -1227,7 +1228,7 @@ export const testedProducts: TestedProduct[] = [
       'Ingen kreatin eller betain',
     ],
     url: 'https://www.gymgrossisten.no/c4-ripped-30-servings-icy-blue-raspberry/9995-05.html',
-    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dwad66d44a/Hi-res/9/9/9995-05_c4ripped_30servings_icyblueraspberry.jpg?sw=400',
+    image: 'https://i5.walmartimages.com/asr/15e24f1e-13fe-43f0-be05-a228e2aaf108_1.c6f3485f7ccde6f18ebe82d8a162720e.jpeg',
   },
   {
     id: 'elit-savage',
@@ -1272,7 +1273,7 @@ export const testedProducts: TestedProduct[] = [
       'Høy porsjonspris',
     ],
     url: 'https://www.gymgrossisten.no/elit-savage-pwo-300-g/10512-2R.html',
-    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw47d93bee/media/GG-Produktbilder/Elit-nutrition/10512-5_Elit_Savage-PWO-300g-Tropical_ju23.jpg?sw=400',
+    image: 'https://cdn.abicart.com/shop/images/199707289-origpic-fe5590/ws47/108647/art47/h7289/Elit_nutrition_savage_pwo_front.png',
   },
   {
     id: 'biosalma-pwo',
@@ -1318,7 +1319,7 @@ export const testedProducts: TestedProduct[] = [
       'Citrullin og beta-alanin er under effektive nivåer',
     ],
     url: 'https://www.gymgrossisten.no/pwo-500g/A2120-93R.html',
-    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw99422a9c/images/hi-res/A2120-93/A2120-93+1.jpg?sw=400',
+    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw99422a9c/images/hi-res/A2120-93/A2120-93+1.jpg',
   },
   {
     id: 'olimp-r-weiler-focus',
@@ -1364,7 +1365,7 @@ export const testedProducts: TestedProduct[] = [
       'Fokus-profil passer ikke alle',
     ],
     url: 'https://www.gymgrossisten.no/r-weiler-focus-300-g/820924-99R.html',
-    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw1ffd7530/media/GG-Produktbilder/Olimp/820924-99R_Olimp_R-weiler-Focus-300-g_1220.jpg?sw=400',
+    image: 'https://m.media-amazon.com/images/S/aplus-media/vc/808883e1-552f-4377-b7ef-bcaf633770ad.__CR0,0,970,600_PT0_SX970_V1___.jpg',
   },
   {
     id: 'pes-prolific',
@@ -1408,7 +1409,7 @@ export const testedProducts: TestedProduct[] = [
       'Høy pris',
     ],
     url: 'https://www.gymgrossisten.no/prolific-pwo-280-g/9891-024R.html',
-    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw95f49bf4/Hi-res/s/m/smartsupps_pwo_strawberrylime_400g.jpg?sw=400',
+    image: 'https://www.laproteina.es/tienda/5048-15544-thickbox/prolific-280-gr.jpg',
   },
   {
     id: 'swedish-fucked-up',
@@ -1452,7 +1453,7 @@ export const testedProducts: TestedProduct[] = [
       'Koffein kun 90 mg',
     ],
     url: 'https://www.tights.no/butikk/fcked-up-preworkout-300g/',
-    image: 'https://www.tights.no/wp-content/uploads/sites/7/2024/06/Sourleanlimefrontjpg-scaled.jpg',
+    image: 'https://www.tights.no/wp-content/uploads/sites/7/2016/01/produktbilde-swedish-suplements-f-up.jpg',
   },
   {
     id: 'ignite-stim-free',
@@ -1496,7 +1497,7 @@ export const testedProducts: TestedProduct[] = [
       'Mangler pump-komponenter',
     ],
     url: 'https://www.tights.no/butikk/ignite-stim-free-pre-workout-300g/',
-    image: 'https://www.tights.no/wp-content/uploads/sites/7/2024/06/Sourleanlimefrontjpg-scaled.jpg',
+    image: 'https://www.tights.no/wp-content/uploads/sites/7/2024/06/IgniteFrontjpg-950x1188.jpg',
   },
   {
     id: 'valhall',
@@ -1539,7 +1540,7 @@ export const testedProducts: TestedProduct[] = [
       'Ikke konkurransedyktig mot topp-PWO-er',
     ],
     url: 'https://www.tights.no/butikk/valhall-pre-workout-300g/',
-    image: 'https://www.tights.no/wp-content/uploads/sites/7/2024/06/Sourleanlimefrontjpg-scaled.jpg',
+    image: 'https://www.tights.no/wp-content/uploads/sites/7/2024/06/Valhallfrontjpg-950x1188.jpg',
   },
   {
     id: 'cellucor-c4-pulver',
@@ -1584,7 +1585,7 @@ export const testedProducts: TestedProduct[] = [
       'Ingen L-citrullin',
     ],
     url: 'https://www.gymgrossisten.no/c4-pwo-pulver-195-g/9995-016R.html',
-    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw0bab841a/images/hi-res/9995-016/9995-016+1.jpg?sw=400',
+    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw0bab841a/images/hi-res/9995-016/9995-016+1.jpg',
   },
   {
     id: 'swedish-joker',
@@ -1628,7 +1629,7 @@ export const testedProducts: TestedProduct[] = [
       'Kun 30 mg koffein',
     ],
     url: 'https://www.gymgrossisten.no/fucked-up-joker-edit-pwo-300-g/820251R.html',
-    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw171a6077/media/GG-Produktbilder/Swedish-supplements/820251r_forest.jpg?sw=400',
+    image: 'https://cdn.svensktkosttillskott.se/bilder/swedish_supplements_fucked_up_joker_67712_x8.jpg',
   },
   {
     id: 'dns-dynamite',
@@ -2166,7 +2167,7 @@ export const testedProducts: TestedProduct[] = [
       'Ikke sammenlignbar med pulver-PWO',
     ],
     url: 'https://www.tights.no/butikk/gummies-pwo-lemon-lime-60-gummy/',
-    image: 'https://www.tights.no/wp-content/uploads/sites/7/2024/07/bodylab-pre-workout-gummies-lemon-lime-60-stk.png',
+    image: 'https://www.tights.no/wp-content/uploads/sites/7/2026/02/preworkout-gummies-90pcs-lemonlime1png.png',
   },
   {
     id: 'olimp-redweiler',
@@ -2210,7 +2211,7 @@ export const testedProducts: TestedProduct[] = [
       'Høy pris',
     ],
     url: 'https://www.gymgrossisten.no/redweiler-pwo-480-g/820239R.html',
-    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dwe219de94/media/GG-Produktbilder/Olimp/redweiler_olimp.jpg?sw=400',
+    image: 'https://extremefitnessno-i04.mycdn.no/mysimgprod/extremefitnessno_mystore_no/images/kv5C2_OLIMP_SPORTS_NUTRITION_Olimp_Redweiler_PWO_4_1.webp/w1047h1200.webp',
   },
   {
     id: 'evolite-ultrapump',
@@ -2330,6 +2331,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Rangert' as const,
     reason: `Score ${product.score}/100`,
     url: product.url,
+    image: product.image,
   })),
 
   {
@@ -2342,6 +2344,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Koffeinfri',
     reason: 'Pump-produkt uten full teksttabell i kildeutdrag; må dosekontrolleres før score.',
     url: 'https://whitelion.no/products/pure-pump-v2',
+    image: 'http://whitelion.no/cdn/shop/files/PP_siste.png?v=1762262257',
   },
   {
     id: 'white-lion-stim-free-blue-citrus',
@@ -2353,6 +2356,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Koffeinfri',
     reason: 'Utsolgt stim-free-produkt; ikke direkte scoret mot tilgjengelige produkter.',
     url: 'https://whitelion.no/products/stim-free-blue-citrus-230g',
+    image: 'http://whitelion.no/cdn/shop/files/Blue.png?v=1738808198',
   },
   {
     id: 'white-lion-natural',
@@ -2364,6 +2368,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Outlet/natural-variant med koffein fra plantekilder; eksakte doser må kontrolleres.',
     url: 'https://whitelion.no/products/natural-pwo-pink-grapefruit-230g',
+    image: 'http://whitelion.no/cdn/shop/files/pinkg.png?v=1738808184',
   },
   {
     id: 'white-lion-electro',
@@ -2375,6 +2380,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Elektrolytt-/hydrering-PWO, ikke direkte sammenlignet med komplett PWO.',
     url: 'https://whitelion.no/products/electro-pwo-green-punch-230g',
+    image: 'http://whitelion.no/cdn/shop/files/greenp.png?v=1738808090',
   },
   {
     id: 'white-lion-oblivion',
@@ -2386,6 +2392,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Booster/stimulantprodukt; krever egen sikkerhetsvurdering før eventuell score.',
     url: 'https://whitelion.no/products/oblivion-pwo-stacker',
+    image: 'http://whitelion.no/cdn/shop/files/Jar-2.jpg?v=1715530766',
   },
   {
     id: 'chained-unchained',
@@ -2397,6 +2404,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Per 5 g dose er formelen lav; bør vurderes separat ved dobbel dose.',
     url: 'https://www.gymgrossisten.no/unchained-pwo-500-g/67101R.html',
+    image: 'https://www.getfit.no/wp-content/uploads/Unchained-PWO-768x768.png',
   },
   {
     id: 'swedish-joker',
@@ -2408,6 +2416,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Lav deklarert hoveddose sammenlignet med toppfeltet.',
     url: 'https://www.gymgrossisten.no/fucked-up-joker-edit-pwo-300-g/820251R.html',
+    image: 'http://sportoteket.se/cdn/shop/files/118750162-origpic-4e481a.jpg?v=1726584927',
   },
   {
     id: 'mutant-madness',
@@ -2419,6 +2428,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Trenger manuell tabellkontroll før endelig score.',
     url: 'https://www.gymgrossisten.no/madness-pwo-30-porsjoner/3897-025R.html',
+    image: 'https://nordicpower.no/wp-content/uploads/2025/03/3897-025R_Mutant-Madness_30-servings-Blue-sweeticetea_sep24-600x600.webp',
   },
   {
     id: 'cellucor-c4-pulver',
@@ -2430,6 +2440,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Kildetabellen var uklar på faktisk porsjonsdose.',
     url: 'https://www.gymgrossisten.no/c4-pwo-pulver-195-g/9995-016R.html',
+    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw0bab841a/images/hi-res/9995-016/9995-016+1.jpg',
   },
   {
     id: 'jnx-curse',
@@ -2441,6 +2452,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Mangler ferdig manuell dosekontroll i første publisering.',
     url: 'https://www.gymgrossisten.no/the-curse-pwo-250-g/9866-001R.html',
+    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw51609176/images/hi-res/9866-001/9866-001+1.jpg',
   },
   {
     id: 'olimp-redweiler',
@@ -2452,6 +2464,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Høy pris; tabell må kontrolleres manuelt før score.',
     url: 'https://www.gymgrossisten.no/redweiler-pwo-480-g/820239R.html',
+    image: 'https://extremefitnessno-i04.mycdn.no/mysimgprod/extremefitnessno_mystore_no/images/kv5C2_OLIMP_SPORTS_NUTRITION_Olimp_Redweiler_PWO_4_1.webp/w1047h1200.webp',
   },
   {
     id: 'stacker-extasis',
@@ -2463,6 +2476,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Høy pris og mangler ferdig ingrediensscore.',
     url: 'https://www.gymgrossisten.no/extasis-pre-workout-20-porsjoner/9968-4R.html',
+    image: 'https://www.stack3d.com/wp-content/uploads/2020/01/stacker2-europe-extasis.jpg',
   },
   {
     id: 'c4-ripped',
@@ -2474,6 +2488,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Ripped-variant vurderes separat fra vanlig PWO.',
     url: 'https://www.gymgrossisten.no/c4-ripped-30-servings-icy-blue-raspberry/9995-05.html',
+    image: 'https://i5.walmartimages.com/asr/15e24f1e-13fe-43f0-be05-a228e2aaf108_1.c6f3485f7ccde6f18ebe82d8a162720e.jpeg',
   },
   {
     id: 'elit-savage',
@@ -2485,6 +2500,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Mangler ferdig manuell dosekontroll i første publisering.',
     url: 'https://www.gymgrossisten.no/elit-savage-pwo-300-g/10512-2R.html',
+    image: 'https://cdn.abicart.com/shop/images/199707289-origpic-fe5590/ws47/108647/art47/h7289/Elit_nutrition_savage_pwo_front.png',
   },
   {
     id: 'biosalma-pwo',
@@ -2496,6 +2512,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Mangler ferdig manuell dosekontroll i første publisering.',
     url: 'https://www.gymgrossisten.no/pwo-500g/A2120-93R.html',
+    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw99422a9c/images/hi-res/A2120-93/A2120-93+1.jpg',
   },
   {
     id: 'olimp-r-weiler-focus',
@@ -2507,6 +2524,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Fokusprodukt, ikke direkte sammenlignet med komplett PWO.',
     url: 'https://www.gymgrossisten.no/r-weiler-focus-300-g/820924-99R.html',
+    image: 'https://m.media-amazon.com/images/S/aplus-media/vc/808883e1-552f-4377-b7ef-bcaf633770ad.__CR0,0,970,600_PT0_SX970_V1___.jpg',
   },
   {
     id: 'pes-prolific',
@@ -2518,6 +2536,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Mangler ferdig manuell dosekontroll i første publisering.',
     url: 'https://www.gymgrossisten.no/prolific-pwo-280-g/9891-024R.html',
+    image: 'https://www.laproteina.es/tienda/5048-15544-thickbox/prolific-280-gr.jpg',
   },
   {
     id: 'swedish-fucked-up',
@@ -2529,6 +2548,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Lav deklarert hoveddose; Gymgrossisten-varianten er billigere ved kontroll.',
     url: 'https://www.tights.no/butikk/fcked-up-preworkout-300g/',
+    image: 'https://www.tights.no/wp-content/uploads/sites/7/2016/01/produktbilde-swedish-suplements-f-up.jpg',
   },
   {
     id: 'ignite-stim-free',
@@ -2540,6 +2560,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Koffeinfri',
     reason: 'Beste kandidat for egen koffeinfri/pump-test, ikke direkte mot koffein-PWO.',
     url: 'https://www.tights.no/butikk/ignite-stim-free-pre-workout-300g/',
+    image: 'https://www.tights.no/wp-content/uploads/sites/7/2024/06/IgniteFrontjpg-950x1188.jpg',
   },
   {
     id: 'valhall',
@@ -2551,6 +2572,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Samme lave hoveddoseprofil som Lean Lime, men høyere pris.',
     url: 'https://www.tights.no/butikk/valhall-pre-workout-300g/',
+    image: 'https://www.tights.no/wp-content/uploads/sites/7/2024/06/Valhallfrontjpg-950x1188.jpg',
   },
   {
     id: 'bodylab-gummies',
@@ -2562,6 +2584,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Annet format enn pulver; bør vurderes i egen praktisk/shot/gummies-test.',
     url: 'https://www.tights.no/butikk/gummies-pwo-lemon-lime-60-gummy/',
+    image: 'https://www.tights.no/wp-content/uploads/sites/7/2026/02/preworkout-gummies-90pcs-lemonlime1png.png',
   },
   {
     id: 'off-the-hook-stim-free',
@@ -2573,6 +2596,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Koffeinfri',
     reason: 'Stim-free variant av Off The Hook. Må dosekontrollerast før ev. score.',
     url: 'https://www.gymgrossisten.no/off-the-hook-pwo-stim-free-525-g/5889R.html',
+    image: 'https://sportporten.se/wp-content/uploads/2023/01/Pwo-Test-Chained-Nutrition-Off-the-Hook-1024x783.jpg',
   },
   {
     id: 'sns-hemopump',
@@ -2584,6 +2608,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Manglar ferdig manuell dosekontroll.',
     url: 'https://www.gymgrossisten.no/pwo-hemopump-adrenaline-rush-250-g/101016-01R.html',
+    image: 'https://i0.wp.com/gymbutikken.no/wp-content/uploads/2020/10/bsn_hemopump_adrenaline_rush-950x1188-1.jpg',
   },
   {
     id: 'swedish-butcher',
@@ -2595,6 +2620,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Manglar ferdig manuell dosekontroll.',
     url: 'https://www.gymgrossisten.no/the-butcher-pwo-425-g/820246R.html',
+    image: 'https://supplements4muscle.com/2899-large_default/swedish-supplements-butcher-425-g.jpg',
   },
   {
     id: 'stacker2-alpha-male',
@@ -2606,6 +2632,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Testo-boosting PWO; eigen kategori som krev separat vurdering.',
     url: 'https://www.gymgrossisten.no/alpha-male-300-g/9968-1R.html',
+    image: 'http://vitax.ro/cdn/shop/products/image_2022-12-21_63a30f2facb45.jpg?v=1697638795',
   },
   {
     id: 'on-amino-energy',
@@ -2617,6 +2644,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Mildare PWO med aminosyrer; må kontrollerast mot full PWO-definisjon.',
     url: 'https://www.gymgrossisten.no/amino-energy-pwo-270-g/6947-655R.html',
+    image: 'https://m.media-amazon.com/images/I/81MuFhvomyL._AC_SL1500_.jpg',
   },
   {
     id: 'star-retake',
@@ -2628,6 +2656,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Manglar ferdig manuell dosekontroll.',
     url: 'https://www.gymgrossisten.no/re-take-300-g/6677-123R.html',
+    image: 'https://www.stack3d.com/wp-content/uploads/2024/10/5-star-nutrition-re-take.jpg',
   },
   {
     id: 'bloody-pump',
@@ -2639,6 +2668,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Manglar ferdig manuell dosekontroll.',
     url: 'https://www.gymgrossisten.no/bloody-pump-pwo-300-g/83001R.html',
+    image: 'http://sportoteket.se/cdn/shop/files/bloodypump.png?v=1714926806',
   },
   {
     id: 'abe-pump-500',
@@ -2650,6 +2680,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Stim-free pump. Manglar manuell dosekontroll.',
     url: 'https://www.getfit.no/abe-pump-500g',
+    image: 'https://www.getfit.no/acd-cgi/img/v1/wp-content/uploads/2026/02/ABE-Pump-Blue-Raspberry.png',
   },
   {
     id: 'hype-beast',
@@ -2661,6 +2692,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Manglar manuell dosekontroll.',
     url: 'https://www.getfit.no/hype-beast-pwo-320g',
+    image: 'https://www.getfit.no/acd-cgi/img/v1/wp-content/uploads/2019/12/Hype-Beast-PWO-Berry-Mix.png',
   },
   {
     id: 'hype-pump-stim-free',
@@ -2672,6 +2704,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Koffeinfri',
     reason: 'Stim-free pump. Manglar manuell dosekontroll.',
     url: 'https://www.getfit.no/hype-pump-stim-free-pwo-420g',
+    image: 'https://www.getfit.no/acd-cgi/img/v1/wp-content/uploads/2026/06/Hype-Pump-2-Pakk-New.png',
   },
   {
     id: 'dns-dynamite',
@@ -2683,6 +2716,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Manglar manuell dosekontroll.',
     url: 'https://www.kost1.no/products/nyhet-dynamite-pwo-300-gram',
+    image: 'https://www.kost1.no/users/kristiankost1_mystore_no/images/127_Sport_1.jpg',
   },
   {
     id: 'dns-piraya',
@@ -2694,6 +2728,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Manglar manuell dosekontroll.',
     url: 'https://www.kost1.no/products/piraya-pwo-blue-raspberry-blast',
+    image: 'https://www.kost1.no/users/kristiankost1_mystore_no/images/UsOzN_DNS_Piraya_PWO_-_Blue_Raspberry_Blast_1.jpg',
   },
   {
     id: 'ak47-paranoia',
@@ -2705,6 +2740,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Manglar manuell dosekontroll.',
     url: 'https://www.kost1.no/products/ak47-pre-workout-240-gram',
+    image: 'https://www.kost1.no/users/kristiankost1_mystore_no/images/09420_AK47_Pre-Workout_-_240_gram_1.jpg',
   },
   {
     id: 'zoomad-moonstruck',
@@ -2716,6 +2752,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Koffeinfri',
     reason: 'Stim-free. Manglar manuell dosekontroll.',
     url: 'https://www.kost1.no/products/moonstruck-zero-stim-free-pwo-540-gram',
+    image: 'https://www.kost1.no/users/kristiankost1_mystore_no/images/lZ2mm_Zoomad_Moonstruck_Zero_Stim-Free_V2_Koffeinf_1.png',
   },
   {
     id: 'qnt-overdrive',
@@ -2727,6 +2764,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Manglar manuell dosekontroll.',
     url: 'https://www.kost1.no/products/qnt-pre-workout-overdrive-390-gram',
+    image: 'https://www.kost1.no/users/kristiankost1_mystore_no/images/192_PWO_1.jpg',
   },
   {
     id: 'usp-jack3d',
@@ -2738,6 +2776,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Manglar manuell dosekontroll.',
     url: 'https://www.kost1.no/products/jack3d-advanced-pwo-315g',
+    image: 'https://www.sportkost.se/pub_images/original/jack3d_strawberry_vanilla_315g.jpg',
   },
   {
     id: 'trec-saw',
@@ -2749,6 +2788,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Manglar manuell dosekontroll.',
     url: 'https://www.kost1.no/products/s-a-w-super-anabolic-formula',
+    image: 'https://www.kost1.no/users/kristiankost1_mystore_no/images/2020-09-16/476296c60e95696e17e2905a0a699d49.jpeg',
   },
   {
     id: 'g4n-eaa-pwo',
@@ -2760,6 +2800,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'EAA-basert PWO; annan kategori enn tradisjonell PWO.',
     url: 'https://www.kost1.no/products/eaa-pre-workout--300-gram',
+    image: 'https://www.kost1.no/users/kristiankost1_mystore_no/images/129_Amino_1.jpg',
   },
   {
     id: 'abe-pump-3g',
@@ -2771,6 +2812,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Koffeinfri',
     reason: 'Stim-free pump. Manglar manuell dosekontroll.',
     url: 'https://www.kost1.no/products/pump-3g-stimfree-pwo--375g',
+    image: 'https://www.kost1.no/users/kristiankost1_mystore_no/images/GnKN4_Applied_Nutrition_Pump_3G_-_Stimfree_PWO_-37_1.jpg',
   },
   {
     id: 'evolite-ultrapump',
@@ -2782,6 +2824,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Manglar manuell dosekontroll.',
     url: 'https://www.kost1.no/products/ultra-pump-stim-free-pwo',
+    image: 'https://www.kost1.no/users/kristiankost1_mystore_no/images/XtIKs_Evolite_Ultra_Pump_Stim_Free_PWO_-__1.jpg',
   },
   {
     id: 'trec-marathon',
@@ -2793,6 +2836,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Ikkje tradisjonell PWO; endurance-fokus. Treng eigen vurdering.',
     url: 'https://www.kost1.no/products/marathon-endurance-400-gram',
+    image: 'https://www.kost1.no/users/kristiankost1_mystore_no/images/y6WAD_Trec_Nutrition_Marathon_Endurance_-_400_gram_1.jpg',
   },
   {
     id: 'ghost-legend',
@@ -2804,6 +2848,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Manglar manuell dosekontroll.',
     url: 'https://helsekost.no/products/ghost-legend-pre-workout',
+    image: 'https://g-fit.com.mx/wp-content/uploads/2024/06/ghost-Legend.png',
   },
   {
     id: 'ghost-pump',
@@ -2815,6 +2860,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Koffeinfri',
     reason: 'Stim-free pump. Manglar manuell dosekontroll.',
     url: 'https://helsekost.no/products/ghost-pump',
+    image: 'https://megapump.ie/cdn/shop/products/buy-ghost-pump-megapump-shop.jpg?v=1646149899',
   },
   {
     id: 'tommi-winning',
@@ -2826,6 +2872,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Manglar manuell dosekontroll.',
     url: 'https://tomminutrition.com/products/winning-300g',
+    image: 'http://tomminutrition.com/cdn/shop/collections/tommi-pre-workout-pwo-8706436.jpg?v=1761738200',
   },
   {
     id: 'tommi-die-hard',
@@ -2837,6 +2884,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Manglar manuell dosekontroll.',
     url: 'https://tomminutrition.com/products/die-hard-pumped-550g',
+    image: 'http://tomminutrition.com/cdn/shop/files/9.png?v=1758295978',
   },
   {
     id: 'myopwo',
@@ -2848,6 +2896,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Manglar manuell dosekontroll.',
     url: 'https://myrevolution.no/products/myopwo',
+    image: 'http://myrevolution.no/cdn/shop/files/myopwo-preworkout-pwo_fb8adab4-c074-4041-962f-be0de450dc5f.webp?v=1775812492',
   },
   {
     id: 'mr-hyde-v2',
@@ -2859,6 +2908,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Manglar manuell dosekontroll.',
     url: 'https://www.fitnessmarket.no/mr-hyde-signature-v2-pwo',
+    image: 'https://www.bodypower.se/pub_images/original/mr-hyde-signature-30-serve-intl-blue-razz-1.png',
   },
   {
     id: 'pump-red-breezer',
@@ -2870,6 +2920,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Manglar manuell dosekontroll.',
     url: 'https://www.fitnessmarket.no/pump-pwo-red-breezer-300-g',
+    image: 'https://www.med24.dk/imgsrv/2024-05-15/19595314/3/purepower-pre-workout-icetea-peach-300-g.jpg?c=ICTKFw',
   },
   {
     id: 'unl-flow',
@@ -2881,6 +2932,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Manglar manuell dosekontroll.',
     url: 'https://go-on-shop.no/products/flow-pwo',
+    image: 'https://www.hyjiyastore.com/assets/images/image-data/nutriversum-flow-pwo-liquid-500-ml-mango-01.jpg',
   },
   {
     id: 'naturecan-pwo',
@@ -2892,6 +2944,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Ikke rangert',
     reason: 'Manglar manuell dosekontroll.',
     url: 'https://www.naturecan.no/products/pwo',
+    image: 'http://www.naturecan.no/cdn/shop/files/Pre-Workout-Product-Imagery_Web.jpg?v=1736427178',
   },
 ]
 
