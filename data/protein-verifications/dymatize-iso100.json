@@ -1,0 +1,48 @@
+{
+  "id": "dymatize-iso100",
+  "exists": true,
+  "verifiedAt": "2026-06-26T15:50:00.000Z",
+  "sources": [
+    "https://www.gymgrossisten.no/iso-100-myseproteinisolat-932-g/9922-098R.html",
+    "https://www.gymgrossisten.no/iso-100-932-g-gourmet-vanilla/9922-099.html"
+  ],
+  "checks": {
+    "productPageLoads": true,
+    "nameMatches": true,
+    "nutritionFromLabel": true,
+    "priceFromMerchant": true
+  },
+  "corrections": [
+    "Feil URL: /dymatize-iso100 ga 404 — riktig side er iso-100-myseproteinisolat-932-g",
+    "Feil pakke: 932 g (ikke 907 g)",
+    "Feil pris: 899 kr (ikke 699 kr)",
+    "Feil protein%: 78 g/100 g fra næringsdeklarasjon (25 g per 32 g porsjon), ikke 86 %",
+    "Feil dose: 32 g porsjon ifølge etikett (ikke 31 g)",
+    "Feil leucin: ikke oppgitt på etikett — fjernet spesifikk verdi",
+    "Generisk bilde erstattet med ekte produktbilde fra Gymgrossisten"
+  ],
+  "data": {
+    "name": "ISO100 Hydrolyzed 100% Whey Isolate",
+    "brand": "Dymatize",
+    "merchant": "Gymgrossisten",
+    "url": "https://www.gymgrossisten.no/iso-100-myseproteinisolat-932-g/9922-098R.html",
+    "priceNok": 899,
+    "packageSizeG": 932,
+    "packageSize": "932 g",
+    "servingSizeG": 32,
+    "servingSize": "32 g",
+    "servings": 29,
+    "proteinPer100g": 78,
+    "proteinPerServingG": 25,
+    "sourceType": "hydrolyzed-whey",
+    "sourceLabel": "Hydrolysert whey isolate"
+  },
+  "lactose": {
+    "status": "svært_lav",
+    "note": "Produsenten oppgir at laktose er filtrert bort fra isolatet. Inneholder melk (allergen), men egnet for de fleste med laktoseintoleranse."
+  },
+  "allergens": ["melk", "soya"],
+  "ingredients": "Hydrolysert myseproteinisolat + myseproteinisolat (varierer 89–96 % av proteinkilden avhengig av smak). Emulgator: solsikke- og soyalecitin.",
+  "analysis": "Ekte Dymatize ISO100 på Gymgrossisten — hydrolysert whey-isolat med 25 g protein per 32 g dose (78 % per 100 g). Laktose er filtrert bort ifølge produsent. Sterk DIAAS-estimat fra hydrolyzed-whey-profil, men prisen per gram protein er høyere enn opprinnelig antatt.",
+  "notes": "Produktet var utsolgt ved verifisering, men siden og pris er gyldige. Doseringstekst sier 28 g, men næringsdeklarasjon bruker 32 g porsjon — vi følger etikett."
+}
