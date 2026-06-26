@@ -1,7 +1,7 @@
 {
   "version": 1,
   "intervalMinutes": 5,
-  "lastRunAt": "2026-06-26T15:54:59.011Z",
+  "lastRunAt": "2026-06-26T15:54:00.000Z",
   "lastVerifiedId": "optimum-gold-standard",
   "lastCompletedId": "optimum-gold-standard",
   "lastCompletedStatus": "verified",

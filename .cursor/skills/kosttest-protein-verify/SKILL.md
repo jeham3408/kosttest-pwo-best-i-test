@@ -20,10 +20,13 @@ Du verifiserer **nøyaktig ett** proteinpulver per automasjonskjøring. Ikke hop
 
 ### Steg 0 — Les statusfil
 
-**Les `data/protein-verification-status.md`** — start med seksjonene:
+**Les `data/protein-verification-status.md`** — start med seksjonene **øverst**:
 
-- **⬅️ FORRIGE** — hva som nettopp ble testet (ikke test igjen)
-- **➡️ NÅ** — det eneste produktet du skal teste i denne kjøringen
+1. **🚫 FERDIG TESTET** — alle ID-er som allerede er verifisert/avvist. **ALDRI test disse igjen.**
+2. **➡️ NÅ** — det eneste produktet du skal teste i denne kjøringen.
+3. **⬅️ Sist ferdig** — kun referanse (siste som ble fullført).
+
+Hvis `productId` du tenker å teste finnes i seksjon 1: **STOPP** — det er feil produkt.
 
 ### Steg 1 — Lås neste produkt
 
@@ -31,9 +34,9 @@ Du verifiserer **nøyaktig ett** proteinpulver per automasjonskjøring. Ikke hop
 node scripts/protein-verify-queue.mjs start
 ```
 
-Output sier eksplisitt `previousProduct` (forrige) og `testNowProduct` (nå). Hvis `done: true`, avslutt.
+Output sier eksplisitt `previousProduct` (forrige), `testNowProduct` (nå) og `doNotTestIds` (forbudt). Hvis `done: true`, avslutt.
 
-**Test kun `productId` fra ➡️ NÅ.** Ikke forrige produkt. Ikke flere produkter.
+**Test kun `productId` fra seksjon 2 (➡️ NÅ).** Ikke noen ID fra seksjon 1. Ikke flere produkter.
 
 ### Steg 2 — Les produktet i repo
 

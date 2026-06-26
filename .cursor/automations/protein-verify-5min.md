@@ -28,11 +28,11 @@
 ```
 Følg skill $kosttest-protein-verify
 
-Les data/protein-verification-status.md — se ⬅️ FORRIGE og ➡️ NÅ.
-Verifiser NØYAKTIG ÉTT proteinpulver (kun productId under NÅ).
+Les data/protein-verification-status.md — seksjon 1 (🚫 ferdig testet) og seksjon 2 (➡️ NÅ).
+Verifiser NØYAKTIG ÉTT proteinpulver (kun productId under seksjon 2).
 Start med: node scripts/protein-verify-queue.mjs start
 Avslutt med: complete/reject + sync-md + kjøringslogg.
-Ikke test forrige produkt på nytt. Ikke hopp til neste før cron.
+ALDRI test productId fra seksjon 1. Ikke hopp til neste før cron.
 ```
 
 8. **Run now** én gang for å teste.

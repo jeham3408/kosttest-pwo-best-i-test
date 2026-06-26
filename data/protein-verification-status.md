@@ -1,21 +1,20 @@
 # Protein verifisering — status
 
-> **Automasjon:** Les **FORRIGE** og **NÅ** først. Test kun produktet under **NÅ**. Oppdater **Kjøringslogg** etterpå.
+> **STOPP:** Les seksjon **1** (ferdig testet) og **2** (nå) før du gjør noe. Test **aldri** produkter i seksjon 1.
 
-## ⬅️ FORRIGE (ferdig testet — ikke test på nytt)
+## 1. 🚫 FERDIG TESTET — ALDRI TEST DISSE IGJEN
 
-| Felt | Verdi |
-|------|-------|
-| productId | `optimum-gold-standard` |
-| merke | Optimum Nutrition |
-| navn | Gold Standard 100% Whey |
-| resultat | ✅ verified |
-| ferdig | 2026-06-26 15:54 |
-| url i repo | https://www.gymgrossisten.no/100-whey-gold-standard-myseprotein-908-g/6870R.html |
+| productId | Merke | Navn | Ferdig | Resultat |
+|-----------|-------|------|--------|----------|
+| `optimum-gold-standard` | Optimum Nutrition | Gold Standard 100% Whey | 2026-06-26 15:54 | ✅ verified |
+| `dymatize-iso100` | Dymatize | ISO100 Hydrolyzed 100% Whey Isolate | 2026-06-26 15:51 | ✅ verified |
+| `bodylab-whey-100` | Bodylab | Whey 100 | 2026-06-26 12:00 | ✅ verified |
 
-**Du skal IKKE teste `optimum-gold-standard` igjen.**
+**FORBUDT å teste på nytt:** `optimum-gold-standard`, `dymatize-iso100`, `bodylab-whey-100`
 
-## ➡️ NÅ (test KUN dette produktet i denne kjøringen)
+Rapport ligger i `data/protein-verifications/<id>.json`. Hvis du tester en av disse ID-ene på nytt, er kjøringen FEIL.
+
+## 2. ➡️ NÅ — TEST KUN DETTE (ÉTT PRODUKT)
 
 | Felt | Verdi |
 |------|-------|
@@ -27,7 +26,21 @@
 | kjøring | ⏳ klar — kjør `node scripts/protein-verify-queue.mjs start` |
 | startet | — |
 
-**TEST KUN `star-whey-100` i denne kjøringen. Ett produkt. Ikke hopp over. Ikke test flere.**
+**TEST KUN `star-whey-100` i denne kjøringen.**
+
+**IKKE test:** `optimum-gold-standard`, `dymatize-iso100`, `bodylab-whey-100`
+
+## 3. ⬅️ Sist ferdig (referanse — ikke test igjen)
+
+| Felt | Verdi |
+|------|-------|
+| productId | `optimum-gold-standard` |
+| merke | Optimum Nutrition |
+| navn | Gold Standard 100% Whey |
+| resultat | ✅ verified |
+| ferdig | 2026-06-26 15:54 |
+
+Sist ferdig var `optimum-gold-standard`. Neste er `star-whey-100`.
 
 ## Oppsummering
 
@@ -107,11 +120,12 @@
 
 ## Instruks (automasjon)
 
-1. Les **⬅️ FORRIGE** og **➡️ NÅ** i denne filen.
-2. `node scripts/protein-verify-queue.mjs start` → låser produktet under **NÅ**.
-3. Verifiser **kun** productId under **NÅ** mot ekte butikkside.
-4. Oppdater `src/data/proteinProducts.ts` + `data/protein-verifications/<id>.json`.
-5. `node scripts/protein-verify-queue.mjs complete --id <id>` eller `reject`.
-6. `node scripts/protein-verify-queue.mjs sync-md` → oppdater FORRIGE/NÅ og tabell.
-7. Legg til oppføring i **Kjøringslogg**.
-8. `npm run build` → commit → push.
+1. Les **seksjon 1** (🚫 ferdig testet) — disse ID-ene er **forbudt**.
+2. Les **seksjon 2** (➡️ NÅ) — dette er det **eneste** produktet du skal teste.
+3. `node scripts/protein-verify-queue.mjs start` → låser produktet under **NÅ**.
+4. Verifiser **kun** productId fra seksjon 2 mot ekte butikkside.
+5. Oppdater `src/data/proteinProducts.ts` + `data/protein-verifications/<id>.json`.
+6. `node scripts/protein-verify-queue.mjs complete --id <id>` eller `reject`.
+7. `node scripts/protein-verify-queue.mjs sync-md` → oppdater seksjon 1 og 2.
+8. Legg til oppføring i **Kjøringslogg**.
+9. `npm run build` → commit → push.

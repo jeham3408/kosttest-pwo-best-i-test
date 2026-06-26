@@ -76,6 +76,31 @@ function nextPending(queue) {
   return queue.queue.find((item) => item.status === 'pending')
 }
 
+function isFinished(item) {
+  return item.status === 'verified' || item.status === 'rejected'
+}
+
+function completedItems(queue) {
+  return queue.queue
+    .filter((item) => isFinished(item))
+    .sort((a, b) => Date.parse(b.verifiedAt || b.rejectedAt || 0) - Date.parse(a.verifiedAt || a.rejectedAt || 0))
+}
+
+function blockedIds(queue) {
+  return completedItems(queue).map((item) => item.id)
+}
+
+function clearStaleLock(queue) {
+  if (!queue.currentProductId) return false
+  const current = queue.queue.find((e) => e.id === queue.currentProductId)
+  if (current && isFinished(current)) {
+    queue.currentProductId = null
+    queue.currentRunStartedAt = null
+    return true
+  }
+  return false
+}
+
 function lastCompletedItem(queue) {
   let best = null
   let bestTs = 0
@@ -98,28 +123,33 @@ function buildPointerSections(q, meta) {
   const currentItem = currentId ? q.queue.find((e) => e.id === currentId) : null
   const currentMeta = currentId ? labelFor(currentId, meta) : null
   const prevMeta = prev ? labelFor(prev.id, meta) : null
+  const done = completedItems(q)
 
-  const prevBlock = prev
-    ? `## ⬅️ FORRIGE (ferdig testet — ikke test på nytt)
+  const blockRows = done.length
+    ? done
+        .map((item) => {
+          const m = labelFor(item.id, meta)
+          const when = formatDate(item.verifiedAt || item.rejectedAt)
+          const result = item.status === 'verified' ? '✅ verified' : '❌ rejected'
+          return `| \`${item.id}\` | ${m.brand} | ${m.name} | ${when} | ${result} |`
+        })
+        .join('\n')
+    : '| — | — | Ingen ferdig ennå | — | — |'
 
-| Felt | Verdi |
-|------|-------|
-| productId | \`${prev.id}\` |
-| merke | ${prevMeta.brand} |
-| navn | ${prevMeta.name} |
-| resultat | ${prev.status === 'verified' ? '✅ verified' : '❌ rejected'} |
-| ferdig | ${formatDate(prev.verifiedAt || prev.rejectedAt)} |
-| url i repo | ${prevMeta.url} |
+  const blocklistBlock = `## 1. 🚫 FERDIG TESTET — ALDRI TEST DISSE IGJEN
 
-**Du skal IKKE teste \`${prev.id}\` igjen.**`
-    : `## ⬅️ FORRIGE (ferdig testet — ikke test på nytt)
+| productId | Merke | Navn | Ferdig | Resultat |
+|-----------|-------|------|--------|----------|
+${blockRows}
 
-Ingen produkter ferdig testet ennå.`
+**FORBUDT å teste på nytt:** ${done.length ? done.map((i) => `\`${i.id}\``).join(', ') : 'ingen ennå'}
+
+Rapport ligger i \`data/protein-verifications/<id>.json\`. Hvis du tester en av disse ID-ene på nytt, er kjøringen FEIL.`
 
   const runState = q.currentProductId ? '🔒 in_progress (låst av start)' : '⏳ klar — kjør `node scripts/protein-verify-queue.mjs start`'
 
   const nowBlock = currentId && currentMeta
-    ? `## ➡️ NÅ (test KUN dette produktet i denne kjøringen)
+    ? `## 2. ➡️ NÅ — TEST KUN DETTE (ÉTT PRODUKT)
 
 | Felt | Verdi |
 |------|-------|
@@ -131,12 +161,30 @@ Ingen produkter ferdig testet ennå.`
 | kjøring | ${runState} |
 | startet | ${q.currentRunStartedAt ? formatDate(q.currentRunStartedAt) : '—'} |
 
-**TEST KUN \`${currentId}\` i denne kjøringen. Ett produkt. Ikke hopp over. Ikke test flere.**`
-    : `## ➡️ NÅ (test KUN dette produktet i denne kjøringen)
+**TEST KUN \`${currentId}\` i denne kjøringen.**
+
+**IKKE test:** ${done.length ? done.map((i) => `\`${i.id}\``).join(', ') : 'ingen ferdige ennå'}`
+    : `## 2. ➡️ NÅ — TEST KUN DETTE (ÉTT PRODUKT)
 
 Alle produkter er verifisert eller avvist. Ingen oppgave igjen.`
 
-  return { prevBlock, nowBlock, prev, next, currentId }
+  const prevBlock = prev
+    ? `## 3. ⬅️ Sist ferdig (referanse — ikke test igjen)
+
+| Felt | Verdi |
+|------|-------|
+| productId | \`${prev.id}\` |
+| merke | ${prevMeta.brand} |
+| navn | ${prevMeta.name} |
+| resultat | ${prev.status === 'verified' ? '✅ verified' : '❌ rejected'} |
+| ferdig | ${formatDate(prev.verifiedAt || prev.rejectedAt)} |
+
+Sist ferdig var \`${prev.id}\`. Neste er \`${next?.id ?? '—'}\`.`
+    : `## 3. ⬅️ Sist ferdig (referanse)
+
+Ingen produkter ferdig testet ennå.`
+
+  return { blocklistBlock, prevBlock, nowBlock, prev, next, currentId, done }
 }
 
 function syncMarkdown() {
@@ -144,7 +192,7 @@ function syncMarkdown() {
   const meta = loadProductMeta()
   const counts = { pending: 0, verified: 0, rejected: 0 }
   for (const item of q.queue) counts[item.status] = (counts[item.status] || 0) + 1
-  const { prevBlock, nowBlock, next, currentId } = buildPointerSections(q, meta)
+  const { blocklistBlock, prevBlock, nowBlock, next, currentId, done } = buildPointerSections(q, meta)
 
   const rows = q.queue
     .map((item, i) => {
@@ -167,11 +215,13 @@ function syncMarkdown() {
 
   const md = `# Protein verifisering — status
 
-> **Automasjon:** Les **FORRIGE** og **NÅ** først. Test kun produktet under **NÅ**. Oppdater **Kjøringslogg** etterpå.
+> **STOPP:** Les seksjon **1** (ferdig testet) og **2** (nå) før du gjør noe. Test **aldri** produkter i seksjon 1.
 
-${prevBlock}
+${blocklistBlock}
 
 ${nowBlock}
+
+${prevBlock}
 
 ## Oppsummering
 
@@ -194,14 +244,15 @@ ${logSection}
 
 ## Instruks (automasjon)
 
-1. Les **⬅️ FORRIGE** og **➡️ NÅ** i denne filen.
-2. \`node scripts/protein-verify-queue.mjs start\` → låser produktet under **NÅ**.
-3. Verifiser **kun** productId under **NÅ** mot ekte butikkside.
-4. Oppdater \`src/data/proteinProducts.ts\` + \`data/protein-verifications/<id>.json\`.
-5. \`node scripts/protein-verify-queue.mjs complete --id <id>\` eller \`reject\`.
-6. \`node scripts/protein-verify-queue.mjs sync-md\` → oppdater FORRIGE/NÅ og tabell.
-7. Legg til oppføring i **Kjøringslogg**.
-8. \`npm run build\` → commit → push.
+1. Les **seksjon 1** (🚫 ferdig testet) — disse ID-ene er **forbudt**.
+2. Les **seksjon 2** (➡️ NÅ) — dette er det **eneste** produktet du skal teste.
+3. \`node scripts/protein-verify-queue.mjs start\` → låser produktet under **NÅ**.
+4. Verifiser **kun** productId fra seksjon 2 mot ekte butikkside.
+5. Oppdater \`src/data/proteinProducts.ts\` + \`data/protein-verifications/<id>.json\`.
+6. \`node scripts/protein-verify-queue.mjs complete --id <id>\` eller \`reject\`.
+7. \`node scripts/protein-verify-queue.mjs sync-md\` → oppdater seksjon 1 og 2.
+8. Legg til oppføring i **Kjøringslogg**.
+9. \`npm run build\` → commit → push.
 `
 
   fs.writeFileSync(STATUS_MD, md)
@@ -214,11 +265,13 @@ function runContext() {
   const prev = lastCompletedItem(q)
   const next = nextPending(q)
   const testNowId = q.currentProductId || next?.id
+  const blocked = blockedIds(q)
   return {
     previousProduct: prev ? labelFor(prev.id, meta) : null,
     previousStatus: prev?.status ?? null,
     testNowProduct: testNowId ? labelFor(testNowId, meta) : null,
     testNowLocked: Boolean(q.currentProductId),
+    doNotTestIds: blocked,
     done: !next && !q.currentProductId,
   }
 }
@@ -279,11 +332,22 @@ function cmdStatus() {
 
 function cmdStart() {
   const queue = readQueue()
+  clearStaleLock(queue)
   const next = nextPending(queue)
   if (!next) {
+    writeQueue(queue)
     syncMarkdown()
     console.log(JSON.stringify({ done: true, message: 'Ingen pending produkter.' }))
     return
+  }
+  if (isFinished(next)) {
+    console.error(`FEIL: Neste produkt ${next.id} er allerede ferdig (${next.status}). Kjør sync-md og sjekk køen.`)
+    process.exit(1)
+  }
+  const blocked = blockedIds(queue)
+  if (blocked.includes(next.id)) {
+    console.error(`FEIL: ${next.id} står i ferdig-testet-listen. Skal ikke startes på nytt.`)
+    process.exit(1)
   }
   queue.lastRunAt = new Date().toISOString()
   queue.currentProductId = next.id
@@ -300,7 +364,8 @@ function cmdStart() {
         lockedProductId: next.id,
         previousProduct: ctx.previousProduct,
         testNowProduct: ctx.testNowProduct,
-        message: `Låst oppgave: test KUN ${next.id}. Forrige ferdig: ${ctx.previousProduct?.id ?? 'ingen'}.`,
+        doNotTestIds: ctx.doNotTestIds,
+        message: `Låst oppgave: test KUN ${next.id}. Forrige ferdig: ${ctx.previousProduct?.id ?? 'ingen'}. IKKE test: ${ctx.doNotTestIds.join(', ') || 'ingen'}.`,
         statusMd: 'data/protein-verification-status.md',
         sync,
       },
@@ -320,6 +385,10 @@ function cmdComplete(args) {
   const item = queue.queue.find((e) => e.id === id)
   if (!item) {
     console.error(`Ukjent id: ${id}`)
+    process.exit(1)
+  }
+  if (isFinished(item)) {
+    console.error(`FEIL: ${id} er allerede ${item.status} (${formatDate(item.verifiedAt || item.rejectedAt)}). Skal ikke testes på nytt.`)
     process.exit(1)
   }
   if (queue.currentProductId && queue.currentProductId !== id) {
@@ -350,6 +419,10 @@ function cmdReject(args) {
   const item = queue.queue.find((e) => e.id === id)
   if (!item) {
     console.error(`Ukjent id: ${id}`)
+    process.exit(1)
+  }
+  if (isFinished(item)) {
+    console.error(`FEIL: ${id} er allerede ${item.status} (${formatDate(item.verifiedAt || item.rejectedAt)}). Skal ikke testes på nytt.`)
     process.exit(1)
   }
   if (queue.currentProductId && queue.currentProductId !== id) {
