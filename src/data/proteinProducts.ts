@@ -125,7 +125,7 @@ const rawProducts: RawProtein[] = [
     strengths: ['Pålitelig merke', 'Protein fra fersk melk', 'Ingen aspartam'],
     watchouts: ['Solges på bodylab.no — ikke Gymgrossisten', 'Lavere protein% enn mange isolates'],
     url: 'https://www.bodylab.no/shop/bodylab-whey-100-663p.html',
-    image: IMG,
+    image: 'https://bodylab.b-cdn.net/media/8a/e6/2d/1756457419/BL-BM0008-whey100-main.png?width=1920',
   },
   {
     id: 'star-whey-100',

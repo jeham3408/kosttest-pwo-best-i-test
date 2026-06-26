@@ -220,21 +220,33 @@ ${logSection}
 async function cmdInit() {
   const { tested, listedOnly, protein } = loadAllProducts()
   const all = [...tested, ...listedOnly, ...protein]
+  const existing = fs.existsSync(QUEUE_PATH) ? readQueue() : null
+  const finished = new Map(
+    (existing?.queue || [])
+      .filter((item) => isFinished(item))
+      .map((item) => [item.id, item]),
+  )
+
   const queue = {
     version: 1,
     batchSize: BATCH_SIZE,
-    lastRunAt: null,
+    lastRunAt: existing?.lastRunAt ?? null,
     currentBatchIds: [],
     currentRunStartedAt: null,
     queue: [],
   }
 
   for (const product of all) {
+    const prev = finished.get(product.id)
+    if (prev) {
+      queue.queue.push({ ...prev })
+      continue
+    }
     const needsImage = isGenericImage(product.image, product.catalog)
     queue.queue.push({
       id: product.id,
       catalog: product.catalog,
-      status: needsImage ? 'pending' : 'pending',
+      status: 'pending',
       needsImage,
       imageOk: !needsImage && Boolean(product.image),
       pageOk: null,
@@ -243,6 +255,11 @@ async function cmdInit() {
       note: needsImage ? 'mangler eller generisk bilde' : 'bilde finnes — verifiser URL og bilde-URL ved kjøring',
     })
   }
+
+  queue.queue.sort((a, b) => {
+    if (isFinished(a) !== isFinished(b)) return Number(isFinished(a)) - Number(isFinished(b))
+    return Number(b.needsImage) - Number(a.needsImage) || a.id.localeCompare(b.id)
+  })
 
   writeQueue(queue)
   syncMarkdown()

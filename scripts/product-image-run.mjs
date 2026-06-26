@@ -92,7 +92,7 @@ async function main() {
       continue
     }
 
-    const found = await findProductImage(product)
+    const found = await findProductImage({ ...product, catalog: product.catalog })
     entry.search = { query: found.query, source: found.source, candidates: found.candidates?.length || 0 }
 
     if (found.image) {

@@ -2673,6 +2673,7 @@ export const listedProducts: ListedProduct[] = [
     status: 'Koffeinfri',
     reason: 'Stim-free pump. Manglar manuell dosekontroll.',
     url: 'https://www.getfit.no/hype-pump-stim-free-pwo-420g',
+    image: 'https://www.getfit.no/acd-cgi/img/v1/wp-content/uploads/2026/06/Hype-Pump-2-Pakk-New.png',
   },
   {
     id: 'dns-dynamite',

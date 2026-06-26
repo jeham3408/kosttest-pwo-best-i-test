@@ -193,11 +193,20 @@ async function searchBingImages(query) {
     const res = await fetch(url, { headers: { 'User-Agent': USER_AGENT } })
     if (!res.ok) return []
     const html = await res.text()
-    const matches = [...html.matchAll(/murl&quot;:&quot;(https?:\\\/\\\/[^&]+?)&quot;/g)]
-    return matches
-      .map((m) => m[1].replace(/\\u0026/g, '&').replace(/\\\//g, '/'))
-      .filter((u) => /\.(jpg|jpeg|png|webp)(\?|$)/i.test(u))
-      .slice(0, 8)
+    const patterns = [
+      /murl&quot;:&quot;(https?:\\\/\\\/[^&]+?)&quot;/g,
+      /murl&quot;:&quot;(https?:\/\/[^&]+?)&quot;/g,
+      /"murl":"(https?:[^"]+)"/g,
+    ]
+    const results = []
+    for (const re of patterns) {
+      let m
+      while ((m = re.exec(html)) !== null) {
+        const decoded = m[1].replace(/\\u0026/g, '&').replace(/\\\//g, '/')
+        if (!results.includes(decoded)) results.push(decoded)
+      }
+    }
+    return results.filter((u) => /\.(jpg|jpeg|png|webp)(\?|$)/i.test(u)).slice(0, 8)
   } catch {
     return []
   }
@@ -225,7 +234,63 @@ async function searchDuckDuckGoImages(query) {
   }
 }
 
-export async function findProductImage({ name, brand, url }) {
+const BLOCKED_IMAGE_HOSTS = [
+  'dreamstime.com',
+  'seeklogo.com',
+  'shutterstock.com',
+  'alamy.com',
+  'gettyimages.com',
+  'wallpaperaccess.com',
+  'ftcdn.net',
+  'pinimg.com',
+  'media-amazon.com',
+]
+
+function tokenize(...parts) {
+  return [...new Set(parts.join(' ').toLowerCase().split(/[^a-z0-9æøå]+/i).filter((t) => t.length > 2))]
+}
+
+function isRelevantImage(imageUrl, { brand, name, merchant, catalog }) {
+  const host = (() => {
+    try {
+      return new URL(imageUrl).hostname.toLowerCase()
+    } catch {
+      return ''
+    }
+  })()
+  if (BLOCKED_IMAGE_HOSTS.some((blocked) => host.includes(blocked))) return { ok: false, score: 0 }
+
+  const haystack = imageUrl.toLowerCase()
+  const tokens = tokenize(brand, name, merchant)
+  const productTokens = tokens.filter(
+    (t) => !['nutrition', 'sports', 'labs', 'europe', 'pre', 'workout', 'stim', 'free', 'pwo'].includes(t),
+  )
+  const hits = productTokens.filter((t) => haystack.includes(t))
+  if (hits.length >= 1) return { ok: true, score: hits.length }
+
+  const trustedHosts = [
+    'gymgrossisten.no',
+    'demandware.static',
+    'kost1.no',
+    'getfit.no',
+    'tights.no',
+    'peveo.no',
+    'whitelion.no',
+    'shopify',
+    'cdn.shopify.com',
+    'bodylab',
+    'myrevolution.no',
+    'naturecan.no',
+    'helsekost.no',
+  ]
+  if (trustedHosts.some((h) => haystack.includes(h))) return { ok: true, score: 2 }
+
+  if (catalog === 'protein' && haystack.includes('protein')) return { ok: true, score: 1 }
+
+  return { ok: false, score: 0 }
+}
+
+export async function findProductImage({ name, brand, url, catalog, merchant = '' }) {
   const sources = []
   const candidates = []
 
@@ -241,7 +306,8 @@ export async function findProductImage({ name, brand, url }) {
     }
   }
 
-  const query = `${brand} ${name} pre workout produkt`.replace(/\s+/g, ' ').trim()
+  const productKind = catalog === 'protein' ? 'proteinpulver' : 'pre workout PWO'
+  const query = `${brand} ${name} ${productKind}`.replace(/\s+/g, ' ').trim()
   for (const img of await searchBingImages(query)) candidates.push({ url: img, source: 'bing' })
   if (!candidates.length) {
     for (const img of await searchDuckDuckGoImages(query)) candidates.push({ url: img, source: 'duckduckgo' })
@@ -251,6 +317,11 @@ export async function findProductImage({ name, brand, url }) {
   for (const candidate of candidates) {
     if (seen.has(candidate.url)) continue
     seen.add(candidate.url)
+    const relevance = isRelevantImage(candidate.url, { brand, name, merchant, catalog })
+    if (!relevance.ok) continue
+    if (candidate.source === 'bing' || candidate.source === 'duckduckgo') {
+      if (relevance.score < 2) continue
+    }
     if (await checkImageUrl(candidate.url)) {
       return { image: candidate.url, source: candidate.source, sources, query }
     }
