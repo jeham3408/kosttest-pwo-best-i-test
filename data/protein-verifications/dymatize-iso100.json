@@ -1,0 +1,47 @@
+{
+  "id": "dymatize-iso100",
+  "exists": true,
+  "verifiedAt": "2026-06-26T15:50:00.000Z",
+  "sources": [
+    "https://www.gymgrossisten.no/iso-100-myseproteinisolat-932-g/9922-098R.html",
+    "https://www.gymgrossisten.no/iso-100-932-g-gourmet-vanilla/9922-099.html"
+  ],
+  "checks": {
+    "productPageLoads": true,
+    "nameMatches": true,
+    "nutritionFromLabel": true,
+    "priceFromMerchant": true
+  },
+  "corrections": [
+    "Feil URL: /dymatize-iso100 (404) → iso-100-myseproteinisolat-932-g",
+    "Feil pakke: 907 g → 932 g (norsk standardstørrelse)",
+    "Feil pris: 699 kr → 899 kr (veil.pris Gymgrossisten)",
+    "Feil protein%: 86 → 78 g/100 g (25 g per 32 g porsjon, etikett)",
+    "Feil dosestørrelse: 31 g → 32 g (næringsdeklarasjon per porsjon)",
+    "Leucin ikke oppgitt på etikett — satt til null"
+  ],
+  "data": {
+    "name": "ISO100 Hydrolyzed 100% Whey Isolate",
+    "brand": "Dymatize",
+    "merchant": "Gymgrossisten",
+    "url": "https://www.gymgrossisten.no/iso-100-myseproteinisolat-932-g/9922-098R.html",
+    "priceNok": 899,
+    "packageSizeG": 932,
+    "packageSize": "932 g",
+    "servingSizeG": 32,
+    "servingSize": "32 g",
+    "servings": 29,
+    "proteinPer100g": 78,
+    "proteinPerServingG": 25,
+    "sourceType": "hydrolyzed-whey",
+    "sourceLabel": "Hydrolysert whey isolate"
+  },
+  "lactose": {
+    "status": "laktosefattig",
+    "note": "Produktsiden oppgir at laktose er skilt ut fra ISO-100. Inneholder fortsatt melk (whey) — ikke melkefritt."
+  },
+  "allergens": ["melk", "soya"],
+  "ingredients": "Hydrolysert myseproteinisolat (50 %), myseproteinisolat (46 %), emulgator (solsikkelecitin, soya-lecitin)",
+  "analysis": "Ekte premium hydrolysert whey isolate på Gymgrossisten. 78 % protein per 100 g ifølge næringsdeklarasjon (25 g per 32 g porsjon). Laktose er fjernet, men produktet inneholder melk og soya. DIAAS-estimat basert på hydrolyzed-whey-profil — ikke offisiell lab-test.",
+  "notes": "Dosering på emballasje sier 28 g, men næringsinnhold er oppgitt per 32 g porsjon. Pris og lagerstatus kan variere. Produktbildet er Gourmet Vanilla-variant."
+}
