@@ -1,10 +1,18 @@
 import { blogPosts } from './data/blog'
 import { testedProducts } from './data/pwoProducts'
+import {
+  allSupplementCategories,
+  getSupplementCategory,
+  findSupplementProduct,
+  type SupplementCategoryId,
+} from './data/testCategories'
 import { siteStats } from './siteStats'
 
 export type AppPage =
   | 'home'
   | 'lb-pwo'
+  | 'lb-supplement'
+  | 'supplement-product'
   | 'blog'
   | 'blog-post'
   | 'product'
@@ -14,6 +22,7 @@ export type AppPage =
 export type RouteState = {
   page: AppPage
   selectedProduct: string | null
+  supplementCategory: SupplementCategoryId | null
   sortCol: string
   sortAsc: boolean
   caffeineFilter: 'alle' | 'med' | 'uten'
@@ -36,61 +45,116 @@ export function normalizePath(path: string) {
   return normalized.startsWith('/') ? normalized : `/${normalized}`
 }
 
+function defaultRoute(): RouteState {
+  return {
+    page: 'home',
+    selectedProduct: null,
+    supplementCategory: null,
+    sortCol: 'score',
+    sortAsc: false,
+    caffeineFilter: 'alle',
+    betaFilter: 'med',
+  }
+}
+
 export function parseRoute(path: string): RouteState {
   const route = normalizePath(path)
 
-  if (route === '/tester/pwo/beste' || route === '/tester/pwo' || route === '/tester') {
-    return { page: 'lb-pwo', selectedProduct: null, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
-  }
-  if (route === '/tester/pwo/sterkeste') {
-    return { page: 'lb-pwo', selectedProduct: null, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
-  }
-  if (route === '/tester/pwo/billigste') {
-    return { page: 'lb-pwo', selectedProduct: null, sortCol: 'kgprice-asc', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
-  }
-  if (route === '/tester/pwo/stim-free') {
-    return { page: 'lb-pwo', selectedProduct: null, sortCol: 'score', sortAsc: false, caffeineFilter: 'uten', betaFilter: 'med' }
-  }
-  if (route === '/tester/pwo/nybegynner') {
-    return { page: 'lb-pwo', selectedProduct: null, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
-  }
-  if (route.startsWith('/tester/pwo/slik-velger-du')) {
-    return { page: 'buying-guide', selectedProduct: null, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
-  }
-  if (route.startsWith('/pwo/')) {
-    const id = route.replace('/pwo/', '')
-    return { page: 'product', selectedProduct: id, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
-  }
-  if (route === '/blogg') {
-    return { page: 'blog', selectedProduct: null, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
-  }
-  if (route.startsWith('/blogg/')) {
-    const slug = route.replace('/blogg/', '')
-    return { page: 'blog-post', selectedProduct: slug, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
-  }
-  if (route === '/om-metoden' || route === '/metode') {
-    return { page: 'metode', selectedProduct: null, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
-  }
-  if (route === '/kilder') {
-    return { page: 'home', selectedProduct: null, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
+  for (const category of allSupplementCategories) {
+    const lbPath = category.leaderboardPath.replace(/\/$/, '')
+    if (route === lbPath || route === `${lbPath}/beste`) {
+      return { ...defaultRoute(), page: 'lb-supplement', supplementCategory: category.id }
+    }
+    if (route.startsWith(category.productPathPrefix)) {
+      const id = route.replace(category.productPathPrefix, '').replace(/\/$/, '')
+      return {
+        ...defaultRoute(),
+        page: 'supplement-product',
+        supplementCategory: category.id,
+        selectedProduct: id,
+      }
+    }
   }
 
-  return { page: 'home', selectedProduct: null, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
+  if (route === '/tester/pwo/beste' || route === '/tester/pwo' || route === '/tester') {
+    return { ...defaultRoute(), page: 'lb-pwo' }
+  }
+  if (route === '/tester/pwo/sterkeste') {
+    return { ...defaultRoute(), page: 'lb-pwo' }
+  }
+  if (route === '/tester/pwo/billigste') {
+    return { ...defaultRoute(), page: 'lb-pwo', sortCol: 'kgprice-asc' }
+  }
+  if (route === '/tester/pwo/stim-free') {
+    return { ...defaultRoute(), page: 'lb-pwo', caffeineFilter: 'uten' }
+  }
+  if (route === '/tester/pwo/nybegynner') {
+    return { ...defaultRoute(), page: 'lb-pwo' }
+  }
+  if (route.startsWith('/tester/pwo/slik-velger-du')) {
+    return { ...defaultRoute(), page: 'buying-guide' }
+  }
+  if (route.startsWith('/pwo/')) {
+    const id = route.replace('/pwo/', '').replace(/\/$/, '')
+    return { ...defaultRoute(), page: 'product', selectedProduct: id }
+  }
+  if (route === '/blogg') {
+    return { ...defaultRoute(), page: 'blog' }
+  }
+  if (route.startsWith('/blogg/')) {
+    const slug = route.replace('/blogg/', '').replace(/\/$/, '')
+    return { ...defaultRoute(), page: 'blog-post', selectedProduct: slug }
+  }
+  if (route === '/om-metoden' || route === '/metode') {
+    return { ...defaultRoute(), page: 'metode' }
+  }
+  if (route === '/kilder') {
+    return { ...defaultRoute(), page: 'home' }
+  }
+
+  return defaultRoute()
 }
 
 export function getPageMeta(state: RouteState): PageMeta {
   const def = {
-    title: 'PWO best i test 2026 | Ærlig PWO-rangering | Kosttest.no',
-    description: `Vi rangerer pre-workout etter deklarert innhold, ikke markedsføring. ${siteStats.testedCount} produkter testet med åpen karaktermotor.`,
+    title: 'Kosttilskudd best i test 2026 | Ærlig rangering | Kosttest.no',
+    description: `Vi rangerer kosttilskudd etter deklarert innhold, ikke markedsføring. ${siteStats.testedCount} PWO-produkter og ${siteStats.supplementTestedCount} produkter i andre tester.`,
     canonical: `${SITE}/`,
     ogType: 'website',
     ogImage: DEFAULT_OG,
   }
 
+  if (state.page === 'lb-supplement' && state.supplementCategory) {
+    const category = getSupplementCategory(state.supplementCategory)
+    if (category) {
+      return {
+        title: category.metaTitle,
+        description: category.metaDescription,
+        canonical: `${SITE}${category.leaderboardPath}`,
+        ogType: 'website',
+        ogImage: DEFAULT_OG,
+      }
+    }
+  }
+
+  if (state.page === 'supplement-product' && state.supplementCategory && state.selectedProduct) {
+    const product = findSupplementProduct(state.supplementCategory, state.selectedProduct)
+    const category = getSupplementCategory(state.supplementCategory)
+    if (product && category) {
+      return {
+        title: `${product.name} – Vurdering og score | Kosttest.no`,
+        description: product.verdict.substring(0, 160),
+        canonical: `${SITE}${category.productPathPrefix}${product.id}/`,
+        ogType: 'product',
+        ogImage: product.image || DEFAULT_OG,
+      }
+    }
+  }
+
   if (state.page === 'lb-pwo') {
     return {
       title: 'PWO best i test 2026 – Fullstendig rangering | Kosttest.no',
-      description: `Se hele rangeringen av ${siteStats.testedCount} PWO-produkter. Sorter på pris, effekt og ingredienser.`,
+      description: `Se hele rangeringen av ${siteStats.pwoTestedCount} PWO-produkter. Sorter på pris, effekt og ingredienser.`,
       canonical: `${SITE}/tester/pwo/`,
       ogType: 'website',
       ogImage: DEFAULT_OG,
@@ -140,8 +204,8 @@ export function getPageMeta(state: RouteState): PageMeta {
   }
   if (state.page === 'metode') {
     return {
-      title: 'Slik scorer vi PWO – Åpen karaktermotor | Kosttest.no',
-      description: 'Se hvordan vår transparente karaktermotor regner ut poeng for hvert produkt.',
+      title: 'Slik scorer vi kosttilskudd – Åpen karaktermotor | Kosttest.no',
+      description: 'Se hvordan vår transparente karaktermotor regner ut poeng for PWO, kreatin, protein og mer.',
       canonical: `${SITE}/om-metoden/`,
       ogType: 'article',
       ogImage: DEFAULT_OG,
@@ -166,6 +230,13 @@ export function getAllPrerenderRoutes(): string[] {
     '/tester/pwo/slik-velger-du',
   ]
 
+  for (const category of allSupplementCategories) {
+    routes.push(category.leaderboardPath.replace(/\/$/, ''))
+    for (const product of category.products) {
+      routes.push(`${category.productPathPrefix.replace(/\/$/, '')}/${product.id}`)
+    }
+  }
+
   for (const product of testedProducts) {
     routes.push(`/pwo/${product.id}`)
   }
@@ -180,8 +251,9 @@ export function buildSitemapXml(routes: string[], lastmod = new Date().toISOStri
   const priorityFor = (route: string) => {
     if (route === '/') return '1.0'
     if (route.startsWith('/tester/pwo/beste') || route === '/tester/pwo') return '0.9'
-    if (route.startsWith('/blogg/') || route.startsWith('/pwo/')) return '0.7'
-    if (route.startsWith('/tester/pwo')) return '0.8'
+    if (route.startsWith('/tester/kreatin') || route.startsWith('/tester/proteinpulver')) return '0.85'
+    if (route.startsWith('/blogg/') || route.startsWith('/pwo/') || route.startsWith('/kreatin/')) return '0.7'
+    if (route.startsWith('/tester/')) return '0.8'
     return '0.6'
   }
 

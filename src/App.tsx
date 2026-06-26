@@ -12,7 +12,14 @@ import {
 import './App.css'
 import JsonLd from './components/JsonLd'
 import SubmissionPanel from './components/SubmissionPanel'
+import {
+  SupplementLeaderboard,
+  SupplementMethodSection,
+  SupplementProductPage,
+} from './components/SupplementTestView'
 import UnrankedProductsSection from './components/UnrankedProductsSection'
+import { allSupplementCategories, findSupplementProduct, getSupplementCategory } from './data/testCategories'
+import type { SupplementCategoryId } from './data/testCategories'
 import {
   calculateProductGrade,
   ingredientRules,
@@ -211,6 +218,9 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
   const initialRoute = parseRoute(initialPath)
   const [page, setPage] = useState<RouteState['page']>(initialRoute.page)
   const [selectedProduct, setSelectedProduct] = useState<string | null>(initialRoute.selectedProduct)
+  const [supplementCategory, setSupplementCategory] = useState<SupplementCategoryId | null>(
+    initialRoute.supplementCategory,
+  )
   const [lbOpen, setLbOpen] = useState(false)
   const [sortCol, setSortCol] = useState(initialRoute.sortCol)
   const [sortAsc, setSortAsc] = useState(initialRoute.sortAsc)
@@ -248,6 +258,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
       const route = parseRoute(window.location.pathname)
       setPage(route.page)
       setSelectedProduct(route.selectedProduct)
+      setSupplementCategory(route.supplementCategory)
       setSortCol(route.sortCol)
       setSortAsc(route.sortAsc)
       setCaffeineFilter(route.caffeineFilter)
@@ -263,7 +274,11 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
     const base = window.location.origin
     let url = base + '/'
     if (page === 'lb-pwo') url = base + '/tester/pwo/'
-    else if (page === 'blog') url = base + '/blogg/'
+    else if (page === 'lb-supplement' && supplementCategory) {
+      url = base + getSupplementCategory(supplementCategory)!.leaderboardPath
+    } else if (page === 'supplement-product' && supplementCategory && selectedProduct) {
+      url = base + getSupplementCategory(supplementCategory)!.productPathPrefix + selectedProduct + '/'
+    } else if (page === 'blog') url = base + '/blogg/'
     else if (page === 'blog-post' && selectedProduct) url = base + '/blogg/' + selectedProduct + '/'
     else if (page === 'product' && selectedProduct) {
       const p = testedProducts.find(x => x.id === selectedProduct)
@@ -273,12 +288,29 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
     else if (page === 'buying-guide') url = base + '/tester/pwo/slik-velger-du/'
     else if (page === 'metode') url = base + '/om-metoden/'
     window.history.pushState({}, '', url)
-  }, [page, selectedProduct])
+  }, [page, selectedProduct, supplementCategory])
 
   const pageMeta = useMemo(
-    () => getPageMeta({ page, selectedProduct, sortCol, sortAsc, caffeineFilter, betaFilter }),
-    [page, selectedProduct, sortCol, sortAsc, caffeineFilter, betaFilter],
+    () =>
+      getPageMeta({
+        page,
+        selectedProduct,
+        supplementCategory,
+        sortCol,
+        sortAsc,
+        caffeineFilter,
+        betaFilter,
+      }),
+    [page, selectedProduct, supplementCategory, sortCol, sortAsc, caffeineFilter, betaFilter],
   )
+
+  const openSupplementTest = (categoryId: SupplementCategoryId) => {
+    setSupplementCategory(categoryId)
+    setSelectedProduct(null)
+    setPage('lb-supplement')
+    setSortCol('score')
+    setSortAsc(false)
+  }
 
   useEffect(() => {
     document.title = pageMeta.title
@@ -430,14 +462,61 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
           <a href="/" onClick={(e) => { e.preventDefault(); setPage('home'); setSelectedProduct(null) }} className={page === 'home' ? 'nav-active' : ''}>Forside</a>
           <a href="/blogg/" onClick={(e) => { e.preventDefault(); setPage('blog') }} className={page === 'blog' ? 'nav-active' : ''}>Blogg</a>
           <div className="nav-dropdown" onMouseEnter={() => setLbOpen(true)} onMouseLeave={() => setLbOpen(false)}>
-            <button className={'nav-link' + (page === 'lb-pwo' ? ' nav-active' : '')} onClick={() => setLbOpen(!lbOpen)}>Leaderboard ▾</button>
-            {lbOpen && <div className="nav-dropdown-menu">
-              <a href="/tester/pwo/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setLbOpen(false) }}>PWO best i test</a>
-              <a href="/tester/pwo/beste/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setLbOpen(false) }}>Beste PWO</a>
-              <a href="/tester/pwo/sterkeste/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setLbOpen(false) }}>Sterkeste PWO</a>
-              <a href="/tester/pwo/billigste/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setLbOpen(false) }}>Billigste PWO</a>
-              <a href="/tester/pwo/stim-free/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setLbOpen(false) }}>Stim-free</a>
-            </div>}
+            <button
+              className={
+                'nav-link' +
+                (page === 'lb-pwo' || page === 'lb-supplement' || page === 'supplement-product' ? ' nav-active' : '')
+              }
+              onClick={() => setLbOpen(!lbOpen)}
+            >
+              Tester ▾
+            </button>
+            {lbOpen && (
+              <div className="nav-dropdown-menu">
+                <span style={{ display: 'block', padding: '6px 12px', fontSize: 10, fontWeight: 700, opacity: 0.6 }}>
+                  PWO
+                </span>
+                <a
+                  href="/tester/pwo/"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    setPage('lb-pwo')
+                    setSupplementCategory(null)
+                    setLbOpen(false)
+                  }}
+                >
+                  PWO best i test
+                </a>
+                <a
+                  href="/tester/pwo/stim-free/"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    setPage('lb-pwo')
+                    setCaffeineFilter('uten')
+                    setSupplementCategory(null)
+                    setLbOpen(false)
+                  }}
+                >
+                  Stim-free PWO
+                </a>
+                <span style={{ display: 'block', padding: '6px 12px', fontSize: 10, fontWeight: 700, opacity: 0.6 }}>
+                  Kosttilskudd
+                </span>
+                {allSupplementCategories.map((category) => (
+                  <a
+                    key={category.id}
+                    href={category.leaderboardPath}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      openSupplementTest(category.id)
+                      setLbOpen(false)
+                    }}
+                  >
+                    {category.label} best i test
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
           <a href="/tester/pwo/slik-velger-du/" onClick={(e) => { e.preventDefault(); setPage('buying-guide') }}>Kjøpsguide</a>
           <a href="/om-metoden/" onClick={(e) => { e.preventDefault(); setPage('metode') }}>Om metoden</a>
@@ -450,10 +529,14 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
             <section className="hero-section">
               <div className="hero-copy">
                 <p className="meta-line">Oppdatert {lastUpdated} · ingen sponsede plasseringer</p>
-                <h1>PWO best i test 2026 – pre-workout rangering</h1>
-                <p className="lead">Vi rangerer pre-workout som faktisk selges i Norge etter deklarert innhold, pris per porsjon og kombinert pumpeffekt.</p>
+                <h1>Kosttilskudd best i test 2026 – ærlig rangering</h1>
+                <p className="lead">
+                  Vi rangerer PWO, kreatin, proteinpulver og kreatin gummies som selges i Norge etter deklarert innhold
+                  og åpen karaktermotor – samme metode på tvers av kategorier.
+                </p>
                 <div className="hero-actions">
-                  <button className="button primary" onClick={() => setPage('lb-pwo')}><ArrowDown size={18} /> Heile rangeringa</button>
+                  <button className="button primary" onClick={() => setPage('lb-pwo')}><ArrowDown size={18} /> PWO-rangering</button>
+                  <button className="button secondary" onClick={() => openSupplementTest('kreatin')}><FlaskConical size={18} /> Kreatin-test</button>
                   <button className="button secondary" onClick={() => setPage('metode')}><Scale size={18} /> Metoden</button>
                 </div>
               </div>
@@ -471,7 +554,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
             <section className="summary-band">
               <div className="summary-grid">
                 <div><Search size={21} /> <span style={{fontWeight:700}}>{siteStats.listedCount}</span> produkter kartlagt<br /><span style={{fontSize:12,color:'var(--muted)'}}>Fra 10+ norske butikker</span></div>
-                <div><FlaskConical size={21} /> <span style={{fontWeight:700}}>{siteStats.testedCount}</span> produkter rangert<br /><span style={{fontSize:12,color:'var(--muted)'}}>Etter åpen karaktermotor</span></div>
+                <div><FlaskConical size={21} /> <span style={{fontWeight:700}}>{siteStats.testedCount}</span> produkter rangert<br /><span style={{fontSize:12,color:'var(--muted)'}}>PWO + kreatin + protein + gummies</span></div>
                 <div><ShieldCheck size={21} /> Pris påvirker ikke score<br /><span style={{fontSize:12,color:'var(--muted)'}}>Bare ingredienser teller</span></div>
               </div>
             </section>
@@ -507,23 +590,48 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
               </div>
             </section>
             <section className="content-section">
-              <div className="section-heading"><span>Rangeringar</span><h2>Finn din PWO</h2></div>
+              <div className="section-heading"><span>Alle tester</span><h2>Kosttilskudd vi rangerer</h2></div>
               <div className="blog-grid">
-                <a href="/tester/pwo/beste/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setSortCol('score'); setSortAsc(false); }} style={{padding:12,background:'var(--paper)',borderRadius:8,textDecoration:'none'}}>
-                  <span style={{fontWeight:700}}>🏆 Beste PWO</span>
-                  <p style={{fontSize:12,color:'var(--muted)',margin:'4px 0 0'}}>Alle {siteStats.testedCount} produkter rangert etter score. Klikk for å se topplisten.</p>
+                <a href="/tester/pwo/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setSortCol('score'); setSortAsc(false); }} style={{padding:12,background:'var(--paper)',borderRadius:8,textDecoration:'none'}}>
+                  <span style={{fontWeight:700}}>⚡ PWO best i test</span>
+                  <p style={{fontSize:12,color:'var(--muted)',margin:'4px 0 0'}}>{siteStats.pwoTestedCount} pre-workout produkter rangert etter pump og ingredienser.</p>
                 </a>
+                {allSupplementCategories.map((category) => (
+                  <a
+                    key={category.id}
+                    href={category.leaderboardPath}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      openSupplementTest(category.id)
+                    }}
+                    style={{ padding: 12, background: 'var(--paper)', borderRadius: 8, textDecoration: 'none' }}
+                  >
+                    <span style={{ fontWeight: 700 }}>
+                      {category.id === 'kreatin' ? '💪' : category.id === 'proteinpulver' ? '🥤' : '🍬'}{' '}
+                      {category.label} best i test
+                    </span>
+                    <p style={{ fontSize: 12, color: 'var(--muted)', margin: '4px 0 0' }}>
+                      {category.products.length} produkter · {category.products[0]?.name.split(' ').slice(0, 3).join(' ')} leder med{' '}
+                      {category.products[0]?.score} poeng.
+                    </p>
+                  </a>
+                ))}
+              </div>
+            </section>
+            <section className="content-section" style={{ paddingTop: 0 }}>
+              <div className="section-heading"><span>PWO</span><h2>Finn din PWO</h2></div>
+              <div className="blog-grid">
                 <a href="/tester/pwo/stim-free/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setSortCol('score'); setCaffeineFilter('uten'); }} style={{padding:12,background:'var(--paper)',borderRadius:8,textDecoration:'none'}}>
                   <span style={{fontWeight:700}}>🧘 Stim-free</span>
-                  <p style={{fontSize:12,color:'var(--muted)',margin:'4px 0 0'}}>Koffeinfrie alternativ for kveldstrening. Best i test uten koffein.</p>
+                  <p style={{fontSize:12,color:'var(--muted)',margin:'4px 0 0'}}>Koffeinfrie alternativ for kveldstrening.</p>
                 </a>
                 <a href="/tester/pwo/billigste/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setSortCol('kgprice-asc'); }} style={{padding:12,background:'var(--paper)',borderRadius:8,textDecoration:'none'}}>
-                  <span style={{fontWeight:700}}>💰 Best verdi</span>
-                  <p style={{fontSize:12,color:'var(--muted)',margin:'4px 0 0'}}>Rangert etter pris per kilogram. Mest effekt for pengene.</p>
+                  <span style={{fontWeight:700}}>💰 Best verdi PWO</span>
+                  <p style={{fontSize:12,color:'var(--muted)',margin:'4px 0 0'}}>Rangert etter pris per kilogram.</p>
                 </a>
                 <a href="/blogg/samanlikning-peveo-sickpump/" onClick={(e) => { e.preventDefault(); setPage('blog-post'); setSelectedProduct('samanlikning-peveo-sickpump'); }} style={{padding:12,background:'var(--paper)',borderRadius:8,textDecoration:'none'}}>
                   <span style={{fontWeight:700}}>⚔️ Samanlikningar</span>
-                  <p style={{fontSize:12,color:'var(--muted)',margin:'4px 0 0'}}>Peveo Maxed vs NutriTac SickPump. Les våre produktsamanlikningar.</p>
+                  <p style={{fontSize:12,color:'var(--muted)',margin:'4px 0 0'}}>Peveo Maxed vs NutriTac SickPump.</p>
                 </a>
               </div>
             </section>
@@ -608,6 +716,43 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
           return <ProductPage product={product} />
         })()}
 
+        {page === 'lb-supplement' && supplementCategory && (() => {
+          const category = getSupplementCategory(supplementCategory)
+          if (!category) return null
+          return (
+            <>
+              <SupplementLeaderboard
+                category={category}
+                sortCol={sortCol}
+                sortAsc={sortAsc}
+                onSort={toggleSort}
+                onSelectProduct={(id) => {
+                  setSelectedProduct(id)
+                  setPage('supplement-product')
+                }}
+              />
+              <SupplementMethodSection category={category} />
+            </>
+          )
+        })()}
+
+        {page === 'supplement-product' && supplementCategory && selectedProduct && (() => {
+          const category = getSupplementCategory(supplementCategory)
+          const product = findSupplementProduct(supplementCategory, selectedProduct)
+          if (!category || !product) return null
+          return (
+            <SupplementProductPage
+              category={category}
+              product={product}
+              onBack={() => {
+                setSelectedProduct(null)
+                setPage('lb-supplement')
+              }}
+              onSelectProduct={(id) => setSelectedProduct(id)}
+            />
+          )
+        })()}
+
         {page === 'buying-guide' && (
           <section className="content-section">
             <button className="button secondary" onClick={() => setPage('lb-pwo')} style={{marginBottom:16}}>← Se rangeringen</button>
@@ -677,7 +822,15 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
         {page === 'metode' && (
           <section className="content-section">
             <button className="button secondary" onClick={() => setPage('home')} style={{marginBottom:16}}>← Hjem</button>
+            <div className="section-heading">
+              <span>Metode</span>
+              <h1>Slik scorer vi kosttilskudd</h1>
+              <p>Samme prinsipp på tvers av tester: deklarert innhold, åpne regler i kode, ingen sponsede plasseringer.</p>
+            </div>
             <GradingSystemSection />
+            {allSupplementCategories.map((category) => (
+              <SupplementMethodSection key={category.id} category={category} />
+            ))}
           </section>
         )}
       </main>

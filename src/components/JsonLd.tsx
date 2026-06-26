@@ -1,5 +1,6 @@
 import { blogPosts } from '../data/blog'
 import { testedProducts, type TestedProduct } from '../data/pwoProducts'
+import { allSupplementCategories, findSupplementProduct, getSupplementCategoryFromPath } from '../data/testCategories'
 import { normalizePath } from '../routing'
 
 const base = 'https://kosttest.no'
@@ -43,6 +44,80 @@ type JsonLdProps = {
 export default function JsonLd({ path: rawPath, product }: JsonLdProps) {
   const path = normalizePath(rawPath || '/')
   const def = [orgSchema, webSiteSchema]
+
+  const supplementCategoryId = getSupplementCategoryFromPath(path)
+  if (supplementCategoryId) {
+    const category = allSupplementCategories.find((c) => c.id === supplementCategoryId)
+    if (category) {
+      const productId = path.replace(category.productPathPrefix, '').replace(/\/$/, '')
+      const supplementProduct =
+        productId && productId !== path ? findSupplementProduct(category.id, productId) : null
+
+      if (supplementProduct) {
+        return (
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify([
+                ...def,
+                {
+                  '@type': 'Product',
+                  name: supplementProduct.name,
+                  description: supplementProduct.verdict,
+                  url: `${base}${path}/`,
+                  image: supplementProduct.image,
+                  brand: { '@type': 'Brand', name: supplementProduct.brand },
+                  offers: {
+                    '@type': 'Offer',
+                    price: supplementProduct.priceNok,
+                    priceCurrency: 'NOK',
+                    availability: 'https://schema.org/InStock',
+                  },
+                  aggregateRating: {
+                    '@type': 'AggregateRating',
+                    ratingValue: supplementProduct.score,
+                    bestRating: 100,
+                    ratingCount: 1,
+                  },
+                },
+                breadcrumb([
+                  { name: 'Hjem', url: '/' },
+                  { name: category.title, url: category.leaderboardPath },
+                  { name: supplementProduct.name, url: `${category.productPathPrefix}${supplementProduct.id}/` },
+                ]),
+              ]),
+            }}
+          />
+        )
+      }
+
+      return (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify([
+              ...def,
+              {
+                '@type': 'ItemList',
+                name: category.title,
+                url: `${base}${path}/`,
+                itemListElement: category.products.map((item, index) => ({
+                  '@type': 'ListItem',
+                  position: index + 1,
+                  name: item.name,
+                  url: `${base}${category.productPathPrefix}${item.id}/`,
+                })),
+              },
+              breadcrumb([
+                { name: 'Hjem', url: '/' },
+                { name: category.title, url: category.leaderboardPath },
+              ]),
+            ]),
+          }}
+        />
+      )
+    }
+  }
 
   if (path.startsWith('/pwo/') && product) {
     const content = product.verdict
@@ -179,7 +254,7 @@ export default function JsonLd({ path: rawPath, product }: JsonLdProps) {
           ...def,
           {
             '@type': 'Article',
-            headline: 'PWO best i test 2026: ærlig rangering av pre-workout i Norge',
+            headline: 'Kosttilskudd best i test 2026: ærlig rangering i Norge',
             datePublished: '2026-05-04',
             dateModified: '2026-06-26',
             author: { '@type': 'Organization', name: 'Kosttest.no' },
