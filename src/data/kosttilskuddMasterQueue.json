@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "intervalMinutes": 60,
+  "lastRunAt": "2026-06-26T18:11:12.475Z",
+  "lastCategory": "creatine",
+  "currentCategory": "creatine",
+  "currentProductId": "star-creatine-500",
+  "currentRunStartedAt": "2026-06-26T18:11:12.475Z",
+  "categories": [
+    {
+      "id": "creatine",
+      "label": "Kreatin",
+      "enabled": true
+    },
+    {
+      "id": "protein",
+      "label": "Proteinpulver",
+      "enabled": true
+    }
+  ]
+}

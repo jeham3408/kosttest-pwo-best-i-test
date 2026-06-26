@@ -1,11 +1,11 @@
 import { AlertTriangle, CheckCircle2, ExternalLink } from 'lucide-react'
-import { formulationNote, iaasVsDiaasExplanation, proteinScoringRules } from '../data/proteinScoring'
-import { proteinVerificationStats } from '../data/proteinVerification'
-import { proteinSourceLinks, type TestedProteinProduct } from '../data/proteinProducts'
+import { creatineScoringRules } from '../data/creatineScoring'
+import { creatineVerificationStats } from '../data/creatineVerification'
+import { creatineSourceLinks, type TestedCreatineProduct } from '../data/creatineProducts'
 import type { GradeLetter } from '../data/pwoProducts'
-import { generateProteinContent } from '../proteinContent'
-import { getRelatedProteinProducts } from '../utils/proteinHelpers'
-import ProteinLeaderboardSection from './ProteinLeaderboardSection'
+import { generateCreatineContent } from '../creatineContent'
+import { getRelatedCreatineProducts } from '../utils/creatineHelpers'
+import CreatineLeaderboardSection from './CreatineLeaderboardSection'
 
 const formatPrice = (price: number) =>
   new Intl.NumberFormat('nb-NO', { style: 'currency', currency: 'NOK', maximumFractionDigits: 0 }).format(price)
@@ -20,22 +20,22 @@ function ScoreBar({ score }: { score: number }) {
   )
 }
 
-function ProductImage({ product }: { product: Pick<TestedProteinProduct, 'name' | 'image'> }) {
+function ProductImage({ product }: { product: Pick<TestedCreatineProduct, 'name' | 'image'> }) {
   return (
     <div className="product-image">
-      <img src={product.image} alt={`${product.name} – proteinpulver fra Kosttest.no`} loading="lazy" decoding="async" width="150" height="150" />
+      <img src={product.image} alt={`${product.name} – kreatin fra Kosttest.no`} loading="lazy" decoding="async" width="150" height="150" />
     </div>
   )
 }
 
-export function ProteinRankingTable({
+export function CreatineRankingTable({
   products,
   sortCol,
   sortAsc,
   onSort,
   onSelect,
 }: {
-  products: TestedProteinProduct[]
+  products: TestedCreatineProduct[]
   sortCol: string
   sortAsc: boolean
   onSort: (col: string) => void
@@ -50,9 +50,8 @@ export function ProteinRankingTable({
           <tr>
             <th>#</th>
             <th>Produkt</th>
-            <th onClick={() => onSort('diaas')} style={{ cursor: 'pointer' }}>DIAAS ★{arrow('diaas')}</th>
-            <th onClick={() => onSort('iaas')} style={{ cursor: 'pointer' }}>IAAS{arrow('iaas')}</th>
-            <th onClick={() => onSort('price-protein')} style={{ cursor: 'pointer' }}>kr/g prot{arrow('price-protein')}</th>
+            <th onClick={() => onSort('dose')} style={{ cursor: 'pointer' }}>Dose{arrow('dose')}</th>
+            <th onClick={() => onSort('price-creatine')} style={{ cursor: 'pointer' }}>kr/g kreatin{arrow('price-creatine')}</th>
             <th onClick={() => onSort('score')} style={{ cursor: 'pointer' }}>Poeng{arrow('score')}</th>
           </tr>
         </thead>
@@ -64,7 +63,7 @@ export function ProteinRankingTable({
                 <ProductImage product={p} />
                 <div>
                   <span>{p.name}</span>
-                  <span>{p.brand} · {p.sourceLabel}</span>
+                  <span>{p.brand} · {p.formatType === 'gummies' ? 'Gummies' : 'Pulver'}</span>
                   {p.verificationStatus === 'verified' && (
                     <span style={{ fontSize: 10, color: 'var(--accent)', display: 'block' }}>✓ Verifisert mot butikk</span>
                   )}
@@ -74,11 +73,10 @@ export function ProteinRankingTable({
                 </div>
               </td>
               <td>
-                <strong style={{ color: 'var(--accent)' }}>{p.diaasScore}</strong>
-                {!p.diaasIsOfficial && <span style={{ fontSize: 10, color: 'var(--muted)', display: 'block' }}>estimat</span>}
+                <strong>{p.creatineMgPerServing} mg</strong>
+                <span style={{ fontSize: 10, color: 'var(--muted)', display: 'block' }}>{p.creatineForm}</span>
               </td>
-              <td><span style={{ color: 'var(--muted)' }}>{p.iaasScore}</span></td>
-              <td><span style={{ fontSize: 11, color: 'var(--muted)' }}>{p.pricePerGramProtein.toFixed(2).replace('.', ',')} kr</span></td>
+              <td><span style={{ fontSize: 11, color: 'var(--muted)' }}>{p.pricePerGramCreatine.toFixed(2).replace('.', ',')} kr</span></td>
               <td>
                 <span className={gradeClass(p.overallGrade)}>{p.overallGrade}</span>
                 <strong>{p.score}</strong>
@@ -92,21 +90,21 @@ export function ProteinRankingTable({
   )
 }
 
-export function ProteinProductPageView({
+export function CreatineProductPageView({
   product,
   onBack,
   onSelect,
 }: {
-  product: TestedProteinProduct
+  product: TestedCreatineProduct
   onBack: () => void
   onSelect: (id: string) => void
 }) {
-  const content = generateProteinContent(product)
-  const related = getRelatedProteinProducts(product)
+  const content = generateCreatineContent(product)
+  const related = getRelatedCreatineProducts(product)
 
   return (
     <section className="content-section">
-      <button className="button secondary" onClick={onBack} style={{ marginBottom: 16 }}>← Tilbake til proteinrangering</button>
+      <button className="button secondary" onClick={onBack} style={{ marginBottom: 16 }}>← Tilbake til kreatinrangering</button>
       <div className="review-card" style={{ gridTemplateColumns: '200px 1fr' }}>
         <ProductImage product={product} />
         <div className="review-body">
@@ -126,14 +124,10 @@ export function ProteinProductPageView({
             </div>
           </div>
           <div className="spec-row">
-            <span><strong>DIAAS: {product.diaasScore}</strong>{product.diaasIsOfficial ? ' (testet)' : ' (estimat)'}</span>
-            <span>IAAS: {product.iaasScore} (profil)</span>
-            <span>{product.proteinPerServingG} g protein/dose</span>
-            <span>{formatPrice(product.priceNok)} · {product.pricePerGramProtein.toFixed(2).replace('.', ',')} kr/g protein</span>
-          </div>
-          <div style={{ marginTop: 10, padding: 12, background: 'var(--paper-strong)', borderRadius: 8, fontSize: 13, lineHeight: 1.55 }}>
-            <strong style={{ color: 'var(--accent)' }}>DIAAS er vår primære kvalitetsmåling.</strong>{' '}
-            {iaasVsDiaasExplanation.diaas.whyBest} IAAS ({product.iaasScore}) viser aminosyreprofil på papir — nyttig sammenligning, men veier ikke like tungt som DIAAS i scoren.
+            <span><strong>{product.creatineMgPerServing} mg kreatin/dose</strong></span>
+            <span>Form: {product.creatineForm}</span>
+            <span>{product.formatType === 'gummies' ? `${product.gummiesPerServing} gummies/dose` : product.servingSize}</span>
+            <span>{formatPrice(product.priceNok)} · {product.pricePerGramCreatine.toFixed(2).replace('.', ',')} kr/g kreatin</span>
           </div>
           <div className="ingredients-list" style={{ marginTop: 10 }}>
             {product.keyFeatures.map((f) => <span key={f}>{f}</span>)}
@@ -153,8 +147,8 @@ export function ProteinProductPageView({
             <div>
               <h4><CheckCircle2 size={18} /> Vurdering</h4>
               <ul>
-                <li><strong>DIAAS:</strong> {content.diaasAnalysis}</li>
-                <li><strong>IAAS:</strong> {content.iaasAnalysis}</li>
+                <li><strong>Dose:</strong> {content.doseAnalysis}</li>
+                <li><strong>Form:</strong> {content.formAnalysis}</li>
                 <li><strong>Pris:</strong> {content.priceAnalysis}</li>
                 <li><strong>Passer for:</strong> {content.bestFor}</li>
                 {product.strengths.map((s) => <li key={s}>{s}</li>)}
@@ -185,13 +179,13 @@ export function ProteinProductPageView({
           </a>
           {related.length > 0 && (
             <div style={{ marginTop: 20 }}>
-              <h3 style={{ fontSize: 15, margin: '0 0 10px' }}>Lignende proteinpulver i testen</h3>
+              <h3 style={{ fontSize: 15, margin: '0 0 10px' }}>Lignende kreatin i testen</h3>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 10 }}>
                 {related.map((item) => (
                   <button key={item.id} type="button" onClick={() => onSelect(item.id)} style={{ border: '1px solid var(--border)', background: 'var(--paper)', borderRadius: 8, padding: 10, cursor: 'pointer', textAlign: 'left' }}>
                     <ProductImage product={item} />
                     <span style={{ display: 'block', fontSize: 12, fontWeight: 700, marginTop: 6 }}>{item.brand}</span>
-                    <span style={{ display: 'block', fontSize: 11, color: 'var(--muted)' }}>DIAAS {item.diaasScore} · IAAS {item.iaasScore}</span>
+                    <span style={{ display: 'block', fontSize: 11, color: 'var(--muted)' }}>{item.creatineMgPerServing} mg · {item.score} poeng</span>
                   </button>
                 ))}
               </div>
@@ -203,65 +197,42 @@ export function ProteinProductPageView({
   )
 }
 
-export function ProteinMetodeSection() {
+export function CreatineMetodeSection() {
   return (
     <section className="grade-system-section">
       <div className="section-heading">
-        <span>Protein karaktermodell</span>
-        <h2>DIAAS + IAAS — og hvorfor DIAAS er best</h2>
+        <span>Kreatin karaktermodell</span>
+        <h2>Dose, form og pris</h2>
         <p>
-          Vi viser både IAAS (aminosyreprofil) og DIAAS (fordøyelig kvalitet). Totalscore bygger på <strong>DIAAS (70 %)</strong> og pris per g protein (30 %).
-          IAAS vises for sammenligning, men FAO anbefaler DIAAS som gullstandard.
+          Kreatin scores etter dose per servering (60 %), form (15 %) og pris per g effektiv kreatin (25 %).
+          Pulver og gummies testes i egne underkategorier — gummies har ofte lavere dose og høyere pris.
         </p>
-      </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 24 }}>
-        <div style={{ padding: 16, background: 'var(--paper)', borderRadius: 8, border: '1px solid var(--border)' }}>
-          <h3 style={{ margin: '0 0 8px', fontSize: 15 }}>{iaasVsDiaasExplanation.iaas.title}</h3>
-          <p style={{ fontSize: 13, lineHeight: 1.6, margin: 0 }}>{iaasVsDiaasExplanation.iaas.summary}</p>
-          <p style={{ fontSize: 12, color: 'var(--muted)', margin: '10px 0 0', lineHeight: 1.5 }}><strong>Begrensning:</strong> {iaasVsDiaasExplanation.iaas.limitation}</p>
-        </div>
-        <div style={{ padding: 16, background: 'var(--paper-strong)', borderRadius: 8, border: '2px solid var(--accent)' }}>
-          <h3 style={{ margin: '0 0 8px', fontSize: 15, color: 'var(--accent)' }}>{iaasVsDiaasExplanation.diaas.title}</h3>
-          <p style={{ fontSize: 13, lineHeight: 1.6, margin: 0 }}>{iaasVsDiaasExplanation.diaas.summary}</p>
-          <p style={{ fontSize: 12, margin: '10px 0 0', lineHeight: 1.5 }}><strong>Hvorfor best:</strong> {iaasVsDiaasExplanation.diaas.whyBest}</p>
-        </div>
-      </div>
-      <div className="section-heading" style={{ marginTop: 0 }}>
-        <span>Scoring</span>
-        <h2>Totalscore</h2>
       </div>
       <div className="rules-table-shell">
         <table className="rules-table">
-          <caption>Åpen vekting for proteinpulver-karakter.</caption>
+          <caption>Åpen vekting for kreatin-karakter.</caption>
           <thead><tr><th>Komponent</th><th>Vekt</th><th>Metode</th></tr></thead>
           <tbody>
-            {proteinScoringRules.map((rule) => (
-              <tr key={rule.label}>
-                <td><span style={{ fontWeight: 700 }}>{rule.label}</span><span>{rule.note}</span></td>
-                <td>{rule.weight} poeng</td>
-                <td>{rule.note}</td>
-              </tr>
-            ))}
+            <tr><td><span style={{ fontWeight: 700 }}>Dose per servering</span></td><td>60 %</td><td>3–5 g kreatin = full score</td></tr>
+            <tr><td><span style={{ fontWeight: 700 }}>Form</span></td><td>15 %</td><td>Monohydrat = referanse (100 %)</td></tr>
+            <tr><td><span style={{ fontWeight: 700 }}>Pris per g kreatin</span></td><td>25 %</td><td>Lavere kr/g = høyere score</td></tr>
           </tbody>
         </table>
       </div>
       <div className="open-method">
         <h3>Open testmetode</h3>
-        <p>
-          Regelsettet ligger i <code>proteinScoring.ts</code>. Produkter uten lab-testet DIAAS får estimat
-          basert på proteintype. Vi påstår aldri offisiell DIAAS uten dokumentert test av ferdig produkt.
-        </p>
-        <p style={{ marginTop: 12 }}>{formulationNote}</p>
+        <p>{creatineScoringRules.summary}</p>
+        <p style={{ marginTop: 12 }}>Regelsettet ligger i <code>creatineScoring.ts</code>. Produkter verifiseres mot ekte butikksider via automasjon.</p>
       </div>
     </section>
   )
 }
 
-export function ProteinLeaderboardBlock({
+export function CreatineLeaderboardBlock({
   onSelectProduct,
   sortCol,
   sortAsc,
-  proteinFilter,
+  creatineFilter,
   onSort,
   onFilterChange,
   sortedProducts,
@@ -269,47 +240,47 @@ export function ProteinLeaderboardBlock({
   onSelectProduct: (id: string) => void
   sortCol: string
   sortAsc: boolean
-  proteinFilter: 'alle' | 'whey' | 'vegan' | 'kasein'
+  creatineFilter: 'alle' | 'pulver' | 'gummies'
   onSort: (col: string) => void
-  onFilterChange: (f: 'alle' | 'whey' | 'vegan' | 'kasein') => void
-  sortedProducts: TestedProteinProduct[]
+  onFilterChange: (f: 'alle' | 'pulver' | 'gummies') => void
+  sortedProducts: TestedCreatineProduct[]
 }) {
-  const vStats = proteinVerificationStats()
+  const vStats = creatineVerificationStats()
 
   return (
     <>
-      <ProteinLeaderboardSection onSelectProduct={onSelectProduct} />
+      <CreatineLeaderboardSection onSelectProduct={onSelectProduct} />
       <section className="content-section">
         <div className="warning-box" style={{ marginBottom: 20 }}>
           <AlertTriangle size={22} />
           <div>
             <span style={{ fontWeight: 700 }}>Kun ekte produkter — verifisering pågår</span>
             <p style={{ margin: '4px 0 0', fontSize: 13, lineHeight: 1.55 }}>
-              {vStats.verified}/{vStats.total} produkter verifisert mot ekte butikkside (1 produkt hvert 5. min via automasjon).
-              Merker som kun selger PWO er fjernet. Uverifiserte rader kan ha feil pris/næring — DIAAS uten lab-test er estimat.
+              {vStats.verified}/{vStats.total} produkter verifisert mot ekte butikkside (1 produkt per time via automasjon).
+              Uverifiserte rader kan ha feil pris eller dose — sjekk alltid etikett.
             </p>
           </div>
         </div>
         <div className="section-heading">
-          <span>Proteinpulver best i test</span>
+          <span>Kreatin best i test</span>
           <h2>Fullstendig rangering</h2>
-          <p>Rangert etter DIAAS (primær) og pris per g protein. IAAS vises for sammenligning av aminosyreprofil.</p>
+          <p>Rangert etter dose (3–5 g), form og pris per g kreatin. Pulver og gummies vises med filter.</p>
         </div>
         <div className="filter-bar">
-          <span className="filter-label" style={{ fontSize: 11 }}>Type:</span>
-          {(['alle', 'whey', 'vegan', 'kasein'] as const).map((v) => (
-            <button key={v} type="button" className={`toggle-btn ${proteinFilter === v ? 'on' : 'off'}`} onClick={() => onFilterChange(v)}>
+          <span className="filter-label" style={{ fontSize: 11 }}>Format:</span>
+          {(['alle', 'pulver', 'gummies'] as const).map((v) => (
+            <button key={v} type="button" className={`toggle-btn ${creatineFilter === v ? 'on' : 'off'}`} onClick={() => onFilterChange(v)}>
               <span className="toggle-track"><span className="toggle-thumb" /></span>
-              <span className="toggle-label">{v === 'alle' ? 'Alle' : v === 'whey' ? 'Whey' : v === 'vegan' ? 'Vegan' : 'Kasein'}</span>
+              <span className="toggle-label">{v === 'alle' ? 'Alle' : v === 'pulver' ? 'Pulver' : 'Gummies'}</span>
             </button>
           ))}
         </div>
-        <ProteinRankingTable products={sortedProducts} sortCol={sortCol} sortAsc={sortAsc} onSort={onSort} onSelect={onSelectProduct} />
+        <CreatineRankingTable products={sortedProducts} sortCol={sortCol} sortAsc={sortAsc} onSort={onSort} onSelect={onSelectProduct} />
       </section>
       <section className="source-section">
-        <div className="section-heading"><span>Kilder</span><h2>Protein vitenskap</h2></div>
+        <div className="section-heading"><span>Kilder</span><h2>Kreatin vitenskap</h2></div>
         <ul className="source-list">
-          {proteinSourceLinks.map((s) => (
+          {creatineSourceLinks.map((s) => (
             <li key={s.url}><a href={s.url} target="_blank" rel="noreferrer">{s.label}<ExternalLink size={15} /></a></li>
           ))}
         </ul>
