@@ -24,7 +24,7 @@ import {
   type GradeLetter,
   type TestedProduct,
 } from './data/pwoProducts'
-import { blogPosts } from './data/blog'
+import { blogPosts, findBlogPost } from './data/blog'
 import { generateProductContent } from './productContent'
 import LeaderboardSection from './LeaderboardSection'
 import { getPageMeta, normalizePath, parseRoute, type RouteState } from './routing'
@@ -264,7 +264,10 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
     let url = base + '/'
     if (page === 'lb-pwo') url = base + '/tester/pwo/'
     else if (page === 'blog') url = base + '/blogg/'
-    else if (page === 'blog-post' && selectedProduct) url = base + '/blogg/' + selectedProduct + '/'
+    else if (page === 'blog-post' && selectedProduct) {
+      const post = findBlogPost(selectedProduct)
+      url = base + '/blogg/' + (post?.slug ?? selectedProduct) + '/'
+    }
     else if (page === 'product' && selectedProduct) {
       const p = testedProducts.find(x => x.id === selectedProduct)
       const slug = p ? p.id : selectedProduct
@@ -499,7 +502,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
               <div className="section-heading"><span>Blogg</span><h2>Siste fra bloggen</h2></div>
               <div className="blog-grid">
                 {blogPosts.slice(0, 4).map(post => (
-                  <button key={post.id} className="blog-card" onClick={() => { setSelectedProduct(post.id); setPage('blog-post') }}>
+                  <button key={post.id} className="blog-card" onClick={() => { setSelectedProduct(post.slug); setPage('blog-post') }}>
                     <h3>{post.title}</h3><p>{post.excerpt}</p>
                     <span className="blog-meta">{post.category} · {post.readMinutes} min</span>
                   </button>
@@ -536,7 +539,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
             <div className="section-heading"><span>Blogg</span><h2>Ingredienser og vitenskap</h2></div>
             <div className="blog-grid">
               {blogPosts.map(post => (
-                <button key={post.id} className="blog-card" onClick={() => { setSelectedProduct(post.id); setPage('blog-post') }}>
+                <button key={post.id} className="blog-card" onClick={() => { setSelectedProduct(post.slug); setPage('blog-post') }}>
                   <h3>{post.title}</h3><p>{post.excerpt}</p>
                   <span className="blog-meta">{post.category} · {post.readMinutes} min</span>
                 </button>
@@ -546,7 +549,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
         )}
 
         {page === 'blog-post' && selectedProduct && (() => {
-          const post = blogPosts.find(p => p.id === selectedProduct)
+          const post = findBlogPost(selectedProduct)
           if (!post) return null
           return (<section className="content-section"><button className="button secondary" onClick={() => setPage('blog')} style={{marginBottom:16}}>← Blogg</button><article><h1>{post.title}</h1><p className="muted" style={{marginTop:-8}}>{post.category} · {post.readMinutes} min · Av Kosttest.no</p>
           {post.category === 'Samanlikning' && post.relatedProducts && (

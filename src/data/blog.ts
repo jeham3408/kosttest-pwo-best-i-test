@@ -9,6 +9,10 @@ export type BlogPost = {
   relatedProducts?: string[]
 }
 
+export function findBlogPost(slugOrId: string): BlogPost | undefined {
+  return blogPosts.find((post) => post.slug === slugOrId || post.id === slugOrId)
+}
+
 export const blogPosts: BlogPost[] = [
   {
     id: 'l-citrulline',
@@ -160,75 +164,75 @@ export const blogPosts: BlogPost[] = [
     id: 'samanlikning-peveo-sickpump',
     title: 'Peveo Maxed vs NutriTac SickPump – Hvilken PWO er best?',
     slug: 'samanlikning-peveo-sickpump',
-    excerpt: 'To av de beste PWO-ene i Norge. Peveo Maxed har 10g L-citrulline, SickPump har arginin og høgere dose. Les vår samanlikning.',
+    excerpt: 'To av de beste PWO-ene i Norge. Peveo Maxed (89p) har 10 g L-citrulline, SickPump (80p) har arginin og lavere koffein. Les vår samanlikning.',
     category: 'Samanlikning',
     readMinutes: 5,
     relatedProducts: ['peveo-maxed', 'nutritac-sickpump'],
     content: [
-      'Peveo Maxed og NutriTac SickPump VeinBlaster er to av de høyest rangerte PWO-ene på Kosttest.no. Begge scorer B, men har veldig forskjellige profiler.',
-      'Peveo Maxed (58 poeng): 10 000 mg L-citrulline (via citrulline malate 2:1), 6400 mg beta-alanin, 5000 mg kreatin, 350 mg koffein. Dette er en komplett PWO med maksimal pump og utholdenhet. Ulempen er 350 mg koffein (mye for nybegynnere) og 5 skjeer for full dose.',
-      'NutriTac SickPump VeinBlaster (55 poeng): 9000 mg L-citrulline, 6000 mg arginin, 200 mg koffein (ved dobbel dose). SickPump har lavere koffein men kompenserer med arginin som gir ekstra NO-produksjon. Perfekt for deg som vil ha pump uten å bli overstimulert.',
-      'Vår vurdering: Velg Peveo Maxed hvis du vil ha maksimal effekt og tåler mye koffein. Velg SickPump hvis du vil ha god pump med moderat stimulans. Peveo vinner på beta-alanin og kreatin, SickPump vinner på lavere koffein og arginin.',
+      'Peveo Maxed og NutriTac SickPump VeinBlaster er to av de høyest rangerte PWO-ene på Kosttest.no. Begge scorer A, men har veldig forskjellige profiler.',
+      'Peveo Maxed (89 poeng): 10 000 mg L-citrulline (via citrulline malate 2:1), 6400 mg beta-alanin, 5000 mg kreatin, 350 mg koffein. Dette er en komplett PWO med maksimal pump og utholdenhet. Ulempen er 350 mg koffein (mye for nybegynnere) og 5 skjeer for full dose.',
+      'NutriTac SickPump VeinBlaster (80 poeng): 9000 mg L-citrulline, 6000 mg arginin, 200 mg koffein (ved dobbel dose). SickPump har lavere koffein men kompenserer med arginin som gir ekstra NO-produksjon. Perfekt for deg som vil ha pump uten å bli overstimulert.',
+      'Vår vurdering: Peveo scorer høyest på totalpoeng med sterk beta-alanin og kreatin. Velg Peveo Maxed hvis du vil ha maksimal effekt og tåler mye koffein. Velg SickPump hvis du vil ha god pump med moderat stimulans og lavere koffein.',
     ],
   },
   {
     id: 'samanlikning-peveo-supervillain',
     title: 'Peveo Maxed vs White Lion Supervillain – Hvilken er sterkest?',
     slug: 'samanlikning-peveo-supervillain',
-    excerpt: 'To høydoserte PWO-er med helt forskjellige profiler. Peveo Maxed (58p) mot Supervillain (47p). Hvem vinner på pump, energi og verdi?',
+    excerpt: 'To høydoserte PWO-er med helt forskjellige profiler. Peveo Maxed (89p) mot Supervillain (86p). Hvem vinner på pump, energi og verdi?',
     category: 'Samanlikning',
     readMinutes: 4,
     relatedProducts: ['peveo-maxed', 'white-lion-supervillain'],
     content: [
       'Peveo Maxed og White Lion Supervillain er begge høydoserte PWO-er, men med helt forskjellige tilnærminger.',
-      'Peveo Maxed (58 poeng): 10 000 mg L-citrulline, 6400 mg beta-alanin, 5000 mg kreatin, 350 mg koffein. Full pakke med alt du trenger. Ulempen er 5 skjeer for full dose og høy koffein.',
-      'White Lion Supervillain (47 poeng): 6667 mg L-citrulline-ekvivalent (via 10 000 mg citrulline malate 2:1), 5000 mg beta-alanin, 2500 mg betain, 300 mg koffein. Lettere tilgjengelig med 2 skjeer for full dose.',
-      'Vår vurdering: Peveo vinner på ren styrke og kompletthet. Supervillain er enklere å dosere og har lavere koffein. Velg Peveo for maksimal effekt, Supervillain for en mer balansert opplevelse.',
+      'Peveo Maxed (89 poeng): 10 000 mg L-citrulline, 6400 mg beta-alanin, 5000 mg kreatin, 350 mg koffein. Full pakke med alt du trenger. Ulempen er 5 skjeer for full dose og høy koffein.',
+      'White Lion Supervillain (86 poeng): 6667 mg L-citrulline-ekvivalent (via 10 000 mg citrulline malate 2:1), 5000 mg beta-alanin, 2500 mg betain, 300 mg koffein. Lettere tilgjengelig med 2 skjeer for full dose.',
+      'Vår vurdering: Peveo scorer litt høyere på totalpoeng med sterkere beta-alanin og kreatin. Supervillain er enklere å dosere og har lavere koffein. Velg Peveo for maksimal effekt, Supervillain for en mer balansert opplevelse.',
     ],
   },
   {
     id: 'samanlikning-midnight-stimfree',
     title: 'Midnight Pump vs PWO-Stim-free – Beste stim-free PWO?',
     slug: 'samanlikning-midnight-stimfree',
-    excerpt: 'To koffeinfrie PWO-er konkurrerer om tittelen beste stim-free. Midnight Pump (58p) fra NutriTac møter Peveo PWO-Stim-free (56p).',
+    excerpt: 'To koffeinfrie PWO-er konkurrerer om tittelen beste stim-free. Peveo PWO-Stim-free (88p) møter Midnight Pump (66p) fra NutriTac.',
     category: 'Samanlikning',
     readMinutes: 4,
     relatedProducts: ['nutritac-midnight', 'peveo-stim-free'],
     content: [
-      'Midnight Pump Stim-Free (58 poeng) og Peveo PWO-Stim-free (56 poeng) er de to beste koffeinfrie PWO-ene på markedet.',
+      'Peveo PWO-Stim-free (88 poeng) og Midnight Pump Stim-Free (66 poeng) er to av de beste koffeinfrie PWO-ene på markedet.',
+      'Peveo PWO-Stim-free: 10 000 mg L-citrulline (ren), 5000 mg betain, 3000 mg taurin, 3000 mg tyrosin. Tradisjonell pump via L-citrulline med høyest score i stim-free-kategorien.',
       'Midnight Pump: 10 000 mg rødbetekstrakt (gir 9000 mg pump-ekvivalent), 6000 mg beta-alanin, 4000 mg betain. Får pump via nitrat fra rødbeter i stedet for L-citrulline.',
-      'Peveo PWO-Stim-free: 10 000 mg L-citrulline (ren), 5000 mg betain, 3000 mg taurin, 3000 mg tyrosin. Tradisjonell pump via L-citrulline.',
-      'Vår vurdering: Midnight Pump vinner med høyere beta-alanin og rødbetebasert pump. Peveo har ren L-citrulline som er mer dokumentert. Begge er utmerkede valg — velg Midnight for beta-alanin-effekt, Peveo for ren citrulline-pump.',
+      'Vår vurdering: Peveo Stim-free scorer høyest med ren L-citrulline og lavere pris per porsjon. Midnight har sterk beta-alanin (6000 mg) og rødbetebasert pump. Velg Peveo for ren citrulline-pump og totalscore, Midnight for beta-alanin-effekt og nitrat-basert pump.',
     ],
   },
   {
     id: 'samanlikning-sickpump-noxplode',
     title: 'SickPump vs N.O.-Xplode – Beste PWO under 250 kr?',
     slug: 'samanlikning-sickpump-noxplode',
-    excerpt: 'SickPump VeinBlaster (55p) mot klassikeren BSN N.O.-Xplode (38p). Er dobbel dose verdt prisen?',
+    excerpt: 'SickPump VeinBlaster (80p) mot klassikeren BSN N.O.-Xplode (91p). Er dobbel dose verdt prisen?',
     category: 'Samanlikning',
     readMinutes: 4,
     relatedProducts: ['nutritac-sickpump', 'bsn-noxplode-50'],
     content: [
-      'NutriTac SickPump VeinBlaster (55 poeng) og BSN N.O.-Xplode (38 poeng) er i helt forskjellige prisklasser, men begge populære.',
-      'SickPump (599 kr): 9000 mg L-citrulline, 6000 mg arginin, 200 mg koffein (dobbel dose). Ekstrem pump via kombinasjon av citrulline og arginin.',
-      'N.O.-Xplode (679 kr, 50 porsjoner): 6000 mg L-citrulline, 3200 mg beta-alanin, 200 mg koffein. Klassisk formel med rhodiola rosea og piperin.',
-      'Vår vurdering: SickPump gir mer pump for pengene, men N.O.-Xplode har lavere pris per porsjon (13,58 kr vs 51,33 kr). SickPump vinner på effekt, N.O.-Xplode på pris.',
+      'BSN N.O.-Xplode (91 poeng) og NutriTac SickPump VeinBlaster (80 poeng) er i helt forskjellige prisklasser, men begge populære.',
+      'N.O.-Xplode (679 kr, 50 porsjoner): 6000 mg L-citrulline, 3200 mg beta-alanin, 200 mg koffein. Klassisk formel med rhodiola rosea og piperin. Lavest pris per porsjon (13,58 kr) og høyest totalscore i rangeringen.',
+      'SickPump (599 kr): 9000 mg L-citrulline, 6000 mg arginin, 200 mg koffein (dobbel dose). Ekstrem pump via kombinasjon av citrulline og arginin, men dyrere per porsjon (51,33 kr).',
+      'Vår vurdering: N.O.-Xplode vinner på samlet score og verdi per porsjon. SickPump har høyere pump-doser (citrulline + arginin) ved dobbel dose, men koster vesentlig mer per trening. Velg N.O.-Xplode for balanse og pris, SickPump for maksimal pump uansett kostnad.',
     ],
   },
   {
     id: 'samanlikning-gold-supreme',
     title: 'Gold Standard vs Supreme PWO – Beste premium PWO?',
     slug: 'samanlikning-gold-supreme',
-    excerpt: 'Optimum Nutrition Gold Standard (15p) mot Star Nutrition Supreme (33p). Hvorfor scorer Supreme dobbelt så høyt?',
+    excerpt: 'Optimum Nutrition Gold Standard (72p) mot Star Nutrition Supreme (82p). Hvorfor scorer Supreme høyere?',
     category: 'Samanlikning',
     readMinutes: 4,
     relatedProducts: ['gold-standard', 'star-supreme'],
     content: [
-      'Optimum Nutrition Gold Standard (15 poeng) og Star Nutrition Supreme (33 poeng) er begge premium-produkter, men med stor forskjell i score.',
+      'Optimum Nutrition Gold Standard (72 poeng) og Star Nutrition Supreme (82 poeng) er begge premium-produkter, men med tydelig forskjell i score.',
       'Gold Standard: 1500 mg L-citrulline, 1500 mg beta-alanin, 3000 mg kreatin, 175 mg koffein. Balansert men underdosert på pump.',
       'Supreme: 3000 mg L-citrulline, 3000 mg beta-alanin, 3000 mg kreatin, 200 mg koffein, 2000 mg rødbetekstrakt. Dobbelt dose av nøkkelingrediensene.',
-      'Vår vurdering: Supreme vinner klart med dobbel L-citrulline og beta-alanin. Gold Standard er et trygt valg, men dosene er for lave til å konkurrere. Supreme gir mye mer for pengene.',
+      'Vår vurdering: Supreme vinner med dobbel L-citrulline og beta-alanin pluss rødbetekstrakt. Gold Standard er et trygt valg, men dosene er for lave til å konkurrere med toppproduktene. Supreme gir mer pump for pengene.',
     ],
   },
 ]
