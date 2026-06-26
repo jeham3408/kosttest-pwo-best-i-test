@@ -1,0 +1,64 @@
+{
+  "id": "dymatize-iso100",
+  "exists": true,
+  "verifiedAt": "2026-06-26T15:35:00.000Z",
+  "sources": [
+    "https://www.gymgrossisten.no/iso-100-myseproteinisolat-932-g/9922-098R.html"
+  ],
+  "checks": {
+    "productPageLoads": true,
+    "nameMatches": true,
+    "nutritionFromLabel": true,
+    "priceFromMerchant": true
+  },
+  "corrections": [
+    "Feil URL: /dymatize-iso100 finnes ikke — riktig er /iso-100-myseproteinisolat-932-g/9922-098R.html",
+    "Feil pris: 899 kr (ikke 699 kr)",
+    "Feil pakke: 932 g (ikke 907 g)",
+    "Feil porsjon: 32 g (ikke 31 g)",
+    "Feil protein%: 78 g/100 g fra etikett (25 g per 32 g porsjon), ikke 86 %",
+    "Leucin ikke oppgitt på NO-etikett — fjernet estimat 2,7 g",
+    "Generisk bilde erstattet med ekte produktbilde fra Gymgrossisten"
+  ],
+  "data": {
+    "name": "ISO100 Hydrolyzed 100% Whey Isolate",
+    "brand": "Dymatize",
+    "merchant": "Gymgrossisten",
+    "url": "https://www.gymgrossisten.no/iso-100-myseproteinisolat-932-g/9922-098R.html",
+    "priceNok": 899,
+    "packageSizeG": 932,
+    "packageSize": "932 g",
+    "servingSizeG": 32,
+    "servingSize": "32 g",
+    "servings": 29,
+    "proteinPer100g": 78,
+    "proteinPerServingG": 25,
+    "sourceType": "hydrolyzed-whey",
+    "sourceLabel": "Hydrolysert whey isolate"
+  },
+  "nutrition": {
+    "perServingG": 32,
+    "variants": {
+      "Gourmet Chocolate": {
+        "energyKcal": 117,
+        "fatG": 0.4,
+        "saturatedFatG": 0.2,
+        "carbsG": 2.4,
+        "sugarsG": 0.5,
+        "proteinG": 25,
+        "saltG": 0.51
+      },
+      "Smooth Banana": {
+        "energyKcal": 112,
+        "fatG": 0.1,
+        "carbsG": 2.2,
+        "proteinG": 25
+      }
+    },
+    "lactose": "Laktose og fett er skilt ut ifølge produsent — laktosefattig, ikke melkefri. Inneholder melk (allergen).",
+    "allergens": ["melk", "soya"],
+    "ingredientsSummary": "Hydrolysert myseproteinisolat (~47–50 %) + myseproteinisolat (~42–46 %)"
+  },
+  "analysis": "Ekte Dymatize ISO100 på Gymgrossisten (932 g, 899 kr). NO-etikett gir 25 g protein per 32 g porsjon (~78 %), ikke 86 % som ofte siteres fra US-emballasje. Hydrolysert whey isolate med svært lavt fett og minimalt karbohydrat; laktose er i praksis fjernet, men produktet inneholder melk og soya. Sterk DIAAS-estimat via hydrolyzed-whey-profil, men høy pris per g protein.",
+  "notes": "Utsolgt hos Gymgrossisten per jun 2026. Markedsføring sier «uten karbohydrater og fett», men etikett viser 0,1–0,5 g fett og 0,8–3,1 g karbo per dose avhengig av smak."
+}
