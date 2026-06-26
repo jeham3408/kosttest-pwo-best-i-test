@@ -1,4 +1,6 @@
-import { listedProducts, type ListedProduct } from '../data/pwoProducts'
+import { listedProducts, testedProducts, type ListedProduct } from '../data/pwoProducts'
+
+const testedIds = new Set(testedProducts.map((product) => product.id))
 
 const statusClass: Record<ListedProduct['status'], string> = {
   Rangert: 'status-ranked',
@@ -8,7 +10,9 @@ const statusClass: Record<ListedProduct['status'], string> = {
 }
 
 export default function UnrankedProductsSection() {
-  const pending = listedProducts.filter((product) => product.status !== 'Rangert')
+  const pending = listedProducts.filter(
+    (product) => product.status !== 'Rangert' && !testedIds.has(product.id),
+  )
 
   if (!pending.length) return null
 
