@@ -40,6 +40,23 @@ const formatPrice = (price: number) =>
     maximumFractionDigits: price % 1 === 0 ? 0 : 2,
   }).format(price)
 
+function describeWinnerStrengths(product: TestedProduct): string {
+  const highlights: string[] = []
+  const citrulline = product.citrullineMg ?? 0
+  const beetroot = product.extraDoses?.beetroot ?? 0
+
+  if (citrulline >= 6000) highlights.push('høy dose L-citrulline')
+  else if (beetroot >= 4000) highlights.push('rødbetekstrakt som NO-booster')
+  else if (citrulline >= 4000) highlights.push('god L-citrulline-dose')
+
+  if ((product.betaAlanineMg ?? 0) >= 3200) highlights.push('beta-alanin')
+  if ((product.creatineMg ?? 0) >= 3000) highlights.push('kreatin')
+
+  if (!highlights.length) return 'sterk samlet formel etter deklarert innhold'
+  if (highlights.length === 1) return highlights[0]
+  return `${highlights[0]} og ${highlights[1]}`
+}
+
 const gradeClass = (grade: GradeLetter | undefined) => `grade-badge grade-${grade ?? 'F'}`
 
 const gradeScale: Array<{ grade: GradeLetter; label: string; description: string }> = [
@@ -216,6 +233,23 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
   const [sortAsc, setSortAsc] = useState(initialRoute.sortAsc)
   const [caffeineFilter, setCaffeineFilter] = useState<'alle' | 'med' | 'uten'>(initialRoute.caffeineFilter)
   const [betaFilter, setBetaFilter] = useState<'med' | 'uten'>(initialRoute.betaFilter)
+  const [showSources, setShowSources] = useState(initialRoute.showSources ?? false)
+
+  const goToRanking = (options?: {
+    showSources?: boolean
+    sortCol?: string
+    sortAsc?: boolean
+    caffeineFilter?: 'alle' | 'med' | 'uten'
+    betaFilter?: 'med' | 'uten'
+  }) => {
+    setShowSources(options?.showSources ?? false)
+    setPage('lb-pwo')
+    setSelectedProduct(null)
+    if (options?.sortCol) setSortCol(options.sortCol)
+    if (options?.sortAsc !== undefined) setSortAsc(options.sortAsc)
+    if (options?.caffeineFilter) setCaffeineFilter(options.caffeineFilter)
+    if (options?.betaFilter) setBetaFilter(options.betaFilter)
+  }
 
   const toggleSort = (col: string) => {
     if (col === 'price') {
@@ -252,17 +286,27 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
       setSortAsc(route.sortAsc)
       setCaffeineFilter(route.caffeineFilter)
       setBetaFilter(route.betaFilter)
+      setShowSources(route.showSources ?? false)
     }
     syncFromUrl()
     window.addEventListener('popstate', syncFromUrl)
     return () => window.removeEventListener('popstate', syncFromUrl)
   }, [])
 
+  useEffect(() => {
+    if (!showSources || page !== 'lb-pwo') return
+    const section = document.getElementById('kilder')
+    if (section) {
+      requestAnimationFrame(() => section.scrollIntoView({ behavior: 'smooth', block: 'start' }))
+    }
+  }, [showSources, page])
+
   // URL update on page change
   useEffect(() => {
     const base = window.location.origin
     let url = base + '/'
-    if (page === 'lb-pwo') url = base + '/tester/pwo/'
+    if (page === 'lb-pwo' && showSources) url = base + '/kilder/'
+    else if (page === 'lb-pwo') url = base + '/tester/pwo/'
     else if (page === 'blog') url = base + '/blogg/'
     else if (page === 'blog-post' && selectedProduct) url = base + '/blogg/' + selectedProduct + '/'
     else if (page === 'product' && selectedProduct) {
@@ -273,11 +317,11 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
     else if (page === 'buying-guide') url = base + '/tester/pwo/slik-velger-du/'
     else if (page === 'metode') url = base + '/om-metoden/'
     window.history.pushState({}, '', url)
-  }, [page, selectedProduct])
+  }, [page, selectedProduct, showSources])
 
   const pageMeta = useMemo(
-    () => getPageMeta({ page, selectedProduct, sortCol, sortAsc, caffeineFilter, betaFilter }),
-    [page, selectedProduct, sortCol, sortAsc, caffeineFilter, betaFilter],
+    () => getPageMeta({ page, selectedProduct, sortCol, sortAsc, caffeineFilter, betaFilter, showSources }),
+    [page, selectedProduct, sortCol, sortAsc, caffeineFilter, betaFilter, showSources],
   )
 
   useEffect(() => {
@@ -317,7 +361,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
     const related = getRelatedProducts(product)
     return (
     <section className="content-section">
-      <button className="button secondary" onClick={() => { setPage('lb-pwo'); setSelectedProduct(null) }} style={{ marginBottom: 16 }}>← Tilbake til benchmark</button>
+      <button className="button secondary" onClick={() => goToRanking()} style={{ marginBottom: 16 }}>← Tilbake til benchmark</button>
       <div className="review-card" style={{ gridTemplateColumns: '200px 1fr' }}>
         <ProductImage product={product} />
         <div className="review-body">
@@ -432,15 +476,16 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
           <div className="nav-dropdown" onMouseEnter={() => setLbOpen(true)} onMouseLeave={() => setLbOpen(false)}>
             <button className={'nav-link' + (page === 'lb-pwo' ? ' nav-active' : '')} onClick={() => setLbOpen(!lbOpen)}>Leaderboard ▾</button>
             {lbOpen && <div className="nav-dropdown-menu">
-              <a href="/tester/pwo/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setLbOpen(false) }}>PWO best i test</a>
-              <a href="/tester/pwo/beste/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setLbOpen(false) }}>Beste PWO</a>
-              <a href="/tester/pwo/sterkeste/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setLbOpen(false) }}>Sterkeste PWO</a>
-              <a href="/tester/pwo/billigste/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setLbOpen(false) }}>Billigste PWO</a>
-              <a href="/tester/pwo/stim-free/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setLbOpen(false) }}>Stim-free</a>
+              <a href="/tester/pwo/" onClick={(e) => { e.preventDefault(); goToRanking(); setLbOpen(false) }}>PWO best i test</a>
+              <a href="/tester/pwo/beste/" onClick={(e) => { e.preventDefault(); goToRanking(); setLbOpen(false) }}>Beste PWO</a>
+              <a href="/tester/pwo/sterkeste/" onClick={(e) => { e.preventDefault(); goToRanking(); setLbOpen(false) }}>Sterkeste PWO</a>
+              <a href="/tester/pwo/billigste/" onClick={(e) => { e.preventDefault(); goToRanking(); setLbOpen(false) }}>Billigste PWO</a>
+              <a href="/tester/pwo/stim-free/" onClick={(e) => { e.preventDefault(); goToRanking({ caffeineFilter: 'uten' }); setLbOpen(false) }}>Stim-free</a>
             </div>}
           </div>
           <a href="/tester/pwo/slik-velger-du/" onClick={(e) => { e.preventDefault(); setPage('buying-guide') }}>Kjøpsguide</a>
           <a href="/om-metoden/" onClick={(e) => { e.preventDefault(); setPage('metode') }}>Om metoden</a>
+          <a href="/kilder/" onClick={(e) => { e.preventDefault(); goToRanking({ showSources: true }) }}>Kilder</a>
         </nav>
       </header>
 
@@ -453,7 +498,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
                 <h1>PWO best i test 2026 – pre-workout rangering</h1>
                 <p className="lead">Vi rangerer pre-workout som faktisk selges i Norge etter deklarert innhold, pris per porsjon og kombinert pumpeffekt.</p>
                 <div className="hero-actions">
-                  <button className="button primary" onClick={() => setPage('lb-pwo')}><ArrowDown size={18} /> Heile rangeringa</button>
+                  <button className="button primary" onClick={() => goToRanking()}><ArrowDown size={18} /> Heile rangeringa</button>
                   <button className="button secondary" onClick={() => setPage('metode')}><Scale size={18} /> Metoden</button>
                 </div>
               </div>
@@ -476,7 +521,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
               </div>
             </section>
             <section className="content-section intro-grid">
-              <div><h2>Kort konklusjon</h2><p>{testedProducts[0].name} vinner med {testedProducts[0].score} poeng, takket være høy dose L-citrulline og beta-alanin. Se hele rangeringen under <a href="/tester/pwo/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo') }}>PWO best i test</a>.</p></div>
+              <div><h2>Kort konklusjon</h2><p>{testedProducts[0].name} leder med {testedProducts[0].score} poeng, takket være {describeWinnerStrengths(testedProducts[0])}. Se hele rangeringen under <a href="/tester/pwo/" onClick={(e) => { e.preventDefault(); goToRanking() }}>PWO best i test</a>.</p></div>
               <div className="warning-box"><AlertTriangle size={22} /><div><span style={{fontWeight:700}}>Viktig</span><p>PWO er ikke nødvendig for fremgang. Rådfør deg med helsepersonell ved usikkerhet.</p></div></div>
             </section>
             <section className="content-section" style={{paddingTop:0}}>
@@ -509,15 +554,15 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
             <section className="content-section">
               <div className="section-heading"><span>Rangeringar</span><h2>Finn din PWO</h2></div>
               <div className="blog-grid">
-                <a href="/tester/pwo/beste/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setSortCol('score'); setSortAsc(false); }} style={{padding:12,background:'var(--paper)',borderRadius:8,textDecoration:'none'}}>
+                <a href="/tester/pwo/beste/" onClick={(e) => { e.preventDefault(); goToRanking({ sortCol: 'score', sortAsc: false }) }} style={{padding:12,background:'var(--paper)',borderRadius:8,textDecoration:'none'}}>
                   <span style={{fontWeight:700}}>🏆 Beste PWO</span>
                   <p style={{fontSize:12,color:'var(--muted)',margin:'4px 0 0'}}>Alle {siteStats.testedCount} produkter rangert etter score. Klikk for å se topplisten.</p>
                 </a>
-                <a href="/tester/pwo/stim-free/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setSortCol('score'); setCaffeineFilter('uten'); }} style={{padding:12,background:'var(--paper)',borderRadius:8,textDecoration:'none'}}>
+                <a href="/tester/pwo/stim-free/" onClick={(e) => { e.preventDefault(); goToRanking({ sortCol: 'score', caffeineFilter: 'uten' }) }} style={{padding:12,background:'var(--paper)',borderRadius:8,textDecoration:'none'}}>
                   <span style={{fontWeight:700}}>🧘 Stim-free</span>
                   <p style={{fontSize:12,color:'var(--muted)',margin:'4px 0 0'}}>Koffeinfrie alternativ for kveldstrening. Best i test uten koffein.</p>
                 </a>
-                <a href="/tester/pwo/billigste/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setSortCol('kgprice-asc'); }} style={{padding:12,background:'var(--paper)',borderRadius:8,textDecoration:'none'}}>
+                <a href="/tester/pwo/billigste/" onClick={(e) => { e.preventDefault(); goToRanking({ sortCol: 'kgprice-asc' }) }} style={{padding:12,background:'var(--paper)',borderRadius:8,textDecoration:'none'}}>
                   <span style={{fontWeight:700}}>💰 Best verdi</span>
                   <p style={{fontSize:12,color:'var(--muted)',margin:'4px 0 0'}}>Rangert etter pris per kilogram. Mest effekt for pengene.</p>
                 </a>
@@ -610,7 +655,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
 
         {page === 'buying-guide' && (
           <section className="content-section">
-            <button className="button secondary" onClick={() => setPage('lb-pwo')} style={{marginBottom:16}}>← Se rangeringen</button>
+            <button className="button secondary" onClick={() => goToRanking()} style={{marginBottom:16}}>← Se rangeringen</button>
             <h1>Slik velger du riktig PWO – Kjøpsguide 2026</h1>
             <p className="muted" style={{fontSize:13,marginTop:-8}}>Oppdatert mai 2026 · 7 minutters lesing</p>
 
@@ -668,7 +713,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
             </div>
 
             <div style={{marginTop:24}}>
-              <button className="button primary" onClick={() => setPage('lb-pwo')} style={{marginRight:10}}>Se hele rangeringen</button>
+              <button className="button primary" onClick={() => goToRanking()} style={{marginRight:10}}>Se hele rangeringen</button>
               <button className="button secondary" onClick={() => setPage('home')}>Til forsiden</button>
             </div>
           </section>
