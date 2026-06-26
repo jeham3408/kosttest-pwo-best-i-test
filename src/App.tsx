@@ -272,6 +272,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
     }
     else if (page === 'buying-guide') url = base + '/tester/pwo/slik-velger-du/'
     else if (page === 'metode') url = base + '/om-metoden/'
+    else if (page === 'kilder') url = base + '/kilder/'
     window.history.pushState({}, '', url)
   }, [page, selectedProduct])
 
@@ -418,6 +419,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
 
   return (
     <>
+      <a className="skip-link" href="#top">Hopp til innhold</a>
       <JsonLd
         path={seoPath}
         product={page === 'product' && selectedProduct ? testedProducts.find((p) => p.id === selectedProduct) : undefined}
@@ -480,7 +482,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
               <div className="warning-box"><AlertTriangle size={22} /><div><span style={{fontWeight:700}}>Viktig</span><p>PWO er ikke nødvendig for fremgang. Rådfør deg med helsepersonell ved usikkerhet.</p></div></div>
             </section>
             <section className="content-section" style={{paddingTop:0}}>
-              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:14}}>
+              <div className="quick-links-grid">
                 <a href="/blogg/" onClick={(e) => { e.preventDefault(); setPage('blog') }} style={{padding:16,background:'var(--paper)',borderRadius:8,textDecoration:'none'}}>
                   <span style={{fontWeight:700}}>📖 Blogg</span>
                   <p style={{fontSize:13,color:'var(--muted)',margin:'4px 0 0'}}>Lær om L-citrulline, beta-alanin, kreatin og alle PWO-ingredienser.</p>
@@ -533,7 +535,13 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
 
         {page === 'blog' && (
           <section className="content-section">
-            <div className="section-heading"><span>Blogg</span><h2>Ingredienser og vitenskap</h2></div>
+            <div className="section-heading">
+              <span>Blogg</span>
+              <h1>Ingredienser og vitenskap</h1>
+              <p className="section-intro">
+                Korte, kildebaserte artikler om de viktigste PWO-ingrediensene — og samanlikningar mellom produkt i testen.
+              </p>
+            </div>
             <div className="blog-grid">
               {blogPosts.map(post => (
                 <button key={post.id} className="blog-card" onClick={() => { setSelectedProduct(post.id); setPage('blog-post') }}>
@@ -587,7 +595,11 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
           <>
             <LeaderboardSection kgPrice={kgPrice} onSelectProduct={(id) => { setSelectedProduct(id); setPage('product') }} />
             <section className="content-section">
-              <div className="section-heading"><span>PWO best i test</span><h2>Fullstendig rangering</h2><p>⇅ Klikk på kolonneoverskrift for å sortere</p></div>
+              <div className="section-heading">
+                <span>PWO best i test</span>
+                <h1>Fullstendig rangering</h1>
+                <p className="section-intro">⇅ Klikk på kolonneoverskrift for å sortere. Bruk filtrene for koffein og beta-alanin.</p>
+              </div>
               <div className="filter-bar">
                 <span className="filter-label" style={{fontSize:11}}>Koffein:</span>
                 {(['alle','med','uten'] as const).map(v => (<button key={v} className={'toggle-btn '+(caffeineFilter===v?'on':'off')} onClick={()=>setCaffeineFilter(v)}><span className="toggle-track"><span className="toggle-thumb"/></span><span className="toggle-label">{v==='alle'?'Alle':v==='med'?'Med':'Uten'}</span></button>))}
@@ -677,10 +689,43 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
         {page === 'metode' && (
           <section className="content-section">
             <button className="button secondary" onClick={() => setPage('home')} style={{marginBottom:16}}>← Hjem</button>
+            <div className="section-heading" style={{marginBottom: 8}}>
+              <span>Metode</span>
+              <h1>Slik scorer vi PWO</h1>
+              <p className="section-intro">Åpen karaktermotor basert på deklarerte doser — ikke markedsføring.</p>
+            </div>
             <GradingSystemSection />
           </section>
         )}
+
+        {page === 'kilder' && (
+          <section className="content-section source-section">
+            <button className="button secondary" onClick={() => setPage('home')} style={{marginBottom:16}}>← Hjem</button>
+            <div className="section-heading">
+              <span>Kilder</span>
+              <h1>Åpne kilder og referanser</h1>
+              <p className="section-intro">
+                Rangeringen bygger på deklarerte ingredienser og offentlig tilgjengelige kilder. Her finner du lenker til retningslinjer, produktsider og vitenskap vi bygger på.
+              </p>
+            </div>
+            <ul className="source-list">{sourceLinks.map(s => <li key={s.url}><a href={s.url} target="_blank" rel="noreferrer">{s.label}<ExternalLink size={15} /></a></li>)}</ul>
+            <p style={{marginTop:20,fontSize:13,color:'var(--muted)'}}>
+              Vil du se hele testen? Gå til <a href="/tester/pwo/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo') }}>PWO-rangeringen</a> eller les <a href="/om-metoden/" onClick={(e) => { e.preventDefault(); setPage('metode') }}>om metoden</a>.
+            </p>
+          </section>
+        )}
       </main>
+
+      <footer className="site-footer">
+        <nav aria-label="Bunnnavigasjon" className="footer-nav">
+          <a href="/tester/pwo/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setSelectedProduct(null) }}>Rangering</a>
+          <a href="/blogg/" onClick={(e) => { e.preventDefault(); setPage('blog') }}>Blogg</a>
+          <a href="/tester/pwo/slik-velger-du/" onClick={(e) => { e.preventDefault(); setPage('buying-guide') }}>Kjøpsguide</a>
+          <a href="/om-metoden/" onClick={(e) => { e.preventDefault(); setPage('metode') }}>Metode</a>
+          <a href="/kilder/" onClick={(e) => { e.preventDefault(); setPage('kilder') }}>Kilder</a>
+        </nav>
+        <p className="footer-meta">Oppdatert {lastUpdated} · Ærlig PWO-rangering for Norge</p>
+      </footer>
     </>
   )
 }
