@@ -10,6 +10,7 @@ export type AppPage =
   | 'product'
   | 'buying-guide'
   | 'metode'
+  | 'kilder'
 
 export type RouteState = {
   page: AppPage
@@ -72,7 +73,7 @@ export function parseRoute(path: string): RouteState {
     return { page: 'metode', selectedProduct: null, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
   }
   if (route === '/kilder') {
-    return { page: 'home', selectedProduct: null, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
+    return { page: 'kilder', selectedProduct: null, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
   }
 
   return { page: 'home', selectedProduct: null, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
@@ -143,6 +144,15 @@ export function getPageMeta(state: RouteState): PageMeta {
       title: 'Slik scorer vi PWO – Åpen karaktermotor | Kosttest.no',
       description: 'Se hvordan vår transparente karaktermotor regner ut poeng for hvert produkt.',
       canonical: `${SITE}/om-metoden/`,
+      ogType: 'article',
+      ogImage: DEFAULT_OG,
+    }
+  }
+  if (state.page === 'kilder') {
+    return {
+      title: 'Kilder og referanser | Kosttest.no',
+      description: 'Åpne kilder bak PWO-rangeringen: ISSN-retningslinjer, produktsider og vitenskapelige referanser.',
+      canonical: `${SITE}/kilder/`,
       ogType: 'article',
       ogImage: DEFAULT_OG,
     }
