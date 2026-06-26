@@ -35,6 +35,18 @@ export default function UnrankedProductsSection() {
             {pending.map((product) => (
               <tr key={product.id}>
                 <td className="product-cell">
+                  {product.image && (
+                    <div className="product-image">
+                      <img
+                        src={product.image}
+                        alt={`${product.name} – PWO fra Kosttest.no`}
+                        loading="lazy"
+                        decoding="async"
+                        width="60"
+                        height="60"
+                      />
+                    </div>
+                  )}
                   <div>
                     <span>{product.name}</span>
                     <span>
