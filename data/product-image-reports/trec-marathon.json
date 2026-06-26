@@ -1,0 +1,22 @@
+{
+  "id": "trec-marathon",
+  "type": "pwo-listed",
+  "name": "Marathon Endurance 400 g",
+  "brand": "Trec Nutrition",
+  "processedAt": "2026-06-26T18:10:57.216Z",
+  "source": "product-page",
+  "image": "https://www.kost1.no/users/kristiankost1_mystore_no/images/y6WAD_Trec_Nutrition_Marathon_Endurance_-_400_gram_1.jpg",
+  "url": "https://www.kost1.no/products/marathon-endurance-400-gram",
+  "steps": [
+    {
+      "step": "product-page",
+      "url": "https://www.kost1.no/products/marathon-endurance-400-gram",
+      "found": true
+    },
+    {
+      "step": "product-page-image",
+      "ok": true,
+      "image": "https://www.kost1.no/users/kristiankost1_mystore_no/images/y6WAD_Trec_Nutrition_Marathon_Endurance_-_400_gram_1.jpg"
+    }
+  ]
+}

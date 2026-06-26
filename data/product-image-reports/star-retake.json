@@ -1,0 +1,22 @@
+{
+  "id": "star-retake",
+  "type": "pwo-listed",
+  "name": "RE:TAKE 300 g",
+  "brand": "Star Nutrition",
+  "processedAt": "2026-06-26T18:09:11.844Z",
+  "source": "product-page",
+  "image": "https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dwb6bbf5ce/Nya_produktbilder/Star_Nutrition/SETW80MIX.jpg?sw=266&sh=266&sm=fit&sfrm=png",
+  "url": "https://www.gymgrossisten.no/re-take-300-g/6677-123R.html",
+  "steps": [
+    {
+      "step": "product-page",
+      "url": "https://www.gymgrossisten.no/re-take-300-g/6677-123R.html",
+      "found": true
+    },
+    {
+      "step": "product-page-image",
+      "ok": true,
+      "image": "https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dwb6bbf5ce/Nya_produktbilder/Star_Nutrition/SETW80MIX.jpg?sw=266&sh=266&sm=fit&sfrm=png"
+    }
+  ]
+}

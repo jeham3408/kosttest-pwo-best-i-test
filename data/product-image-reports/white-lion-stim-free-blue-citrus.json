@@ -1,0 +1,22 @@
+{
+  "id": "white-lion-stim-free-blue-citrus",
+  "type": "pwo-listed",
+  "name": "Stim-Free PWO Blue Citrus",
+  "brand": "White Lion",
+  "processedAt": "2026-06-26T18:07:51.560Z",
+  "source": "product-page",
+  "image": "http://whitelion.no/cdn/shop/files/Blue.png?v=1738808198",
+  "url": "https://whitelion.no/products/stim-free-blue-citrus-230g",
+  "steps": [
+    {
+      "step": "product-page-status",
+      "ok": true,
+      "url": "https://whitelion.no/products/stim-free-blue-citrus-230g"
+    },
+    {
+      "step": "product-page-og",
+      "ok": true,
+      "image": "http://whitelion.no/cdn/shop/files/Blue.png?v=1738808198"
+    }
+  ]
+}

@@ -11,7 +11,13 @@
     "preview": "vite preview",
     "protein:verify:status": "node scripts/protein-verify-queue.mjs status",
     "protein:verify:next": "node scripts/protein-verify-queue.mjs next",
-    "protein:verify:sync-md": "node scripts/protein-verify-queue.mjs sync-md"
+    "protein:verify:sync-md": "node scripts/protein-verify-queue.mjs sync-md",
+    "product:image:init": "node scripts/product-image-queue.mjs init",
+    "product:image:audit": "node scripts/product-image-queue.mjs audit",
+    "product:image:status": "node scripts/product-image-queue.mjs status",
+    "product:image:run": "node scripts/product-image-queue.mjs run",
+    "product:image:retry": "node scripts/product-image-queue.mjs retry",
+    "product:image:sync-md": "node scripts/product-image-queue.mjs sync-md"
   },
   "dependencies": {
     "lucide-react": "^1.14.0",

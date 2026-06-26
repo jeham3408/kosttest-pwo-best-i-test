@@ -1,0 +1,22 @@
+{
+  "id": "bloody-pump",
+  "type": "pwo-listed",
+  "name": "Bloody Pump PWO 300 g",
+  "brand": "Gymgrossisten",
+  "processedAt": "2026-06-26T18:09:12.195Z",
+  "source": "product-page",
+  "image": "https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dwb6bbf5ce/Nya_produktbilder/Star_Nutrition/SETW80MIX.jpg?sw=266&sh=266&sm=fit&sfrm=png",
+  "url": "https://www.gymgrossisten.no/bloody-pump-pwo-300-g/83001R.html",
+  "steps": [
+    {
+      "step": "product-page",
+      "url": "https://www.gymgrossisten.no/bloody-pump-pwo-300-g/83001R.html",
+      "found": true
+    },
+    {
+      "step": "product-page-image",
+      "ok": true,
+      "image": "https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dwb6bbf5ce/Nya_produktbilder/Star_Nutrition/SETW80MIX.jpg?sw=266&sh=266&sm=fit&sfrm=png"
+    }
+  ]
+}

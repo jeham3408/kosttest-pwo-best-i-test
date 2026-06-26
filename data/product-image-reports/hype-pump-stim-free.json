@@ -1,0 +1,22 @@
+{
+  "id": "hype-pump-stim-free",
+  "type": "pwo-listed",
+  "name": "Hype Pump Stim Free PWO 420 g",
+  "brand": "Näno Supps",
+  "processedAt": "2026-06-26T18:09:13.746Z",
+  "source": "product-page",
+  "image": "https://www.getfit.no/acd-cgi/img/v1/wp-content/uploads/2026/06/Hype-Pump-2-Pakk-New.png",
+  "url": "https://www.getfit.no/hype-pump-stim-free-pwo-420g",
+  "steps": [
+    {
+      "step": "product-page",
+      "url": "https://www.getfit.no/hype-pump-stim-free-pwo-420g",
+      "found": true
+    },
+    {
+      "step": "product-page-image",
+      "ok": true,
+      "image": "https://www.getfit.no/acd-cgi/img/v1/wp-content/uploads/2026/06/Hype-Pump-2-Pakk-New.png"
+    }
+  ]
+}

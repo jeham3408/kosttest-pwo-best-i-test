@@ -1,0 +1,22 @@
+{
+  "id": "white-lion-pure-pump",
+  "type": "pwo-listed",
+  "name": "Pure Pump Stim-Free PWO Spicy Margarita",
+  "brand": "White Lion",
+  "processedAt": "2026-06-26T18:07:50.936Z",
+  "source": "product-page",
+  "image": "http://whitelion.no/cdn/shop/files/PP_siste.png?v=1762262257",
+  "url": "https://whitelion.no/products/pure-pump-v2",
+  "steps": [
+    {
+      "step": "product-page-status",
+      "ok": true,
+      "url": "https://whitelion.no/products/pure-pump-v2"
+    },
+    {
+      "step": "product-page-og",
+      "ok": true,
+      "image": "http://whitelion.no/cdn/shop/files/PP_siste.png?v=1762262257"
+    }
+  ]
+}
