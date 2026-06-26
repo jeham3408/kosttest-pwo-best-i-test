@@ -24,7 +24,7 @@ import {
   type GradeLetter,
   type TestedProduct,
 } from './data/pwoProducts'
-import { blogPosts } from './data/blog'
+import { blogPosts, findBlogPost } from './data/blog'
 import { generateProductContent } from './productContent'
 import LeaderboardSection from './LeaderboardSection'
 import {
@@ -33,7 +33,7 @@ import {
   ProteinProductPageView,
   testedProteinProducts,
 } from './components/ProteinPageViews'
-import { getPageMeta, isCaseinProtein, isVeganProtein, isWheyProtein, normalizePath, parseRoute, type RouteState } from './routing'
+import { buildRoutePath, getPageMeta, isCaseinProtein, isVeganProtein, isWheyProtein, normalizePath, parseRoute, type RouteState } from './routing'
 import { siteStats } from './siteStats'
 import { getRelatedProducts, kgPrice } from './utils/productHelpers'
 
@@ -288,24 +288,18 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
 
   // URL update on page change
   useEffect(() => {
-    const base = window.location.origin
-    let url = base + '/'
-    if (page === 'lb-pwo') url = base + '/tester/pwo/'
-    else if (page === 'lb-protein') url = base + '/tester/protein/'
-    else if (page === 'protein-product' && selectedProduct) url = base + '/protein/' + selectedProduct + '/'
-    else if (page === 'protein-guide') url = base + '/tester/protein/slik-velger-du/'
-    else if (page === 'protein-metode') url = base + '/tester/protein/metode/'
-    else if (page === 'blog') url = base + '/blogg/'
-    else if (page === 'blog-post' && selectedProduct) url = base + '/blogg/' + selectedProduct + '/'
-    else if (page === 'product' && selectedProduct) {
-      const p = testedProducts.find(x => x.id === selectedProduct)
-      const slug = p ? p.id : selectedProduct
-      url = base + '/pwo/' + slug + '/'
-    }
-    else if (page === 'buying-guide') url = base + '/tester/pwo/slik-velger-du/'
-    else if (page === 'metode') url = base + '/om-metoden/'
+    const path = buildRoutePath({
+      page,
+      selectedProduct,
+      sortCol,
+      sortAsc,
+      caffeineFilter,
+      betaFilter,
+      proteinFilter,
+    })
+    const url = window.location.origin + path + (path === '/' ? '' : '/')
     window.history.pushState({}, '', url)
-  }, [page, selectedProduct])
+  }, [page, selectedProduct, sortCol, sortAsc, caffeineFilter, betaFilter, proteinFilter])
 
   const pageMeta = useMemo(
     () => getPageMeta({ page, selectedProduct, sortCol, sortAsc, caffeineFilter, betaFilter, proteinFilter }),
@@ -542,7 +536,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
               <div className="section-heading"><span>Blogg</span><h2>Siste fra bloggen</h2></div>
               <div className="blog-grid">
                 {blogPosts.slice(0, 4).map(post => (
-                  <button key={post.id} className="blog-card" onClick={() => { setSelectedProduct(post.id); setPage('blog-post') }}>
+                  <button key={post.id} className="blog-card" onClick={() => { setSelectedProduct(post.slug); setPage('blog-post') }}>
                     <h3>{post.title}</h3><p>{post.excerpt}</p>
                     <span className="blog-meta">{post.category} · {post.readMinutes} min</span>
                   </button>
@@ -600,7 +594,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
             <div className="section-heading"><span>Blogg</span><h2>Ingredienser og vitenskap</h2></div>
             <div className="blog-grid">
               {blogPosts.map(post => (
-                <button key={post.id} className="blog-card" onClick={() => { setSelectedProduct(post.id); setPage('blog-post') }}>
+                <button key={post.id} className="blog-card" onClick={() => { setSelectedProduct(post.slug); setPage('blog-post') }}>
                   <h3>{post.title}</h3><p>{post.excerpt}</p>
                   <span className="blog-meta">{post.category} · {post.readMinutes} min</span>
                 </button>
@@ -610,7 +604,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
         )}
 
         {page === 'blog-post' && selectedProduct && (() => {
-          const post = blogPosts.find(p => p.id === selectedProduct)
+          const post = findBlogPost(selectedProduct)
           if (!post) return null
           return (<section className="content-section"><button className="button secondary" onClick={() => setPage('blog')} style={{marginBottom:16}}>← Blogg</button><article><h1>{post.title}</h1><p className="muted" style={{marginTop:-8}}>{post.category} · {post.readMinutes} min · Av Kosttest.no</p>
           {post.category === 'Samanlikning' && post.relatedProducts && (

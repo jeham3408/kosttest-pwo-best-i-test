@@ -1,4 +1,4 @@
-import { blogPosts } from './data/blog'
+import { blogPosts, findBlogPost } from './data/blog'
 import { testedProteinProducts } from './data/proteinProducts'
 import { testedProducts } from './data/pwoProducts'
 import { siteStats } from './siteStats'
@@ -184,7 +184,7 @@ export function getPageMeta(state: RouteState): PageMeta {
     }
   }
   if (state.page === 'blog-post' && state.selectedProduct) {
-    const post = blogPosts.find((p) => p.id === state.selectedProduct)
+    const post = findBlogPost(state.selectedProduct)
     if (post) {
       return {
         title: `${post.title} | Kosttest.no`,
@@ -227,6 +227,43 @@ export function getPageMeta(state: RouteState): PageMeta {
   }
 
   return def
+}
+
+export function buildRoutePath(state: RouteState): string {
+  switch (state.page) {
+    case 'home':
+      return '/'
+    case 'lb-pwo':
+      if (state.sortCol === 'kgprice-asc') return '/tester/pwo/billigste'
+      if (state.caffeineFilter === 'uten') return '/tester/pwo/stim-free'
+      return '/tester/pwo'
+    case 'lb-protein':
+      if (state.sortCol === 'price-protein-asc') return '/tester/protein/billigste'
+      if (state.proteinFilter === 'vegan') return '/tester/protein/vegan'
+      if (state.proteinFilter === 'kasein') return '/tester/protein/kasein'
+      return '/tester/protein'
+    case 'protein-product':
+      return state.selectedProduct ? `/protein/${state.selectedProduct}` : '/tester/protein'
+    case 'protein-guide':
+      return '/tester/protein/slik-velger-du'
+    case 'protein-metode':
+      return '/tester/protein/metode'
+    case 'blog':
+      return '/blogg'
+    case 'blog-post': {
+      if (!state.selectedProduct) return '/blogg'
+      const post = findBlogPost(state.selectedProduct)
+      return post ? `/blogg/${post.slug}` : `/blogg/${state.selectedProduct}`
+    }
+    case 'product':
+      return state.selectedProduct ? `/pwo/${state.selectedProduct}` : '/tester/pwo'
+    case 'buying-guide':
+      return '/tester/pwo/slik-velger-du'
+    case 'metode':
+      return '/om-metoden'
+    default:
+      return '/'
+  }
 }
 
 export function getAllPrerenderRoutes(): string[] {
