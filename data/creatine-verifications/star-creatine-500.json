@@ -1,0 +1,31 @@
+{
+  "id": "star-creatine-500",
+  "category": "creatine",
+  "exists": true,
+  "verifiedAt": "2026-06-26T17:10:00.000Z",
+  "sources": [
+    "https://www.gymgrossisten.no/kreatin-monohydrat-500-g/609.MASTER.html"
+  ],
+  "checks": {
+    "productPageLoads": true,
+    "nameMatches": true,
+    "doseFromLabel": true,
+    "priceFromMerchant": true
+  },
+  "corrections": [],
+  "data": {
+    "name": "Kreatin Monohydrat 500 g",
+    "brand": "Star Nutrition",
+    "merchant": "Gymgrossisten",
+    "url": "https://www.gymgrossisten.no/kreatin-monohydrat-500-g/609.MASTER.html",
+    "priceNok": 215,
+    "packageSizeG": 500,
+    "servingSizeG": 5,
+    "servings": 100,
+    "creatinePerServingG": 5,
+    "creatineForm": "monohydrate",
+    "format": "powder"
+  },
+  "analysis": "Star Nutrition Kreatin Monohydrat 500 g er et rent mikronisert monohydrat med full 5 g dose per porsjon og 100 porsjoner i pakken. Pris 215 kr og næringsdeklarasjon stemmer med Gymgrossisten.",
+  "notes": "Veil.pris 269 kr — vi bruker salgspris 215 kr."
+}

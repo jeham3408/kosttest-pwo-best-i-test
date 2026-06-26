@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "intervalMinutes": 60,
+  "lastRunAt": "2026-06-26T17:04:27.920Z",
+  "lastVerifiedId": "star-creatine-500",
+  "lastCompletedId": "star-creatine-500",
+  "lastCompletedStatus": "verified",
+  "currentProductId": null,
+  "currentRunStartedAt": null,
+  "queue": [
+    {
+      "id": "star-creatine-500",
+      "status": "verified",
+      "attempts": 1,
+      "lastAttemptAt": "2026-06-26T17:04:13.510Z",
+      "verifiedAt": "2026-06-26T17:04:27.920Z"
+    },
+    {
+      "id": "star-creatine-300",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "smartsupps-creatine-1kg",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "on-creatine-600",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "mutant-creakong",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "star-creatine-gummies-75",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "elit-creatine-gummies-60",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "applied-creatine-gummies-80",
+      "status": "pending",
+      "attempts": 0
+    }
+  ]
+}
