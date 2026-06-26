@@ -1,0 +1,56 @@
+{
+  "id": "star-whey-100",
+  "exists": true,
+  "verifiedAt": "2026-06-26T16:55:00.000Z",
+  "sources": [
+    "https://www.gymgrossisten.no/whey-100-myseprotein-1-kg/575R.html"
+  ],
+  "checks": {
+    "productPageLoads": true,
+    "nameMatches": true,
+    "nutritionFromLabel": true,
+    "priceFromMerchant": true
+  },
+  "corrections": [
+    "Feil URL: /star-nutrition-100-whey (404) → /whey-100-myseprotein-1-kg/575R.html",
+    "Feil navn: «100% Whey» → «Whey-100» (offisielt produktnavn på GG)",
+    "Feil type: whey-concentrate → whey-isolate (100% myseproteinisolat)",
+    "Feil pris: 399 → 549 kr",
+    "Feil porsjon: 30 g → 37 g (GG anbefaler 37 g)",
+    "Feil porsjoner: 33 → 27 (1000 g / 37 g)",
+    "Feil protein%: 78 → 84 (Chocolate, representativt snitt 79–87 %)",
+    "Feil protein/porsjon: 23 → 31 g (37 g × 84 %)",
+    "Leucin fjernet — ikke oppgitt på NO-etikett"
+  ],
+  "data": {
+    "name": "Whey-100",
+    "brand": "Star Nutrition",
+    "merchant": "Gymgrossisten",
+    "url": "https://www.gymgrossisten.no/whey-100-myseprotein-1-kg/575R.html",
+    "priceNok": 549,
+    "packageSizeG": 1000,
+    "packageSize": "1000 g",
+    "servingSizeG": 37,
+    "servingSize": "37 g",
+    "servings": 27,
+    "proteinPer100g": 84,
+    "proteinPerServingG": 31,
+    "sourceType": "whey-isolate",
+    "sourceLabel": "100% myseproteinisolat"
+  },
+  "lactoseAnalysis": {
+    "containsLactose": true,
+    "lowLactose": true,
+    "description": "Whey-100 er 100% myseproteinisolat med lavt laktoseinnhold ifølge produsent, men er IKKE laktosefritt. GG oppgir at personer med alvorlig laktoseintoleranse bør vurdere om produktet passer. Inneholder melkeallergen.",
+    "allergens": ["melk", "laktose", "soya", "fenylalanin"],
+    "notLactoseFree": true,
+    "nutFree": true
+  },
+  "otherNotes": {
+    "sweetener": "Smaksvarianter inneholder aspartam og acesulfam-K (fenylalaninkilde)",
+    "caffeine": "Ice Coffee-variant inneholder 30 mg koffein per porsjon",
+    "measuringScoop": "Måleskje følger ikke med"
+  },
+  "analysis": "Ekte Star Nutrition Whey-100 1 kg på Gymgrossisten (549 kr). Produktet er et rent myseproteinisolat med 84 % protein (Chocolate) — vesentlig høyere enn opprinnelig data som feilaktig listet det som concentrate. God nordisk merkevare med høy protein%, men dyrere enn opprinnelig pris og ikke helt laktosefritt.",
+  "notes": "Protein% varierer 79–87 % mellom smaker — vi bruker 84 % (Chocolate) som representativt. Pris kan variere med kampanje. Produktet var på lager ved verifisering."
+}
