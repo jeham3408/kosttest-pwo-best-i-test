@@ -1,0 +1,51 @@
+{
+  "id": "star-whey-100",
+  "exists": true,
+  "verifiedAt": "2026-06-26T16:06:00.000Z",
+  "sources": [
+    "https://www.gymgrossisten.no/whey-100-myseprotein-1-kg/575R.html"
+  ],
+  "checks": {
+    "productPageLoads": true,
+    "nameMatches": true,
+    "nutritionFromLabel": true,
+    "priceFromMerchant": true
+  },
+  "corrections": [
+    "Feil URL: /star-nutrition-100-whey (404) → /whey-100-myseprotein-1-kg/575R.html",
+    "Navn: «100% Whey» → «Whey-100 Myseprotein» (faktisk produktnavn på GG)",
+    "Pris: 399 → 549 kr (1 kg sjokolade)",
+    "Porsjon: 30 g → 37 g (anbefalt dosering på etikett)",
+    "Porsjoner: 33 → 27 (1000 g / 37 g)",
+    "Protein%: 78 → 84 g/100 g (sjokolade-variant)",
+    "Protein/dose: 23 → 31 g (84 g × 37 g)",
+    "Kildetype: whey-concentrate → whey-isolate (100 % myseproteinisolat)",
+    "Leucin fjernet — ikke oppgitt på NO-etikett"
+  ],
+  "data": {
+    "name": "Whey-100 Myseprotein",
+    "brand": "Star Nutrition",
+    "merchant": "Gymgrossisten",
+    "url": "https://www.gymgrossisten.no/whey-100-myseprotein-1-kg/575R.html",
+    "priceNok": 549,
+    "packageSizeG": 1000,
+    "packageSize": "1000 g",
+    "servingSizeG": 37,
+    "servingSize": "37 g",
+    "servings": 27,
+    "proteinPer100g": 84,
+    "proteinPerServingG": 31,
+    "sourceType": "whey-isolate",
+    "sourceLabel": "100% myseproteinisolat"
+  },
+  "lactoseAnalysis": {
+    "containsLactose": true,
+    "lactoseLevel": "low",
+    "description": "100 % myseproteinisolat med lavt laktoseinnhold ifølge produsent. GG oppgir at produktet ikke er helt laktosefritt — personer med alvorlig laktoseintoleranse bør vurdere alternativer. Inneholder melkeprotein som allergen.",
+    "allergens": ["melk", "laktose", "soya", "fenylalanin"],
+    "notLactoseFree": true,
+    "suitableForLactoseIntolerant": "partial — lavt nivå, men ikke garantert laktosefritt"
+  },
+  "analysis": "Ekte Star Nutrition Whey-100 1 kg på Gymgrossisten (549 kr, på lager). Produktet er 100 % whey isolate — ikke concentrate som repo antok. Sjokolade-variant: 84 g protein/100 g, 31 g per 37 g dose. Solid nordisk isolate med god protein%, men dyrere enn opprinnelig data antok.",
+  "notes": "Protein% varierer 82–87 g/100 g etter smak (naturell/vanilje-pære høyest). Vi bruker 84 g for standard sjokolade. Inneholder aspartam og acesulfam-K i smaksvarianter. Produsert med Carbery whey."
+}
