@@ -111,6 +111,24 @@ export default function JsonLd({ path: rawPath, product }: JsonLdProps) {
     )
   }
 
+  if (path === '/kilder' || path.startsWith('/kilder/')) {
+    return (
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify([
+            ...def,
+            breadcrumb([
+              { name: 'Hjem', url: '/' },
+              { name: 'PWO best i test', url: '/tester/pwo/' },
+              { name: 'Kilder', url: '/kilder/' },
+            ]),
+          ]),
+        }}
+      />
+    )
+  }
+
   if (path.startsWith('/tester/pwo')) {
     return (
       <script

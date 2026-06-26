@@ -18,6 +18,7 @@ export type RouteState = {
   sortAsc: boolean
   caffeineFilter: 'alle' | 'med' | 'uten'
   betaFilter: 'med' | 'uten'
+  showSources?: boolean
 }
 
 export type PageMeta = {
@@ -72,7 +73,15 @@ export function parseRoute(path: string): RouteState {
     return { page: 'metode', selectedProduct: null, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
   }
   if (route === '/kilder') {
-    return { page: 'home', selectedProduct: null, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
+    return {
+      page: 'lb-pwo',
+      selectedProduct: null,
+      sortCol: 'score',
+      sortAsc: false,
+      caffeineFilter: 'alle',
+      betaFilter: 'med',
+      showSources: true,
+    }
   }
 
   return { page: 'home', selectedProduct: null, sortCol: 'score', sortAsc: false, caffeineFilter: 'alle', betaFilter: 'med' }
@@ -87,6 +96,15 @@ export function getPageMeta(state: RouteState): PageMeta {
     ogImage: DEFAULT_OG,
   }
 
+  if (state.showSources) {
+    return {
+      title: 'Kilder og referanser – PWO-testen | Kosttest.no',
+      description: `Butikklenker og offisielle produktsider vi bruker til dose- og prissjekk av ${siteStats.testedCount} rangerte PWO-produkter.`,
+      canonical: `${SITE}/kilder/`,
+      ogType: 'website',
+      ogImage: DEFAULT_OG,
+    }
+  }
   if (state.page === 'lb-pwo') {
     return {
       title: 'PWO best i test 2026 – Fullstendig rangering | Kosttest.no',
