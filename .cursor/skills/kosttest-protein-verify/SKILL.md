@@ -20,19 +20,20 @@ Du verifiserer **nøyaktig ett** proteinpulver per automasjonskjøring. Ikke hop
 
 ### Steg 0 — Les statusfil
 
-**Les `data/protein-verification-status.md`** — der står kø, neste produkt og kjøringslogg.
+**Les `data/protein-verification-status.md`** — start med seksjonene:
 
-### Steg 1 — Hent neste produkt
+- **⬅️ FORRIGE** — hva som nettopp ble testet (ikke test igjen)
+- **➡️ NÅ** — det eneste produktet du skal teste i denne kjøringen
+
+### Steg 1 — Lås neste produkt
 
 ```bash
 node scripts/protein-verify-queue.mjs start
 ```
 
-Output gir `productId` og `reportPath`. Hvis `done: true`, avslutt uten endring.
+Output sier eksplisitt `previousProduct` (forrige) og `testNowProduct` (nå). Hvis `done: true`, avslutt.
 
-Oppdater **Aktuell oppgave** i `data/protein-verification-status.md`:
-- `status`: `in_progress`
-- `productId`, `startet` (ISO-tid)
+**Test kun `productId` fra ➡️ NÅ.** Ikke forrige produkt. Ikke flere produkter.
 
 ### Steg 2 — Les produktet i repo
 
@@ -87,11 +88,9 @@ node scripts/protein-verify-queue.mjs sync-md
 
 ### Steg 6b — Oppdater status-MD
 
-I `data/protein-verification-status.md`:
+Etter `complete`/`reject` + `sync-md` oppdateres **FORRIGE** og **NÅ** automatisk.
 
-1. Legg til nytt avsnitt **øverst** under **Kjøringslogg** (dato, id, kilde, endringer, score).
-2. Nullstill **Aktuell oppgave** til `idle`.
-3. `sync-md` oppdaterer oppsummering og produktkø-tabellen automatisk.
+Legg kun til nytt avsnitt **øverst** under **Kjøringslogg** (dato, id, kilde, endringer, score).
 
 ### Steg 7 — Bygg og lever
 

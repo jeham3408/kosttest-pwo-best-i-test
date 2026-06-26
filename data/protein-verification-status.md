@@ -1,6 +1,33 @@
 # Protein verifisering — status
 
-> **Automasjon:** Les denne filen **før** hver kjøring. Oppdater **Aktuell oppgave** ved start og **Kjøringslogg** ved slutt. Kjør `node scripts/protein-verify-queue.mjs sync-md` før commit for å oppdatere tabellen under.
+> **Automasjon:** Les **FORRIGE** og **NÅ** først. Test kun produktet under **NÅ**. Oppdater **Kjøringslogg** etterpå.
+
+## ⬅️ FORRIGE (ferdig testet — ikke test på nytt)
+
+| Felt | Verdi |
+|------|-------|
+| productId | `bodylab-whey-100` |
+| merke | Bodylab |
+| navn | Whey 100 |
+| resultat | ✅ verified |
+| ferdig | 2026-06-26 12:00 |
+| url i repo | https://www.bodylab.no/shop/bodylab-whey-100-663p.html |
+
+**Du skal IKKE teste `bodylab-whey-100` igjen.**
+
+## ➡️ NÅ (test KUN dette produktet i denne kjøringen)
+
+| Felt | Verdi |
+|------|-------|
+| productId | `dymatize-iso100` |
+| merke | Dymatize |
+| navn | ISO100 Hydrolyzed 100% Whey Isolate |
+| url i repo (sjekk/fiks) | https://www.gymgrossisten.no/dymatize-iso100 |
+| kø-status | ⏳ pending |
+| kjøring | ⏳ klar — kjør `node scripts/protein-verify-queue.mjs start` |
+| startet | — |
+
+**TEST KUN `dymatize-iso100` i denne kjøringen. Ett produkt. Ikke hopp over. Ikke test flere.**
 
 ## Oppsummering
 
@@ -13,25 +40,13 @@
 | Siste kjøring | — |
 | Cron | `*/5 * * * *` (hvert 5. min) |
 
-## Aktuell oppgave
-
-| Felt | Verdi |
-|------|-------|
-| productId | — |
-| status | `idle` |
-| startet | — |
-| kilde-URL | — |
-| produkt finnes | — |
-| score (etter build) | — |
-| notat | — |
-
 ## Produktkø
 
 | # | ID | Merke | Navn | Status | Verifisert |
 |---|-----|-------|------|--------|------------|
 | 1 | dymatize-iso100 | Dymatize | ISO100 Hydrolyzed 100% Whey Isolate | ⏳ pending | — |
 | 2 | optimum-gold-standard | Optimum Nutrition | Gold Standard 100% Whey | ⏳ pending | — |
-| 3 | bodylab-whey-100 | Bodylab | Whey 100 | ✅ verified | 2026-06-26 |
+| 3 | bodylab-whey-100 ← forrige | Bodylab | Whey 100 | ✅ verified | 2026-06-26 |
 | 4 | star-whey-100 | Star Nutrition | 100% Whey | ⏳ pending | — |
 | 5 | myprotein-impact-whey | MyProtein | Impact Whey Protein | ⏳ pending | — |
 | 6 | scitec-100-whey-professional | Scitec Nutrition | 100% Whey Protein Professional | ⏳ pending | — |
@@ -70,11 +85,11 @@
 
 ## Instruks (automasjon)
 
-1. Les denne filen.
-2. `node scripts/protein-verify-queue.mjs start` → sett **Aktuell oppgave** til `in_progress`.
-3. Verifiser **ett** produkt mot ekte butikkside — aldri finn på data.
+1. Les **⬅️ FORRIGE** og **➡️ NÅ** i denne filen.
+2. `node scripts/protein-verify-queue.mjs start` → låser produktet under **NÅ**.
+3. Verifiser **kun** productId under **NÅ** mot ekte butikkside.
 4. Oppdater `src/data/proteinProducts.ts` + `data/protein-verifications/<id>.json`.
 5. `node scripts/protein-verify-queue.mjs complete --id <id>` eller `reject`.
-6. `node scripts/protein-verify-queue.mjs sync-md` → oppdater tabeller.
-7. Legg til oppføring i **Kjøringslogg**. Nullstill **Aktuell oppgave** til `idle`.
+6. `node scripts/protein-verify-queue.mjs sync-md` → oppdater FORRIGE/NÅ og tabell.
+7. Legg til oppføring i **Kjøringslogg**.
 8. `npm run build` → commit → push.
