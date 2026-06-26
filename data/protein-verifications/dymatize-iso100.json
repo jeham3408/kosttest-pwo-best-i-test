@@ -1,0 +1,47 @@
+{
+  "id": "dymatize-iso100",
+  "exists": true,
+  "verifiedAt": "2026-06-26T15:45:00.000Z",
+  "sources": [
+    "https://www.gymgrossisten.no/iso-100-myseproteinisolat-932-g/9922-098R.html"
+  ],
+  "checks": {
+    "productPageLoads": true,
+    "nameMatches": true,
+    "nutritionFromLabel": true,
+    "priceFromMerchant": true
+  },
+  "corrections": [
+    "Feil URL: /dymatize-iso100 → /iso-100-myseproteinisolat-932-g/9922-098R.html",
+    "Feil pris: 699 kr → 899 kr (veil.pris)",
+    "Feil pakke: 907 g → 932 g",
+    "Feil dose: 31 g → 32 g (næringsdeklarasjon per porsjon)",
+    "Feil protein%: 86 → 78 g/100 g (25 g protein per 32 g porsjon, Gourmet Chocolate)",
+    "Feil leucin: 2,7 g → null (ikke oppgitt på NO-etikett)",
+    "Generisk bilde → ekte produktbilde fra Gymgrossisten"
+  ],
+  "data": {
+    "name": "ISO100 Hydrolyzed 100% Whey Isolate",
+    "brand": "Dymatize",
+    "merchant": "Gymgrossisten",
+    "url": "https://www.gymgrossisten.no/iso-100-myseproteinisolat-932-g/9922-098R.html",
+    "priceNok": 899,
+    "packageSizeG": 932,
+    "packageSize": "932 g",
+    "servingSizeG": 32,
+    "servingSize": "32 g",
+    "servings": 29,
+    "proteinPer100g": 78,
+    "proteinPerServingG": 25,
+    "sourceType": "hydrolyzed-whey",
+    "sourceLabel": "Hydrolysert whey isolate"
+  },
+  "lactose": {
+    "status": "laktosefattig",
+    "note": "Produsent oppgir at laktose og fett er skilt ut fra ISO-100. Inneholder fortsatt melk (allergen) og soya (emulgator)."
+  },
+  "allergens": ["melk", "soya"],
+  "ingredients": "Hydrolysert myseproteinisolat (47 %), myseproteinisolat (43 %), kakao/aromaer, solsikke- og sojalecitin",
+  "analysis": "Ekte Dymatize ISO100 på Gymgrossisten (932 g, 899 kr). Næringsdeklarasjon viser 25 g protein per 32 g dose (78 % per 100 g) — lavere enn opprinnelig 86 % i repo. Hydrolysert whey isolate gir sterkt DIAAS-estimat, men prisen per g protein er høy. Laktose skilt ut ifølge produsent, men melkeallergen gjenstår.",
+  "notes": "Produktet var utsolgt på sjekktidspunkt. Pris er veil.pris 899 kr. Doseringstekst sier 28 g, men næringstabell bruker 32 g per porsjon — vi følger etikett."
+}

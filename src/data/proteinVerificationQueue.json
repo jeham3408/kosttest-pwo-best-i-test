@@ -1,38 +1,145 @@
 {
   "version": 1,
   "intervalMinutes": 5,
-  "lastRunAt": null,
-  "lastVerifiedId": "bodylab-whey-100",
-  "lastCompletedId": "bodylab-whey-100",
+  "lastRunAt": "2026-06-26T15:44:53.477Z",
+  "lastVerifiedId": "dymatize-iso100",
+  "lastCompletedId": "dymatize-iso100",
   "lastCompletedStatus": "verified",
   "currentProductId": null,
   "currentRunStartedAt": null,
   "queue": [
-    { "id": "dymatize-iso100", "status": "pending", "attempts": 0 },
-    { "id": "optimum-gold-standard", "status": "pending", "attempts": 0 },
-    { "id": "bodylab-whey-100", "status": "verified", "attempts": 1, "verifiedAt": "2026-06-26T12:00:00.000Z" },
-    { "id": "star-whey-100", "status": "pending", "attempts": 0 },
-    { "id": "myprotein-impact-whey", "status": "pending", "attempts": 0 },
-    { "id": "scitec-100-whey-professional", "status": "pending", "attempts": 0 },
-    { "id": "applied-critical-whey", "status": "pending", "attempts": 0 },
-    { "id": "mutant-iso-surge", "status": "pending", "attempts": 0 },
-    { "id": "rule1-r1-protein", "status": "pending", "attempts": 0 },
-    { "id": "muscletech-nitrotech", "status": "pending", "attempts": 0 },
-    { "id": "kevin-levrone-levro-whey", "status": "pending", "attempts": 0 },
-    { "id": "ghost-whey", "status": "pending", "attempts": 0 },
-    { "id": "esn-designer-whey", "status": "pending", "attempts": 0 },
-    { "id": "biotech-iso-whey-zero", "status": "pending", "attempts": 0 },
-    { "id": "weider-premium-whey", "status": "pending", "attempts": 0 },
-    { "id": "proteinfabrikken-whey", "status": "pending", "attempts": 0 },
-    { "id": "smartsupps-whey", "status": "pending", "attempts": 0 },
-    { "id": "bsn-syntha6-isolate", "status": "pending", "attempts": 0 },
-    { "id": "olimp-pure-whey", "status": "pending", "attempts": 0 },
-    { "id": "qnt-delicious-whey", "status": "pending", "attempts": 0 },
-    { "id": "esn-isoclear", "status": "pending", "attempts": 0 },
-    { "id": "optimum-gold-standard-casein", "status": "pending", "attempts": 0 },
-    { "id": "myprotein-soy-isolate", "status": "pending", "attempts": 0 },
-    { "id": "myprotein-vegan-blend", "status": "pending", "attempts": 0 },
-    { "id": "proteinseries-100-whey", "status": "pending", "attempts": 0 },
-    { "id": "bulk-pure-whey", "status": "pending", "attempts": 0 }
+    {
+      "id": "dymatize-iso100",
+      "status": "verified",
+      "attempts": 1,
+      "lastAttemptAt": "2026-06-26T15:44:11.640Z",
+      "verifiedAt": "2026-06-26T15:44:53.477Z"
+    },
+    {
+      "id": "optimum-gold-standard",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "bodylab-whey-100",
+      "status": "verified",
+      "attempts": 1,
+      "verifiedAt": "2026-06-26T12:00:00.000Z"
+    },
+    {
+      "id": "star-whey-100",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "myprotein-impact-whey",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "scitec-100-whey-professional",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "applied-critical-whey",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "mutant-iso-surge",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "rule1-r1-protein",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "muscletech-nitrotech",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "kevin-levrone-levro-whey",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "ghost-whey",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "esn-designer-whey",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "biotech-iso-whey-zero",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "weider-premium-whey",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "proteinfabrikken-whey",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "smartsupps-whey",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "bsn-syntha6-isolate",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "olimp-pure-whey",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "qnt-delicious-whey",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "esn-isoclear",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "optimum-gold-standard-casein",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "myprotein-soy-isolate",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "myprotein-vegan-blend",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "proteinseries-100-whey",
+      "status": "pending",
+      "attempts": 0
+    },
+    {
+      "id": "bulk-pure-whey",
+      "status": "pending",
+      "attempts": 0
+    }
   ]
 }
