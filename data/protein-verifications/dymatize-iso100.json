@@ -1,0 +1,39 @@
+{
+  "id": "dymatize-iso100",
+  "exists": true,
+  "verifiedAt": "2026-06-26T15:30:00.000Z",
+  "sources": [
+    "https://www.gymgrossisten.no/iso-100-myseproteinisolat-932-g/9922-098R.html"
+  ],
+  "checks": {
+    "productPageLoads": true,
+    "nameMatches": true,
+    "nutritionFromLabel": true,
+    "priceFromMerchant": true
+  },
+  "corrections": [
+    "Feil URL: /dymatize-iso100 ga 404 — riktig side er iso-100-myseproteinisolat-932-g",
+    "Feil pakke: 932 g (ikke 907 g)",
+    "Feil dose: 32 g ifølge næringsdeklarasjon (ikke 31 g)",
+    "Feil protein%: 78 g/100 g beregnet fra 25 g protein per 32 g porsjon (ikke 86 %)",
+    "Feil pris: 899 kr veiledende på Gymgrossisten (ikke 699 kr)"
+  ],
+  "data": {
+    "name": "ISO100 Hydrolyzed Whey Isolate",
+    "brand": "Dymatize",
+    "merchant": "Gymgrossisten",
+    "url": "https://www.gymgrossisten.no/iso-100-myseproteinisolat-932-g/9922-098R.html",
+    "priceNok": 899,
+    "packageSizeG": 932,
+    "packageSize": "932 g",
+    "servingSizeG": 32,
+    "servingSize": "32 g",
+    "servings": 29,
+    "proteinPer100g": 78,
+    "proteinPerServingG": 25,
+    "sourceType": "hydrolyzed-whey",
+    "sourceLabel": "Hydrolysert whey isolate"
+  },
+  "analysis": "Ekte Dymatize ISO100 på Gymgrossisten — hydrolysert whey isolate med 25 g protein per 32 g dose. Proteinrenhet ~78 % per 100 g (Gourmet Chocolate-variant). Sterk DIAAS-proxy (1,09) og høy leucin-tetthet, men dyrere per kg enn mange concentrate-produkter.",
+  "notes": "Næringsdeklarasjon varierer noe mellom smaker (78–83 g protein/100 g ifølge Dymatize EU-etikett). Pris 899 kr er veiledende; kampanjer kan gi lavere pris. Leucin 2,6–2,7 g/dose fra produsent, ikke fra NO-etikett."
+}
