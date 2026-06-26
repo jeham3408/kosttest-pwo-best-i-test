@@ -74,6 +74,7 @@ export type ListedProduct = {
   status: 'Rangert' | 'Ikke rangert' | 'Koffeinfri' | 'Multipakke'
   reason: string
   url: string
+  image?: string
 }
 
 export const lastUpdated = '26. juni 2026'
