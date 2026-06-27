@@ -28,15 +28,15 @@ export function generateProteinContent(product: TestedProteinProduct) {
       : product.iaasScore >= 100
         ? `God IAAS-profil (${product.iaasScore}) — typisk for kvalitets-whey.`
         : product.iaasScore >= 90
-          ? `Akseptabel IAAS (${product.iaasScore}) — profil OK, men DIAAS veier tyngst i scoren.`
+          ? `Akseptabel IAAS (${product.iaasScore}) — profil OK, men kun DIAAS styrer scoren.`
           : `Lavere IAAS (${product.iaasScore}) — begrensende aminosyrer i profilen. DIAAS kan likevel avvike ved bedre fordøyelighet.`
 
   const priceAnalysis =
     product.pricePerGramProtein <= 0.5
-      ? `Svært god pris: ${product.pricePerGramProtein.toFixed(2).replace('.', ',')} kr/g protein.`
+      ? `Referansepris: ${product.pricePerGramProtein.toFixed(2).replace('.', ',')} kr/g protein — påvirker ikke rangeringen.`
       : product.pricePerGramProtein <= 0.75
-        ? `Konkurransedyktig pris per g protein.`
-        : `Høyere pris per g protein — kvalitet (DIAAS) veier tyngst i scoren.`
+        ? `Konkurransedyktig pris per g protein (kun referanse).`
+        : `Høyere pris per g protein — rangeringen er kun basert på DIAAS.`
 
   const bestFor =
     product.sourceType.includes('casein')
@@ -52,18 +52,18 @@ export function generateProteinContent(product: TestedProteinProduct) {
 
   const bottomLine =
     product.score >= 61
-      ? `Anbefales. ${product.name} kombinerer sterk DIAAS og god pris per g protein.`
+      ? `Anbefales. ${product.name} har sterk DIAAS og scorer høyt på kvalitet.`
       : product.score >= 49
-        ? `Godt valg med noen kompromiss på DIAAS eller pris.`
+        ? `Godt valg med noen kompromiss på DIAAS.`
         : product.score >= 36
-          ? `Akseptabelt budsjettvalg.`
-          : `Under middels — vurder høyere scorende produkter.`
+          ? `Akseptabelt på kvalitet.`
+          : `Under middels DIAAS — vurder høyere scorende produkter.`
 
   const faq = [
     {
       question: 'Hva er DIAAS — og hvorfor er det best?',
       answer:
-        'DIAAS (Digestible Indispensable Amino Acid Score) er FAO anbefalt gullstandard. Den måler ileal fordøyelighet av hver essensiell aminosyre — altså hvor mye kroppen faktisk tar opp. Derfor veier DIAAS tyngst i vår score (70 %).',
+        'DIAAS (Digestible Indispensable Amino Acid Score) er FAO anbefalt gullstandard. Den måler ileal fordøyelighet av hver essensiell aminosyre — altså hvor mye kroppen faktisk tar opp. Derfor er DIAAS eneste faktor i vår score.',
     },
     {
       question: 'Hva er IAAS?',
@@ -78,7 +78,7 @@ export function generateProteinContent(product: TestedProteinProduct) {
     },
     {
       question: 'Hva teller i totalscore?',
-      answer: 'DIAAS (70 %) og pris per g protein (30 %). IAAS vises, men inngår ikke i poengberegningen.',
+      answer: 'Kun DIAAS styrer totalscore. IAAS og pris vises for sammenligning, men inngår ikke i poengberegningen.',
     },
   ]
 

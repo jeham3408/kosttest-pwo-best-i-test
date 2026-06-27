@@ -236,6 +236,18 @@ h1 {
   object-fit: contain;
 }
 
+.product-image-fallback {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--accent, #1a6b3c);
+  background: linear-gradient(145deg, #f4faf4 0%, #e8f0e8 100%);
+  border-radius: 6px;
+}
+
 .summary-band {
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);

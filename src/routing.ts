@@ -129,7 +129,7 @@ export function getPageMeta(state: RouteState): PageMeta {
   if (state.page === 'lb-protein') {
     return {
       title: 'Proteinpulver best i test 2026 – DIAAS + IAAS | Kosttest.no',
-      description: `${siteStats.proteinTestedCount} proteinpulver med DIAAS (primær) og IAAS. Score: DIAAS 70 % + pris per g protein 30 %.`,
+      description: `${siteStats.proteinTestedCount} proteinpulver rangert etter DIAAS (kvalitet). IAAS vises for sammenligning. Pris påvirker ikke scoren.`,
       canonical: `${SITE}/tester/protein/`,
       ogType: 'website',
       ogImage: DEFAULT_OG,
@@ -159,7 +159,7 @@ export function getPageMeta(state: RouteState): PageMeta {
   if (state.page === 'protein-metode') {
     return {
       title: 'Slik scorer vi proteinpulver – DIAAS vs IAAS | Kosttest.no',
-      description: 'DIAAS (70 %) + pris per g protein (30 %) i scoren. IAAS vises for sammenligning. FAO anbefaler DIAAS som gullstandard.',
+      description: 'Kun DIAAS styrer proteinscore. IAAS vises for sammenligning. FAO anbefaler DIAAS som gullstandard.',
       canonical: `${SITE}/tester/protein/metode/`,
       ogType: 'article',
       ogImage: DEFAULT_OG,

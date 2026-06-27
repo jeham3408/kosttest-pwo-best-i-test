@@ -1,11 +1,11 @@
 import { AlertTriangle, CheckCircle2, ExternalLink } from 'lucide-react'
 import { formulationNote, iaasVsDiaasExplanation, proteinScoringRules } from '../data/proteinScoring'
-import { proteinVerificationStats } from '../data/proteinVerification'
 import { proteinSourceLinks, testedProteinProducts, type TestedProteinProduct } from '../data/proteinProducts'
 import type { GradeLetter } from '../data/pwoProducts'
 import { generateProteinContent } from '../proteinContent'
 import { getRelatedProteinProducts } from '../utils/proteinHelpers'
 import ProteinLeaderboardSection from './ProteinLeaderboardSection'
+import ProductImage from './ProductImage'
 
 const formatPrice = (price: number) =>
   new Intl.NumberFormat('nb-NO', { style: 'currency', currency: 'NOK', maximumFractionDigits: 0 }).format(price)
@@ -20,13 +20,6 @@ function ScoreBar({ score }: { score: number }) {
   )
 }
 
-function ProductImage({ product }: { product: Pick<TestedProteinProduct, 'name' | 'image'> }) {
-  return (
-    <div className="product-image">
-      <img src={product.image} alt={`${product.name} – proteinpulver fra Kosttest.no`} loading="lazy" decoding="async" width="150" height="150" />
-    </div>
-  )
-}
 
 export function ProteinRankingTable({
   products,
@@ -61,15 +54,12 @@ export function ProteinRankingTable({
             <tr key={p.id} onClick={() => onSelect(p.id)} style={{ cursor: 'pointer' }}>
               <td><span className="rank-badge">#{p.rank}</span></td>
               <td className="product-cell">
-                <ProductImage product={p} />
+                <ProductImage name={p.name} brand={p.brand} image={p.image} altSuffix="proteinpulver fra Kosttest.no" />
                 <div>
                   <span>{p.name}</span>
                   <span>{p.brand} · {p.sourceLabel}</span>
                   {p.verificationStatus === 'verified' && (
                     <span style={{ fontSize: 10, color: 'var(--accent)', display: 'block' }}>✓ Verifisert mot butikk</span>
-                  )}
-                  {p.verificationStatus === 'pending' && (
-                    <span style={{ fontSize: 10, color: 'var(--muted)', display: 'block' }}>⏳ Ikke verifisert ennå</span>
                   )}
                 </div>
               </td>
@@ -108,7 +98,7 @@ export function ProteinProductPageView({
     <section className="content-section">
       <button className="button secondary" onClick={onBack} style={{ marginBottom: 16 }}>← Tilbake til proteinrangering</button>
       <div className="review-card" style={{ gridTemplateColumns: '200px 1fr' }}>
-        <ProductImage product={product} />
+        <ProductImage name={product.name} brand={product.brand} image={product.image} altSuffix="proteinpulver fra Kosttest.no" />
         <div className="review-body">
           <div className="review-heading">
             <div>
@@ -133,7 +123,7 @@ export function ProteinProductPageView({
           </div>
           <div style={{ marginTop: 10, padding: 12, background: 'var(--paper-strong)', borderRadius: 8, fontSize: 13, lineHeight: 1.55 }}>
             <strong style={{ color: 'var(--accent)' }}>DIAAS er vår primære kvalitetsmåling.</strong>{' '}
-            {iaasVsDiaasExplanation.diaas.whyBest} IAAS ({product.iaasScore}) viser aminosyreprofil på papir — nyttig sammenligning, men veier ikke like tungt som DIAAS i scoren.
+            {iaasVsDiaasExplanation.diaas.whyBest} IAAS ({product.iaasScore}) viser aminosyreprofil på papir — nyttig sammenligning, men inngår ikke i scoren.
           </div>
           <div className="ingredients-list" style={{ marginTop: 10 }}>
             {product.keyFeatures.map((f) => <span key={f}>{f}</span>)}
@@ -189,7 +179,7 @@ export function ProteinProductPageView({
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 10 }}>
                 {related.map((item) => (
                   <button key={item.id} type="button" onClick={() => onSelect(item.id)} style={{ border: '1px solid var(--border)', background: 'var(--paper)', borderRadius: 8, padding: 10, cursor: 'pointer', textAlign: 'left' }}>
-                    <ProductImage product={item} />
+                    <ProductImage name={item.name} brand={item.brand} image={item.image} altSuffix="proteinpulver fra Kosttest.no" />
                     <span style={{ display: 'block', fontSize: 12, fontWeight: 700, marginTop: 6 }}>{item.brand}</span>
                     <span style={{ display: 'block', fontSize: 11, color: 'var(--muted)' }}>DIAAS {item.diaasScore} · IAAS {item.iaasScore}</span>
                   </button>
@@ -210,7 +200,7 @@ export function ProteinMetodeSection() {
         <span>Protein karaktermodell</span>
         <h2>DIAAS + IAAS — og hvorfor DIAAS er best</h2>
         <p>
-          Vi viser både IAAS (aminosyreprofil) og DIAAS (fordøyelig kvalitet). Totalscore bygger på <strong>DIAAS (70 %)</strong> og pris per g protein (30 %).
+          Vi viser både IAAS (aminosyreprofil) og DIAAS (fordøyelig kvalitet). <strong>Totalscore bygger kun på DIAAS.</strong> Pris vises som referanse, men påvirker ikke rangeringen.
           IAAS vises for sammenligning, men FAO anbefaler DIAAS som gullstandard.
         </p>
       </div>
@@ -274,26 +264,17 @@ export function ProteinLeaderboardBlock({
   onFilterChange: (f: 'alle' | 'whey' | 'vegan' | 'kasein') => void
   sortedProducts: TestedProteinProduct[]
 }) {
-  const vStats = proteinVerificationStats()
-
   return (
     <>
       <ProteinLeaderboardSection onSelectProduct={onSelectProduct} />
       <section className="content-section">
-        <div className="warning-box" style={{ marginBottom: 20 }}>
-          <AlertTriangle size={22} />
-          <div>
-            <span style={{ fontWeight: 700 }}>Kun ekte produkter — verifisering pågår</span>
-            <p style={{ margin: '4px 0 0', fontSize: 13, lineHeight: 1.55 }}>
-              {vStats.verified}/{vStats.total} produkter verifisert mot ekte butikkside (1 produkt hvert 5. min via automasjon).
-              Merker som kun selger PWO er fjernet. Uverifiserte rader kan ha feil pris/næring — DIAAS uten lab-test er estimat.
-            </p>
-          </div>
-        </div>
         <div className="section-heading">
           <span>Proteinpulver best i test</span>
           <h2>Fullstendig rangering</h2>
-          <p>Rangert etter DIAAS (primær) og pris per g protein. IAAS vises for sammenligning av aminosyreprofil.</p>
+          <p>
+            Rangert etter DIAAS (kvalitet). IAAS vises for sammenligning av aminosyreprofil. Pris påvirker ikke plasseringen.
+            Uten laboratorietestet DIAAS viser vi estimat basert på proteintype.
+          </p>
         </div>
         <div className="filter-bar">
           <span className="filter-label" style={{ fontSize: 11 }}>Type:</span>

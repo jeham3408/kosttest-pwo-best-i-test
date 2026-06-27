@@ -11,6 +11,7 @@ import {
 } from 'lucide-react'
 import './App.css'
 import JsonLd from './components/JsonLd'
+import ProductImage from './components/ProductImage'
 import SubmissionPanel from './components/SubmissionPanel'
 import UnrankedProductsSection from './components/UnrankedProductsSection'
 import {
@@ -67,13 +68,6 @@ function ScoreBar({ product }: { product: TestedProduct }) {
   )
 }
 
-function ProductImage({ product }: { product: Pick<TestedProduct, 'name' | 'image'> }) {
-  return (
-    <div className="product-image">
-      <img src={product.image} alt={`${product.name} – PWO fra Kosttest.no`} loading="lazy" decoding="async" width="150" height="150" />
-    </div>
-  )
-}
 
 function SortableTh({ label, col, sortCol, sortAsc, onSort }: { label: string; col: string; sortCol: string; sortAsc: boolean; onSort: (c: string) => void }) {
   const isPrice = ['price-asc','price-desc','kgprice-asc','kgprice-desc'].includes(sortCol)
@@ -98,7 +92,7 @@ function RankingTable({ products, sortCol, sortAsc, onSort, kgPrice }: { product
         <tbody>{products.map(p => (
           <tr key={p.id}>
             <td><span className="rank-badge">#{p.rank}</span></td>
-            <td className="product-cell"><ProductImage product={p} /><div><span>{p.name}</span><span>{p.brand} · {p.award}</span></div></td>
+            <td className="product-cell"><ProductImage name={p.name} brand={p.brand} image={p.image} altSuffix="PWO fra Kosttest.no" /><div><span>{p.name}</span><span>{p.brand} · {p.award}</span></div></td>
             <td><span style={{display:'block',fontSize:11,color:'var(--muted)'}}>{'kr ' + p.priceNok}</span><span style={{display:'block',fontSize:11,color:'var(--muted)'}}>{Math.round(kgPrice(p)).toLocaleString('nb-NO')} kr/kg</span></td>
             <td><span className={gradeClass(p.overallGrade)}>{p.overallGrade}</span><strong>{p.score}</strong><ScoreBar product={p} /></td>
           </tr>
@@ -264,7 +258,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
       if (sortCol === 'diaas') return b.diaasScore - a.diaasScore
       if (sortCol === 'iaas') return b.iaasScore - a.iaasScore
       if (sortCol === 'price-protein' || sortCol === 'price-protein-asc') return a.pricePerGramProtein - b.pricePerGramProtein
-      return b.score - a.score || a.pricePerGramProtein - b.pricePerGramProtein
+      return b.diaasScore - a.diaasScore || b.iaasScore - a.iaasScore || a.name.localeCompare(b.name, 'nb')
     }
     return filtered.sort((a, b) => (sortAsc ? cmp(b, a) : cmp(a, b))).map((p, i) => ({ ...p, rank: i + 1 }))
   }, [sortCol, sortAsc, proteinFilter])
@@ -351,7 +345,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
     <section className="content-section">
       <button className="button secondary" onClick={() => { setPage('lb-pwo'); setSelectedProduct(null) }} style={{ marginBottom: 16 }}>← Tilbake til benchmark</button>
       <div className="review-card" style={{ gridTemplateColumns: '200px 1fr' }}>
-        <ProductImage product={product} />
+        <ProductImage name={product.name} brand={product.brand} image={product.image} altSuffix="PWO fra Kosttest.no" />
         <div className="review-body">
           <div className="review-heading">
             <div>
@@ -428,7 +422,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
                     }}
                     style={{ border: '1px solid var(--border)', background: 'var(--paper)', borderRadius: 8, padding: 10, cursor: 'pointer', textAlign: 'left' }}
                   >
-                    <ProductImage product={item} />
+                    <ProductImage name={item.name} brand={item.brand} image={item.image} altSuffix="PWO fra Kosttest.no" />
                     <span style={{ display: 'block', fontSize: 12, fontWeight: 700, marginTop: 6 }}>{item.name.split(' ').slice(0, 3).join(' ')}</span>
                     <span style={{ display: 'block', fontSize: 11, color: 'var(--muted)' }}>Score {item.score}</span>
                   </button>
@@ -485,7 +479,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
               <div className="hero-copy">
                 <p className="meta-line">Oppdatert {lastUpdated} · PWO og proteinpulver · ingen sponsede plasseringer</p>
                 <h1>PWO og proteinpulver best i test 2026</h1>
-                <p className="lead">Vi rangerer pre-workout etter ingredienser og proteinpulver etter DIAAS (primær) og pris per g protein — med IAAS vist for sammenligning. Ærlig, kildeåpen og uten betalte plasseringer.</p>
+                <p className="lead">Vi rangerer pre-workout etter ingredienser og proteinpulver etter DIAAS — med IAAS vist for sammenligning. Kun kvalitet teller i proteinrangeringen. Ærlig, kildeåpen og uten betalte plasseringer.</p>
                 <div className="hero-actions">
                   <button className="button primary" onClick={() => setPage('lb-pwo')}><ArrowDown size={18} /> PWO-rangering</button>
                   <button className="button primary" onClick={() => setPage('lb-protein')} style={{ background: 'var(--blue)' }}><ArrowDown size={18} /> Proteinpulver</button>
@@ -496,7 +490,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
                 {testedProducts.slice(0, 2).map((product) => (
                   <a className="hero-product" href="#" onClick={(e) => { e.preventDefault(); setSelectedProduct(product.id); setPage('product') }} key={product.id}>
                     <span>PWO #{product.rank}</span>
-                    <ProductImage product={product} />
+                    <ProductImage name={product.name} brand={product.brand} image={product.image} altSuffix="PWO fra Kosttest.no" />
                     <span style={{fontWeight:700}}>{product.name}</span>
                     <small>{product.award}</small>
                   </a>
@@ -704,7 +698,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
             <p className="muted" style={{ fontSize: 13, marginTop: -8 }}>Oppdatert juni 2026</p>
             <div style={{ marginTop: 24 }}>
               <h2>1. Forstå DIAAS og IAAS</h2>
-              <p style={{ lineHeight: 1.65 }}>DIAAS (Digestible Indispensable Amino Acid Score) er FAO anbefalt gullstandard — den måler ileal fordøyelighet av essensielle aminosyrer. IAAS sammenligner bare aminosyreprofilen mot WHO-referansen. Vi viser begge, men DIAAS veier 70 % i totalscore. Offisiell DIAAS krever laboratorietest av ferdig blanding.</p>
+              <p style={{ lineHeight: 1.65 }}>DIAAS (Digestible Indispensable Amino Acid Score) er FAO anbefalt gullstandard — den måler ileal fordøyelighet av essensielle aminosyrer. IAAS sammenligner bare aminosyreprofilen mot WHO-referansen. Vi viser begge, men kun DIAAS styrer totalscore. Offisiell DIAAS krever laboratorietest av ferdig blanding.</p>
             </div>
             <div style={{ marginTop: 24 }}>
               <h2>2. Whey vs kasein vs plante</h2>
@@ -716,7 +710,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
             </div>
             <div style={{ marginTop: 24 }}>
               <h2>3. Hva teller i scoren?</h2>
-              <p style={{ lineHeight: 1.65 }}>DIAAS (70 %) og pris per g protein (30 %). IAAS vises for sammenligning, men inngår ikke i poengberegningen.</p>
+              <p style={{ lineHeight: 1.65 }}>Kun DIAAS styrer totalscore. IAAS vises for sammenligning av aminosyreprofil, men inngår ikke i poengberegningen. Pris vises kun som referanse.</p>
             </div>
             <div style={{ marginTop: 24 }}>
               <button className="button primary" onClick={() => setPage('lb-protein')}>Se hele proteinrangeringen</button>

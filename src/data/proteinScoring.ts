@@ -121,7 +121,7 @@ export const DIAAS_PROXY: Record<ProteinSourceType, number> = {
 }
 
 export type ProteinGradeBreakdown = {
-  key: 'diaas' | 'price'
+  key: 'diaas'
   label: string
   doseLabel: string
   grade: GradeLetter
@@ -157,12 +157,6 @@ function letterFromScore(score: number): GradeLetter {
   return 'F'
 }
 
-function scoreLinear(value: number, min: number, max: number): number {
-  if (value <= min) return 0
-  if (value >= max) return 1
-  return (value - min) / (max - min)
-}
-
 /** IAAS — aminosyreprofil vs WHO-mønster (ignorerer fordøyelighet). */
 export function calculateIAAS(profile: AminoAcidProfile): number {
   const ref = WHO_REFERENCE_MG_PER_G
@@ -186,8 +180,7 @@ export function resolveProfile(input: ProteinProductInput): AminoAcidProfile {
   return base
 }
 
-const DIAAS_WEIGHT = 70
-const PRICE_WEIGHT = 30
+const SCORE_MAX = 100
 
 export function calculateProteinGrade(input: ProteinProductInput) {
   const profile = resolveProfile(input)
@@ -198,35 +191,24 @@ export function calculateProteinGrade(input: ProteinProductInput) {
   const diaasScore = Math.round(diaasValue * 100)
 
   const diaasRatio = Math.min(diaasValue, 1.15) / 1.15
-  const diaasPoints = diaasRatio * DIAAS_WEIGHT
+  const diaasPoints = diaasRatio * SCORE_MAX
 
   const totalProteinG = (input.proteinPer100g / 100) * input.packageSizeG
   const pricePerGProtein = input.priceNok / totalProteinG
-  const priceRatio = 1 - scoreLinear(pricePerGProtein, 0.35, 1.2)
-  const pricePoints = priceRatio * PRICE_WEIGHT
 
-  const score = Math.max(0, Math.min(100, Math.round(diaasPoints + pricePoints)))
+  const score = Math.max(0, Math.min(SCORE_MAX, Math.round(diaasPoints)))
 
   const gradeBreakdown: ProteinGradeBreakdown[] = [
     {
       key: 'diaas',
-      label: 'DIAAS (vekt i score)',
+      label: 'DIAAS (kvalitet)',
       doseLabel: diaasIsOfficial
         ? `${diaasScore} — laboratorietestet`
         : `${diaasScore} — estimat (${input.sourceType})`,
       grade: letterFromRatio(diaasRatio),
       points: Math.round(diaasPoints * 10) / 10,
-      maxPoints: DIAAS_WEIGHT,
-      note: 'FAO anbefaler DIAAS fremfor IAAS — måler ileal fordøyelighet, ikke bare profil.',
-    },
-    {
-      key: 'price',
-      label: 'Pris per g protein',
-      doseLabel: `${pricePerGProtein.toFixed(2).replace('.', ',')} kr/g protein`,
-      grade: letterFromRatio(priceRatio),
-      points: Math.round(pricePoints * 10) / 10,
-      maxPoints: PRICE_WEIGHT,
-      note: 'Andre faktor i totalscore.',
+      maxPoints: SCORE_MAX,
+      note: 'FAO anbefaler DIAAS fremfor IAAS — måler ileal fordøyelighet, ikke bare profil. Pris påvirker ikke rangeringen.',
     },
   ]
 
@@ -246,13 +228,8 @@ export function calculateProteinGrade(input: ProteinProductInput) {
 export const proteinScoringRules = [
   {
     label: 'DIAAS',
-    weight: DIAAS_WEIGHT,
-    note: 'Primær kvalitetsmåling i scoren. FAO anbefaler DIAAS fremfor IAAS og PDCAAS.',
-  },
-  {
-    label: 'Pris per g protein',
-    weight: PRICE_WEIGHT,
-    note: 'Andre faktor i totalscore.',
+    weight: SCORE_MAX,
+    note: 'Eneste faktor i totalscore. FAO anbefaler DIAAS fremfor IAAS og PDCAAS. Pris vises kun som referanse.',
   },
 ]
 

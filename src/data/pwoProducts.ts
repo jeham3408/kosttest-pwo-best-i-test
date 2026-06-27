@@ -825,7 +825,7 @@ export const testedProducts: TestedProduct[] = [
       'Ikke et toppvalg for maksimal pump eller stimulans',
     ],
     url: 'https://www.tights.no/butikk/bodylab-pwo-200g/',
-    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw95f49bf4/Hi-res/s/m/smartsupps_pwo_strawberrylime_400g.jpg?sw=400',
+    image: 'https://www.tights.no/wp-content/uploads/sites/7/2017/09/pwo-200g-pouch-blue-raspberry-p.jpg',
   },
   {
     id: 'core-intensity',
@@ -954,7 +954,7 @@ export const testedProducts: TestedProduct[] = [
       'Lav score selv om porsjonsprisen ser imponerende ut',
     ],
     url: 'https://www.tights.no/butikk/lean-lime-pre-workout-300g/',
-    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dwd2272b87/Nya_produktbilder/Proteinfabrikken/30000499_PF_Core_Intensity_300g_Cola.jpg?sw=400',
+    image: 'https://www.tights.no/wp-content/uploads/sites/7/2024/06/Sourleanlimefrontjpg-scaled.jpg',
   },
   {
     id: 'nutritac-midnight',
@@ -1046,7 +1046,7 @@ export const testedProducts: TestedProduct[] = [
       'Høy koffeinmengde (300 mg)',
     ],
     url: 'https://www.gymgrossisten.no/unchained-pwo-500-g/67101R.html',
-    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw0d376abd/Nya_produktbilder/Chained_Nutrition/67101R_Chained_nutrition_unchained_PWO_poppingcandy_candycola.jpg?sw=400',
+    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw0d376abd/Nya_produktbilder/Chained_Nutrition/67101R_Chained_nutrition_unchained_PWO_poppingcandy_candycola.jpg?sw=266&sh=266&sm=fit&sfrm=png',
   },
   {
     id: 'mutant-madness',
@@ -1091,7 +1091,7 @@ export const testedProducts: TestedProduct[] = [
       'Grønn kaffebønne gir uklar total koffeinmengde',
     ],
     url: 'https://www.gymgrossisten.no/madness-pwo-30-porsjoner/3897-025R.html',
-    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dwc515bb2d/media/GG-Produktbilder/Mutant/3897-025R-_-Mutant-Madness_30-servings-Fruit-Punch_sep24.jpg?sw=400',
+    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dwc515bb2d/media/GG-Produktbilder/Mutant/3897-025R-_-Mutant-Madness_30-servings-Fruit-Punch_sep24.jpg?sw=266&sh=266&sm=fit&sfrm=png',
   },
   {
     id: 'jnx-curse',
@@ -1183,7 +1183,7 @@ export const testedProducts: TestedProduct[] = [
       'Glycerolmonostearat gir minimalt med glycerol',
     ],
     url: 'https://www.gymgrossisten.no/extasis-pre-workout-20-porsjoner/9968-4R.html',
-    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw04cdbfbe/media/GG-Produktbilder/Stacker/9968-4123_Stacker-extasis_tropical-fruit_0920.jpg?sw=400',
+    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw04cdbfbe/media/GG-Produktbilder/Stacker/9968-4123_Stacker-extasis_tropical-fruit_0920.jpg?sw=266&sh=266&sm=fit&sfrm=png',
   },
   {
     id: 'c4-ripped',
@@ -1227,7 +1227,7 @@ export const testedProducts: TestedProduct[] = [
       'Ingen kreatin eller betain',
     ],
     url: 'https://www.gymgrossisten.no/c4-ripped-30-servings-icy-blue-raspberry/9995-05.html',
-    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dwad66d44a/Hi-res/9/9/9995-05_c4ripped_30servings_icyblueraspberry.jpg?sw=400',
+    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dwad66d44a/Hi-res/9/9/9995-05_c4ripped_30servings_icyblueraspberry.jpg?sw=266&sh=266&sm=fit&sfrm=png',
   },
   {
     id: 'elit-savage',
@@ -1272,7 +1272,7 @@ export const testedProducts: TestedProduct[] = [
       'Høy porsjonspris',
     ],
     url: 'https://www.gymgrossisten.no/elit-savage-pwo-300-g/10512-2R.html',
-    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw47d93bee/media/GG-Produktbilder/Elit-nutrition/10512-5_Elit_Savage-PWO-300g-Tropical_ju23.jpg?sw=400',
+    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw47d93bee/media/GG-Produktbilder/Elit-nutrition/10512-5_Elit_Savage-PWO-300g-Tropical_ju23.jpg?sw=266&sh=266&sm=fit&sfrm=png',
   },
   {
     id: 'biosalma-pwo',
@@ -1318,7 +1318,7 @@ export const testedProducts: TestedProduct[] = [
       'Citrullin og beta-alanin er under effektive nivåer',
     ],
     url: 'https://www.gymgrossisten.no/pwo-500g/A2120-93R.html',
-    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw99422a9c/images/hi-res/A2120-93/A2120-93+1.jpg?sw=400',
+    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw99422a9c/images/hi-res/A2120-93/A2120-93+1.jpg?sw=266&sh=266&sm=fit&sfrm=png',
   },
   {
     id: 'olimp-r-weiler-focus',
@@ -1364,7 +1364,7 @@ export const testedProducts: TestedProduct[] = [
       'Fokus-profil passer ikke alle',
     ],
     url: 'https://www.gymgrossisten.no/r-weiler-focus-300-g/820924-99R.html',
-    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw1ffd7530/media/GG-Produktbilder/Olimp/820924-99R_Olimp_R-weiler-Focus-300-g_1220.jpg?sw=400',
+    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw1ffd7530/media/GG-Produktbilder/Olimp/820924-99R_Olimp_R-weiler-Focus-300-g_1220.jpg?sw=266&sh=266&sm=fit&sfrm=png',
   },
   {
     id: 'pes-prolific',
@@ -1408,7 +1408,7 @@ export const testedProducts: TestedProduct[] = [
       'Høy pris',
     ],
     url: 'https://www.gymgrossisten.no/prolific-pwo-280-g/9891-024R.html',
-    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw95f49bf4/Hi-res/s/m/smartsupps_pwo_strawberrylime_400g.jpg?sw=400',
+    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw99422a9c/images/hi-res/A2120-93/A2120-93+1.jpg?sw=266&sh=266&sm=fit&sfrm=png',
   },
   {
     id: 'swedish-fucked-up',
@@ -1628,7 +1628,7 @@ export const testedProducts: TestedProduct[] = [
       'Kun 30 mg koffein',
     ],
     url: 'https://www.gymgrossisten.no/fucked-up-joker-edit-pwo-300-g/820251R.html',
-    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw171a6077/media/GG-Produktbilder/Swedish-supplements/820251r_forest.jpg?sw=400',
+    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dw171a6077/media/GG-Produktbilder/Swedish-supplements/820251r_forest.jpg?sw=266&sh=266&sm=fit&sfrm=png',
   },
   {
     id: 'dns-dynamite',
@@ -1897,7 +1897,7 @@ export const testedProducts: TestedProduct[] = [
       'Lave doser av det meste',
     ],
     url: 'https://www.kost1.no/products/s-a-w-super-anabolic-formula',
-    image: 'https://www.kost1.no/users/kristiankost1_mystore_no/images/2020-09-16/476296c60e95696e17e2905a0a699d49.jpg',
+    image: 'https://www.kost1.no/users/kristiankost1_mystore_no/images/2020-09-16/476296c60e95696e17e2905a0a699d49.jpeg',
   },
   {
     id: 'g4n-eaa-pwo',
@@ -2077,7 +2077,7 @@ export const testedProducts: TestedProduct[] = [
       'Høyt proteininnhold (17 g) er uvanlig for PWO',
     ],
     url: 'https://www.naturecan.no/products/pwo',
-    image: 'https://cdn.shopify.com/s/files/1/0552/1604/7653/files/Naturecan-PWO-Pre-Workout-400g.png',
+    image: 'https://cdn.shopify.com/s/files/1/0311/0938/2188/files/Pre-Workout-Product-Imagery_Web.jpg?v=1736427178',
   },
   {
     id: 'hype-beast',
@@ -2166,7 +2166,7 @@ export const testedProducts: TestedProduct[] = [
       'Ikke sammenlignbar med pulver-PWO',
     ],
     url: 'https://www.tights.no/butikk/gummies-pwo-lemon-lime-60-gummy/',
-    image: 'https://www.tights.no/wp-content/uploads/sites/7/2024/07/bodylab-pre-workout-gummies-lemon-lime-60-stk.png',
+    image: 'https://www.tights.no/wp-content/uploads/sites/7/2026/02/preworkout-gummies-90pcs-lemonlime1png.png',
   },
   {
     id: 'olimp-redweiler',
@@ -2210,7 +2210,7 @@ export const testedProducts: TestedProduct[] = [
       'Høy pris',
     ],
     url: 'https://www.gymgrossisten.no/redweiler-pwo-480-g/820239R.html',
-    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dwe219de94/media/GG-Produktbilder/Olimp/redweiler_olimp.jpg?sw=400',
+    image: 'https://www.gymgrossisten.no/dw/image/v2/BDJH_PRD/on/demandware.static/-/Sites-hsng-master-catalog/default/dwe219de94/media/GG-Produktbilder/Olimp/redweiler_olimp.jpg?sw=266&sh=266&sm=fit&sfrm=png',
   },
   {
     id: 'evolite-ultrapump',
