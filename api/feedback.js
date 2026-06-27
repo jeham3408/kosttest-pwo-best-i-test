@@ -35,7 +35,7 @@ function writeLocalInbox(inbox) {
 
 async function persistToSupabase(record) {
   const url = process.env.SUPABASE_URL
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY
   if (!url || !key) return null
 
   const response = await fetch(`${url.replace(/\/$/, '')}/rest/v1/feedback_submissions`, {
@@ -74,19 +74,64 @@ function persistLocally(record) {
   return record.id
 }
 
+function typeLabel(type) {
+  return {
+    missing_product: 'Mangler vi et produkt',
+    product_error: 'Feil om et produkt',
+    other: 'Annet om testen',
+  }[type] ?? type
+}
+
+async function persistToGitHub(record) {
+  const token = process.env.GITHUB_TOKEN
+  const repo = process.env.GITHUB_FEEDBACK_REPO || 'jeham3408/kosttest-pwo-best-i-test'
+  if (!token) return null
+
+  const title = `[Tilbakemelding] ${typeLabel(record.type)}${record.name ? ` — ${record.name}` : ''}`
+  const body = [
+    `**Type:** ${typeLabel(record.type)}`,
+    record.name ? `**Produkt:** ${record.name}` : null,
+    record.category ? `**Kategori:** ${record.category}` : null,
+    `**Side:** ${record.sourcePage}`,
+    record.email ? `**E-post:** ${record.email}` : null,
+    `**ID:** ${record.id}`,
+    '',
+    record.message,
+  ]
+    .filter(Boolean)
+    .join('\n')
+
+  const response = await fetch(`https://api.github.com/repos/${repo}/issues`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: 'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      title: title.slice(0, 240),
+      body,
+      labels: ['feedback'],
+    }),
+  })
+
+  if (!response.ok) {
+    const detail = await response.text()
+    throw new Error(`GitHub issue create failed: ${response.status} ${detail}`)
+  }
+
+  const issue = await response.json()
+  return issue?.number ? String(issue.number) : issue?.html_url ?? null
+}
+
 async function notifyWebhook(record) {
   const webhookUrl = process.env.FEEDBACK_WEBHOOK_URL
   if (!webhookUrl) return
 
-  const typeLabel = {
-    missing_product: 'Mangler vi et produkt',
-    product_error: 'Feil om et produkt',
-    other: 'Annet om testen',
-  }[record.type]
-
   const text = [
     `*Ny tilbakemelding på kosttest.no*`,
-    `Type: ${typeLabel}`,
+    `Type: ${typeLabel(record.type)}`,
     record.name ? `Navn: ${record.name}` : null,
     record.category ? `Kategori: ${record.category}` : null,
     `Side: ${record.sourcePage}`,
@@ -167,24 +212,34 @@ export default async function handler(request, response) {
       console.error('Supabase feedback persist failed:', error)
     }
 
+    if (!storageId) {
+      try {
+        storageId = await persistToGitHub(record)
+        if (storageId) storage = 'github'
+      } catch (error) {
+        console.error('GitHub feedback persist failed:', error)
+      }
+    }
+
     if (!storageId && process.env.VERCEL !== '1') {
       storageId = persistLocally(record)
       storage = 'local'
     }
 
-    if (!storageId && process.env.VERCEL === '1') {
-      if (process.env.FEEDBACK_WEBHOOK_URL) {
-        await notifyWebhook(record)
-        storage = 'webhook'
-      } else {
-        return response.status(503).json({
-          ok: false,
-          error: 'Tilbakemelding er ikke aktivert på serveren ennå. Kontakt oss på kosttest.no.',
-        })
-      }
-    } else {
+    if (!storageId && process.env.FEEDBACK_WEBHOOK_URL) {
       await notifyWebhook(record)
+      storage = 'webhook'
+      storageId = record.id
     }
+
+    if (!storageId) {
+      return response.status(503).json({
+        ok: false,
+        error: 'Tilbakemelding er ikke aktivert på serveren ennå. Kontakt oss på kosttest.no.',
+      })
+    }
+
+    await notifyWebhook(record)
 
     return response.status(200).json({
       ok: true,
