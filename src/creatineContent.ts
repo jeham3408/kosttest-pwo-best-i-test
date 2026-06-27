@@ -14,7 +14,6 @@ export function generateCreatineContent(product: TestedCreatineProduct) {
 
   return {
     summary: product.verdict,
-    servingInfo: `Produsenten oppgir ${product.creatinePerServingG} g kreatin per anbefalt skje (${product.servingSize}). ISSN anbefaler 3–5 g daglig — de fleste doserer selv uavhengig av skjeetikett.`,
     sourceAnalysis: branded
       ? `Merkevare-kreatin: ${product.creatineBrand ?? 'Creapure®'}. Dette gir høyere grunnscore enn generisk mono.`
       : 'Generisk kreatin monohydrat — uten merkevare på råstoffet. Da er dokumentert renhet, mesh og dopingtest spesielt viktig.',

@@ -119,7 +119,7 @@ export default function HomePage({ onNavigate, onNavigatePath }: HomePageProps) 
           <button type="button" className="editorial-card" onClick={() => onNavigate('creatine-product', testedCreatineProducts[0].id)}>
             <span className="test-badge test-badge-new">Kreatin</span>
             <strong>{testedCreatineProducts[0].brand} {testedCreatineProducts[0].name}</strong>
-            <p>Score {testedCreatineProducts[0].score} — {testedCreatineProducts[0].creatinePerServingG} g/dose</p>
+            <p>Score {testedCreatineProducts[0].score} — {testedCreatineProducts[0].creatineBrand ?? testedCreatineProducts[0].award}</p>
           </button>
         </div>
       </section>

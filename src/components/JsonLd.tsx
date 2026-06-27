@@ -179,7 +179,7 @@ export default function JsonLd({ path: rawPath, product, proteinProduct, creatin
               step: isCreatine
                 ? [
                     { '@type': 'HowToStep', position: 1, name: 'Velg monohydrat', text: 'Kreatin monohydrat er best dokumentert. Creapure er en kvalitetssertifisert variant.' },
-                    { '@type': 'HowToStep', position: 2, name: 'Sjekk dosen', text: 'Se etter 5 g kreatin per anbefalt dose — ISSN anbefaler 3–5 g daglig.' },
+                    { '@type': 'HowToStep', position: 2, name: 'Sjekk dokumentasjon', text: 'Se etter oppgitt renhet, mesh og dopingtest — særlig for generisk kreatin uten merkevare-råstoff.' },
                   ]
                 : [
                     { '@type': 'HowToStep', position: 1, name: 'Forstå hva en PWO er', text: 'En PWO (Pre-Workout) er et kosttilskudd du tar før trening for energi, fokus, utholdenhet og muskelpump.' },

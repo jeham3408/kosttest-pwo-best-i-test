@@ -85,7 +85,6 @@ export function hasDopingTestDisclosure(dopingTestLabel: string | null | undefin
 }
 
 export function calculateCreatineGrade(input: {
-  creatinePerServingG: number
   form: CreatineForm
   isCreapure?: boolean
   creatineBrand?: string | null
@@ -189,7 +188,7 @@ export const creatineScoringRules = [
 ]
 
 export const creatineMethodNote =
-  'Kreatinscoren er 100 % kvalitet. Merkevare-kreatin (Creapure m.fl.) veier tyngst. Generisk mono må dokumentere renhet, mesh og dopingtest — ellers trekkes det poeng. Pris og gram per skje påvirker ikke rangeringen, men ved lik score rangeres billigst kr/g kreatin øverst.'
+  'Kreatinscoren er 100 % kvalitet. Merkevare-kreatin (Creapure m.fl.) veier tyngst. Generisk mono må dokumentere renhet, mesh og dopingtest — ellers trekkes det poeng. Pris påvirker ikke poengsummen, men ved lik score rangeres billigst kr/g kreatin øverst.'
 
 export const creatineSourceLinks = [
   { label: 'ISSN position stand: kreatin', url: 'https://jissn.biomedcentral.com/articles/10.1186/s12970-017-0177-8' },

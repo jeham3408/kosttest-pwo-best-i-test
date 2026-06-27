@@ -71,7 +71,6 @@ export function CreatineRankingTable({
           <tr>
             <th>#</th>
             <th>Produkt</th>
-            <th onClick={() => onSort('dose')} style={{ cursor: 'pointer' }}>g/dose{arrow('dose')}</th>
             <th>Råvare</th>
             <th>Renhet</th>
             <th>Mesh</th>
@@ -92,7 +91,6 @@ export function CreatineRankingTable({
                   {p.creatineBrand && <span style={{ fontSize: 10, color: 'var(--accent)', display: 'block' }}>{p.creatineBrand}</span>}
                 </div>
               </td>
-              <td><strong>{p.creatinePerServingG} g</strong></td>
               <td><span style={{ fontSize: 12, color: isBrandedCreatine(p) ? 'var(--accent)' : 'var(--muted)' }}>{formatCreatineSource(p)}</span></td>
               <td><span style={{ fontSize: 12, color: hasPurityDisclosure(p.purityPercent) ? 'inherit' : 'var(--muted)' }}>{formatPurity(p.purityPercent)}</span></td>
               <td><span style={{ fontSize: 12, color: hasMeshDisclosure(p.meshLabel) ? 'inherit' : 'var(--muted)' }}>{formatMesh(p.meshLabel)}</span></td>
@@ -145,14 +143,13 @@ export function CreatineProductPageView({
             </div>
           </div>
           <div className="spec-row">
-            <span><strong>{product.creatinePerServingG} g kreatin/dose</strong></span>
             <span>{product.formLabel}</span>
             <span>Råvare: {formatCreatineSource(product)}</span>
             <span>Renhet: {formatPurity(product.purityPercent)}</span>
             <span>Mesh: {formatMesh(product.meshLabel)}</span>
             <span>Dopingtest: {formatDoping(product)}</span>
-            <span>{formatPrice(product.priceNok)} · {product.pricePerGramCreatine.toFixed(2).replace('.', ',')} kr/g kreatin</span>
-            <span>{product.servings} doser</span>
+            <span>{formatPrice(product.priceNok)} · {product.packageSize}</span>
+            <span>{product.pricePerGramCreatine.toFixed(2).replace('.', ',')} kr/g kreatin</span>
           </div>
           <div style={{ marginTop: 10, padding: 12, background: 'var(--paper-strong)', borderRadius: 8, fontSize: 13, lineHeight: 1.55 }}>
             <strong>Kun kvalitet teller.</strong> {creatineMethodNote}
@@ -242,7 +239,7 @@ function CreatineTopPicks({ onSelect }: { onSelect: (id: string) => void }) {
             <ProductImage name={p.name} brand={p.brand} image={p.image} altSuffix="kreatin" />
             <span className="top-pick-rank">#{p.rank}</span>
             <strong>{p.brand} {p.name}</strong>
-            <span>{p.creatinePerServingG} g/dose · Score {p.score}</span>
+            <span>Score {p.score} · {p.creatineBrand ?? p.formLabel}</span>
           </button>
         ))}
       </div>

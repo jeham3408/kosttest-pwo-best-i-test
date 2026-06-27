@@ -314,8 +314,6 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
     let filtered = [...testedCreatineProducts]
     if (creapureFilter === 'creapure') filtered = filtered.filter((p) => p.isCreapure)
     const cmp = (a: typeof testedCreatineProducts[0], b: typeof testedCreatineProducts[0]) => {
-      if (sortCol === 'dose') return b.creatinePerServingG - a.creatinePerServingG
-      if (sortCol === 'form') return b.formScore - a.formScore
       if (sortCol === 'price-g') return a.pricePerGramCreatine - b.pricePerGramCreatine
       return b.score - a.score || a.pricePerGramCreatine - b.pricePerGramCreatine
     }
@@ -681,8 +679,8 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
               <p style={{ lineHeight: 1.65 }}>Uten merkevare-kreatin bør du se etter Cologne List®, Informed Sport eller tilsvarende — særlig om du konkurrerer. Vi trekker 15 poeng på generisk uten dokumentert test.</p>
             </div>
             <div style={{ marginTop: 24 }}>
-              <h2>3. Dosér selv</h2>
-              <p style={{ lineHeight: 1.65 }}>ISSN anbefaler 3–5 g kreatin monohydrat daglig. Produsentens skje kan vise 3 g eller 5 g — det er du som styrer totaldosen.</p>
+              <h2>3. Daglig inntak</h2>
+              <p style={{ lineHeight: 1.65 }}>ISSN anbefaler 3–5 g kreatin monohydrat daglig. Dette er uavhengig av merke og produkt — du doserer etter vekt og rutine, ikke etter hva produsentens skje sier.</p>
             </div>
             <div style={{ marginTop: 24 }}>
               <h2>4. Krev renhet og mesh</h2>
@@ -690,7 +688,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
             </div>
             <div style={{ marginTop: 24 }}>
               <h2>5. Pris er ikke alt</h2>
-              <p style={{ lineHeight: 1.65 }}>I kreatintesten teller merkevare, renhet, mesh og dopingtest. Pris og gram per skje vises som referanse, men påvirker ikke plasseringen.</p>
+              <p style={{ lineHeight: 1.65 }}>I kreatintesten teller merkevare, renhet, mesh og dopingtest. Pris vises kun som referanse og påvirker ikke plasseringen.</p>
             </div>
             <div style={{ marginTop: 24 }}>
               <button type="button" className="button primary" onClick={() => setPage('lb-creatine')}>Se hele kreatinrangeringen</button>
