@@ -1511,9 +1511,10 @@ code {
 
 .nav-dropdown-wide {
   display: grid;
-  grid-template-columns: repeat(3, minmax(140px, 1fr));
+  grid-template-columns: repeat(3, minmax(148px, 1fr));
   gap: 8px 20px;
-  min-width: 420px;
+  min-width: 480px;
+  max-width: calc(100vw - 24px);
 }
 
 .nav-dropdown-col {
