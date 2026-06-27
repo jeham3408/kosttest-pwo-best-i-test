@@ -7,6 +7,7 @@ import { generateProteinContent } from '../proteinContent'
 import { getRelatedProteinProducts } from '../utils/proteinHelpers'
 import ProteinLeaderboardSection from './ProteinLeaderboardSection'
 import ProductImage from './ProductImage'
+import { MethodRulesCards } from './MethodRulesDisplay'
 
 const formatPrice = (price: number) =>
   new Intl.NumberFormat('nb-NO', { style: 'currency', currency: 'NOK', maximumFractionDigits: 0 }).format(price)
@@ -239,7 +240,7 @@ export function ProteinProductPageView({
 export function ProteinMetodeSection() {
   return (
     <section className="grade-system-section">
-      <div className="section-heading">
+      <div className="section-heading section-heading--compact">
         <span>Protein karaktermodell</span>
         <h2>DIAAS + IAAS — og hvorfor DIAAS er best</h2>
         <p>
@@ -259,25 +260,18 @@ export function ProteinMetodeSection() {
           <p style={{ fontSize: 12, margin: '10px 0 0', lineHeight: 1.5 }}><strong>Hvorfor best:</strong> {iaasVsDiaasExplanation.diaas.whyBest}</p>
         </div>
       </div>
-      <div className="section-heading" style={{ marginTop: 0 }}>
+      <div className="section-heading section-heading--compact" style={{ marginTop: 0 }}>
         <span>Scoring</span>
         <h2>Totalscore</h2>
       </div>
-      <div className="rules-table-shell">
-        <table className="rules-table">
-          <caption>Åpen vekting for proteinpulver-karakter.</caption>
-          <thead><tr><th>Komponent</th><th>Vekt</th><th>Metode</th></tr></thead>
-          <tbody>
-            {proteinScoringRules.map((rule) => (
-              <tr key={rule.label}>
-                <td><span style={{ fontWeight: 700 }}>{rule.label}</span><span>{rule.note}</span></td>
-                <td>{rule.weight} poeng</td>
-                <td>{rule.note}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <MethodRulesCards
+        caption="Åpen vekting for proteinpulver-karakter."
+        rules={proteinScoringRules.map((rule) => ({
+          label: rule.label,
+          weight: `${rule.weight} poeng`,
+          note: rule.note,
+        }))}
+      />
       <div className="open-method">
         <h3>Open testmetode</h3>
         <p>

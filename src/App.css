@@ -2326,10 +2326,13 @@ code {
 
   .content-section,
   .review-section,
-  .grade-system-section,
   .submission-section,
   .source-section {
     padding: 36px 16px;
+  }
+
+  .grade-system-section {
+    padding: 28px 0;
   }
 
   .content-section[style*='padding-top:24px'] {
@@ -2338,15 +2341,6 @@ code {
 
   .section-heading {
     margin-bottom: 18px;
-  }
-
-  .section-heading h2 {
-    font-size: clamp(1.35rem, 5.5vw, 1.65rem);
-  }
-
-  .section-heading p {
-    font-size: 14px;
-    line-height: 1.55;
   }
 
   .grade-breakdown {

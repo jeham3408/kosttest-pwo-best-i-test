@@ -35,6 +35,7 @@ import {
 } from './components/CreatinePageViews'
 import HomePage from './components/HomePage'
 import SiteHeader from './components/SiteHeader'
+import { PwoMethodRulesCards, type PwoMethodRuleItem } from './components/MethodRulesDisplay'
 import SiteFooter, { KilderPageContent } from './components/SiteFooter'
 import { testedCreatineProducts } from './data/creatineProducts'
 import { RANKING_TIEBREAKER_NOTE, RANKING_TIEBREAKER_SHORT } from './data/rankingNotes'
@@ -160,10 +161,52 @@ function GradeBreakdownList({ breakdown }: { breakdown: GradeBreakdown[] | undef
   )
 }
 
+function buildPwoMethodRules(): PwoMethodRuleItem[] {
+  const ingredientCards: PwoMethodRuleItem[] = ingredientRules.map((rule) => {
+    const bDose = rule.cDoseMg + (rule.aDoseMg - rule.cDoseMg) / 2
+    return {
+      key: rule.key,
+      label: rule.label,
+      weight: `${rule.weight} poeng`,
+      note: rule.note,
+      doses: [
+        { grade: 'F fra', value: formatMg(rule.cDoseMg * 0.25) },
+        { grade: 'E fra', value: formatMg(rule.cDoseMg * 0.5) },
+        { grade: 'C fra', value: formatMg(rule.cDoseMg) },
+        { grade: 'B fra', value: formatMg(bDose) },
+        { grade: 'A fra', value: formatMg(rule.aDoseMg) },
+      ],
+    }
+  })
+
+  return [
+    ...ingredientCards,
+    {
+      key: 'price',
+      label: priceRule.label,
+      weight: `${priceRule.weight} poeng`,
+      note: 'Pris er eigen karakter. Låg pris hjelper, men kan ikkje redde svak formel.',
+      doses: [
+        { grade: 'E', value: `≤ ${priceRule.thresholdsNok.E} kr` },
+        { grade: 'D', value: `≤ ${priceRule.thresholdsNok.D} kr` },
+        { grade: 'C', value: `≤ ${priceRule.thresholdsNok.C} kr` },
+        { grade: 'B', value: `≤ ${priceRule.thresholdsNok.B} kr` },
+        { grade: 'A', value: `≤ ${priceRule.thresholdsNok.A} kr` },
+      ],
+    },
+    {
+      key: 'tiebreak',
+      label: 'Lik score',
+      weight: 'Rekkefølge',
+      note: 'Ved lik totalscore rangeres lavest pris per porsjon øverst. Pris påvirker ikkje poengsummen.',
+    },
+  ]
+}
+
 function GradingSystemSection() {
   return (
     <section className="grade-system-section" id="karakter">
-      <div className="section-heading">
+      <div className="section-heading section-heading--compact">
         <span>Karaktermodell</span>
         <h2>F til A, rekna automatisk</h2>
         <p>
@@ -183,61 +226,10 @@ function GradingSystemSection() {
         ))}
       </div>
 
-      <div className="rules-table-shell">
-        <table className="rules-table">
-          <caption>Open vekting og dosegrenser for PWO-karakter.</caption>
-          <thead>
-            <tr>
-              <th>Ingrediens</th>
-              <th>Vekt</th>
-              <th>E fra</th>
-              <th>D fra</th>
-              <th>C fra</th>
-              <th>B fra</th>
-              <th>A fra</th>
-            </tr>
-          </thead>
-          <tbody>
-            {ingredientRules.map((rule) => {
-              const bDose = rule.cDoseMg + (rule.aDoseMg - rule.cDoseMg) / 2
-              return (
-                <tr key={rule.key}>
-                  <td>
-                    <span style={{fontWeight:700}}>{rule.label}</span>
-                    <span>{rule.note}</span>
-                  </td>
-                  <td>{rule.weight} poeng</td>
-                  <td>{formatMg(rule.cDoseMg * 0.25)}</td>
-                  <td>{formatMg(rule.cDoseMg * 0.5)}</td>
-                  <td>{formatMg(rule.cDoseMg)}</td>
-                  <td>{formatMg(bDose)}</td>
-                  <td>{formatMg(rule.aDoseMg)}</td>
-                </tr>
-              )
-            })}
-            <tr>
-              <td>
-                <span style={{fontWeight:700}}>{priceRule.label}</span>
-                <span>Pris er eigen karakter. Låg pris hjelper, men kan ikkje redde svak formel.</span>
-              </td>
-              <td>{priceRule.weight} poeng</td>
-              <td>≤ {priceRule.thresholdsNok.E} kr</td>
-              <td>≤ {priceRule.thresholdsNok.D} kr</td>
-              <td>≤ {priceRule.thresholdsNok.C} kr</td>
-              <td>≤ {priceRule.thresholdsNok.B} kr</td>
-              <td>≤ {priceRule.thresholdsNok.A} kr</td>
-            </tr>
-            <tr>
-              <td>
-                <span style={{fontWeight:700}}>Lik score</span>
-                <span>Ved lik totalscore rangeres lavest pris per porsjon øverst. Pris påvirker ikkje poengsummen.</span>
-              </td>
-              <td>Rekkefølge</td>
-              <td colSpan={5}>Billigast porsjon først</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <PwoMethodRulesCards
+        rules={buildPwoMethodRules()}
+        caption="Open vekting og dosegrenser for PWO-karakter."
+      />
 
       <div className="open-method">
         <h3>Open testmetode</h3>
@@ -642,10 +634,12 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
         })()}
 
         {page === 'protein-metode' && (
-          <section className="content-section">
-            <button className="button secondary" onClick={() => setPage('lb-protein')} style={{ marginBottom: 16 }}>← Proteinrangering</button>
+          <>
+            <div className="page-back-bar">
+              <button type="button" className="button secondary" onClick={() => setPage('lb-protein')}>← Proteinrangering</button>
+            </div>
             <ProteinMetodeSection />
-          </section>
+          </>
         )}
 
         {page === 'protein-guide' && (
@@ -700,10 +694,12 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
         })()}
 
         {page === 'creatine-metode' && (
-          <section className="content-section">
-            <button type="button" className="button secondary" onClick={() => setPage('lb-creatine')} style={{ marginBottom: 16 }}>← Kreatinrangering</button>
+          <>
+            <div className="page-back-bar">
+              <button type="button" className="button secondary" onClick={() => setPage('lb-creatine')}>← Kreatinrangering</button>
+            </div>
             <CreatineMetodeSection />
-          </section>
+          </>
         )}
 
         {page === 'creatine-guide' && (
