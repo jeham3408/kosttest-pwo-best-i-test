@@ -4,9 +4,10 @@ import './index.css'
 import App from './App.tsx'
 
 const rootElement = document.getElementById('root')!
+const initialPath = window.location.pathname || '/'
 const app = (
   <StrictMode>
-    <App />
+    <App initialPath={initialPath} />
   </StrictMode>
 )
 

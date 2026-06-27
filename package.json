@@ -11,7 +11,12 @@
     "preview": "vite preview",
     "protein:verify:status": "node scripts/protein-verify-queue.mjs status",
     "protein:verify:next": "node scripts/protein-verify-queue.mjs next",
-    "protein:verify:sync-md": "node scripts/protein-verify-queue.mjs sync-md"
+    "protein:verify:sync-md": "node scripts/protein-verify-queue.mjs sync-md",
+    "feedback:audit": "node scripts/feedback-process-queue.mjs audit",
+    "feedback:pull": "node scripts/feedback-process-queue.mjs pull",
+    "feedback:pull-github": "node scripts/feedback-process-queue.mjs pull-github",
+    "feedback:process": "node scripts/feedback-process-queue.mjs process",
+    "feedback:status": "node scripts/feedback-process-queue.mjs status"
   },
   "dependencies": {
     "lucide-react": "^1.14.0",

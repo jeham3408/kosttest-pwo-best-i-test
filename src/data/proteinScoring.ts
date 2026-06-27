@@ -231,6 +231,11 @@ export const proteinScoringRules = [
     weight: SCORE_MAX,
     note: 'Eneste faktor i totalscore. FAO anbefaler DIAAS fremfor IAAS og PDCAAS. Pris vises kun som referanse.',
   },
+  {
+    label: 'Lik score',
+    weight: 'Rekkefølge',
+    note: 'Ved lik totalscore rangeres lavest kr/g protein øverst. Pris påvirker ikke poengsummen.',
+  },
 ]
 
 export const iaasVsDiaasExplanation = {

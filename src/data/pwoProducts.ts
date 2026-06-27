@@ -2166,7 +2166,7 @@ export const testedProducts: TestedProduct[] = [
       'Ikke sammenlignbar med pulver-PWO',
     ],
     url: 'https://www.tights.no/butikk/gummies-pwo-lemon-lime-60-gummy/',
-    image: 'https://www.tights.no/wp-content/uploads/sites/7/2026/02/preworkout-gummies-90pcs-lemonlime1png.png',
+    image: '/products/bodylab-gummies.jpg',
   },
   {
     id: 'olimp-redweiler',
@@ -2311,7 +2311,6 @@ testedProducts.forEach((product) => {
 testedProducts.sort(
   (a, b) =>
     b.score - a.score ||
-    (b.citrullineMg ?? 0) - (a.citrullineMg ?? 0) ||
     a.pricePerServing - b.pricePerServing,
 )
 

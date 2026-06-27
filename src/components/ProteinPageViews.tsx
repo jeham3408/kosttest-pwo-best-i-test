@@ -1,4 +1,5 @@
 import { AlertTriangle, CheckCircle2, ExternalLink } from 'lucide-react'
+import { RANKING_TIEBREAKER_NOTE, RANKING_TIEBREAKER_SHORT } from '../data/rankingNotes'
 import { formulationNote, iaasVsDiaasExplanation, proteinScoringRules } from '../data/proteinScoring'
 import { proteinSourceLinks, testedProteinProducts, type TestedProteinProduct } from '../data/proteinProducts'
 import type { GradeLetter } from '../data/pwoProducts'
@@ -204,7 +205,7 @@ export function ProteinMetodeSection() {
           IAAS vises for sammenligning, men FAO anbefaler DIAAS som gullstandard.
         </p>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 24 }}>
+      <div className="hub-duo-grid">
         <div style={{ padding: 16, background: 'var(--paper)', borderRadius: 8, border: '1px solid var(--border)' }}>
           <h3 style={{ margin: '0 0 8px', fontSize: 15 }}>{iaasVsDiaasExplanation.iaas.title}</h3>
           <p style={{ fontSize: 13, lineHeight: 1.6, margin: 0 }}>{iaasVsDiaasExplanation.iaas.summary}</p>
@@ -242,6 +243,7 @@ export function ProteinMetodeSection() {
           basert på proteintype. Vi påstår aldri offisiell DIAAS uten dokumentert test av ferdig produkt.
         </p>
         <p style={{ marginTop: 12 }}>{formulationNote}</p>
+        <p style={{ marginTop: 12 }}>{RANKING_TIEBREAKER_NOTE}</p>
       </div>
     </section>
   )
@@ -264,16 +266,37 @@ export function ProteinLeaderboardBlock({
   onFilterChange: (f: 'alle' | 'whey' | 'vegan' | 'kasein') => void
   sortedProducts: TestedProteinProduct[]
 }) {
+  const heroTitle =
+    proteinFilter === 'vegan'
+      ? 'Vegan proteinpulver best i test 2026'
+      : proteinFilter === 'kasein'
+        ? 'Kaseinprotein best i test 2026'
+        : proteinFilter === 'whey'
+          ? 'Whey protein best i test 2026'
+          : 'Proteinpulver best i test 2026'
+
+  const heroLead =
+    proteinFilter === 'vegan'
+      ? `${sortedProducts.length} plantebaserte produkter rangert etter DIAAS. Soya og erte/ris-blends — pris påvirker ikke plasseringen. ${RANKING_TIEBREAKER_SHORT}`
+      : proteinFilter === 'kasein'
+        ? `Kaseinprotein for langsom frigjøring — rangert etter DIAAS og IAAS. ${RANKING_TIEBREAKER_SHORT}`
+        : 'Rangert etter DIAAS (kvalitet). IAAS vises for sammenligning — pris påvirker ikke plasseringen. ' + RANKING_TIEBREAKER_SHORT
+
   return (
     <>
-      <ProteinLeaderboardSection onSelectProduct={onSelectProduct} />
+      <section className="hub-page-hero">
+        <p className="test-badge-inline">Test</p>
+        <h1>{heroTitle}</h1>
+        <p className="lead">{heroLead}</p>
+      </section>
+      <ProteinLeaderboardSection onSelectProduct={onSelectProduct} products={sortedProducts} />
       <section className="content-section">
         <div className="section-heading">
           <span>Proteinpulver best i test</span>
           <h2>Fullstendig rangering</h2>
           <p>
             Rangert etter DIAAS (kvalitet). IAAS vises for sammenligning av aminosyreprofil. Pris påvirker ikke plasseringen.
-            Uten laboratorietestet DIAAS viser vi estimat basert på proteintype.
+            Uten laboratorietestet DIAAS viser vi estimat basert på proteintype. {RANKING_TIEBREAKER_NOTE}
           </p>
         </div>
         <div className="filter-bar">
@@ -286,6 +309,9 @@ export function ProteinLeaderboardBlock({
           ))}
         </div>
         <ProteinRankingTable products={sortedProducts} sortCol={sortCol} sortAsc={sortAsc} onSort={onSort} onSelect={onSelectProduct} />
+        {sortedProducts.length === 0 && (
+          <p className="muted" style={{ marginTop: 16 }}>Ingen produkter i denne kategorien ennå. Prøv «Alle» eller en annen type.</p>
+        )}
       </section>
       <section className="source-section">
         <div className="section-heading"><span>Kilder</span><h2>Protein vitenskap</h2></div>

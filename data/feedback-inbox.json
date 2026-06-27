@@ -1,0 +1,93 @@
+{
+  "submissions": [
+    {
+      "id": "f548b09f-44f1-408e-b7d5-90b22bdab37b",
+      "type": "missing_business",
+      "name": "XXL Sport",
+      "category": null,
+      "message": "Dere mangler produkter fra XXL i oversikten. Vurder å legge til.",
+      "email": null,
+      "sourcePage": "/",
+      "status": "rejected",
+      "createdAt": "2026-06-27T18:32:10.387Z",
+      "triageNotes": "Butikk/merke-forslag, ikke kosttilskudd — avvist",
+      "triageResult": {
+        "verdict": "rejected_invalid",
+        "confidence": "high",
+        "catalogMatches": [],
+        "category": "pwo",
+        "notes": [
+          "Butikk/merke-forslag, ikke kosttilskudd — avvist"
+        ],
+        "reviewedAt": "2026-06-27T19:05:37.898Z"
+      }
+    },
+    {
+      "id": "9b44298f-9fce-4a81-89bc-ec2bb0ee4670",
+      "githubIssue": 74,
+      "type": "missing_product",
+      "name": "nutritac sin kreatin",
+      "category": "pwo",
+      "message": "nutritac kreatin er ikke på kreatin sin vurdering",
+      "email": "jesperhammersvik321@gmail.com",
+      "sourcePage": "/tester/kreatin",
+      "status": "ingested",
+      "triageNotes": "Mulig treff i eksisterende katalog: NutriTac Foreslått kategori: creatine",
+      "triageResult": {
+        "verdict": "likely_already_listed",
+        "confidence": "high",
+        "catalogMatches": [
+          "NutriTac"
+        ],
+        "category": "creatine",
+        "notes": [
+          "Mulig treff i eksisterende katalog: NutriTac",
+          "Foreslått kategori: creatine"
+        ],
+        "reviewedAt": "2026-06-27T19:05:01.151Z"
+      },
+      "ingestPlan": {
+        "action": "duplicate",
+        "productId": "nutritac-nutritac-sin-kreatin",
+        "category": "creatine",
+        "agentSteps": [
+          "Produktet finnes sannsynligvis allerede — sjekk katalogtreff.",
+          "Svar brukeren med lenke til riktig produktside på kosttest.no (ikke publiser e-post).",
+          "Kjør: node scripts/feedback-process-queue.mjs complete-ingest --id 9b44298f-9fce-4a81-89bc-ec2bb0ee4670 --productId nutritac-nutritac-sin-kreatin --status duplicate"
+        ]
+      },
+      "ingestedAt": "2026-06-27T19:05:37.854Z",
+      "ingestedProductId": "nutritac-bare-creatine",
+      "ingestStatus": "listed"
+    },
+    {
+      "id": "9c500028-9b8a-4c2d-9d53-132c9607c119",
+      "githubIssue": 73,
+      "type": "missing_product",
+      "name": "Test PWO",
+      "category": "pwo",
+      "message": "Dette er en test av tilbakemeldingsskjemaet etter aktivering.",
+      "email": null,
+      "sourcePage": "/tester/pwo/",
+      "status": "rejected",
+      "triageNotes": "Testmelding — ikke et produktforslag.",
+      "triageResult": {
+        "verdict": "rejected_invalid",
+        "confidence": "high",
+        "catalogMatches": [],
+        "category": "pwo",
+        "notes": [
+          "Testmelding — ikke et produktforslag."
+        ],
+        "reviewedAt": "2026-06-27T19:05:37.931Z"
+      },
+      "ingestPlan": {
+        "action": "reject",
+        "reason": "Testmelding — ikke et produktforslag.",
+        "agentSteps": [
+          "Marker meldingen som avvist. Ingen produktendring."
+        ]
+      }
+    }
+  ]
+}

@@ -23,9 +23,9 @@ const brandColor = (brand: string): string => {
 
 export default function LeaderboardSection({ kgPrice, onSelectProduct }: { kgPrice: (p: TestedProduct) => number; onSelectProduct: (id: string) => void }) {
   const lb = useMemo(() => {
-    const withCaf = testedProducts.filter(p => (p.caffeineMg ?? 0) > 0).sort((a, b) => b.score - a.score).slice(0, 10)
+    const withCaf = testedProducts.filter(p => (p.caffeineMg ?? 0) > 0).sort((a, b) => b.score - a.score || a.pricePerServing - b.pricePerServing).slice(0, 10)
     const maxCaf = Math.max(...withCaf.map(p => p.score), 10)
-    const noCaf = testedProducts.filter(p => !p.caffeineMg || p.caffeineMg === 0).sort((a, b) => b.score - a.score)
+    const noCaf = testedProducts.filter(p => !p.caffeineMg || p.caffeineMg === 0).sort((a, b) => b.score - a.score || a.pricePerServing - b.pricePerServing)
     const maxNo = Math.max(...noCaf.map(p => p.score), 10)
     const prCaf = testedProducts.filter(p => (p.caffeineMg ?? 0) > 0 && isFinite(kgPrice(p))).sort((a, b) => kgPrice(b) - kgPrice(a)).slice(0, 10)
     const maxPrCaf = prCaf.length ? Math.max(...prCaf.map(kgPrice)) : 1
@@ -38,10 +38,10 @@ export default function LeaderboardSection({ kgPrice, onSelectProduct }: { kgPri
     <section className="lb-section">
       <div className="lb-grid">
         {[
-          { items: lb.withCaf, label: '⚡ Effekt med koffein', barC: (p: TestedProduct) => brandColor(p.brand), vFn: (p: TestedProduct) => p.score, fFn: (p: TestedProduct) => String(p.score), maxV: lb.maxCaf },
-          { items: lb.noCaf, label: '🧘 Effekt utan koffein', barC: (p: TestedProduct) => brandColor(p.brand), vFn: (p: TestedProduct) => p.score, fFn: (p: TestedProduct) => String(p.score), maxV: lb.maxNo },
-          { items: lb.prCaf, label: '💰 Pris med koffein', barC: () => '#d27c22', vFn: (p: TestedProduct) => Math.round(kgPrice(p) / lb.maxPrCaf * 80) + 10, fFn: (p: TestedProduct) => Math.round(kgPrice(p)).toLocaleString('nb-NO'), maxV: 90 },
-          { items: lb.prNo, label: '💰 Pris utan koffein', barC: () => '#d27c22', vFn: (p: TestedProduct) => Math.round(kgPrice(p) / lb.maxPrNo * 80) + 10, fFn: (p: TestedProduct) => Math.round(kgPrice(p)).toLocaleString('nb-NO'), maxV: 90 },
+          { items: lb.withCaf, label: 'Effekt med koffein', barC: (p: TestedProduct) => brandColor(p.brand), vFn: (p: TestedProduct) => p.score, fFn: (p: TestedProduct) => String(p.score), maxV: lb.maxCaf },
+          { items: lb.noCaf, label: 'Effekt utan koffein', barC: (p: TestedProduct) => brandColor(p.brand), vFn: (p: TestedProduct) => p.score, fFn: (p: TestedProduct) => String(p.score), maxV: lb.maxNo },
+          { items: lb.prCaf, label: 'Pris med koffein', barC: () => '#d27c22', vFn: (p: TestedProduct) => Math.round(kgPrice(p) / lb.maxPrCaf * 80) + 10, fFn: (p: TestedProduct) => Math.round(kgPrice(p)).toLocaleString('nb-NO'), maxV: 90 },
+          { items: lb.prNo, label: 'Pris utan koffein', barC: () => '#d27c22', vFn: (p: TestedProduct) => Math.round(kgPrice(p) / lb.maxPrNo * 80) + 10, fFn: (p: TestedProduct) => Math.round(kgPrice(p)).toLocaleString('nb-NO'), maxV: 90 },
         ].map(chart => {
           const b = 10
           const scale = chart.items.length ? 92 / (chart.maxV - b) : 1

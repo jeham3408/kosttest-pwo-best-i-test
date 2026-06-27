@@ -1,6 +1,8 @@
 import { blogPosts } from '../data/blog'
+import { testedCreatineProducts, type TestedCreatineProduct } from '../data/creatineProducts'
 import { testedProteinProducts, type TestedProteinProduct } from '../data/proteinProducts'
 import { testedProducts, type TestedProduct } from '../data/pwoProducts'
+import { siteStats } from '../siteStats'
 import { normalizePath } from '../routing'
 
 const base = 'https://kosttest.no'
@@ -40,11 +42,50 @@ type JsonLdProps = {
   path?: string
   product?: TestedProduct
   proteinProduct?: TestedProteinProduct
+  creatineProduct?: TestedCreatineProduct
 }
 
-export default function JsonLd({ path: rawPath, product, proteinProduct }: JsonLdProps) {
+export default function JsonLd({ path: rawPath, product, proteinProduct, creatineProduct }: JsonLdProps) {
   const path = normalizePath(rawPath || '/')
   const def = [orgSchema, webSiteSchema]
+
+  if (path.startsWith('/kreatin/') && creatineProduct) {
+    return (
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify([
+            ...def,
+            {
+              '@type': 'Product',
+              name: creatineProduct.name,
+              description: creatineProduct.verdict,
+              url: `${base}${path}/`,
+              image: creatineProduct.image?.startsWith('/') ? `${base}${creatineProduct.image}` : creatineProduct.image,
+              brand: { '@type': 'Brand', name: creatineProduct.brand },
+              offers: {
+                '@type': 'Offer',
+                price: creatineProduct.priceNok,
+                priceCurrency: 'NOK',
+                availability: 'https://schema.org/InStock',
+              },
+              aggregateRating: {
+                '@type': 'AggregateRating',
+                ratingValue: creatineProduct.score,
+                bestRating: 100,
+                ratingCount: 1,
+              },
+            },
+            breadcrumb([
+              { name: 'Hjem', url: '/' },
+              { name: 'Kreatin best i test', url: '/tester/kreatin/' },
+              { name: creatineProduct.name, url: `/kreatin/${creatineProduct.id}/` },
+            ]),
+          ]),
+        }}
+      />
+    )
+  }
 
   if (path.startsWith('/protein/') && proteinProduct) {
     return (
@@ -58,7 +99,7 @@ export default function JsonLd({ path: rawPath, product, proteinProduct }: JsonL
               name: proteinProduct.name,
               description: proteinProduct.verdict,
               url: `${base}${path}/`,
-              image: proteinProduct.image,
+              image: proteinProduct.image?.startsWith('/') ? `${base}${proteinProduct.image}` : proteinProduct.image,
               brand: { '@type': 'Brand', name: proteinProduct.brand },
               offers: {
                 '@type': 'Offer',
@@ -124,6 +165,8 @@ export default function JsonLd({ path: rawPath, product, proteinProduct }: JsonL
   }
 
   if (path.includes('/slik-velger-du')) {
+    const isCreatine = path.includes('/kreatin/')
+    const isProtein = path.includes('/protein/')
     return (
       <script
         type="application/ld+json"
@@ -132,18 +175,48 @@ export default function JsonLd({ path: rawPath, product, proteinProduct }: JsonL
             ...def,
             {
               '@type': 'HowTo',
-              name: 'Slik velger du riktig PWO',
-              step: [
-                { '@type': 'HowToStep', position: 1, name: 'Forstå hva en PWO er', text: 'En PWO (Pre-Workout) er et kosttilskudd du tar før trening for energi, fokus, utholdenhet og muskelpump.' },
-                { '@type': 'HowToStep', position: 2, name: 'Se etter nøkkelingredienser', text: 'L-citrulline (4000-10000 mg), beta-alanin (3200-6400 mg), koffein (100-300 mg) og rødbetekstrakt er de viktigste ingrediensene i en PWO.' },
-                { '@type': 'HowToStep', position: 3, name: 'Velg etter behov', text: 'Maksimal pump: 6000+ mg L-citrulline. Kveldstrening: velg stim-free. Nybegynner: start med lav koffein (100-200 mg).' },
-                { '@type': 'HowToStep', position: 4, name: 'Unngå fellene', text: 'Styr unna proprietary blends og produkter uten oppgitte mengder. BCAA i PWO er unødvendig ved tilstrekkelig proteininntak.' },
-                { '@type': 'HowToStep', position: 5, name: 'Bruk en åpen karaktermotor', text: 'Vår test vektlegger L-citrulline, arginin, rødbetekstrakt og andre ingredienser — ikke koffein eller pris. Se hele rangeringen på kosttest.no.' },
-              ],
+              name: isCreatine ? 'Slik velger du kreatin' : isProtein ? 'Slik velger du proteinpulver' : 'Slik velger du riktig PWO',
+              step: isCreatine
+                ? [
+                    { '@type': 'HowToStep', position: 1, name: 'Velg monohydrat', text: 'Kreatin monohydrat er best dokumentert. Creapure er en kvalitetssertifisert variant.' },
+                    { '@type': 'HowToStep', position: 2, name: 'Sjekk dosen', text: 'Se etter 5 g kreatin per anbefalt dose — ISSN anbefaler 3–5 g daglig.' },
+                  ]
+                : [
+                    { '@type': 'HowToStep', position: 1, name: 'Forstå hva en PWO er', text: 'En PWO (Pre-Workout) er et kosttilskudd du tar før trening for energi, fokus, utholdenhet og muskelpump.' },
+                    { '@type': 'HowToStep', position: 2, name: 'Se etter nøkkelingredienser', text: 'L-citrulline (4000-10000 mg), beta-alanin (3200-6400 mg), koffein (100-300 mg).' },
+                  ],
             },
             breadcrumb([
               { name: 'Hjem', url: '/' },
-              { name: 'Kjøpsguide', url: '/tester/pwo/slik-velger-du/' },
+              { name: 'Kjøpsguide', url: path + '/' },
+            ]),
+          ]),
+        }}
+      />
+    )
+  }
+
+  if (path.startsWith('/tester/kreatin')) {
+    return (
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify([
+            ...def,
+            {
+              '@type': 'ItemList',
+              name: 'Kreatin best i test 2026',
+              url: `${base}${path}/`,
+              itemListElement: testedCreatineProducts.map((item, index) => ({
+                '@type': 'ListItem',
+                position: index + 1,
+                name: item.name,
+                url: `${base}/kreatin/${item.id}/`,
+              })),
+            },
+            breadcrumb([
+              { name: 'Hjem', url: '/' },
+              { name: 'Kreatin best i test', url: '/tester/kreatin/' },
             ]),
           ]),
         }}
@@ -239,24 +312,33 @@ export default function JsonLd({ path: rawPath, product, proteinProduct }: JsonL
     }
   }
 
+  if (path === '/' || path === '') {
+    return (
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify([
+            ...def,
+            {
+              '@type': 'WebPage',
+              name: 'Tester og guider for kosttilskudd',
+              description: `Uavhengige tester av ${siteStats.totalTestedCount} kosttilskudd i ${siteStats.categoryCount} kategorier.`,
+              url: `${base}/`,
+            },
+            breadcrumb([{ name: 'Hjem', url: '/' }]),
+          ]),
+        }}
+      />
+    )
+  }
+
   return (
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{
         __html: JSON.stringify([
           ...def,
-          {
-            '@type': 'Article',
-            headline: 'PWO best i test 2026: ærlig rangering av pre-workout i Norge',
-            datePublished: '2026-05-04',
-            dateModified: '2026-06-26',
-            author: { '@type': 'Organization', name: 'Kosttest.no' },
-            publisher: { '@type': 'Organization', name: 'Kosttest.no' },
-          },
-          breadcrumb([
-            { name: 'Hjem', url: '/' },
-            { name: 'PWO best i test', url: '/tester/pwo/' },
-          ]),
+          breadcrumb([{ name: 'Hjem', url: '/' }]),
         ]),
       }}
     />

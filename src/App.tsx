@@ -1,13 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import {
   AlertTriangle,
-  ArrowDown,
   CheckCircle2,
   ExternalLink,
-  FlaskConical,
-  Scale,
-  Search,
-  ShieldCheck,
 } from 'lucide-react'
 import './App.css'
 import JsonLd from './components/JsonLd'
@@ -17,7 +12,6 @@ import UnrankedProductsSection from './components/UnrankedProductsSection'
 import {
   calculateProductGrade,
   ingredientRules,
-  lastUpdated,
   priceRule,
   sourceLinks,
   testedProducts,
@@ -34,7 +28,17 @@ import {
   ProteinProductPageView,
   testedProteinProducts,
 } from './components/ProteinPageViews'
-import { getPageMeta, isCaseinProtein, isVeganProtein, isWheyProtein, normalizePath, parseRoute, type RouteState } from './routing'
+import {
+  CreatineLeaderboardBlock,
+  CreatineMetodeSection,
+  CreatineProductPageView,
+} from './components/CreatinePageViews'
+import HomePage from './components/HomePage'
+import SiteHeader from './components/SiteHeader'
+import SiteFooter, { KilderPageContent } from './components/SiteFooter'
+import { testedCreatineProducts } from './data/creatineProducts'
+import { RANKING_TIEBREAKER_NOTE, RANKING_TIEBREAKER_SHORT } from './data/rankingNotes'
+import { getPageMeta, isCaseinProtein, isVeganProtein, isWheyProtein, normalizePath, parseRoute, routeToPath, type AppPage, type RouteState } from './routing'
 import { siteStats } from './siteStats'
 import { getRelatedProducts, kgPrice } from './utils/productHelpers'
 
@@ -189,6 +193,14 @@ function GradingSystemSection() {
               <td>≤ {priceRule.thresholdsNok.B} kr</td>
               <td>≤ {priceRule.thresholdsNok.A} kr</td>
             </tr>
+            <tr>
+              <td>
+                <span style={{fontWeight:700}}>Lik score</span>
+                <span>Ved lik totalscore rangeres lavest pris per porsjon øverst. Pris påvirker ikkje poengsummen.</span>
+              </td>
+              <td>Rekkefølge</td>
+              <td colSpan={5}>Billigast porsjon først</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -202,6 +214,7 @@ function GradingSystemSection() {
           trekkjer for svært høg koffein og sorterer lista automatisk etter totalscore.
           Doseringsgrensene er basert på <a href="https://jissn.biomedcentral.com/articles/10.1186/s12970-020-00383-4" target="_blank" rel="noreferrer">ISSN sine retningslinjer</a>.
         </p>
+        <p style={{ marginTop: 12 }}>{RANKING_TIEBREAKER_NOTE}</p>
       </div>
     </section>
   )
@@ -211,12 +224,40 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
   const initialRoute = parseRoute(initialPath)
   const [page, setPage] = useState<RouteState['page']>(initialRoute.page)
   const [selectedProduct, setSelectedProduct] = useState<string | null>(initialRoute.selectedProduct)
-  const [lbOpen, setLbOpen] = useState(false)
   const [sortCol, setSortCol] = useState(initialRoute.sortCol)
   const [sortAsc, setSortAsc] = useState(initialRoute.sortAsc)
   const [caffeineFilter, setCaffeineFilter] = useState<'alle' | 'med' | 'uten'>(initialRoute.caffeineFilter)
   const [betaFilter, setBetaFilter] = useState<'med' | 'uten'>(initialRoute.betaFilter)
   const [proteinFilter, setProteinFilter] = useState<'alle' | 'whey' | 'vegan' | 'kasein'>(initialRoute.proteinFilter)
+  const [creapureFilter, setCreapureFilter] = useState<'alle' | 'creapure'>(initialRoute.creapureFilter)
+
+  const currentRoute = (): RouteState => ({
+    page,
+    selectedProduct,
+    sortCol,
+    sortAsc,
+    caffeineFilter,
+    betaFilter,
+    proteinFilter,
+    creapureFilter,
+  })
+
+  const applyRoute = (path: string) => {
+    const route = parseRoute(path)
+    setPage(route.page)
+    setSelectedProduct(route.selectedProduct)
+    setSortCol(route.sortCol)
+    setSortAsc(route.sortAsc)
+    setCaffeineFilter(route.caffeineFilter)
+    setBetaFilter(route.betaFilter)
+    setProteinFilter(route.proteinFilter)
+    setCreapureFilter(route.creapureFilter)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const navigate = (nextPage: AppPage, productId: string | null = null) => {
+    applyRoute(routeToPath({ ...currentRoute(), page: nextPage, selectedProduct: productId }))
+  }
 
   const toggleSort = (col: string) => {
     if (col === 'price') {
@@ -238,7 +279,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
     const cmp = (a: TestedProduct, b: TestedProduct) => {
       if (sortCol === 'price-asc' || sortCol === 'price-desc') return a.priceNok - b.priceNok
       if (sortCol === 'kgprice-asc' || sortCol === 'kgprice-desc') return kgPrice(a) - kgPrice(b)
-      return (b.score ?? 0) - (a.score ?? 0) || a.priceNok - b.priceNok
+      return (b.score ?? 0) - (a.score ?? 0) || a.pricePerServing - b.pricePerServing
     }
     return filtered.sort((a, b) => sortAsc ? cmp(b, a) : cmp(a, b)).map((p, i) => ({ ...p, rank: i + 1 }))
   }, [sortCol, sortAsc, caffeineFilter, betaFilter])
@@ -255,13 +296,31 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
     if (proteinFilter === 'vegan') filtered = filtered.filter((p) => isVeganProtein(p.sourceType))
     if (proteinFilter === 'kasein') filtered = filtered.filter((p) => isCaseinProtein(p.sourceType))
     const cmp = (a: typeof testedProteinProducts[0], b: typeof testedProteinProducts[0]) => {
-      if (sortCol === 'diaas') return b.diaasScore - a.diaasScore
-      if (sortCol === 'iaas') return b.iaasScore - a.iaasScore
+      if (sortCol === 'diaas') return b.diaasScore - a.diaasScore || b.score - a.score || a.pricePerGramProtein - b.pricePerGramProtein
+      if (sortCol === 'iaas') return b.iaasScore - a.iaasScore || b.score - a.score || a.pricePerGramProtein - b.pricePerGramProtein
       if (sortCol === 'price-protein' || sortCol === 'price-protein-asc') return a.pricePerGramProtein - b.pricePerGramProtein
-      return b.diaasScore - a.diaasScore || b.iaasScore - a.iaasScore || a.name.localeCompare(b.name, 'nb')
+      return b.score - a.score || a.pricePerGramProtein - b.pricePerGramProtein
     }
     return filtered.sort((a, b) => (sortAsc ? cmp(b, a) : cmp(a, b))).map((p, i) => ({ ...p, rank: i + 1 }))
   }, [sortCol, sortAsc, proteinFilter])
+
+  const toggleCreatineSort = (col: string) => {
+    if (sortCol === col) { setSortAsc(!sortAsc); return }
+    setSortCol(col)
+    setSortAsc(col === 'price-g')
+  }
+
+  const sortedCreatineProducts = useMemo(() => {
+    let filtered = [...testedCreatineProducts]
+    if (creapureFilter === 'creapure') filtered = filtered.filter((p) => p.isCreapure)
+    const cmp = (a: typeof testedCreatineProducts[0], b: typeof testedCreatineProducts[0]) => {
+      if (sortCol === 'dose') return b.creatinePerServingG - a.creatinePerServingG
+      if (sortCol === 'form') return b.formScore - a.formScore
+      if (sortCol === 'price-g') return a.pricePerGramCreatine - b.pricePerGramCreatine
+      return b.score - a.score || a.pricePerGramCreatine - b.pricePerGramCreatine
+    }
+    return filtered.sort((a, b) => (sortAsc ? cmp(b, a) : cmp(a, b))).map((p, i) => ({ ...p, rank: i + 1 }))
+  }, [sortCol, sortAsc, creapureFilter])
 
   // URL sync on mount
   useEffect(() => {
@@ -274,36 +333,24 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
       setCaffeineFilter(route.caffeineFilter)
       setBetaFilter(route.betaFilter)
       setProteinFilter(route.proteinFilter)
+      setCreapureFilter(route.creapureFilter)
     }
     syncFromUrl()
     window.addEventListener('popstate', syncFromUrl)
     return () => window.removeEventListener('popstate', syncFromUrl)
   }, [])
 
-  // URL update on page change
+  // URL update on state change — behold filter-paths (vegan, stim-free, osv.)
   useEffect(() => {
-    const base = window.location.origin
-    let url = base + '/'
-    if (page === 'lb-pwo') url = base + '/tester/pwo/'
-    else if (page === 'lb-protein') url = base + '/tester/protein/'
-    else if (page === 'protein-product' && selectedProduct) url = base + '/protein/' + selectedProduct + '/'
-    else if (page === 'protein-guide') url = base + '/tester/protein/slik-velger-du/'
-    else if (page === 'protein-metode') url = base + '/tester/protein/metode/'
-    else if (page === 'blog') url = base + '/blogg/'
-    else if (page === 'blog-post' && selectedProduct) url = base + '/blogg/' + selectedProduct + '/'
-    else if (page === 'product' && selectedProduct) {
-      const p = testedProducts.find(x => x.id === selectedProduct)
-      const slug = p ? p.id : selectedProduct
-      url = base + '/pwo/' + slug + '/'
-    }
-    else if (page === 'buying-guide') url = base + '/tester/pwo/slik-velger-du/'
-    else if (page === 'metode') url = base + '/om-metoden/'
-    window.history.pushState({}, '', url)
-  }, [page, selectedProduct])
+    const target = normalizePath(routeToPath(currentRoute()))
+    const current = normalizePath(window.location.pathname)
+    if (current === target) return
+    window.history.pushState({}, '', window.location.origin + target)
+  }, [page, selectedProduct, sortCol, sortAsc, caffeineFilter, betaFilter, proteinFilter, creapureFilter])
 
   const pageMeta = useMemo(
-    () => getPageMeta({ page, selectedProduct, sortCol, sortAsc, caffeineFilter, betaFilter, proteinFilter }),
-    [page, selectedProduct, sortCol, sortAsc, caffeineFilter, betaFilter, proteinFilter],
+    () => getPageMeta({ page, selectedProduct, sortCol, sortAsc, caffeineFilter, betaFilter, proteinFilter, creapureFilter }),
+    [page, selectedProduct, sortCol, sortAsc, caffeineFilter, betaFilter, proteinFilter, creapureFilter],
   )
 
   useEffect(() => {
@@ -448,146 +495,12 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
         path={seoPath}
         product={page === 'product' && selectedProduct ? testedProducts.find((p) => p.id === selectedProduct) : undefined}
         proteinProduct={page === 'protein-product' && selectedProduct ? testedProteinProducts.find((p) => p.id === selectedProduct) : undefined}
+        creatineProduct={page === 'creatine-product' && selectedProduct ? testedCreatineProducts.find((p) => p.id === selectedProduct) : undefined}
       />
-      <header className="site-header">
-        <a className="brand" href="#" onClick={(e) => { e.preventDefault(); setPage('home'); setSelectedProduct(null) }} style={{ cursor: 'pointer' }}>
-          <span>K</span> Kosttest.no
-        </a>
-        <nav aria-label="Hovednavigasjon" className="nav-main">
-          <a href="/" onClick={(e) => { e.preventDefault(); setPage('home'); setSelectedProduct(null) }} className={page === 'home' ? 'nav-active' : ''}>Forside</a>
-          <a href="/blogg/" onClick={(e) => { e.preventDefault(); setPage('blog') }} className={page === 'blog' ? 'nav-active' : ''}>Blogg</a>
-          <div className="nav-dropdown" onMouseEnter={() => setLbOpen(true)} onMouseLeave={() => setLbOpen(false)}>
-            <button className={'nav-link' + (page === 'lb-pwo' ? ' nav-active' : '')} onClick={() => setLbOpen(!lbOpen)}>PWO ▾</button>
-            {lbOpen && <div className="nav-dropdown-menu">
-              <a href="/tester/pwo/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setLbOpen(false) }}>PWO best i test</a>
-              <a href="/tester/pwo/beste/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setLbOpen(false) }}>Beste PWO</a>
-              <a href="/tester/pwo/sterkeste/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setLbOpen(false) }}>Sterkeste PWO</a>
-              <a href="/tester/pwo/billigste/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setLbOpen(false) }}>Billigste PWO</a>
-              <a href="/tester/pwo/stim-free/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setLbOpen(false) }}>Stim-free</a>
-            </div>}
-          </div>
-          <a href="/tester/protein/" onClick={(e) => { e.preventDefault(); setPage('lb-protein'); setSelectedProduct(null) }} className={page === 'lb-protein' || page === 'protein-product' || page === 'protein-metode' || page === 'protein-guide' ? 'nav-active' : ''}>Protein</a>
-          <a href="/tester/pwo/slik-velger-du/" onClick={(e) => { e.preventDefault(); setPage('buying-guide') }}>Kjøpsguide</a>
-          <a href="/om-metoden/" onClick={(e) => { e.preventDefault(); setPage('metode') }}>Om metoden</a>
-        </nav>
-      </header>
+      <SiteHeader page={page} onNavigate={navigate} onNavigatePath={applyRoute} />
 
       <main id="top">
-        {page === 'home' && (
-          <>
-            <section className="hero-section">
-              <div className="hero-copy">
-                <p className="meta-line">Oppdatert {lastUpdated} · PWO og proteinpulver · ingen sponsede plasseringer</p>
-                <h1>PWO og proteinpulver best i test 2026</h1>
-                <p className="lead">Vi rangerer pre-workout etter ingredienser og proteinpulver etter DIAAS — med IAAS vist for sammenligning. Kun kvalitet teller i proteinrangeringen. Ærlig, kildeåpen og uten betalte plasseringer.</p>
-                <div className="hero-actions">
-                  <button className="button primary" onClick={() => setPage('lb-pwo')}><ArrowDown size={18} /> PWO-rangering</button>
-                  <button className="button primary" onClick={() => setPage('lb-protein')} style={{ background: 'var(--blue)' }}><ArrowDown size={18} /> Proteinpulver</button>
-                  <button className="button secondary" onClick={() => setPage('metode')}><Scale size={18} /> Metoden</button>
-                </div>
-              </div>
-              <div className="hero-board" aria-label="Topp produkter">
-                {testedProducts.slice(0, 2).map((product) => (
-                  <a className="hero-product" href="#" onClick={(e) => { e.preventDefault(); setSelectedProduct(product.id); setPage('product') }} key={product.id}>
-                    <span>PWO #{product.rank}</span>
-                    <ProductImage name={product.name} brand={product.brand} image={product.image} altSuffix="PWO fra Kosttest.no" />
-                    <span style={{fontWeight:700}}>{product.name}</span>
-                    <small>{product.award}</small>
-                  </a>
-                ))}
-                {testedProteinProducts.slice(0, 1).map((product) => (
-                  <a className="hero-product" href="#" onClick={(e) => { e.preventDefault(); setSelectedProduct(product.id); setPage('protein-product') }} key={product.id}>
-                    <span>Protein #{product.rank}</span>
-                    <img src={product.image} alt={product.name} style={{ width: 80, height: 80, objectFit: 'contain' }} loading="lazy" />
-                    <span style={{fontWeight:700}}>{product.brand}</span>
-                    <small>DIAAS {product.diaasScore} · IAAS {product.iaasScore}</small>
-                  </a>
-                ))}
-              </div>
-            </section>
-            <section className="summary-band">
-              <div className="summary-grid">
-                <div><Search size={21} /> <span style={{fontWeight:700}}>{siteStats.pwoListedCount}</span> PWO kartlagt<br /><span style={{fontSize:12,color:'var(--muted)'}}>{siteStats.pwoTestedCount} rangert</span></div>
-                <div><FlaskConical size={21} /> <span style={{fontWeight:700}}>{siteStats.proteinTestedCount}</span> proteinpulver testet<br /><span style={{fontSize:12,color:'var(--muted)'}}>DIAAS + IAAS + pris/g</span></div>
-                <div><ShieldCheck size={21} /> Åpen karaktermotor<br /><span style={{fontSize:12,color:'var(--muted)'}}>Ingen sponsede plasseringer</span></div>
-              </div>
-            </section>
-            <section className="content-section intro-grid">
-              <div><h2>Kort konklusjon</h2><p>{testedProducts[0].name} vinner med {testedProducts[0].score} poeng, takket være høy dose L-citrulline og beta-alanin. Se hele rangeringen under <a href="/tester/pwo/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo') }}>PWO best i test</a>.</p></div>
-              <div className="warning-box"><AlertTriangle size={22} /><div><span style={{fontWeight:700}}>Viktig</span><p>PWO er ikke nødvendig for fremgang. Rådfør deg med helsepersonell ved usikkerhet.</p></div></div>
-            </section>
-            <section className="content-section" style={{paddingTop:0}}>
-              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:14}}>
-                <a href="/blogg/" onClick={(e) => { e.preventDefault(); setPage('blog') }} style={{padding:16,background:'var(--paper)',borderRadius:8,textDecoration:'none'}}>
-                  <span style={{fontWeight:700}}>📖 Blogg</span>
-                  <p style={{fontSize:13,color:'var(--muted)',margin:'4px 0 0'}}>Lær om L-citrulline, beta-alanin, kreatin og alle PWO-ingredienser.</p>
-                </a>
-                <a href="/tester/pwo/slik-velger-du/" onClick={(e) => { e.preventDefault(); setPage('buying-guide') }} style={{padding:16,background:'var(--paper)',borderRadius:8,textDecoration:'none'}}>
-                  <span style={{fontWeight:700}}>🛒 Kjøpsguide</span>
-                  <p style={{fontSize:13,color:'var(--muted)',margin:'4px 0 0'}}>Slik velger du riktig PWO basert på ingredienser og behov.</p>
-                </a>
-                <a href="/om-metoden/" onClick={(e) => { e.preventDefault(); setPage('metode') }} style={{padding:16,background:'var(--paper)',borderRadius:8,textDecoration:'none'}}>
-                  <span style={{fontWeight:700}}>⚙️ Metode</span>
-                  <p style={{fontSize:13,color:'var(--muted)',margin:'4px 0 0'}}>Åpen karaktermotor – slik regner vi ut poengene.</p>
-                </a>
-              </div>
-            </section>
-            <section className="content-section">
-              <div className="section-heading"><span>Blogg</span><h2>Siste fra bloggen</h2></div>
-              <div className="blog-grid">
-                {blogPosts.slice(0, 4).map(post => (
-                  <button key={post.id} className="blog-card" onClick={() => { setSelectedProduct(post.id); setPage('blog-post') }}>
-                    <h3>{post.title}</h3><p>{post.excerpt}</p>
-                    <span className="blog-meta">{post.category} · {post.readMinutes} min</span>
-                  </button>
-                ))}
-              </div>
-            </section>
-            <section className="content-section">
-              <div className="section-heading"><span>Rangeringar</span><h2>Finn din PWO</h2></div>
-              <div className="blog-grid">
-                <a href="/tester/pwo/beste/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setSortCol('score'); setSortAsc(false); }} style={{padding:12,background:'var(--paper)',borderRadius:8,textDecoration:'none'}}>
-                  <span style={{fontWeight:700}}>🏆 Beste PWO</span>
-                  <p style={{fontSize:12,color:'var(--muted)',margin:'4px 0 0'}}>Alle {siteStats.pwoTestedCount} produkter rangert etter score. Klikk for å se topplisten.</p>
-                </a>
-                <a href="/tester/pwo/stim-free/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setSortCol('score'); setCaffeineFilter('uten'); }} style={{padding:12,background:'var(--paper)',borderRadius:8,textDecoration:'none'}}>
-                  <span style={{fontWeight:700}}>🧘 Stim-free</span>
-                  <p style={{fontSize:12,color:'var(--muted)',margin:'4px 0 0'}}>Koffeinfrie alternativ for kveldstrening. Best i test uten koffein.</p>
-                </a>
-                <a href="/tester/pwo/billigste/" onClick={(e) => { e.preventDefault(); setPage('lb-pwo'); setSortCol('kgprice-asc'); }} style={{padding:12,background:'var(--paper)',borderRadius:8,textDecoration:'none'}}>
-                  <span style={{fontWeight:700}}>💰 Best verdi</span>
-                  <p style={{fontSize:12,color:'var(--muted)',margin:'4px 0 0'}}>Rangert etter pris per kilogram. Mest effekt for pengene.</p>
-                </a>
-                <a href="/blogg/samanlikning-peveo-sickpump/" onClick={(e) => { e.preventDefault(); setPage('blog-post'); setSelectedProduct('samanlikning-peveo-sickpump'); }} style={{padding:12,background:'var(--paper)',borderRadius:8,textDecoration:'none'}}>
-                  <span style={{fontWeight:700}}>⚔️ Samanlikningar</span>
-                  <p style={{fontSize:12,color:'var(--muted)',margin:'4px 0 0'}}>Peveo Maxed vs NutriTac SickPump. Les våre produktsamanlikningar.</p>
-                </a>
-              </div>
-            </section>
-            <section className="content-section">
-              <div className="section-heading"><span>Proteinpulver</span><h2>Protein best i test</h2></div>
-              <div className="blog-grid">
-                <a href="/tester/protein/" onClick={(e) => { e.preventDefault(); setPage('lb-protein') }} style={{padding:12,background:'var(--paper)',borderRadius:8,textDecoration:'none'}}>
-                  <span style={{fontWeight:700}}>🥛 Beste proteinpulver</span>
-                  <p style={{fontSize:12,color:'var(--muted)',margin:'4px 0 0'}}>{siteStats.proteinTestedCount} merker — DIAAS primær, IAAS for sammenligning.</p>
-                </a>
-                <a href="/tester/protein/billigste/" onClick={(e) => { e.preventDefault(); setPage('lb-protein'); setSortCol('price-protein-asc'); setSortAsc(true) }} style={{padding:12,background:'var(--paper)',borderRadius:8,textDecoration:'none'}}>
-                  <span style={{fontWeight:700}}>💰 Billigst per g protein</span>
-                  <p style={{fontSize:12,color:'var(--muted)',margin:'4px 0 0'}}>MyProtein, Bodylab, Protein Series og flere.</p>
-                </a>
-                <a href="/tester/protein/vegan/" onClick={(e) => { e.preventDefault(); setPage('lb-protein'); setProteinFilter('vegan') }} style={{padding:12,background:'var(--paper)',borderRadius:8,textDecoration:'none'}}>
-                  <span style={{fontWeight:700}}>🌱 Vegan protein</span>
-                  <p style={{fontSize:12,color:'var(--muted)',margin:'4px 0 0'}}>Soya og erte/ris — lavere DIAAS-estimat uten lab-test.</p>
-                </a>
-                <a href="/tester/protein/metode/" onClick={(e) => { e.preventDefault(); setPage('protein-metode') }} style={{padding:12,background:'var(--paper)',borderRadius:8,textDecoration:'none'}}>
-                  <span style={{fontWeight:700}}>🧬 DIAAS vs IAAS</span>
-                  <p style={{fontSize:12,color:'var(--muted)',margin:'4px 0 0'}}>DIAAS veier i scoren — IAAS viser aminosyreprofil.</p>
-                </a>
-              </div>
-            </section>
-            <GradingSystemSection />
-          </>
-        )}
+        {page === 'home' && <HomePage onNavigate={navigate} onNavigatePath={applyRoute} />}
 
         {page === 'blog' && (
           <section className="content-section">
@@ -643,9 +556,14 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
 
         {page === 'lb-pwo' && (
           <>
+            <section className="hub-page-hero">
+              <p className="test-badge-inline">Test</p>
+              <h1>PWO best i test 2026</h1>
+              <p className="lead">{siteStats.pwoTestedCount} pre-workout produkter rangert etter ingredienser og dose per serving. {RANKING_TIEBREAKER_SHORT}</p>
+            </section>
             <LeaderboardSection kgPrice={kgPrice} onSelectProduct={(id) => { setSelectedProduct(id); setPage('product') }} />
             <section className="content-section">
-              <div className="section-heading"><span>PWO best i test</span><h2>Fullstendig rangering</h2><p>⇅ Klikk på kolonneoverskrift for å sortere</p></div>
+              <div className="section-heading"><span>PWO best i test</span><h2>Fullstendig rangering</h2><p>⇅ Klikk på kolonneoverskrift for å sortere. {RANKING_TIEBREAKER_NOTE}</p></div>
               <div className="filter-bar">
                 <span className="filter-label" style={{fontSize:11}}>Koffein:</span>
                 {(['alle','med','uten'] as const).map(v => (<button key={v} className={'toggle-btn '+(caffeineFilter===v?'on':'off')} onClick={()=>setCaffeineFilter(v)}><span className="toggle-track"><span className="toggle-thumb"/></span><span className="toggle-label">{v==='alle'?'Alle':v==='med'?'Med':'Uten'}</span></button>))}
@@ -718,6 +636,68 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
           </section>
         )}
 
+        {page === 'lb-creatine' && (
+          <CreatineLeaderboardBlock
+            onSelectProduct={(id) => { setSelectedProduct(id); setPage('creatine-product') }}
+            sortCol={sortCol}
+            sortAsc={sortAsc}
+            creapureFilter={creapureFilter}
+            onSort={toggleCreatineSort}
+            onFilterChange={setCreapureFilter}
+            sortedProducts={sortedCreatineProducts}
+          />
+        )}
+
+        {page === 'creatine-product' && selectedProduct && (() => {
+          const product = testedCreatineProducts.find((p) => p.id === selectedProduct)
+          if (!product) return null
+          return (
+            <CreatineProductPageView
+              product={product}
+              onBack={() => { setPage('lb-creatine'); setSelectedProduct(null) }}
+              onSelect={(id) => { setSelectedProduct(id); setPage('creatine-product') }}
+            />
+          )
+        })()}
+
+        {page === 'creatine-metode' && (
+          <section className="content-section">
+            <button type="button" className="button secondary" onClick={() => setPage('lb-creatine')} style={{ marginBottom: 16 }}>← Kreatinrangering</button>
+            <CreatineMetodeSection />
+          </section>
+        )}
+
+        {page === 'creatine-guide' && (
+          <section className="content-section">
+            <button type="button" className="button secondary" onClick={() => setPage('lb-creatine')} style={{ marginBottom: 16 }}>← Se rangeringen</button>
+            <h1>Slik velger du kreatin – Kjøpsguide 2026</h1>
+            <p className="muted" style={{ fontSize: 13, marginTop: -8 }}>Oppdatert juni 2026</p>
+            <div style={{ marginTop: 24 }}>
+              <h2>1. Velg merkevare-kreatin om du kan</h2>
+              <p style={{ lineHeight: 1.65 }}>Creapure® og andre merkevarer har kontrollert råstoff og høyest score hos oss. Generisk mono kan fungere, men krever mer dokumentasjon fra produsenten.</p>
+            </div>
+            <div style={{ marginTop: 24 }}>
+              <h2>2. Generisk? Krev dopingtest</h2>
+              <p style={{ lineHeight: 1.65 }}>Uten merkevare-kreatin bør du se etter Cologne List®, Informed Sport eller tilsvarende — særlig om du konkurrerer. Vi trekker 15 poeng på generisk uten dokumentert test.</p>
+            </div>
+            <div style={{ marginTop: 24 }}>
+              <h2>3. Dosér selv</h2>
+              <p style={{ lineHeight: 1.65 }}>ISSN anbefaler 3–5 g kreatin monohydrat daglig. Produsentens skje kan vise 3 g eller 5 g — det er du som styrer totaldosen.</p>
+            </div>
+            <div style={{ marginTop: 24 }}>
+              <h2>4. Krev renhet og mesh</h2>
+              <p style={{ lineHeight: 1.65 }}>Se etter oppgitt renhet (f.eks. 99,9 %) og mesh (partikkelstørrelse). Mangler produsenten dette, trekker vi poeng — «mikronisert» alene er ikke nok.</p>
+            </div>
+            <div style={{ marginTop: 24 }}>
+              <h2>5. Pris er ikke alt</h2>
+              <p style={{ lineHeight: 1.65 }}>I kreatintesten teller merkevare, renhet, mesh og dopingtest. Pris og gram per skje vises som referanse, men påvirker ikke plasseringen.</p>
+            </div>
+            <div style={{ marginTop: 24 }}>
+              <button type="button" className="button primary" onClick={() => setPage('lb-creatine')}>Se hele kreatinrangeringen</button>
+            </div>
+          </section>
+        )}
+
         {page === 'product' && selectedProduct && (() => {
           const product = testedProducts.find(p => p.id === selectedProduct)
           if (!product) return null
@@ -728,7 +708,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
           <section className="content-section">
             <button className="button secondary" onClick={() => setPage('lb-pwo')} style={{marginBottom:16}}>← Se rangeringen</button>
             <h1>Slik velger du riktig PWO – Kjøpsguide 2026</h1>
-            <p className="muted" style={{fontSize:13,marginTop:-8}}>Oppdatert mai 2026 · 7 minutters lesing</p>
+            <p className="muted" style={{fontSize:13,marginTop:-8}}>Oppdatert juni 2026 · 7 minutters lesing</p>
 
             <div style={{marginTop:24}}>
               <h2>1. Hva er en PWO?</h2>
@@ -737,7 +717,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
 
             <div style={{marginTop:24}}>
               <h2>2. Se etter disse ingrediensene</h2>
-              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:14,marginTop:10}}>
+              <div className="hub-duo-grid" style={{ marginTop: 10, marginBottom: 0 }}>
                 <div style={{background:'var(--paper)',padding:12,borderRadius:8}}>
                   <strong style={{color:'var(--accent)'}}>L-citrulline</strong>
                   <p style={{fontSize:13,lineHeight:1.5,margin:'4px 0 0'}}>Viktigste ingrediens for pump. Se etter 4000–10000 mg. Citrulline malate 2:1 gir ~67% reint L-citrulline.</p>
@@ -790,13 +770,38 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
           </section>
         )}
 
+        {page === 'kilder' && <KilderPageContent />}
+
         {page === 'metode' && (
           <section className="content-section">
-            <button className="button secondary" onClick={() => setPage('home')} style={{marginBottom:16}}>← Hjem</button>
+            <button type="button" className="button secondary" onClick={() => setPage('home')} style={{ marginBottom: 16 }}>← Forside</button>
+            <div className="section-heading">
+              <span>Metode</span>
+              <h1>Slik tester vi kosttilskudd</h1>
+              <p>Hver kategori har egen scoring tilpasset produkttypen. PWO vektlegger ingredienser per dose, protein bruker DIAAS, kreatin skiller merkevare-kreatin fra generisk — med krav om dopingtest på sistnevnte. {RANKING_TIEBREAKER_SHORT}</p>
+            </div>
+            <div className="category-grid" style={{ marginBottom: 32 }}>
+              <button type="button" className="editorial-card" onClick={() => setPage('metode')}>
+                <span className="test-badge">PWO</span>
+                <strong>Pre-workout</strong>
+                <p>Ingredienser og dose per serving — åpen karaktermotor under.</p>
+              </button>
+              <button type="button" className="editorial-card" onClick={() => setPage('protein-metode')}>
+                <span className="test-badge">Protein</span>
+                <strong>DIAAS + IAAS</strong>
+                <p>Kun DIAAS styrer score. IAAS for sammenligning.</p>
+              </button>
+              <button type="button" className="editorial-card" onClick={() => setPage('creatine-metode')}>
+                <span className="test-badge test-badge-new">Kreatin</span>
+                <strong>Merkevare og dopingtest</strong>
+                <p>Creapure scorer høyest. Generisk krever dokumentert dopingtest, renhet og mesh.</p>
+              </button>
+            </div>
             <GradingSystemSection />
           </section>
         )}
       </main>
+      <SiteFooter />
     </>
   )
 }

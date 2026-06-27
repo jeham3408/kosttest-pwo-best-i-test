@@ -17,27 +17,30 @@ const brandColor = (brand: string): string => {
 
 export default function ProteinLeaderboardSection({
   onSelectProduct,
+  products = testedProteinProducts,
 }: {
   onSelectProduct: (id: string) => void
+  products?: TestedProteinProduct[]
 }) {
   const lb = useMemo(() => {
-    const byScore = [...testedProteinProducts].sort((a, b) => b.score - a.score).slice(0, 10)
+    const pool = products.length ? products : testedProteinProducts
+    const byScore = [...pool].sort((a, b) => b.score - a.score || a.pricePerGramProtein - b.pricePerGramProtein).slice(0, 10)
     const maxScore = Math.max(...byScore.map((p) => p.score), 10)
-    const byDiaas = [...testedProteinProducts].sort((a, b) => b.diaasScore - a.diaasScore).slice(0, 10)
+    const byDiaas = [...pool].sort((a, b) => b.diaasScore - a.diaasScore).slice(0, 10)
     const maxDiaas = Math.max(...byDiaas.map((p) => p.diaasScore), 100)
-    const byIaas = [...testedProteinProducts].sort((a, b) => b.iaasScore - a.iaasScore).slice(0, 10)
+    const byIaas = [...pool].sort((a, b) => b.iaasScore - a.iaasScore).slice(0, 10)
     const maxIaas = Math.max(...byIaas.map((p) => p.iaasScore), 100)
-    const byPrice = [...testedProteinProducts]
+    const byPrice = [...pool]
       .filter((p) => isFinite(p.pricePerGramProtein))
       .sort((a, b) => a.pricePerGramProtein - b.pricePerGramProtein)
       .slice(0, 10)
     const maxPrice = byPrice.length ? Math.max(...byPrice.map((p) => p.pricePerGramProtein)) : 1
     return { byScore, byDiaas, byIaas, byPrice, maxScore, maxDiaas, maxIaas, maxPrice }
-  }, [])
+  }, [products])
 
   return (
     <section className="lb-section">
-      <div className="lb-grid" style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}>
+      <div className="lb-grid lb-grid-4">
         {[
           { items: lb.byScore, label: '🏆 Totalscore', vFn: (p: TestedProteinProduct) => p.score, fFn: (p: TestedProteinProduct) => String(p.score), maxV: lb.maxScore, barC: (p: TestedProteinProduct) => brandColor(p.brand), isPrice: false },
           { items: lb.byDiaas, label: '🧬 DIAAS ★', vFn: (p: TestedProteinProduct) => p.diaasScore, fFn: (p: TestedProteinProduct) => String(p.diaasScore), maxV: lb.maxDiaas, barC: () => '#116149', isPrice: false, highlight: true },
