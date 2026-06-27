@@ -8,6 +8,9 @@ import FeedbackBar from './FeedbackBar'
 export default function SiteFooter() {
   return (
     <footer className="site-footer">
+      <p className="footer-trust-line">
+        Uavhengig testing · Åpen metode · Alle kan sende inn tilbakemelding
+      </p>
       <FeedbackBar />
       <div className="site-footer-inner">
         <div>

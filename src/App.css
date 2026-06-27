@@ -35,6 +35,12 @@ body {
   margin: 0;
   min-width: 320px;
   background: var(--bg);
+  overflow-x: clip;
+}
+
+main#top {
+  overflow-x: clip;
+  max-width: 100%;
 }
 
 a {
@@ -361,6 +367,121 @@ h2 {
 .section-heading {
   max-width: 760px;
   margin-bottom: 28px;
+}
+
+.section-heading--compact h2 {
+  font-size: clamp(1.35rem, 3.5vw, 1.85rem);
+  line-height: 1.15;
+}
+
+.section-heading--compact p {
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.section-heading-note {
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  color: var(--muted) !important;
+}
+
+.page-back-bar {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 16px clamp(16px, 4vw, 28px) 0;
+}
+
+.method-rules-block {
+  width: 100%;
+  padding: 0 clamp(16px, 4vw, 28px);
+  box-sizing: border-box;
+}
+
+.method-rules-caption {
+  margin: 0 0 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.method-rules-cards {
+  display: grid;
+  gap: 10px;
+}
+
+@media (min-width: 720px) {
+  .method-rules-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.method-rule-card {
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+}
+
+.method-rule-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.method-rule-card-head strong {
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.method-rule-weight {
+  flex-shrink: 0;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: var(--paper);
+  color: var(--accent-strong);
+  font-size: 11px;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.method-rule-card p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #405047;
+}
+
+.method-rule-doses {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  margin: 10px 0 0;
+  padding: 0;
+}
+
+.method-rule-doses > div {
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: var(--paper);
+  border: 1px solid var(--border);
+}
+
+.method-rule-doses dt {
+  margin: 0;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+}
+
+.method-rule-doses dd {
+  margin: 2px 0 0;
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1.3;
 }
 
 .table-shell {
@@ -769,7 +890,8 @@ td a:hover,
 .grade-system-section > .section-heading,
 .grade-scale,
 .rules-table-shell,
-.open-method {
+.open-method,
+.method-rules-block {
   max-width: 1180px;
   margin-left: auto;
   margin-right: auto;
@@ -1467,6 +1589,47 @@ code {
   line-height: 1.5;
 }
 
+.hub-trust-strip {
+  padding-top: 8px;
+}
+
+.hub-trust-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 14px;
+}
+
+.hub-trust-card {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  padding: 18px;
+}
+
+.hub-trust-card svg {
+  color: var(--accent-editorial);
+}
+
+.hub-trust-card h3 {
+  margin: 10px 0 6px;
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.hub-trust-card p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.hub-trust-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
 .hub-trust-band {
   border-top: 1px solid var(--border);
   background: var(--paper);
@@ -1627,6 +1790,17 @@ code {
   background: var(--brand-navy);
   margin-top: 48px;
   color: #fff;
+}
+
+.footer-trust-line {
+  margin: 0;
+  padding: 14px clamp(16px, 4vw, 28px);
+  text-align: center;
+  font-size: 13px;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  color: rgba(255, 255, 255, 0.88);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .feedback-bar {
@@ -2063,7 +2237,7 @@ code {
   margin-top: 0;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 900px) {
   .ranking-cards-mobile {
     display: grid;
     gap: 10px;
@@ -2071,6 +2245,69 @@ code {
 
   .ranking-table-desktop {
     display: none !important;
+  }
+
+  .grade-scale {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .method-rule-doses {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  .section-heading h2 {
+    font-size: clamp(1.25rem, 5vw, 1.5rem);
+    line-height: 1.15;
+    margin-bottom: 10px;
+  }
+
+  .section-heading--compact h2 {
+    font-size: clamp(1.15rem, 4.5vw, 1.35rem);
+  }
+
+  .section-heading p,
+  .grade-system-section .section-heading p {
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .section-heading-note {
+    font-size: 13px !important;
+  }
+
+  .open-method {
+    padding: 14px 16px;
+  }
+
+  .open-method p {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .grade-system-section {
+    padding: 32px 0;
+  }
+
+  .grade-system-section > .section-heading,
+  .grade-scale,
+  .open-method,
+  .method-rules-block {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .grade-scale {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .grade-scale-card strong {
+    font-size: 13px;
+  }
+
+  .grade-scale-card p {
+    font-size: 12px;
   }
 
   .hub-page-hero {

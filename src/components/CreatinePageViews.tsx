@@ -10,9 +10,10 @@ import {
 } from '../data/creatineScoring'
 import { testedCreatineProducts, type TestedCreatineProduct } from '../data/creatineProducts'
 import type { GradeLetter } from '../data/pwoProducts'
-import { RANKING_TIEBREAKER_NOTE, RANKING_TIEBREAKER_SHORT } from '../data/rankingNotes'
+import { RANKING_TIEBREAKER_SHORT } from '../data/rankingNotes'
 import { generateCreatineContent } from '../creatineContent'
 import ProductImage from './ProductImage'
+import { MethodRulesCards } from './MethodRulesDisplay'
 
 const formatPrice = (price: number) =>
   new Intl.NumberFormat('nb-NO', { style: 'currency', currency: 'NOK', maximumFractionDigits: 0 }).format(price)
@@ -299,28 +300,21 @@ function CreatineTopPicks({ onSelect }: { onSelect: (id: string) => void }) {
 export function CreatineMetodeSection() {
   return (
     <section className="grade-system-section">
-      <div className="section-heading">
+      <div className="section-heading section-heading--compact">
         <span>Kreatin karaktermodell</span>
         <h2>Kvalitet — merkevare, dokumentasjon og dopingtest</h2>
         <p>{creatineMethodNote}</p>
       </div>
-      <div className="rules-table-shell">
-        <table className="rules-table">
-          <caption>Merkevare-kreatin veier tyngst. Generisk mono krever renhet, mesh og dopingtest.</caption>
-          <thead><tr><th>Komponent</th><th>Vekt</th><th>Metode</th></tr></thead>
-          <tbody>
-            {creatineScoringRules.map((rule) => (
-              <tr key={rule.label}>
-                <td><span style={{ fontWeight: 700 }}>{rule.label}</span><span>{rule.note}</span></td>
-                <td>{rule.weight}</td>
-                <td>{rule.note}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <MethodRulesCards
+        caption="Merkevare-kreatin veier tyngst. Generisk mono krever renhet, mesh og dopingtest."
+        rules={creatineScoringRules.map((rule) => ({
+          label: rule.label,
+          weight: rule.weight,
+          note: rule.note,
+        }))}
+      />
       <div className="open-method">
-        <p>{RANKING_TIEBREAKER_NOTE}</p>
+        <p>{RANKING_TIEBREAKER_SHORT}</p>
       </div>
     </section>
   )
@@ -358,7 +352,7 @@ export function CreatineLeaderboardBlock({
         <div className="section-heading">
           <span>Full rangering</span>
           <h2>Alle produkter i testen</h2>
-          <p>{RANKING_TIEBREAKER_NOTE}</p>
+          <p className="section-heading-note">{RANKING_TIEBREAKER_SHORT}</p>
         </div>
         <div className="filter-bar">
           <span className="filter-label" style={{ fontSize: 11 }}>Filter:</span>

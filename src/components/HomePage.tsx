@@ -1,11 +1,34 @@
+import { BookOpen, MessageSquarePlus, RefreshCw, ShieldCheck } from 'lucide-react'
 import { testedCreatineProducts } from '../data/creatineProducts'
 import { testedProteinProducts } from '../data/proteinProducts'
 import { lastUpdated, testedProducts } from '../data/pwoProducts'
 import { blogPosts } from '../data/blog'
 import { siteStats } from '../siteStats'
 import { brand } from '../brand'
-import { RANKING_TIEBREAKER_SHORT } from '../data/rankingNotes'
 import type { AppPage } from '../routing'
+
+const trustPillars = [
+  {
+    icon: ShieldCheck,
+    title: 'Uavhengig testing',
+    text: 'Vi kjøper ikke plasseringer og har ingen sponsede rangeringer.',
+  },
+  {
+    icon: BookOpen,
+    title: 'Åpen metode',
+    text: 'Scoring og vekting er dokumentert — se reglene per kategori.',
+  },
+  {
+    icon: MessageSquarePlus,
+    title: 'Alle kan bidra',
+    text: 'Meld inn produktforslag, feil eller forbedringer uten konto.',
+  },
+  {
+    icon: RefreshCw,
+    title: 'Oppdatert og kildeåpen',
+    text: 'Tester oppdateres løpende. Kilder og referanser ligger åpent.',
+  },
+] as const
 
 type HomePageProps = {
   onNavigate: (page: AppPage, productId?: string | null) => void
@@ -72,6 +95,18 @@ export default function HomePage({ onNavigate, onNavigatePath }: HomePageProps) 
           decoding="async"
         />
         <p className="home-hero-banner-meta">Oppdatert {lastUpdated} · Uavhengig · Ingen sponsede plasseringer</p>
+      </section>
+
+      <section className="content-section hub-trust-strip" aria-label="Hvorfor kosttest.no">
+        <div className="hub-trust-grid">
+          {trustPillars.map(({ icon: Icon, title, text }) => (
+            <article key={title} className="hub-trust-card">
+              <Icon size={22} strokeWidth={2} aria-hidden="true" />
+              <h3>{title}</h3>
+              <p>{text}</p>
+            </article>
+          ))}
+        </div>
       </section>
 
       <section className="content-section hub-categories">
@@ -148,14 +183,16 @@ export default function HomePage({ onNavigate, onNavigatePath }: HomePageProps) 
       <section className="hub-trust-band">
         <div className="hub-trust-inner">
           <div>
-            <h2>Uavhengig testredaksjon</h2>
+            <h2>Slik tester vi</h2>
             <p>
-              Vi kjøper ikke plasseringer. Scoring-reglene ligger åpent i kode, og hver kategori har
-              egen metode tilpasset produkttypen — PWO etter ingredienser, protein etter DIAAS,
-              kreatin etter merkevare, dokumentasjon og dopingtest. {RANKING_TIEBREAKER_SHORT}
+              PWO etter ingredienser og dose, protein etter DIAAS, kreatin etter merkevare og dokumentasjon.
+              Metoden er åpen — og du kan hjelpe oss å holde testene oppdatert.
             </p>
           </div>
-          <button type="button" className="button primary" onClick={() => onNavigate('metode')}>Les om metoden</button>
+          <div className="hub-trust-actions">
+            <button type="button" className="button primary" onClick={() => onNavigate('metode')}>Les om metoden</button>
+            <button type="button" className="button secondary" onClick={() => onNavigatePath('/kilder/')}>Se kilder</button>
+          </div>
         </div>
       </section>
     </>
