@@ -1,7 +1,7 @@
 import { type FormEvent, useId, useState } from 'react'
 import { Check, MessageSquarePlus, Send } from 'lucide-react'
 
-export type FeedbackType = 'missing_product' | 'product_error' | 'other'
+export type FeedbackType = 'missing_product' | 'product_error' | 'test_improvement' | 'other'
 
 type FeedbackResponse = {
   ok?: boolean
@@ -28,13 +28,19 @@ const typeOptions: FeedbackTypeOption[] = [
     description: 'Rapporter feil i ingredienser, doser, pris eller annen produktinfo.',
   },
   {
+    value: 'test_improvement',
+    label: 'Forslag til forbedring av testen',
+    description: 'Idéer til scoring, flere produkter, nye kolonner eller tydeligere metode.',
+  },
+  {
     value: 'other',
     label: 'Annet om testen',
-    description: 'Spørsmål, forslag til metode eller generelle innspill.',
+    description: 'Andre spørsmål eller innspill som ikke passer kategoriene over.',
   },
 ]
 
 const needsProductName = (type: FeedbackType) => type === 'missing_product' || type === 'product_error'
+const needsCategory = (type: FeedbackType) => type !== 'other'
 
 export default function FeedbackBar() {
   const formId = useId()
@@ -77,7 +83,7 @@ export default function FeedbackBar() {
         body: JSON.stringify({
           type,
           name: trimmedName,
-          category: type === 'other' ? null : category,
+          category: needsCategory(type) ? category : null,
           message: trimmedMessage,
           email: email.trim() || null,
           sourcePage: window.location.pathname,
@@ -113,7 +119,7 @@ export default function FeedbackBar() {
             <h2 id={`${formId}-title`}>Mangler vi et produkt?</h2>
             <p>
               Vi rangerer kun kosttilskudd — ikke butikker. Alle kan sende inn uten konto.
-              Si ifra om et produkt mangler, om vi har skrevet feil, eller om du har andre innspill.
+              Si ifra om et produkt mangler, om vi har skrevet feil, om du har forslag til testen, eller andre innspill.
             </p>
           </div>
           {!open && (
@@ -173,9 +179,9 @@ export default function FeedbackBar() {
               </label>
             )}
 
-            {type !== 'other' && (
+            {needsCategory(type) && (
               <label>
-                Kategori
+                {type === 'test_improvement' ? 'Hvilken test?' : 'Kategori'}
                 <select value={category} onChange={(event) => setCategory(event.target.value)}>
                   <option value="pwo">Pre-workout (PWO)</option>
                   <option value="protein">Proteinpulver</option>
@@ -195,7 +201,9 @@ export default function FeedbackBar() {
                     ? 'Beskriv hva som er feil — f.eks. feil koffeinmengde, citrullin-form eller pris. Lenke til produktsiden hjelper.'
                     : type === 'missing_product'
                       ? 'Beskriv produktet, gjerne med lenke til produktsiden og merke om du vet det.'
-                      : 'Skriv spørsmålet eller innspillet ditt her.'
+                      : type === 'test_improvement'
+                        ? 'F.eks. nye kolonner i tabellen, annen scoring, flere produkter i testen, eller bedre forklaring av metoden.'
+                        : 'Skriv spørsmålet eller innspillet ditt her.'
                 }
                 rows={4}
                 required

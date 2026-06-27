@@ -24,7 +24,7 @@ const STATUS_MD = path.join(ROOT, 'data/feedback-review-status.md')
 const PROTEIN_QUEUE_PATH = path.join(ROOT, 'src/data/proteinVerificationQueue.json')
 const LOG_MARKER = '<!-- AGENT: Legg til nye rader øverst etter hver kjøring. -->'
 
-const VALID_TYPES = new Set(['missing_product', 'product_error', 'other'])
+const VALID_TYPES = new Set(['missing_product', 'product_error', 'test_improvement', 'other'])
 const CATEGORY_FILES = {
   pwo: 'src/data/pwoProducts.ts',
   protein: 'src/data/proteinProducts.ts',
@@ -35,6 +35,7 @@ const CATEGORY_FILES = {
 const TYPE_LABELS = {
   missing_product: 'Mangler vi et produkt',
   product_error: 'Feil om et produkt',
+  test_improvement: 'Forslag til forbedring av testen',
   other: 'Annet om testen',
 }
 
@@ -257,6 +258,10 @@ function triageSubmission(submission, catalogText) {
 
   if (submission.type === 'other') {
     notes.push('Generell tilbakemelding — krever manuell lesing, ikke automatisk produkt-inntak.')
+  } else if (submission.type === 'test_improvement') {
+    notes.push(
+      'Forslag til forbedring av test/metode — vurder mot scoring-filer og metodesider, prioriter i backlog.',
+    )
   } else if (categoryMatches.size > 0 && submission.type === 'missing_product') {
     verdict = 'likely_already_listed'
     confidence = 'high'
@@ -434,6 +439,7 @@ function parseGitHubIssue(issue) {
   let type = 'other'
   if (/mangler/i.test(typeRaw)) type = 'missing_product'
   else if (/feil/i.test(typeRaw)) type = 'product_error'
+  else if (/forbedring|metode|scoring|rangering/i.test(typeRaw)) type = 'test_improvement'
 
   const categoryMap = { pwo: 'pwo', protein: 'protein', kreatin: 'creatine', creatin: 'creatine' }
   const categoryLabel = (field('Kategori') ?? '').toLowerCase()

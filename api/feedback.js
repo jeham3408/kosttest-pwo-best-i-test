@@ -6,7 +6,7 @@ import { randomUUID } from 'crypto'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const INBOX_PATH = path.join(__dirname, '..', 'data', 'feedback-inbox.json')
 
-const VALID_TYPES = new Set(['missing_product', 'product_error', 'other'])
+const VALID_TYPES = new Set(['missing_product', 'product_error', 'test_improvement', 'other'])
 const VALID_CATEGORIES = new Set(['pwo', 'protein', 'kreatin', 'annet'])
 
 function readJsonBody(request) {
@@ -78,6 +78,7 @@ function typeLabel(type) {
   return {
     missing_product: 'Mangler vi et produkt',
     product_error: 'Feil om et produkt',
+    test_improvement: 'Forslag til forbedring av testen',
     other: 'Annet om testen',
   }[type] ?? type
 }
