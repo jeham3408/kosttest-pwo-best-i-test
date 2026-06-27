@@ -49,6 +49,52 @@ function ScoreBar({ score }: { score: number }) {
   )
 }
 
+function CreatineMobileRankingCards({
+  products,
+  onSelect,
+}: {
+  products: TestedCreatineProduct[]
+  onSelect: (id: string) => void
+}) {
+  return (
+    <div className="ranking-cards-mobile" role="list" aria-label="Kreatinrangering">
+      {products.map((p) => (
+        <button
+          key={p.id}
+          type="button"
+          className="ranking-card"
+          onClick={() => onSelect(p.id)}
+          role="listitem"
+        >
+          <div className="ranking-card-head">
+            <span className="rank-badge">#{p.rank}</span>
+            <ProductImage name={p.name} brand={p.brand} image={p.image} altSuffix="kreatin" />
+            <div className="ranking-card-title">
+              <strong>{p.name}</strong>
+              <span>{p.brand} · {p.formLabel}</span>
+              {p.creatineBrand && <span className="ranking-card-tag">{p.creatineBrand}</span>}
+            </div>
+            <div className="ranking-card-score">
+              <span className={gradeClass(p.overallGrade)}>{p.overallGrade}</span>
+              <strong>{p.score}</strong>
+            </div>
+          </div>
+          <dl className="ranking-card-stats">
+            <div><dt>Råvare</dt><dd>{formatCreatineSource(p)}</dd></div>
+            <div><dt>Renhet</dt><dd>{formatPurity(p.purityPercent)}</dd></div>
+            <div><dt>Mesh</dt><dd>{formatMesh(p.meshLabel)}</dd></div>
+            <div><dt>Dopingtest</dt><dd>{formatDoping(p)}</dd></div>
+          </dl>
+          <div className="ranking-card-foot">
+            <span>{p.pricePerGramCreatine.toFixed(2).replace('.', ',')} kr/g kreatin</span>
+            <ScoreBar score={p.score} />
+          </div>
+        </button>
+      ))}
+    </div>
+  )
+}
+
 export function CreatineRankingTable({
   products,
   sortCol,
@@ -65,7 +111,9 @@ export function CreatineRankingTable({
   const arrow = (col: string) => (sortCol === col ? (sortAsc ? ' ▲' : ' ▼') : ' ⇅')
 
   return (
-    <div className="table-shell">
+    <>
+      <CreatineMobileRankingCards products={products} onSelect={onSelect} />
+      <div className="table-shell ranking-table-desktop">
       <table className="ranking-table">
         <thead>
           <tr>
@@ -105,7 +153,8 @@ export function CreatineRankingTable({
           ))}
         </tbody>
       </table>
-    </div>
+      </div>
+    </>
   )
 }
 
@@ -127,7 +176,7 @@ export function CreatineProductPageView({
   return (
     <section className="content-section">
       <button type="button" className="button secondary" onClick={onBack} style={{ marginBottom: 16 }}>← Tilbake til kreatinrangering</button>
-      <div className="review-card" style={{ gridTemplateColumns: '200px 1fr' }}>
+      <div className="review-card">
         <ProductImage name={product.name} brand={product.brand} image={product.image} altSuffix="kreatin fra Kosttest.no" />
         <div className="review-body">
           <div className="review-heading">

@@ -88,13 +88,46 @@ function SortableTh({ label, col, sortCol, sortAsc, onSort }: { label: string; c
   </th>
 }
 
-function RankingTable({ products, sortCol, sortAsc, onSort, kgPrice }: { products: TestedProduct[]; sortCol: string; sortAsc: boolean; onSort: (c: string) => void; kgPrice: (p: TestedProduct) => number }) {
+function RankingTable({ products, sortCol, sortAsc, onSort, kgPrice, onSelect }: { products: TestedProduct[]; sortCol: string; sortAsc: boolean; onSort: (c: string) => void; kgPrice: (p: TestedProduct) => number; onSelect?: (id: string) => void }) {
   return (
-    <div className="table-shell">
+    <>
+      <div className="ranking-cards-mobile" role="list" aria-label="PWO-rangering">
+        {products.map((p) => (
+          <button
+            key={p.id}
+            type="button"
+            className="ranking-card"
+            onClick={() => onSelect?.(p.id)}
+            role="listitem"
+          >
+            <div className="ranking-card-head">
+              <span className="rank-badge">#{p.rank}</span>
+              <ProductImage name={p.name} brand={p.brand} image={p.image} altSuffix="PWO" />
+              <div className="ranking-card-title">
+                <strong>{p.name}</strong>
+                <span>{p.brand}{p.award ? ` · ${p.award}` : ''}</span>
+              </div>
+              <div className="ranking-card-score">
+                <span className={gradeClass(p.overallGrade)}>{p.overallGrade}</span>
+                <strong>{p.score}</strong>
+              </div>
+            </div>
+            <dl className="ranking-card-stats ranking-card-stats--2">
+              <div><dt>Pris</dt><dd>{formatPrice(p.priceNok)}</dd></div>
+              <div><dt>kr/kg</dt><dd>{Math.round(kgPrice(p)).toLocaleString('nb-NO')} kr</dd></div>
+            </dl>
+            <div className="ranking-card-foot">
+              <span>{p.servingSize} pr. porsjon</span>
+              <ScoreBar product={p} />
+            </div>
+          </button>
+        ))}
+      </div>
+      <div className="table-shell ranking-table-desktop">
       <table className="ranking-table">
         <thead><tr><th>#</th><th>Produkt</th><SortableTh label="Pris" col="price" sortCol={sortCol} sortAsc={sortAsc} onSort={onSort} /><SortableTh label="Poeng" col="score" sortCol={sortCol} sortAsc={sortAsc} onSort={onSort} /></tr></thead>
         <tbody>{products.map(p => (
-          <tr key={p.id}>
+          <tr key={p.id} onClick={() => onSelect?.(p.id)} style={onSelect ? { cursor: 'pointer' } : undefined}>
             <td><span className="rank-badge">#{p.rank}</span></td>
             <td className="product-cell"><ProductImage name={p.name} brand={p.brand} image={p.image} altSuffix="PWO fra Kosttest.no" /><div><span>{p.name}</span><span>{p.brand} · {p.award}</span></div></td>
             <td><span style={{display:'block',fontSize:11,color:'var(--muted)'}}>{'kr ' + p.priceNok}</span><span style={{display:'block',fontSize:11,color:'var(--muted)'}}>{Math.round(kgPrice(p)).toLocaleString('nb-NO')} kr/kg</span></td>
@@ -102,7 +135,8 @@ function RankingTable({ products, sortCol, sortAsc, onSort, kgPrice }: { product
           </tr>
         ))}</tbody>
       </table>
-    </div>
+      </div>
+    </>
   )
 }
 
@@ -389,7 +423,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
     return (
     <section className="content-section">
       <button className="button secondary" onClick={() => { setPage('lb-pwo'); setSelectedProduct(null) }} style={{ marginBottom: 16 }}>← Tilbake til benchmark</button>
-      <div className="review-card" style={{ gridTemplateColumns: '200px 1fr' }}>
+      <div className="review-card">
         <ProductImage name={product.name} brand={product.brand} image={product.image} altSuffix="PWO fra Kosttest.no" />
         <div className="review-body">
           <div className="review-heading">
@@ -568,7 +602,14 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
                 <span className="filter-label" style={{fontSize:11,marginLeft:10}}>Beta-alanin:</span>
                 {(['med','uten'] as const).map(v => (<button key={v} className={'toggle-btn '+(betaFilter===v?'on':'off')} onClick={()=>setBetaFilter(v)}><span className="toggle-track"><span className="toggle-thumb"/></span><span className="toggle-label">{v==='med'?'Med':'Uten'}</span></button>))}
               </div>
-              <RankingTable products={sortedProducts} sortCol={sortCol} sortAsc={sortAsc} onSort={toggleSort} kgPrice={kgPrice} />
+              <RankingTable
+                products={sortedProducts}
+                sortCol={sortCol}
+                sortAsc={sortAsc}
+                onSort={toggleSort}
+                kgPrice={kgPrice}
+                onSelect={(id) => { setSelectedProduct(id); setPage('product') }}
+              />
             </section>
             <UnrankedProductsSection />
             {enablePwoScan && <SubmissionPanel />}

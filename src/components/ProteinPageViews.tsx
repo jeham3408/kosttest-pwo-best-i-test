@@ -21,6 +21,45 @@ function ScoreBar({ score }: { score: number }) {
   )
 }
 
+function ProteinMobileRankingCards({
+  products,
+  onSelect,
+}: {
+  products: TestedProteinProduct[]
+  onSelect: (id: string) => void
+}) {
+  return (
+    <div className="ranking-cards-mobile" role="list" aria-label="Proteinrangering">
+      {products.map((p) => (
+        <button key={p.id} type="button" className="ranking-card" onClick={() => onSelect(p.id)} role="listitem">
+          <div className="ranking-card-head">
+            <span className="rank-badge">#{p.rank}</span>
+            <ProductImage name={p.name} brand={p.brand} image={p.image} altSuffix="proteinpulver" />
+            <div className="ranking-card-title">
+              <strong>{p.name}</strong>
+              <span>{p.brand} · {p.sourceLabel}</span>
+              {p.verificationStatus === 'verified' && <span className="ranking-card-tag">✓ Verifisert</span>}
+            </div>
+            <div className="ranking-card-score">
+              <span className={gradeClass(p.overallGrade)}>{p.overallGrade}</span>
+              <strong>{p.score}</strong>
+            </div>
+          </div>
+          <dl className="ranking-card-stats">
+            <div><dt>DIAAS ★</dt><dd>{p.diaasScore}{!p.diaasIsOfficial ? ' (est.)' : ''}</dd></div>
+            <div><dt>IAAS</dt><dd>{p.iaasScore}</dd></div>
+            <div><dt>kr/g prot</dt><dd>{p.pricePerGramProtein.toFixed(2).replace('.', ',')} kr</dd></div>
+            <div><dt>Protein</dt><dd>{p.proteinPerServingG} g</dd></div>
+          </dl>
+          <div className="ranking-card-foot">
+            <span>{formatPrice(p.priceNok)} · {p.packageSize}</span>
+            <ScoreBar score={p.score} />
+          </div>
+        </button>
+      ))}
+    </div>
+  )
+}
 
 export function ProteinRankingTable({
   products,
@@ -38,7 +77,9 @@ export function ProteinRankingTable({
   const arrow = (col: string) => (sortCol === col ? (sortAsc ? ' ▲' : ' ▼') : ' ⇅')
 
   return (
-    <div className="table-shell">
+    <>
+      <ProteinMobileRankingCards products={products} onSelect={onSelect} />
+      <div className="table-shell ranking-table-desktop">
       <table className="ranking-table">
         <thead>
           <tr>
@@ -79,7 +120,8 @@ export function ProteinRankingTable({
           ))}
         </tbody>
       </table>
-    </div>
+      </div>
+    </>
   )
 }
 
@@ -98,7 +140,7 @@ export function ProteinProductPageView({
   return (
     <section className="content-section">
       <button className="button secondary" onClick={onBack} style={{ marginBottom: 16 }}>← Tilbake til proteinrangering</button>
-      <div className="review-card" style={{ gridTemplateColumns: '200px 1fr' }}>
+      <div className="review-card">
         <ProductImage name={product.name} brand={product.brand} image={product.image} altSuffix="proteinpulver fra Kosttest.no" />
         <div className="review-body">
           <div className="review-heading">
