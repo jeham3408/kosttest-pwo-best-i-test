@@ -10,6 +10,6 @@ export const brand = {
   homeHeroBannerMobile: '/brand/home-hero-banner-mobile.png',
   homeHeroBannerCharity: '/brand/home-hero-banner-charity.png',
   homeHeroBannerCharityMobile: '/brand/home-hero-banner-charity-mobile.png',
-  homeHeroBannerIndependent: '/brand/home-hero-banner-independent.png',
-  homeHeroBannerIndependentMobile: '/brand/home-hero-banner-independent-mobile.png',
+  /** Mobilbanner for metode/transparens — brukes utenfor karusellen, ikke som egen slide. */
+  homeHeroBannerMethodMobile: '/brand/home-hero-banner-independent-mobile.png',
 } as const
