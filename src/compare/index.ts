@@ -11,7 +11,7 @@ export {
   parseCompareIdsFromSearch,
   parseCompareRoute,
 } from './url'
-export { loadCompareStorage, saveCompareStorage, subscribeCompareStorage } from './storage'
+export { EMPTY_COMPARE_STATE, loadCompareStorage, saveCompareStorage, subscribeCompareStorage } from './storage'
 export { resolveCompareBarItems } from './resolveBarItems'
 export { trackCompareEvent, type CompareAnalyticsEvent } from './analytics'
 export { getCompareConfig, getSortedFields, pwoCompareConfig, proteinCompareConfig, creatineCompareConfig } from './registry'

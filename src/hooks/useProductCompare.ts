@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState, useSyncExternalStore } from 'react'
 import {
+  EMPTY_COMPARE_STATE,
   loadCompareStorage,
   MAX_COMPARE_PRODUCTS,
   saveCompareStorage,
@@ -7,7 +8,6 @@ import {
   trackCompareEvent,
   type CompareCategory,
 } from '../compare'
-import type { CompareStorageState } from '../compare/storage'
 
 export type { CompareCategory } from '../compare'
 
@@ -17,17 +17,11 @@ const categoryLabels: Record<CompareCategory, string> = {
   creatine: 'kreatin',
 }
 
-const emptyCompareState = (): CompareStorageState => ({
-  pwo: [],
-  protein: [],
-  creatine: [],
-})
-
 export function useProductCompare() {
   const stored = useSyncExternalStore(
     subscribeCompareStorage,
     loadCompareStorage,
-    emptyCompareState,
+    () => EMPTY_COMPARE_STATE,
   )
   const [categoryNotice, setCategoryNotice] = useState<string | null>(null)
 
