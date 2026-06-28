@@ -44,7 +44,7 @@ import { resolvePwoTrust } from './data/trust/resolvers/pwo'
 import PwoLeaderboardPage from './components/pwo/PwoLeaderboardPage'
 import PwoBadgeList from './components/pwo/PwoBadgeList'
 import { buildPwoBadgeContext, getPwoBadges, calculatePwoValueIndex } from './data/pwo'
-import { isPwoFullyRankable } from './data/pwo/dataConfidence'
+import { getPwoRankingDisplay } from './data/pwo/dataConfidence'
 import ProductCompareView from './components/ProductCompareView'
 import ProductCompareBar from './components/ProductCompareBar'
 import CompareCategoryNotice from './components/compare/CompareCategoryNotice'
@@ -394,12 +394,12 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
   }, [pageMeta])
 
   const ProductPage = ({ product }: { product: TestedProduct }) => {
-    const ranked = isPwoFullyRankable(product)
+    const display = getPwoRankingDisplay(product)
     const content = generateProductContent(product)
     const badges = getPwoBadges(product, pwoBadgeCtx)
-    const valueIndex = ranked ? calculatePwoValueIndex(product) : null
+    const valueIndex = display.fullyRanked ? calculatePwoValueIndex(product) : null
     const related = getRelatedProducts(product)
-    const priceGrade = ranked ? calculatePriceGrade(product.pricePerServing) : null
+    const priceGrade = display.fullyRanked ? calculatePriceGrade(product.pricePerServing) : null
     return (
     <section className="content-section">
       <button className="button secondary" onClick={() => { setPage('lb-pwo'); setSelectedProduct(null) }} style={{ marginBottom: 16 }}>← Tilbake til benchmark</button>
@@ -412,27 +412,27 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
             <div>
               <PwoBadgeList badges={badges} />
               <h1 style={{ marginTop: 4, fontSize: 22 }}>
-                {ranked ? `#${product.rank} ` : ''}
+                {display.fullyRanked ? `#${product.rank} ` : ''}
                 {product.name}
               </h1>
               <p>{content.summary}</p>
             </div>
             <div className="score-lockup-wrap">
               <ScoreLockup
-                grade={ranked ? product.overallGrade : undefined}
-                score={ranked ? product.score : undefined}
+                grade={display.showFormulaScore ? product.overallGrade : undefined}
+                score={display.showFormulaScore ? product.score : undefined}
                 maxPoints={PWO_FORMULA_MAX_POINTS}
-                pendingLabel={ranked ? undefined : 'Venter på kontroll'}
+                pendingLabel={display.showFormulaScore ? undefined : display.exclusionNote}
               />
             </div>
           </div>
           
           <div className="spec-row">
             <span>Pris/dose: {formatPrice(product.pricePerServing)}</span>
-            {ranked && priceGrade && valueIndex ? (
+            {display.fullyRanked && priceGrade && valueIndex ? (
               <span>Verdi (ref.): {priceGrade.grade} · indeks {valueIndex.index}</span>
             ) : (
-              <span>Status: Ufullstendig deklarasjon — ikke rangert</span>
+              <span>Status: {display.exclusionNote ?? 'Ufullstendig deklarasjon'} — ikke i hovedrangering</span>
             )}
             {product.servings ? (
               <span>{product.servings} fulle doser per boks</span>

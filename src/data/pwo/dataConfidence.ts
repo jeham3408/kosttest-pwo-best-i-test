@@ -89,3 +89,34 @@ export function getPwoDataConfidence(product: TestedProduct): {
 export function isPwoFullyRankable(product: TestedProduct): boolean {
   return getPwoDataConfidence(product).fullDeclaration
 }
+
+export type PwoRankingDisplay = {
+  fullyRanked: boolean
+  showFormulaScore: boolean
+  exclusionNote?: string
+}
+
+/** Skiller «venter på kontroll» fra kontrollerte produkter uten pump-ingrediens. */
+export function getPwoRankingDisplay(product: TestedProduct): PwoRankingDisplay {
+  if (isPwoFullyRankable(product)) {
+    return { fullyRanked: true, showFormulaScore: true }
+  }
+
+  const { reasons } = getPwoDataConfidence(product)
+  const onlyPumpMissing =
+    reasons.length === 1 && reasons[0].includes('pump-ingrediens')
+
+  if (onlyPumpMissing) {
+    return {
+      fullyRanked: false,
+      showFormulaScore: true,
+      exclusionNote: 'Mangler pump-ingrediens',
+    }
+  }
+
+  return {
+    fullyRanked: false,
+    showFormulaScore: false,
+    exclusionNote: 'Venter på kontroll',
+  }
+}

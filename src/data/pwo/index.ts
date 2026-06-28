@@ -1,4 +1,10 @@
-export { getPwoDataConfidence, isPwoFullyRankable, type DataConfidenceLevel } from './dataConfidence'
+export {
+  getPwoDataConfidence,
+  getPwoRankingDisplay,
+  isPwoFullyRankable,
+  type DataConfidenceLevel,
+  type PwoRankingDisplay,
+} from './dataConfidence'
 export {
   PWO_BADGE_THRESHOLDS,
   calculatePwoValueIndex,
