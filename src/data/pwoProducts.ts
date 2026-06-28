@@ -88,7 +88,7 @@ export const ingredientRules: IngredientRule[] = [
     weight: 40,
     cDoseMg: 4000,
     aDoseMg: 10000,
-    note: 'L-citrulline + arginin/2 + rødbete×0,9. Alle NO-boostarar er samla her. 2 bonuspoeng om L-citrulline + rødbete ≥ 13 g.',
+    note: 'L-citrulline + arginin/2 + rødbete×0,9. Alle NO-boostere er samlet her. 2 bonuspoeng hvis L-citrulline + rødbete ≥ 13 g.',
   },
   {
     key: 'betaAlanine',
@@ -104,7 +104,7 @@ export const ingredientRules: IngredientRule[] = [
     weight: 12,
     cDoseMg: 1500,
     aDoseMg: 6000,
-    note: 'Styrke/uthald. Nyttig i totalbiletet.',
+    note: 'Styrke/utholdenhet. Nyttig i totalbildet.',
   },
   {
     key: 'taurine',
@@ -120,7 +120,7 @@ export const ingredientRules: IngredientRule[] = [
     weight: 4,
     cDoseMg: 10000,
     aDoseMg: 15000,
-    note: 'Fokus under stress. Høgt dosekrav, lav vekt.',
+    note: 'Fokus under stress. Høyt dosekrav, lav vekt.',
   },
   {
     key: 'glycerol',
@@ -128,7 +128,7 @@ export const ingredientRules: IngredientRule[] = [
     weight: 10,
     cDoseMg: 5000,
     aDoseMg: 20000,
-    note: 'Glysersize/Hydroprime × 0,65. Maks score ved 20 g for å vise kor mykje som faktisk skal til.',
+    note: 'Glysersize/Hydroprime × 0,65. Maks score ved 20 g for å vise hvor mye som faktisk skal til.',
   },
   {
     key: 'rhodiola',
@@ -140,11 +140,11 @@ export const ingredientRules: IngredientRule[] = [
   },
   {
     key: 'electrolytes',
-    label: 'Elektrolyttar (Na/K/Mg)',
+    label: 'Elektrolytter (Na/K/Mg)',
     weight: 3,
     cDoseMg: 200,
     aDoseMg: 500,
-    note: 'Mineralar for hydrering. Vekt 3.',
+    note: 'Mineraler for hydrering. Vekt 3.',
   },
 ]
 

@@ -59,7 +59,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     id: 'koffein',
-    title: 'Koffein: Energien som må brukast rett',
+    title: 'Koffein: Energien som må brukes riktig',
     slug: 'koffein',
     excerpt: 'Koffein er verdens mest brukte prestasjonsfremmende stoff. Her er vanlige doser, bivirkninger og hvorfor det ikke inngår i formelscoren vår.',
     category: 'Ingredienser',

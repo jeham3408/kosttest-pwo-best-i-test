@@ -1,8 +1,33 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { brand } from '../brand'
+import { EDITORIAL } from '../data/editorialLabels'
 
-const slides = [
+type ImageSlide = {
+  kind: 'image'
+  id: string
+  desktop: string
+  mobile?: string
+  alt: string
+  label: string
+  width: number
+  height: number
+}
+
+type CopySlide = {
+  kind: 'copy'
+  id: 'independent'
+  title: string
+  lead: string
+  alt: string
+  label: string
+  mobile?: string
+}
+
+type HeroSlide = ImageSlide | CopySlide
+
+const slides: HeroSlide[] = [
   {
+    kind: 'image',
     id: 'hero',
     desktop: brand.homeHeroBanner,
     mobile: brand.homeHeroBannerMobile,
@@ -12,15 +37,16 @@ const slides = [
     height: 821,
   },
   {
+    kind: 'copy',
     id: 'independent',
-    desktop: brand.homeHeroBannerIndependent,
-    mobile: brand.homeHeroBannerIndependentMobile,
-    alt: 'Ingen kan kjøpe seg til toppen — produkter vurderes etter åpne kriterier. Ikke reklame, ikke sponsing, bare resultater.',
+    title: 'Åpen, regelbasert sammenligning',
+    lead: 'Produkter rangeres uten kjøpte plasseringer — etter publiserte regler og deklarasjonsanalyse, ikke laboratorietest av hver pose.',
+    alt: EDITORIAL.openComparison,
     label: 'Åpen sammenligning',
-    width: 1024,
-    height: 438,
+    mobile: brand.homeHeroBannerIndependentMobile,
   },
   {
+    kind: 'image',
     id: 'charity',
     desktop: brand.homeHeroBannerCharity,
     mobile: brand.homeHeroBannerCharityMobile,
@@ -29,9 +55,8 @@ const slides = [
     width: 1916,
     height: 821,
   },
-] as const
+]
 
-type HeroSlide = (typeof slides)[number]
 type LoopSlide = HeroSlide & { loopKey: string }
 
 const loopSlides: LoopSlide[] = [
@@ -43,8 +68,12 @@ const loopSlides: LoopSlide[] = [
 const FIRST_POSITION = 1
 const LAST_POSITION = slides.length
 
-function slideHasMobile(slide: HeroSlide): slide is HeroSlide & { mobile: string } {
-  return 'mobile' in slide
+function slideHasMobile(slide: HeroSlide): slide is ImageSlide & { mobile: string } {
+  return slide.kind === 'image' && 'mobile' in slide && Boolean(slide.mobile)
+}
+
+function copySlideHasMobile(slide: CopySlide): slide is CopySlide & { mobile: string } {
+  return Boolean(slide.mobile)
 }
 
 function positionToActive(position: number) {
@@ -415,24 +444,51 @@ export default function HomeHeroSlider() {
           {loopSlides.map((slide, index) => (
             <div
               key={slide.loopKey}
-              className={`home-hero-slide${slideHasMobile(slide) ? ' home-hero-slide--has-mobile' : ''}`}
+              className={`home-hero-slide${
+                slide.kind === 'image' && slideHasMobile(slide) ? ' home-hero-slide--has-mobile' : ''
+              }${slide.kind === 'copy' ? ' home-hero-slide--copy' : ''}`}
               aria-hidden={index !== position}
             >
-              <picture>
-                {slideHasMobile(slide) ? (
-                  <source media="(max-width: 767px)" srcSet={slide.mobile} />
-                ) : null}
-                <img
-                  src={slide.desktop}
-                  alt={slide.alt}
-                  className={`home-hero-banner-img home-hero-banner-img--${slide.id}`}
-                  width={slide.width}
-                  height={slide.height}
-                  fetchPriority={slide.id === 'hero' && index === FIRST_POSITION ? 'high' : 'auto'}
-                  decoding="async"
-                  draggable={false}
-                />
-              </picture>
+              {slide.kind === 'copy' ? (
+                <>
+                  <div className="home-hero-copy-slide" role="img" aria-label={slide.alt}>
+                    <div className="home-hero-copy-slide-inner">
+                      <p className="home-hero-copy-eyebrow">Deklarasjonsanalyse</p>
+                      <h2 className="home-hero-copy-title">{slide.title}</h2>
+                      <p className="home-hero-copy-lead">{slide.lead}</p>
+                    </div>
+                  </div>
+                  {copySlideHasMobile(slide) ? (
+                    <picture className="home-hero-copy-mobile-only">
+                      <img
+                        src={slide.mobile}
+                        alt="Ingen kan kjøpe seg til toppen — produkter vurderes etter åpne kriterier uten sponsede plasseringer."
+                        className="home-hero-banner-img home-hero-banner-img--independent"
+                        width={1086}
+                        height={1448}
+                        decoding="async"
+                        draggable={false}
+                      />
+                    </picture>
+                  ) : null}
+                </>
+              ) : (
+                <picture>
+                  {slideHasMobile(slide) ? (
+                    <source media="(max-width: 767px)" srcSet={slide.mobile} />
+                  ) : null}
+                  <img
+                    src={slide.desktop}
+                    alt={slide.alt}
+                    className={`home-hero-banner-img home-hero-banner-img--${slide.id}`}
+                    width={slide.width}
+                    height={slide.height}
+                    fetchPriority={slide.id === 'hero' && index === FIRST_POSITION ? 'high' : 'auto'}
+                    decoding="async"
+                    draggable={false}
+                  />
+                </picture>
+              )}
             </div>
           ))}
         </div>

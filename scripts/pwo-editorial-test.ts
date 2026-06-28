@@ -189,6 +189,7 @@ for (const p of testedProducts) {
   assert(Boolean(s.priceAssessment), `${p.id}: priceAssessment`)
   assert(Boolean(s.dataStatus), `${p.id}: dataStatus`)
   assert(Boolean(s.scoreExplanation), `${p.id}: scoreExplanation`)
+  assert(!/enkel PWO med score/i.test(s.bestFor), `${p.id}: unngå generisk «enkel PWO med score»`)
   if (s.severity === 'limited' && p.score < 11) {
     assert(!banned.test(s.bestFor), `${p.id}: svakt produkt uten overdrivelse`)
   }

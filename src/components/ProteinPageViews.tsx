@@ -419,7 +419,7 @@ export function ProteinMetodeSection() {
           <h3 style={{ margin: '0 0 8px', fontSize: 15 }}>Verdi (pris per gram protein)</h3>
           <p style={{ fontSize: 13, lineHeight: 1.6, margin: 0 }}>
             Pris per gram protein er referansekarakter A–F. Lav pris kan gi «Best budsjett» eller «Best verdi blant whey»,
-            men ikke automatisk topplassering når DIAAS-estimatet er lågt.
+            men ikke automatisk topplassering når DIAAS-estimatet er lavt.
           </p>
         </div>
       </div>

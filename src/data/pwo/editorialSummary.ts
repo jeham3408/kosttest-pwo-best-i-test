@@ -210,6 +210,61 @@ function collectLimitations(
   return out.slice(0, 3)
 }
 
+function describeFormulaGap(
+  product: TestedProduct,
+  ing: IngredientSnapshot,
+  score: number,
+  caffeine: number,
+  hasCaffeine: boolean,
+  pumpWeak: boolean,
+  pumpStrong: boolean,
+  priceGrade: ReturnType<typeof calculatePriceGrade>,
+  expensive: boolean,
+): string {
+  const gaps: string[] = []
+
+  if (pumpWeak) {
+    gaps.push(`lav pump-dose (${fmtMg(ing.pumpEqMg)} mg L-citrulline-ekv.)`)
+  } else if (!pumpStrong && ing.pumpEqMg > 0) {
+    gaps.push(`moderat pump (${fmtMg(ing.pumpEqMg)} mg ekv.)`)
+  }
+
+  if (ing.betaAlanineMg === 0) {
+    gaps.push('ingen beta-alanin oppgitt')
+  } else if (ing.betaAlanineMg < 1600) {
+    gaps.push(`beta-alanin ${fmtMg(ing.betaAlanineMg)} mg (under 3200 mg anbefalt)`)
+  }
+
+  if (/uklar|malat.*ikke|proprietary|blend/i.test(product.citrullineForm)) {
+    gaps.push('uklar citrullin-form i deklarasjonen')
+  }
+
+  if (hasCaffeine && caffeine >= 300 && pumpWeak) {
+    gaps.push(`${caffeine} mg koffein uten tilsvarende pump`)
+  } else if (hasCaffeine && caffeine >= 200 && pumpWeak && gaps.length < 2) {
+    gaps.push(`${caffeine} mg koffein med svak pump-profil`)
+  }
+
+  if (expensive && score < 46) {
+    gaps.push(`høy pris per dose (verdi ${priceGrade.grade})`)
+  }
+
+  if (ing.betaineMg > 0 && ing.betaineMg < 1500 && gaps.length < 2) {
+    gaps.push(`betain ${fmtMg(ing.betaineMg)} mg under toppdose`)
+  }
+
+  if (!hasCaffeine && score < 34 && !gaps.some((g) => /pump|koffein/i.test(g))) {
+    gaps.push('koffeinfri med begrenset pump-profil')
+  }
+
+  const detail =
+    gaps.length > 0
+      ? gaps.slice(0, 2).join(' og ')
+      : 'lav deklarert dose av flere sentrale ingredienser'
+
+  return `${product.brand}: ${detail} — score ${score}/${PWO_FORMULA_MAX_POINTS}.`
+}
+
 function buildBestFor(
   product: TestedProduct,
   badgeCtx: PwoBadgeContext,
@@ -253,7 +308,17 @@ function buildBestFor(
     if (hasCaffeine && caffeine >= 150) {
       return `Deg som først og fremst ønsker ${caffeine} mg koffein — ikke maksimal ingrediensdose (score ${score}).`
     }
-    return `Deg som ønsker enkel PWO med begrenset deklarert dose — score ${score}/${PWO_FORMULA_MAX_POINTS}.`
+    return describeFormulaGap(
+      product,
+      ing,
+      score,
+      caffeine,
+      hasCaffeine,
+      pumpWeak,
+      pumpStrong,
+      priceGrade,
+      expensive,
+    )
   }
 
   if (score < 34) {
@@ -287,7 +352,17 @@ function buildBestFor(
     if (pumpWeak) {
       return `${caffeine} mg koffein og svak pump-dose — ${product.brand}, score ${score}.`
     }
-    return `${product.brand}: enkel PWO med score ${score}/${PWO_FORMULA_MAX_POINTS} (verdi ${priceGrade.grade}).`
+    return describeFormulaGap(
+      product,
+      ing,
+      score,
+      caffeine,
+      hasCaffeine,
+      pumpWeak,
+      pumpStrong,
+      priceGrade,
+      expensive,
+    )
   }
 
   if (score < 46) {
@@ -307,7 +382,17 @@ function buildBestFor(
       return `Deg som tåler enklere stim-profil (${caffeine} mg koffein, ${fmtMg(ing.taurineMg)} mg taurin) — ${product.brand}.`
     }
     if (caffeine <= 200) {
-      return `Deg som ønsker balansert, ikke maksimal dose — ${caffeine} mg koffein og score ${score}/${PWO_FORMULA_MAX_POINTS}.`
+      return describeFormulaGap(
+        product,
+        ing,
+        score,
+        caffeine,
+        hasCaffeine,
+        pumpWeak,
+        pumpStrong,
+        priceGrade,
+        expensive,
+      )
     }
     if (pumpStrong) {
       return `Deg som tåler ${caffeine} mg koffein og vil ha ${pumpMg} mg pump-ekv. — formelscore ${score}.`

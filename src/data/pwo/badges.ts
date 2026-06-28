@@ -85,7 +85,7 @@ const BADGE_META: Record<
     id: 'sterkeste',
     title: 'Sterkaste',
     shortLabel: 'Sterkaste',
-    explanation: `Høyest samla formelscore blant produkt med ≥ ${PWO_BADGE_THRESHOLDS.strongestMinCaffeineMg} mg koffein og score ≥ ${PWO_BADGE_THRESHOLDS.strongestMinFormulaScore}.`,
+    explanation: `Høyest samlet formelscore blant produkt med ≥ ${PWO_BADGE_THRESHOLDS.strongestMinCaffeineMg} mg koffein og score ≥ ${PWO_BADGE_THRESHOLDS.strongestMinFormulaScore}.`,
     priority: 60,
     disclaimerText:
       'Sterk formel betyr ikke «mest koffein». Følg alltid dosering på emballasjen og test toleranse.',
@@ -175,7 +175,7 @@ function eligibilityReason(product: TestedProduct, id: PwoBadgeId, ctx: PwoBadge
       return `Pump-poeng ${pump.points.toFixed(1).replace('.', ',')}/40 (${pump.citrullineEqMg.toLocaleString('nb-NO')} mg ekvivalent).`
     }
     case 'best-lav-koffein':
-      return `Formelscore ${product.score} med ${product.caffeineMg} mg koffein — best i låg-koffein-segmentet.`
+      return `Formelscore ${product.score} med ${product.caffeineMg} mg koffein — best i lav-koffein-segmentet.`
     case 'best-nybegynner':
       return `Nybegynner-score ${beginnerFitScore(product).toFixed(1).replace('.', ',')} (moderat koffein + formel).`
     case 'sterkeste':
