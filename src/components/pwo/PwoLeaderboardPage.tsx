@@ -14,6 +14,8 @@ import {
 } from '../../data/pwo'
 import AssessmentDisclaimer from '../AssessmentDisclaimer'
 import LastUpdatedNotice from '../LastUpdatedNotice'
+import HubPageBanner from '../HubPageBanner'
+import { resolvePwoHubBannerId } from '../../data/hubBanners'
 import LeaderboardSection from '../../LeaderboardSection'
 import ProductCompareBar from '../ProductCompareBar'
 import { resolveCompareBarItems } from '../../compare'
@@ -153,9 +155,8 @@ function PwoLeaderboardPageInner({
 
   return (
     <>
-      <section className="hub-page-hero">
-        <p className="test-badge-inline">Deklarasjonsanalyse</p>
-        <h1>{hero.title}</h1>
+      <HubPageBanner bannerId={resolvePwoHubBannerId(caffeineFilter)} title={hero.title} />
+      <section className="hub-page-hero hub-page-hero--after-banner">
         <p className="lead">{hero.lead}</p>
         <LastUpdatedNotice />
       </section>

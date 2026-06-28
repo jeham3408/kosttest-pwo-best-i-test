@@ -28,6 +28,8 @@ import ProductImage from './ProductImage'
 import { MethodRulesCards, MethodBadgeCards } from './MethodRulesDisplay'
 import AssessmentDisclaimer from './AssessmentDisclaimer'
 import LastUpdatedNotice from './LastUpdatedNotice'
+import HubPageBanner from './HubPageBanner'
+import { resolveProteinHubBannerId } from '../data/hubBanners'
 import CompareToggle from './CompareToggle'
 import ProductCompareBar from './ProductCompareBar'
 import { resolveCompareBarItems } from '../compare'
@@ -564,9 +566,8 @@ export function ProteinLeaderboardBlock({
 
   return (
     <>
-      <section className="hub-page-hero">
-        <p className="test-badge-inline">Deklarasjonsanalyse</p>
-        <h1>{heroTitle}</h1>
+      <HubPageBanner bannerId={resolveProteinHubBannerId(proteinFilter)} title={heroTitle} />
+      <section className="hub-page-hero hub-page-hero--after-banner">
         <p className="lead">{heroLead}</p>
         <LastUpdatedNotice />
       </section>

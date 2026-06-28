@@ -1,0 +1,12 @@
+nummer,side,path,desktop_fil,mobil_fil,status,produkt_ref,merknad
+01,Forside hero,/,home-hero-banner.png,home-hero-banner-mobile.png,FINNES,—,ikke regenerer
+02,Forside veldedighet,/,home-hero-banner-charity.png,home-hero-banner-charity-mobile.png,FINNES,—,ikke regenerer
+03,Metode mobil,/,—,home-hero-banner-independent-mobile.png,FINNES,—,ikke regenerer
+05,PWO hub,/tester/pwo/,05-pwo-hub-desktop-1916x821.png,06-pwo-hub-mobile-1086x1448.png,NY,peveo-maxed + naturecan-pwo,gjelder også /beste /sterkeste /verdi /nybegynner /billigste
+07,Protein hub,/tester/protein/,07-protein-hub-desktop-1916x821.png,08-protein-hub-mobile-1086x1448.png,NY,star-whey-100,gjelder også /beste /billigste
+09,Kreatin hub,/tester/kreatin/,09-kreatin-hub-desktop-1916x821.png,10-kreatin-hub-mobile-1086x1448.png,NY,nutritac + esn,gjelder også /beste /billigste
+11,Om metoden,/om-metoden/,11-metode-desktop-1916x821.png,—,NY,—,mobil finnes (03)
+12,Om Kosttest,/om-kosttest/,12-om-kosttest-desktop-1916x821.png,13-om-kosttest-mobile-1086x1448.png,NY,—,
+14,PWO stim-free,/tester/pwo/stim-free/,14-pwo-stim-free-desktop-1916x821.png,15-pwo-stim-free-mobile-1086x1448.png,NY,peveo-stim-free,egen nisje-SEO
+16,Protein vegan,/tester/protein/vegan/,16-protein-vegan-desktop-1916x821.png,17-protein-vegan-mobile-1086x1448.png,NY,myprotein-vegan-blend,egen nisje-SEO
+18,Kreatin creapure,/tester/kreatin/creapure/,18-kreatin-creapure-desktop-1916x821.png,19-kreatin-creapure-mobile-1086x1448.png,NY,nutritac-bare-creatine,egen nisje-SEO

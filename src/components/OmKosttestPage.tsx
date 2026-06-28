@@ -1,11 +1,12 @@
 import { lastUpdated } from '../data/siteMeta'
+import HubPageBanner from './HubPageBanner'
 
 export default function OmKosttestPage() {
   return (
-    <section className="content-section">
-      <div className="hub-page-hero" style={{ paddingLeft: 0, paddingRight: 0 }}>
-        <p className="test-badge-inline">Om Kosttest</p>
-        <h1>Om Kosttest.no</h1>
+    <>
+      <HubPageBanner bannerId="om-kosttest" title="Om Kosttest.no" />
+      <section className="content-section">
+      <div className="hub-page-hero hub-page-hero--after-banner" style={{ paddingLeft: 0, paddingRight: 0 }}>
         <p className="lead">
           Kosttest er en sammenligningstjeneste for kosttilskudd solgt i Norge. Produkter rangeres etter et
           publisert regelsett per kategori. Betalt plassering påvirker ikke rangeringen.
@@ -105,5 +106,6 @@ export default function OmKosttestPage() {
         </p>
       </div>
     </section>
+    </>
   )
 }

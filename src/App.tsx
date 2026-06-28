@@ -37,6 +37,7 @@ import ScoreLockup from './components/ScoreLockup'
 import ProductDataQuality from './components/ProductDataQuality'
 import DataFreshnessPage from './components/trust/DataFreshnessPage'
 import OmKosttestPage from './components/OmKosttestPage'
+import HubPageBanner from './components/HubPageBanner'
 import NotFoundPage from './components/NotFoundPage'
 import ProductTrustStrip from './components/trust/ProductTrustStrip'
 import { resolvePwoTrust } from './data/trust/resolvers/pwo'
@@ -987,11 +988,11 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
         )}
 
         {page === 'metode' && (
+          <>
+            <HubPageBanner bannerId="metode" title="Slik tester vi kosttilskudd" />
           <section className="content-section">
             <button type="button" className="button secondary" onClick={() => setPage('home')} style={{ marginBottom: 16 }}>← Forside</button>
-            <div className="section-heading">
-              <span>Metode</span>
-              <h1>Slik tester vi kosttilskudd</h1>
+            <div className="section-heading hub-page-hero--after-banner" style={{ paddingTop: 0 }}>
               <p>Hver kategori har egen scoring tilpasset produkttypen. PWO vektlegger ingredienser per dose, protein bruker DIAAS, kreatin vektlegger merkevare på råstoff og dokumentasjon — med poengtrekk når data mangler. {SITE_RANKING_TIEBREAKER_SHORT}</p>
             </div>
             <div className="category-grid" style={{ marginBottom: 32 }}>
@@ -1013,6 +1014,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
             </div>
             <GradingSystemSection />
           </section>
+          </>
         )}
       </main>
       <SiteFooter />

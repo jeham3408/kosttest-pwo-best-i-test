@@ -41,6 +41,8 @@ import CreatineFilterBar from './creatine/CreatineFilterBar'
 import DataTransparencyPanel from './trust/DataTransparencyPanel'
 import { TrustLevelExplainer } from './trust/ProductDataStatus'
 import LastUpdatedNotice from './LastUpdatedNotice'
+import HubPageBanner from './HubPageBanner'
+import { resolveCreatineHubBannerId } from '../data/hubBanners'
 import { resolveCreatineTrust } from '../data/trust/resolvers/creatine'
 
 const formatPrice = (price: number) =>
@@ -527,15 +529,16 @@ export function CreatineLeaderboardBlock({
   const badgeCtx = useMemo(() => buildCreatineBadgeContext(testedCreatineProducts), [])
   const relaxTips = suggestCreatineFilterRelaxations(filters)
 
+  const heroTitle =
+    creapureFilter === 'creapure' ? 'Creapure kreatin – sammenligning 2026' : 'Kreatin – sammenligning 2026'
+
+  const heroLead = `${testedCreatineProducts.length} kreatinprodukter rangert etter merkevare-kreatin, renhet, mesh og dopingtest — ikke pris. Poengtrekk gis når dokumentasjon mangler; uten oppgitt data kan produktet ikke nå toppscore. ${CREATINE_RANKING_TIEBREAKER_SHORT}`
+
   return (
     <>
-      <section className="hub-page-hero">
-        <p className="test-badge-inline">Deklarasjonsanalyse</p>
-        <h1>Kreatin – sammenligning 2026</h1>
-        <p className="lead">
-          {testedCreatineProducts.length} kreatinprodukter rangert etter merkevare-kreatin, renhet, mesh og dopingtest — ikke pris.
-          Poengtrekk gis når dokumentasjon mangler; uten oppgitt data kan produktet ikke nå toppscore. {CREATINE_RANKING_TIEBREAKER_SHORT}
-        </p>
+      <HubPageBanner bannerId={resolveCreatineHubBannerId(creapureFilter)} title={heroTitle} />
+      <section className="hub-page-hero hub-page-hero--after-banner">
+        <p className="lead">{heroLead}</p>
         <LastUpdatedNotice />
       </section>
       <section className="content-section" style={{ paddingTop: 0 }}>
