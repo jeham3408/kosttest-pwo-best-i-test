@@ -43,6 +43,7 @@ import { resolvePwoTrust } from './data/trust/resolvers/pwo'
 import PwoLeaderboardPage from './components/pwo/PwoLeaderboardPage'
 import PwoBadgeList from './components/pwo/PwoBadgeList'
 import { buildPwoBadgeContext, getPwoBadges, calculatePwoValueIndex } from './data/pwo'
+import { isPwoFullyRankable } from './data/pwo/dataConfidence'
 import ProductCompareView from './components/ProductCompareView'
 import ProductCompareBar from './components/ProductCompareBar'
 import CompareCategoryNotice from './components/compare/CompareCategoryNotice'
@@ -59,7 +60,7 @@ import {
 import { PwoMethodRulesCards, type PwoMethodRuleItem } from './components/MethodRulesDisplay'
 import SiteFooter, { KilderPageContent } from './components/SiteFooter'
 import { testedCreatineProducts } from './data/creatineProducts'
-import { RANKING_TIEBREAKER_NOTE, RANKING_TIEBREAKER_SHORT } from './data/rankingNotes'
+import { PWO_RANKING_TIEBREAKER_NOTE, SITE_RANKING_TIEBREAKER_SHORT } from './data/rankingNotes'
 import { getPageMeta, isCaseinProtein, isVeganProtein, isWheyProtein, normalizePath, parseRoute, routeToPath, type AppPage, type RouteState } from './routing'
 import { getRelatedProducts } from './utils/productHelpers'
 
@@ -186,7 +187,7 @@ function GradingSystemSection() {
           Bitter orange (synefrin) står oppført på enkelte etiketter, men gir verken bonus eller trekk.
           Doseringsgrensene er basert på <a href="https://jissn.biomedcentral.com/articles/10.1186/s12970-020-00383-4" target="_blank" rel="noreferrer">ISSN sine retningslinjer</a>.
         </p>
-        <p style={{ marginTop: 12 }}>{RANKING_TIEBREAKER_NOTE}</p>
+        <p style={{ marginTop: 12 }}>{PWO_RANKING_TIEBREAKER_NOTE}</p>
       </div>
     </section>
   )
@@ -392,11 +393,12 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
   }, [pageMeta])
 
   const ProductPage = ({ product }: { product: TestedProduct }) => {
+    const ranked = isPwoFullyRankable(product)
     const content = generateProductContent(product)
     const badges = getPwoBadges(product, pwoBadgeCtx)
-    const valueIndex = calculatePwoValueIndex(product)
+    const valueIndex = ranked ? calculatePwoValueIndex(product) : null
     const related = getRelatedProducts(product)
-    const priceGrade = calculatePriceGrade(product.pricePerServing)
+    const priceGrade = ranked ? calculatePriceGrade(product.pricePerServing) : null
     return (
     <section className="content-section">
       <button className="button secondary" onClick={() => { setPage('lb-pwo'); setSelectedProduct(null) }} style={{ marginBottom: 16 }}>← Tilbake til benchmark</button>
@@ -408,19 +410,33 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
           <div className="review-heading">
             <div>
               <PwoBadgeList badges={badges} />
-              <h1 style={{ marginTop: 4, fontSize: 22 }}>#{product.rank} {product.name}</h1>
+              <h1 style={{ marginTop: 4, fontSize: 22 }}>
+                {ranked ? `#${product.rank} ` : ''}
+                {product.name}
+              </h1>
               <p>{content.summary}</p>
             </div>
             <div className="score-lockup-wrap">
-              <ScoreLockup grade={product.overallGrade} score={product.score} maxPoints={PWO_FORMULA_MAX_POINTS} />
+              <ScoreLockup
+                grade={ranked ? product.overallGrade : undefined}
+                score={ranked ? product.score : undefined}
+                maxPoints={PWO_FORMULA_MAX_POINTS}
+                pendingLabel={ranked ? undefined : 'Venter på kontroll'}
+              />
             </div>
           </div>
           
           <div className="spec-row">
             <span>Pris/dose: {formatPrice(product.pricePerServing)}</span>
-            <span>Verdi (ref.): {priceGrade.grade} · indeks {valueIndex.index}</span>
-            <span>{product.servings} porsjoner</span>
-            <span>{product.servingSize} per dose</span>
+            {ranked && priceGrade && valueIndex ? (
+              <span>Verdi (ref.): {priceGrade.grade} · indeks {valueIndex.index}</span>
+            ) : (
+              <span>Status: Ufullstendig deklarasjon — ikke rangert</span>
+            )}
+            {product.servings ? (
+              <span>{product.servings} fulle doser per boks</span>
+            ) : null}
+            {product.servingSize ? <span>{product.servingSize}</span> : null}
           </div>
 
           <div className="product-highlight-row">
@@ -897,7 +913,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
 
             <div style={{marginTop:24}}>
               <h2>1. Hva er en PWO?</h2>
-              <p style={{lineHeight:1.65}}>PWO (Pre-Workout) er et kosttilskudd du tar før trening for å øke energi, fokus, utholdenhet og muskelpump. De fleste PWO-er inneholder en blanding av stimulanter (koffein), aminosyrer (L-citrulline, beta-alanin) og andre aktive stoffer.</p>
+              <p style={{lineHeight:1.65}}>PWO (Pre-Workout) er et kosttilskudd du ofte tar før trening. Mange produkter kombinerer stimulanter (koffein), aminosyrer (L-citrulline, beta-alanin) og andre aktive stoffer. Effekt varierer mellom personer — vi vurderer deklarert dose, ikke individuell effekt.</p>
             </div>
 
             <div style={{marginTop:24}}>
@@ -905,7 +921,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
               <div className="hub-duo-grid" style={{ marginTop: 10, marginBottom: 0 }}>
                 <div style={{background:'var(--paper)',padding:12,borderRadius:8}}>
                   <strong style={{color:'var(--accent)'}}>L-citrulline</strong>
-                  <p style={{fontSize:13,lineHeight:1.5,margin:'4px 0 0'}}>Viktigste ingrediens for pump. Se etter 4000–10000 mg. Citrulline malate 2:1 gir ~67% reint L-citrulline.</p>
+                  <p style={{fontSize:13,lineHeight:1.5,margin:'4px 0 0'}}>Studeres for pump og blodgjennomstrømning. Se etter 4000–10000 mg deklarert L-citrulline-ekvivalent. Citrulline malate 2:1 gir ~67% reint L-citrulline.</p>
                 </div>
                 <div style={{background:'var(--paper)',padding:12,borderRadius:8}}>
                   <strong style={{color:'var(--accent)'}}>Beta-alanin</strong>
@@ -917,7 +933,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
                 </div>
                 <div style={{background:'var(--paper)',padding:12,borderRadius:8}}>
                   <strong>Arginin / Rødbetekstrakt</strong>
-                  <p style={{fontSize:13,lineHeight:1.5,margin:'4px 0 0'}}>NO-boostere. Arginin har halv effekt, rødbetekstrakt 90% av L-citrulline.</p>
+                  <p style={{fontSize:13,lineHeight:1.5,margin:'4px 0 0'}}>NO-boostere i deklarasjonen. Arginin krediteres med halv vekt, rødbetekstrakt med 90% av L-citrulline i vår modell.</p>
                 </div>
               </div>
             </div>
@@ -976,7 +992,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
             <div className="section-heading">
               <span>Metode</span>
               <h1>Slik tester vi kosttilskudd</h1>
-              <p>Hver kategori har egen scoring tilpasset produkttypen. PWO vektlegger ingredienser per dose, protein bruker DIAAS, kreatin vektlegger merkevare på råstoff og dokumentasjon — med poengtrekk når data mangler. {RANKING_TIEBREAKER_SHORT}</p>
+              <p>Hver kategori har egen scoring tilpasset produkttypen. PWO vektlegger ingredienser per dose, protein bruker DIAAS, kreatin vektlegger merkevare på råstoff og dokumentasjon — med poengtrekk når data mangler. {SITE_RANKING_TIEBREAKER_SHORT}</p>
             </div>
             <div className="category-grid" style={{ marginBottom: 32 }}>
               <button type="button" className="editorial-card" onClick={() => setPage('metode')}>

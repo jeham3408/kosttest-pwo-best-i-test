@@ -139,6 +139,6 @@ export function suggestPwoFilterRelaxations(filters: PwoFilterState): string[] {
     tips.push('Øk maks pris per dose')
   }
   if (filters.caffeineMode === 'uten' && filters.caffeineMin) tips.push('Fjern koffeinintervall — stim-free har 0 mg')
-  if (!tips.length) tips.push('Nullstill filter og start med ein snarvei (t.d. Best formel totalt)')
+  if (!tips.length) tips.push('Nullstill filter og start med en snarvei (f.eks. Best formel totalt)')
   return tips
 }

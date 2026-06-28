@@ -1,5 +1,7 @@
 import { calculatePriceGrade, type GradeLetter, type TestedProduct } from '../pwoProducts'
-import { dataConfidenceMeetsMinimum, getPwoDataConfidence } from './dataConfidence'
+import { dataConfidenceMeetsMinimum, getPwoDataConfidence, isPwoFullyRankable } from './dataConfidence'
+
+export { isPwoFullyRankable }
 
 export const PWO_BADGE_THRESHOLDS = {
   minimumRankedScore: 0,
@@ -20,7 +22,7 @@ export function isPwoRanked(product: TestedProduct): boolean {
 }
 
 export function isEligibleForBadges(product: TestedProduct): boolean {
-  if (!isPwoRanked(product)) return false
+  if (!isPwoRanked(product) || !isPwoFullyRankable(product)) return false
   const confidence = getPwoDataConfidence(product)
   return dataConfidenceMeetsMinimum(confidence.level, PWO_BADGE_THRESHOLDS.badgeMinDataConfidence)
 }

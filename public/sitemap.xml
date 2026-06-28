@@ -141,11 +141,6 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://kosttest.no/pwo/nutritac-midnight/</loc>
-    <lastmod>2026-06-28</lastmod>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://kosttest.no/pwo/peveo-stim-free/</loc>
     <lastmod>2026-06-28</lastmod>
     <priority>0.7</priority>
@@ -306,21 +301,6 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://kosttest.no/pwo/lean-lime/</loc>
-    <lastmod>2026-06-28</lastmod>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://kosttest.no/pwo/ignite-stim-free/</loc>
-    <lastmod>2026-06-28</lastmod>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://kosttest.no/pwo/valhall/</loc>
-    <lastmod>2026-06-28</lastmod>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://kosttest.no/pwo/jnx-curse/</loc>
     <lastmod>2026-06-28</lastmod>
     <priority>0.7</priority>
@@ -331,22 +311,12 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://kosttest.no/pwo/swedish-fucked-up/</loc>
-    <lastmod>2026-06-28</lastmod>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://kosttest.no/pwo/ak47-paranoia/</loc>
     <lastmod>2026-06-28</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://kosttest.no/pwo/olimp-redweiler/</loc>
-    <lastmod>2026-06-28</lastmod>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://kosttest.no/pwo/swedish-joker/</loc>
+    <loc>https://kosttest.no/pwo/bodylab-gummies/</loc>
     <lastmod>2026-06-28</lastmod>
     <priority>0.7</priority>
   </url>
@@ -356,7 +326,37 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://kosttest.no/pwo/bodylab-gummies/</loc>
+    <loc>https://kosttest.no/pwo/swedish-fucked-up/</loc>
+    <lastmod>2026-06-28</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://kosttest.no/pwo/swedish-joker/</loc>
+    <lastmod>2026-06-28</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://kosttest.no/pwo/ignite-stim-free/</loc>
+    <lastmod>2026-06-28</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://kosttest.no/pwo/lean-lime/</loc>
+    <lastmod>2026-06-28</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://kosttest.no/pwo/nutritac-midnight/</loc>
+    <lastmod>2026-06-28</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://kosttest.no/pwo/olimp-redweiler/</loc>
+    <lastmod>2026-06-28</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://kosttest.no/pwo/valhall/</loc>
     <lastmod>2026-06-28</lastmod>
     <priority>0.7</priority>
   </url>

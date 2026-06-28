@@ -454,7 +454,7 @@ export function ProteinMetodeSection() {
       <div className="section-heading section-heading--compact" style={{ marginTop: 24 }}>
         <span>Merke</span>
         <h2>Proteinbadger</h2>
-        <p>Hver badge har egne kriterier. Høg DIAAS alene avgjer ikke pris- eller bruksorienterte merke.</p>
+        <p>Hver badge har egne kriterier. Høy DIAAS alene avgjør ikke pris- eller bruksorienterte merker.</p>
       </div>
       <MethodBadgeCards
         caption="Badger blir bare tildelt når data støttar kriteriet — t.d. «Best uten søtstoff» bare ved dokumentert søtstofffrihet."

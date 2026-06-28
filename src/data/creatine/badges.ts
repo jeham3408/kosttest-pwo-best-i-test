@@ -26,9 +26,10 @@ const BADGE_META: Record<
 > = {
   'best-documentation': {
     id: 'best-documentation',
-    title: 'Best dokumentasjon',
-    shortLabel: 'Best dokumentert',
-    explanation: 'Flest dokumenterte felt (råvare, renhet, mesh, dopingtest) blant produkt i lista.',
+    title: 'Mest dokumentasjon',
+    shortLabel: 'Mest dokumentert',
+    explanation:
+      'Flest dokumenterte felt (råvare, renhet, mesh, dopingtest) — vises med antall felt, ikke som «full dokumentasjon».',
     priority: 100,
   },
   'best-value': {
@@ -90,7 +91,8 @@ function pickTop(
   const pool = products.filter((p) => (filterFn ? filterFn(p) : isEligibleForCreatineBadges(p)))
   if (!pool.length) return []
   const best = Math.max(...pool.map(scoreFn))
-  return pool.filter((p) => scoreFn(p) === best).sort(compareCreatineThenPrice).map((p) => p.id)
+  const winner = pool.filter((p) => scoreFn(p) === best).sort(compareCreatineThenPrice)[0]
+  return winner ? [winner.id] : []
 }
 
 function pickBottomPrice(
@@ -100,7 +102,8 @@ function pickBottomPrice(
   const pool = products.filter(filterFn)
   if (!pool.length) return []
   const min = Math.min(...pool.map((p) => p.pricePerGramCreatine))
-  return pool.filter((p) => p.pricePerGramCreatine === min).sort(compareCreatineThenPrice).map((p) => p.id)
+  const winner = pool.filter((p) => p.pricePerGramCreatine === min).sort(compareCreatineThenPrice)[0]
+  return winner ? [winner.id] : []
 }
 
 export function buildCreatineBadgeContext(products: TestedCreatineProduct[]): CreatineBadgeContext {
@@ -108,7 +111,11 @@ export function buildCreatineBadgeContext(products: TestedCreatineProduct[]): Cr
   const hasFull = products.some((p) => isFullyDocumentedCreatine(p))
 
   const winners: Record<CreatineBadgeId, string[]> = {
-    'best-documentation': pickTop(products, (p) => disclosureScore(p)),
+    'best-documentation': pickTop(
+      products,
+      (p) => disclosureScore(p),
+      (p) => isEligibleForCreatineBadges(p) && disclosureScore(p) >= 3,
+    ),
     'best-value': pickTop(
       products,
       (p) => calculateCreatineValueIndex(p).index,

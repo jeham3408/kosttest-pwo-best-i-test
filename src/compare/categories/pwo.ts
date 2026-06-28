@@ -152,7 +152,7 @@ export function getPwoCompareFields(): CompareFieldDef<TestedProduct>[] {
     },
     {
       key: 'electrolytes',
-      label: 'Elektrolyttar',
+      label: 'Elektrolytter',
       group: 'ingredients',
       priority: 70,
       getValue: (p) => {

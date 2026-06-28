@@ -13,18 +13,18 @@ export default function DataFreshnessPage({ onBack }: { onBack?: () => void }) {
         <span>Data og tillit</span>
         <h1>Hvor ferske er dataene?</h1>
         <p className="lead">
-          Kosttest viser deklarerte produktdata og ein opne vurderingsmodell. Her forklarar vi korleis vi
+          Kosttest viser deklarerte produktdata og en åpen vurderingsmodell. Her forklarer vi hvordan vi
           oppdaterer informasjon — og hva vi ikke kan vite uten dokumentasjon.
         </p>
       </div>
 
       <div className="data-freshness-blocks">
         <article>
-          <h2>Prisar og produktformlar endrer seg</h2>
+          <h2>Priser og produktformler endrer seg</h2>
           <p>
-            Butikkpriser og emballasje kan endre seg uten varsel. Vi oppdaterer pris når vi gjer
+            Butikkpriser og emballasje kan endre seg uten varsel. Vi oppdaterer pris når vi gjør
             kontroll — siste felles gjennomgang av testdata var <strong>{lastUpdated}</strong>.
-            Enkelte produkt kan ha nyare kontrolldato der vi har gjennomført produktspesifikk sjekk.
+            Enkelte produkter kan ha nyere kontrolldato der vi har gjennomført produktspesifikk sjekk.
           </p>
         </article>
         <article>

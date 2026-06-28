@@ -1,4 +1,5 @@
 import type { ProductDataTrust } from './trust/types'
+import { isPwoFullyRankable } from './pwo/dataConfidence'
 
 export type GradeLetter = 'A' | 'B' | 'C' | 'D' | 'E' | 'F'
 
@@ -599,7 +600,7 @@ export const testedProducts: TestedProduct[] = [
     merchant: 'Peveo',
     priceNok: 499,
     packageSize: '700 g',
-    servingSize: '',
+    servingSize: '35 g (full dose) · norsk anbefaling ca. 7 g',
     servings: 20,
     pricePerServing: 24.95,
     caffeineMg: 350,
@@ -2332,15 +2333,26 @@ testedProducts.forEach((product) => {
   Object.assign(product, calculateProductGrade(product))
 })
 
-testedProducts.sort(
+const rankablePwo = testedProducts.filter(isPwoFullyRankable)
+const pendingPwo = testedProducts.filter((p) => !isPwoFullyRankable(p))
+
+rankablePwo.sort(
   (a, b) =>
     b.score - a.score ||
     a.pricePerServing - b.pricePerServing,
 )
 
-testedProducts.forEach((product, index) => {
+pendingPwo.sort((a, b) => a.name.localeCompare(b.name, 'nb'))
+
+rankablePwo.forEach((product, index) => {
   product.rank = index + 1
 })
+pendingPwo.forEach((product) => {
+  product.rank = 0
+})
+
+testedProducts.length = 0
+testedProducts.push(...rankablePwo, ...pendingPwo)
 
 export const listedProducts: ListedProduct[] = [
   ...testedProducts.map((product) => ({

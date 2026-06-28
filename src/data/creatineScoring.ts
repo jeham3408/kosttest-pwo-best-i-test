@@ -204,7 +204,7 @@ export const creatineMethodNote =
   'Kreatinscoren er 100 % kvalitet. Merkevare-kreatin (Creapure m.fl.) veier tyngst. Dopingtest, renhet og mesh gir poengtrekk når de mangler — ikke absolutte krav, men uten dokumentasjon kan produktet ikke nå toppscore. Pris påvirker ikke poengsummen; ved lik score rangeres billigst kr/g kreatin øverst.'
 
 export const creatineSourceLinks = [
-  { label: 'ISSN position stand: kreatin', url: 'https://jissn.biomedcentral.com/articles/10.1186/s12970-017-0177-8' },
+  { label: 'ISSN position stand: kreatin', url: 'https://jissn.biomedcentral.com/articles/10.1186/s12970-017-0173-z' },
   { label: 'Creapure — kvalitetsstandard', url: 'https://www.creapure.com/' },
   { label: 'Cologne List — dopingtest av kosttilskudd', url: 'https://www.koelnerliste.com/' },
 ]

@@ -2,7 +2,8 @@ import { Shield, ShieldAlert, ShieldCheck, ShieldQuestion } from 'lucide-react'
 import { DATA_CONFIDENCE_KIND_LABELS } from '../../data/trust/enums'
 import type { ProductTrustSnapshot } from '../../data/trust/types'
 import type { DataTrustLevel } from '../../data/trust/types'
-import { TRUST_LEVEL_COPY } from '../../data/trust/labels'
+import { MISSING_VALUE, TRUST_LEVEL_COPY } from '../../data/trust/labels'
+import { lastUpdated } from '../../data/siteMeta'
 
 const iconByLevel: Record<DataTrustLevel, typeof Shield> = {
   high: ShieldCheck,
@@ -35,6 +36,8 @@ export default function ProductDataStatus({
   const dataSourceShort = snapshot?.dataSourceShort ?? dataSourceProp
   const dataConfidence = snapshot?.dataConfidence
   const confidenceShort = dataConfidence ? DATA_CONFIDENCE_KIND_LABELS[dataConfidence].short : undefined
+  const missingPerProduct =
+    !lastChecked || lastChecked === MISSING_VALUE || lastChecked === 'Ikke oppgitt per produkt'
 
   const copy = TRUST_LEVEL_COPY[trustLevel]
   const Icon = iconByLevel[trustLevel]
@@ -45,7 +48,9 @@ export default function ProductDataStatus({
         className={`product-data-status product-data-status--${trustLevel} product-data-status--compact ${className}`.trim()}
         role="status"
         aria-label={[
-          lastChecked ? `Sist kontrollert: ${lastChecked}.` : '',
+          missingPerProduct
+            ? `Felles testgjennomgang: ${lastUpdated}.`
+            : `Sist kontrollert: ${lastChecked}.`,
           confidenceShort ? `Datastatus: ${confidenceShort}.` : copy.short,
           dataSourceShort ? `Kilde: ${dataSourceShort}.` : '',
         ]
@@ -54,13 +59,18 @@ export default function ProductDataStatus({
       >
         <Icon size={14} aria-hidden="true" className="product-data-status-icon" />
         <div className="product-data-status-text product-data-status-text--compact">
-          {lastChecked ? (
-            <span className="product-data-status-line">
-              <strong>Sist kontrollert:</strong> {lastChecked}
-            </span>
+          {missingPerProduct ? (
+            <>
+              <span className="product-data-status-line">
+                <strong>Felles testgjennomgang:</strong> {lastUpdated}
+              </span>
+              <span className="product-data-status-line">
+                <strong>Produktspesifikk kontroll:</strong> ikke registrert
+              </span>
+            </>
           ) : (
             <span className="product-data-status-line">
-              <strong>Sist kontrollert:</strong> Ikke oppgitt per produkt
+              <strong>Sist kontrollert:</strong> {lastChecked}
             </span>
           )}
           <span className="product-data-status-line">

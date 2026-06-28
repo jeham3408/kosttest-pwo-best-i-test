@@ -72,3 +72,8 @@ export function getPwoDataConfidence(product: TestedProduct): {
     notFullyAssessed: !fullDeclaration,
   }
 }
+
+/** Nok deklarasjonsdata til formelscore, plassering og «Best»-badges. */
+export function isPwoFullyRankable(product: TestedProduct): boolean {
+  return getPwoDataConfidence(product).fullDeclaration
+}

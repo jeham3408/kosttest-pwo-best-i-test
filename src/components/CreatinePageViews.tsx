@@ -424,7 +424,7 @@ export function CreatineMetodeSection() {
         <div style={{ padding: 16, background: 'var(--paper)', borderRadius: 8, border: '1px solid var(--border)' }}>
           <h3 style={{ margin: '0 0 8px', fontSize: 15 }}>Manglende data</h3>
           <p style={{ fontSize: 13, lineHeight: 1.6, margin: 0 }}>
-            Vi bruker «Ikke dokumentert», «Ikke oppgitt av produsent», «Ikke funnet i åpne kilder» eller «Ventar på
+            Vi bruker «Ikke dokumentert», «Ikke oppgitt av produsent», «Ikke funnet i åpne kilder» eller «Venter på
             kontroll» — aldri tomme celler eller em dash. Manglende felt er ikke presentert som dokumentert kvalitet.
           </p>
         </div>

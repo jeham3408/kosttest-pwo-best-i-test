@@ -1,5 +1,5 @@
 import type { TestedProduct } from '../../pwoProducts'
-import { getPwoDataConfidence } from '../../pwo/dataConfidence'
+import { getPwoDataConfidence, isPwoFullyRankable } from '../../pwo/dataConfidence'
 import { lastUpdated, methodVersionLabel } from '../../siteMeta'
 import { buildTrustSnapshot, legacySourceKindToType, resolveSourceLinks } from '../buildSnapshot'
 import { MISSING_VALUE, SITE_REVIEW_NOTE } from '../labels'
@@ -19,7 +19,14 @@ export function resolvePwoTrust(
   const dataTrust = product.dataTrust
   const merged = { ...dataTrust, ...override }
   const confidence = getPwoDataConfidence(product)
-  const trustLevel = merged.pendingReason || merged.rankingExclusionReason ? 'unranked' : mapConfidenceToTrust(confidence.level)
+  const isFullyRanked =
+    isPwoFullyRankable(product) && !merged.pendingReason && !merged.rankingExclusionReason
+  const trustLevel =
+    merged.pendingReason || merged.rankingExclusionReason
+      ? 'unranked'
+      : !isFullyRanked
+        ? 'unranked'
+        : mapConfidenceToTrust(confidence.level)
 
   const hasUrl = Boolean(product.url?.trim())
   const sourceType =
@@ -49,7 +56,7 @@ export function resolvePwoTrust(
     productName: product.name,
     brand: product.brand,
     slug: product.id,
-    isRanked: true,
+    isRanked: isFullyRanked,
     trustLevel,
     sourceType: sourceLinks.length > 1 ? 'multiple' : sourceType,
     documentationStatus,
@@ -63,7 +70,10 @@ export function resolvePwoTrust(
         : product.citrullineMg
           ? 'not_documented'
           : 'unknown'),
-    lastVerifiedAt: merged.lastVerifiedAt ?? merged.lastChecked ?? lastUpdated,
+    lastVerifiedAt:
+      merged.lastVerifiedAt ??
+      merged.lastChecked ??
+      (confidence.fullDeclaration ? lastUpdated : MISSING_VALUE),
     lastPriceCheckedAt:
       merged.lastPriceCheckedAt ??
       merged.priceLastChecked ??
@@ -73,7 +83,12 @@ export function resolvePwoTrust(
       merged.declarationLastChecked ??
       (confidence.fullDeclaration ? lastUpdated : MISSING_VALUE),
     lastUpdatedAt: merged.lastUpdatedAt ?? lastUpdated,
-    lastCheckedNote: merged.lastVerifiedAt != null || merged.lastChecked != null ? undefined : SITE_REVIEW_NOTE,
+    lastCheckedNote:
+      merged.lastVerifiedAt != null || merged.lastChecked != null
+        ? undefined
+        : confidence.fullDeclaration
+          ? undefined
+          : SITE_REVIEW_NOTE,
     sourceLinks,
     changeLog: merged.changeLog ?? [],
     missingFields,

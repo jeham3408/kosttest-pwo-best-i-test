@@ -4,6 +4,7 @@ import {
   type TestedProduct,
 } from '../../data/pwoProducts'
 import { buildPwoBadgeContext, calculatePwoValueIndex, generatePwoProductCopy, getPwoBadges } from '../../data/pwo'
+import { isPwoFullyRankable } from '../../data/pwo/dataConfidence'
 import { resolvePwoTrust } from '../../data/trust/resolvers/pwo'
 import ProductImage from '../ProductImage'
 import ScoreLockup from '../ScoreLockup'
@@ -47,9 +48,10 @@ export default function PwoRankingTable({
     <>
       <div className="ranking-cards-mobile" role="list" aria-label="PWO-rangering">
         {products.map((p) => {
+          const ranked = isPwoFullyRankable(p)
           const copy = generatePwoProductCopy(p, badgeCtx)
-          const priceGrade = calculatePriceGrade(p.pricePerServing)
-          const valueIndex = calculatePwoValueIndex(p)
+          const priceGrade = ranked ? calculatePriceGrade(p.pricePerServing) : null
+          const valueIndex = ranked ? calculatePwoValueIndex(p) : null
           const trust = resolvePwoTrust(p)
           const badges = getPwoBadges(p, badgeCtx)
           const pumpRow = p.gradeBreakdown?.find((g) => g.key === 'lCitrullineEq')
@@ -57,23 +59,33 @@ export default function PwoRankingTable({
           return (
             <article
               key={p.id}
-              className="ranking-card pwo-ranking-card"
+              className={`ranking-card pwo-ranking-card${ranked ? '' : ' pwo-ranking-card--pending'}`}
               role="listitem"
             >
               <button type="button" className="pwo-ranking-card-hit" onClick={() => onSelect?.(p.id)}>
                 <div className="ranking-card-head">
-                  <span className="rank-badge">#{p.rank}</span>
+                  <span className="rank-badge">{ranked ? `#${p.rank}` : 'Venter'}</span>
                   <ProductImage name={p.name} brand={p.brand} image={p.image} altSuffix="PWO" />
                   <div className="ranking-card-title">
                     <strong>{p.name}</strong>
                     <span>{p.brand}</span>
                     <PwoBadgeList badges={badges} compact />
                   </div>
-                  <ScoreLockup grade={p.overallGrade} score={p.score} maxPoints={PWO_FORMULA_MAX_POINTS} compact />
+                  <ScoreLockup
+                    grade={ranked ? p.overallGrade : undefined}
+                    score={ranked ? p.score : undefined}
+                    maxPoints={PWO_FORMULA_MAX_POINTS}
+                    compact
+                    pendingLabel={ranked ? undefined : 'Venter på kontroll'}
+                  />
                 </div>
                 <dl className="ranking-card-stats pwo-ranking-card-stats">
                   <div><dt>Pris/dose</dt><dd>{formatPrice(p.pricePerServing)}</dd></div>
-                  <div><dt>Verdi (ref.)</dt><dd>{priceGrade.grade} · indeks {valueIndex.index}</dd></div>
+                  {ranked && priceGrade && valueIndex ? (
+                    <div><dt>Verdi (ref.)</dt><dd>{priceGrade.grade} · indeks {valueIndex.index}</dd></div>
+                  ) : (
+                    <div><dt>Status</dt><dd>Ufullstendig deklarasjon</dd></div>
+                  )}
                   <div><dt>Koffein</dt><dd>{caffeineLabel(p.caffeineMg)}</dd></div>
                   {pumpRow ? (
                     <div><dt>Pump</dt><dd>{pumpRow.grade} · {pumpRow.doseLabel}</dd></div>
@@ -84,7 +96,10 @@ export default function PwoRankingTable({
                 <p className="pwo-card-watchout"><strong>Viktig å vite:</strong> {copy.importantToKnow}</p>
               </button>
               <div className="ranking-card-foot">
-                <span>{p.servingSize || '—'} per dose</span>
+                <span>
+                  {p.servings ? `${p.servings} fulle doser per boks` : '—'}
+                  {p.servingSize ? ` · ${p.servingSize}` : ''}
+                </span>
                 <div className="ranking-card-foot-actions">
                   {onCompareToggle && compareSelected ? (
                     <CompareToggle
@@ -119,14 +134,15 @@ export default function PwoRankingTable({
           </thead>
           <tbody>
             {products.map((p) => {
+              const ranked = isPwoFullyRankable(p)
               const copy = generatePwoProductCopy(p, badgeCtx)
-              const priceGrade = calculatePriceGrade(p.pricePerServing)
-              const valueIndex = calculatePwoValueIndex(p)
+              const priceGrade = ranked ? calculatePriceGrade(p.pricePerServing) : null
+              const valueIndex = ranked ? calculatePwoValueIndex(p) : null
               const trust = resolvePwoTrust(p)
               const badges = getPwoBadges(p, badgeCtx)
               return (
                 <tr key={p.id} onClick={() => onSelect?.(p.id)} style={onSelect ? { cursor: 'pointer' } : undefined}>
-                  <td><span className="rank-badge">#{p.rank}</span></td>
+                  <td><span className="rank-badge">{ranked ? `#${p.rank}` : 'Venter'}</span></td>
                   <td className="product-cell">
                     <ProductImage name={p.name} brand={p.brand} image={p.image} altSuffix="PWO" />
                     <div>
@@ -137,14 +153,26 @@ export default function PwoRankingTable({
                     </div>
                   </td>
                   <td>
-                    <ScoreLockup grade={p.overallGrade} score={p.score} maxPoints={PWO_FORMULA_MAX_POINTS} compact />
-                    <ScoreBar product={p} />
+                    <ScoreLockup
+                      grade={ranked ? p.overallGrade : undefined}
+                      score={ranked ? p.score : undefined}
+                      maxPoints={PWO_FORMULA_MAX_POINTS}
+                      compact
+                      pendingLabel={ranked ? undefined : 'Venter på kontroll'}
+                    />
+                    {ranked ? <ScoreBar product={p} /> : null}
                   </td>
                   <td>
                     <span style={{ display: 'block', fontWeight: 600 }}>{formatPrice(p.pricePerServing)}/dose</span>
-                    <span style={{ display: 'block', fontSize: 11, color: 'var(--muted)' }}>
-                      Verdi {priceGrade.grade} · indeks {valueIndex.index}
-                    </span>
+                    {ranked && priceGrade && valueIndex ? (
+                      <span style={{ display: 'block', fontSize: 11, color: 'var(--muted)' }}>
+                        Verdi {priceGrade.grade} · indeks {valueIndex.index}
+                      </span>
+                    ) : (
+                      <span style={{ display: 'block', fontSize: 11, color: 'var(--muted)' }}>
+                        Ufullstendig deklarasjon
+                      </span>
+                    )}
                   </td>
                   <td style={{ fontSize: 12 }}>{caffeineLabel(p.caffeineMg)}</td>
                   <td style={{ fontSize: 12 }}>

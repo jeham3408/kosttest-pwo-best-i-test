@@ -83,5 +83,7 @@ export const DOPING_LABELS = {
   notFound: { label: 'Ikke funnet i åpne kilder', explanation: 'Vi har søkt, men ikke funnet dokumentasjon.' },
 } as const
 
+import { lastUpdated } from '../siteMeta'
+
 export const MISSING_VALUE = 'Ikke oppgitt per produkt'
-export const SITE_REVIEW_NOTE = 'Felles gjennomgang av testdata — se «Hvor ferske er dataene?»'
+export const SITE_REVIEW_NOTE = `Felles testgjennomgang: ${lastUpdated}. Produktspesifikk kontroll er ikke registrert.`

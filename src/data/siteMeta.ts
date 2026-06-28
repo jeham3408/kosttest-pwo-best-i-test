@@ -4,4 +4,4 @@ export const lastUpdatedIso = '2026-06-28'
 
 /** Offentleg metodeversjon — synleg på produktsider. */
 export const methodVersion = '2026-06'
-export const methodVersionLabel = `Kosttest opne vurderingsmodell v${methodVersion}`
+export const methodVersionLabel = `Kosttest åpen vurderingsmodell v${methodVersion}`

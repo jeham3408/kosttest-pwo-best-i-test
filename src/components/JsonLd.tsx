@@ -174,7 +174,7 @@ export default function JsonLd({ path: rawPath, product, proteinProduct, creatin
                     { '@type': 'HowToStep', position: 2, name: 'Sjekk dokumentasjon', text: 'Se etter oppgitt renhet, mesh og dopingtest på ferdigproduktet — også Creapure må ha produkttest (Cologne List, Informed Sport m.fl.).' },
                   ]
                 : [
-                    { '@type': 'HowToStep', position: 1, name: 'Forstå hva en PWO er', text: 'En PWO (Pre-Workout) er et kosttilskudd du tar før trening for energi, fokus, utholdenhet og muskelpump.' },
+                    { '@type': 'HowToStep', position: 1, name: 'Forstå hva en PWO er', text: 'En PWO (Pre-Workout) er et kosttilskudd du ofte tar før trening. Mange kombinerer koffein og aminosyrer — effekt varierer mellom personer.' },
                     { '@type': 'HowToStep', position: 2, name: 'Se etter nøkkelingredienser', text: 'L-citrulline (4000-10000 mg), beta-alanin (3200-6400 mg), koffein (100-300 mg).' },
                   ],
             },

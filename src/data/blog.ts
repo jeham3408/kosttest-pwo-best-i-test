@@ -134,7 +134,7 @@ export const blogPosts: BlogPost[] = [
     id: 'taurin',
     title: 'Taurin: Støtte for hjerte og hydrering',
     slug: 'taurin',
-    excerpt: 'Taurin kan støtte hjertefunksjon, hydrering og muskelkontraksjon — med mer akutt effekt enn beta-alanin.',
+    excerpt: 'Taurin studeres for hydrering og muskelkontraksjon — med mer akutt effekt enn beta-alanin. Effekt varierer mellom personer.',
     category: 'Ingredienser',
     readMinutes: 3,
     relatedProducts: ['evolite-ultrapump', 'olimp-r-weiler-focus', 'elit-savage', 'mutant-madness', 'star-ultimate'],
@@ -147,7 +147,7 @@ export const blogPosts: BlogPost[] = [
     id: 'tyrosin',
     title: 'Tyrosin: Fokus under stress',
     slug: 'tyrosin',
-    excerpt: 'Tyrosin er ein forløpar til dopamin og noradrenalin, og kan forbetre kognitiv funksjon under stress.',
+    excerpt: 'Tyrosin er en forløper til dopamin og noradrenalin, og studeres for kognitiv funksjon under stress — med varierende støtte.',
     category: 'Ingredienser',
     readMinutes: 3,
     content: [

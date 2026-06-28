@@ -107,7 +107,8 @@ function pickTop(
   const pool = products.filter((p) => (filterFn ? filterFn(p) : isEligibleForProteinBadges(p)))
   if (!pool.length) return []
   const best = Math.max(...pool.map(scoreFn))
-  return pool.filter((p) => scoreFn(p) === best).sort(compareProteinThenPrice).map((p) => p.id)
+  const winner = pool.filter((p) => scoreFn(p) === best).sort(compareProteinThenPrice)[0]
+  return winner ? [winner.id] : []
 }
 
 function pickBottomPrice(
@@ -117,7 +118,8 @@ function pickBottomPrice(
   const pool = products.filter(filterFn)
   if (!pool.length) return []
   const min = Math.min(...pool.map((p) => p.pricePerGramProtein))
-  return pool.filter((p) => p.pricePerGramProtein === min).sort(compareProteinThenPrice).map((p) => p.id)
+  const winner = pool.filter((p) => p.pricePerGramProtein === min).sort(compareProteinThenPrice)[0]
+  return winner ? [winner.id] : []
 }
 
 export function buildProteinBadgeContext(products: TestedProteinProduct[]): ProteinBadgeContext {

@@ -19,6 +19,13 @@ export const CREATINE_RANKING_TIEBREAKER_NOTE =
 export const CREATINE_RANKING_TIEBREAKER_SHORT =
   'Lik score → billigst kr/g kreatin øverst. Pris påvirker ikke poengsummen.'
 
+/** Tverrkategori — brukes på om-metoden og andre oversiktssider. */
+export const SITE_RANKING_TIEBREAKER_NOTE =
+  'Ved lik kvalitetsscore brukes relevant pris per enhet i kategorien som utslagsfaktor (PWO: pris per dose, protein: kr/g protein, kreatin: kr/g kreatin). Pris påvirker ikke poengsummen.'
+
+export const SITE_RANKING_TIEBREAKER_SHORT =
+  'Ved lik score: billigst relevant enhet i kategorien øverst. Pris påvirker ikke poengsummen.'
+
 /** @deprecated Bruk kategori-spesifikke konstanter (PWO_/PROTEIN_/CREATINE_). */
 export const RANKING_TIEBREAKER_NOTE = PWO_RANKING_TIEBREAKER_NOTE
 
