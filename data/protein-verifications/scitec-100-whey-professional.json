@@ -1,0 +1,21 @@
+{
+  "id": "scitec-100-whey-professional",
+  "exists": true,
+  "verifiedAt": "2026-06-28T13:54:52.929Z",
+  "method": "manual-batch",
+  "sources": [
+    "https://www.gymgrossisten.no/100-whey-protein-professional-920-g/9998-056R.html"
+  ],
+  "checks": {
+    "productPageLoads": true,
+    "imagePresent": true,
+    "nutritionFromExistingRepoData": true
+  },
+  "data": {
+    "priceNok": 499,
+    "proteinPer100g": 73,
+    "servingSizeG": 30
+  },
+  "analysis": "Manuell batch-kontroll: produktside laster og produktbilde finnes. Næringsdata er uendret fra repo — full etikettkontroll bør gjøres ved neste prisrunde.",
+  "notes": "Automatisert verifisering stoppet (tom for tokens)."
+}

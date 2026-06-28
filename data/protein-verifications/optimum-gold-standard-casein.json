@@ -1,0 +1,21 @@
+{
+  "id": "optimum-gold-standard-casein",
+  "exists": true,
+  "verifiedAt": "2026-06-28T13:54:52.929Z",
+  "method": "manual-batch",
+  "sources": [
+    "https://www.gymgrossisten.no/gold-standard-100-kasein-908-g/6947-001R.html"
+  ],
+  "checks": {
+    "productPageLoads": true,
+    "imagePresent": true,
+    "nutritionFromExistingRepoData": true
+  },
+  "data": {
+    "priceNok": 599,
+    "proteinPer100g": 76,
+    "servingSizeG": 34
+  },
+  "analysis": "Manuell batch-kontroll: produktside laster og produktbilde finnes. Næringsdata er uendret fra repo — full etikettkontroll bør gjøres ved neste prisrunde.",
+  "notes": "Automatisert verifisering stoppet (tom for tokens)."
+}

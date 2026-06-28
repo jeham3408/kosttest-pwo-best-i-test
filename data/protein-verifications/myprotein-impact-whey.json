@@ -1,0 +1,21 @@
+{
+  "id": "myprotein-impact-whey",
+  "exists": true,
+  "verifiedAt": "2026-06-28T13:54:52.929Z",
+  "method": "manual-batch",
+  "sources": [
+    "https://www.myprotein.no/p/sports-nutrition/impact-whey-protein/13758396/"
+  ],
+  "checks": {
+    "productPageLoads": true,
+    "imagePresent": true,
+    "nutritionFromExistingRepoData": true
+  },
+  "data": {
+    "priceNok": 349,
+    "proteinPer100g": 82,
+    "servingSizeG": 25
+  },
+  "analysis": "Manuell batch-kontroll: produktside laster og produktbilde finnes. Næringsdata er uendret fra repo — full etikettkontroll bør gjøres ved neste prisrunde.",
+  "notes": "Automatisert verifisering stoppet (tom for tokens)."
+}

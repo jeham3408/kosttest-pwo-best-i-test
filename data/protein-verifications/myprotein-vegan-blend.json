@@ -1,0 +1,21 @@
+{
+  "id": "myprotein-vegan-blend",
+  "exists": true,
+  "verifiedAt": "2026-06-28T13:54:52.929Z",
+  "method": "manual-batch",
+  "sources": [
+    "https://www.myprotein.no/p/sports-nutrition/myvegan-vegan-protein-blend/12370635/"
+  ],
+  "checks": {
+    "productPageLoads": true,
+    "imagePresent": true,
+    "nutritionFromExistingRepoData": true
+  },
+  "data": {
+    "priceNok": 329,
+    "proteinPer100g": 74,
+    "servingSizeG": 30
+  },
+  "analysis": "Manuell batch-kontroll: produktside laster og produktbilde finnes. Næringsdata er uendret fra repo — full etikettkontroll bør gjøres ved neste prisrunde.",
+  "notes": "Automatisert verifisering stoppet (tom for tokens)."
+}

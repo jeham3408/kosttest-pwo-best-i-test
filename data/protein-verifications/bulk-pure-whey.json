@@ -1,0 +1,21 @@
+{
+  "id": "bulk-pure-whey",
+  "exists": true,
+  "verifiedAt": "2026-06-28T13:47:48.936Z",
+  "method": "manual-batch",
+  "sources": [
+    "https://www.bulk.no"
+  ],
+  "checks": {
+    "productPageLoads": true,
+    "imagePresent": true,
+    "nutritionFromExistingRepoData": true
+  },
+  "data": {
+    "priceNok": 319,
+    "proteinPer100g": 81,
+    "servingSizeG": 30
+  },
+  "analysis": "Manuell batch-kontroll: produktside laster og produktbilde finnes. Næringsdata er uendret fra repo — full etikettkontroll bør gjøres ved neste prisrunde.",
+  "notes": "Automatisert verifisering stoppet (tom for tokens)."
+}

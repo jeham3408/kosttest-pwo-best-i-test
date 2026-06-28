@@ -23,6 +23,7 @@ const ROOT = path.join(__dirname, '..')
 const QUEUE_PATH = path.join(ROOT, 'src/data/proteinVerificationQueue.json')
 const STATUS_MD = path.join(ROOT, 'data/protein-verification-status.md')
 const PRODUCTS_TS = path.join(ROOT, 'src/data/proteinProducts.ts')
+const PROTEIN_IMAGES_JSON = path.join(ROOT, 'data/protein-images.json')
 const REPORTS_DIR = path.join(ROOT, 'data/protein-verifications')
 const IMAGES_DIR = path.join(ROOT, 'public/images/protein')
 const LOG_MARKER = '<!-- AGENT: Legg til nytt avsnitt øverst etter hver kjøring. Maks én produkt per kjøring. -->'
@@ -51,8 +52,17 @@ function parseArgs(argv) {
   return args
 }
 
+function loadProteinImages() {
+  try {
+    return JSON.parse(fs.readFileSync(PROTEIN_IMAGES_JSON, 'utf8'))
+  } catch {
+    return {}
+  }
+}
+
 function loadProductMeta() {
   const src = fs.readFileSync(PRODUCTS_TS, 'utf8')
+  const imageMap = loadProteinImages()
   const meta = new Map()
   const blockRe = /\{\s*\n\s*id:\s*'([^']+)'([\s\S]*?)\n\s*\},/g
   let m
@@ -62,7 +72,8 @@ function loadProductMeta() {
     const name = block.match(/name:\s*'([^']+)'/)?.[1] ?? '—'
     const brand = block.match(/brand:\s*'([^']+)'/)?.[1] ?? '—'
     const url = block.match(/url:\s*'([^']+)'/)?.[1] ?? '—'
-    const image = block.match(/image:\s*(?:'([^']+)'|IMG)/)?.[1] ?? (block.includes('image: IMG') ? 'IMG' : '—')
+    const inlineImage = block.match(/image:\s*(?:'([^']+)'|IMG)/)?.[1] ?? (block.includes('image: IMG') ? 'IMG' : '—')
+    const image = imageMap[id] || inlineImage
     meta.set(id, { name, brand, url, image })
   }
   return meta
@@ -70,7 +81,7 @@ function loadProductMeta() {
 
 function imageFilePath(imagePath) {
   if (!imagePath || imagePath === 'IMG' || imagePath === '—') return null
-  if (imagePath.startsWith('/images/protein/')) {
+  if (imagePath.startsWith('/images/protein/') || imagePath.startsWith('/products/')) {
     return path.join(ROOT, 'public', imagePath)
   }
   return null

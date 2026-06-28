@@ -1,0 +1,21 @@
+{
+  "id": "proteinfabrikken-whey",
+  "exists": true,
+  "verifiedAt": "2026-06-28T13:54:52.929Z",
+  "method": "manual-batch",
+  "sources": [
+    "https://www.proteinfabrikken.no/100-whey-1-kg/300R.html"
+  ],
+  "checks": {
+    "productPageLoads": true,
+    "imagePresent": true,
+    "nutritionFromExistingRepoData": true
+  },
+  "data": {
+    "priceNok": 399,
+    "proteinPer100g": 76,
+    "servingSizeG": 30
+  },
+  "analysis": "Manuell batch-kontroll: produktside laster og produktbilde finnes. Næringsdata er uendret fra repo — full etikettkontroll bør gjøres ved neste prisrunde.",
+  "notes": "Automatisert verifisering stoppet (tom for tokens)."
+}

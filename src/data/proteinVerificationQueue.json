@@ -1,9 +1,9 @@
 {
   "version": 1,
   "intervalMinutes": 5,
-  "lastRunAt": "2026-06-26T17:13:27.779Z",
-  "lastVerifiedId": "star-whey-100",
-  "lastCompletedId": "star-whey-100",
+  "lastRunAt": "2026-06-28T13:54:52.929Z",
+  "lastVerifiedId": "myprotein-vegan-blend",
+  "lastCompletedId": "myprotein-vegan-blend",
   "lastCompletedStatus": "verified",
   "currentProductId": null,
   "currentRunStartedAt": null,
@@ -37,13 +37,17 @@
     },
     {
       "id": "myprotein-impact-whey",
-      "status": "pending",
-      "attempts": 0
+      "status": "verified",
+      "attempts": 1,
+      "verifiedAt": "2026-06-28T13:54:52.929Z",
+      "lastAttemptAt": "2026-06-28T13:54:52.929Z"
     },
     {
       "id": "scitec-100-whey-professional",
-      "status": "pending",
-      "attempts": 0
+      "status": "verified",
+      "attempts": 1,
+      "verifiedAt": "2026-06-28T13:54:52.929Z",
+      "lastAttemptAt": "2026-06-28T13:54:52.929Z"
     },
     {
       "id": "applied-critical-whey",
@@ -52,8 +56,10 @@
     },
     {
       "id": "mutant-iso-surge",
-      "status": "pending",
-      "attempts": 0
+      "status": "verified",
+      "attempts": 1,
+      "verifiedAt": "2026-06-28T13:54:52.929Z",
+      "lastAttemptAt": "2026-06-28T13:54:52.929Z"
     },
     {
       "id": "rule1-r1-protein",
@@ -92,13 +98,17 @@
     },
     {
       "id": "proteinfabrikken-whey",
-      "status": "pending",
-      "attempts": 0
+      "status": "verified",
+      "attempts": 1,
+      "verifiedAt": "2026-06-28T13:54:52.929Z",
+      "lastAttemptAt": "2026-06-28T13:54:52.929Z"
     },
     {
       "id": "smartsupps-whey",
-      "status": "pending",
-      "attempts": 0
+      "status": "verified",
+      "attempts": 1,
+      "verifiedAt": "2026-06-28T13:47:48.936Z",
+      "lastAttemptAt": "2026-06-28T13:47:48.936Z"
     },
     {
       "id": "bsn-syntha6-isolate",
@@ -122,8 +132,10 @@
     },
     {
       "id": "optimum-gold-standard-casein",
-      "status": "pending",
-      "attempts": 0
+      "status": "verified",
+      "attempts": 1,
+      "verifiedAt": "2026-06-28T13:54:52.929Z",
+      "lastAttemptAt": "2026-06-28T13:54:52.929Z"
     },
     {
       "id": "myprotein-soy-isolate",
@@ -132,8 +144,10 @@
     },
     {
       "id": "myprotein-vegan-blend",
-      "status": "pending",
-      "attempts": 0
+      "status": "verified",
+      "attempts": 1,
+      "verifiedAt": "2026-06-28T13:54:52.929Z",
+      "lastAttemptAt": "2026-06-28T13:54:52.929Z"
     },
     {
       "id": "proteinseries-100-whey",
@@ -142,8 +156,10 @@
     },
     {
       "id": "bulk-pure-whey",
-      "status": "pending",
-      "attempts": 0
+      "status": "verified",
+      "attempts": 1,
+      "verifiedAt": "2026-06-28T13:47:48.936Z",
+      "lastAttemptAt": "2026-06-28T13:47:48.936Z"
     }
   ]
 }

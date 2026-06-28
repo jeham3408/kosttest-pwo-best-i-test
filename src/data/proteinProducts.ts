@@ -182,7 +182,7 @@ const rawProducts: RawProtein[] = [
     verdict: 'Impact Whey er prisvinneren — god IAAS-profil og blant laveste kr/g protein når det er kampanje.',
     strengths: ['Svært konkurransedyktig pris', 'Høy protein% for concentrate', 'Mange smaker'],
     watchouts: ['Kvalitet varierer med smak/batch', 'Leveringstid fra UK'],
-    url: 'https://www.myprotein.no/sports-nutrition/impact-whey-protein/10852500.html',
+    url: 'https://www.myprotein.no/p/sports-nutrition/impact-whey-protein/13758396/',
     image: '',
   },
   {
@@ -206,7 +206,7 @@ const rawProducts: RawProtein[] = [
     verdict: 'Scitec Professional har solid whey-profil med ekstra aminosyrer. God mellomting mellom pris og kvalitet.',
     strengths: ['Digestive enzymes', 'God smak', 'Etablert europeisk merke'],
     watchouts: ['Lavere protein% enn rene isolates', 'Noe tilsatt glutamin'],
-    url: 'https://www.gymgrossisten.no/scitec-100-whey-protein-professional',
+    url: 'https://www.gymgrossisten.no/100-whey-protein-professional-920-g/9998-056R.html',
     image: '',
   },
   {
@@ -254,7 +254,7 @@ const rawProducts: RawProtein[] = [
     verdict: 'Mutant ISO Surge er et kraftig isolate med topp leucin-tetthet — ideelt for lavt kaloriinntak.',
     strengths: ['Svært høy leucin', 'Ren isolate', 'Lavt fett og karbo'],
     watchouts: ['Dyr per kg', 'Mindre pakke'],
-    url: 'https://www.gymgrossisten.no/mutant-iso-surge',
+    url: 'https://www.gymgrossisten.no/iso-surge-myseproteinisolat-727-g/3897-043R.html',
     image: '',
   },
   {
@@ -447,7 +447,7 @@ const rawProducts: RawProtein[] = [
     verdict: 'Proteinfabrikken 100% Whey er et solid norsk alternativ med god aminosyreprofil og rask levering.',
     strengths: ['Norsk nettbutikk', 'God pris', 'Rask levering'],
     watchouts: ['Concentrate — ikke topp proteinrenhet'],
-    url: 'https://www.proteinfabrikken.no/products/100-whey-1-kg',
+    url: 'https://www.proteinfabrikken.no/100-whey-1-kg/300R.html',
     image: '',
   },
   {
@@ -591,7 +591,7 @@ const rawProducts: RawProtein[] = [
     verdict: 'Gold Standard Casein har utmerket IAAS for kasein — ideelt som kveldsprotein for langsom frigjøring.',
     strengths: ['Langsom absorpsjon', 'God IAAS for kasein', 'Pålitelig merke'],
     watchouts: ['Tykkere konsistens', 'Dyrere per g protein enn whey'],
-    url: 'https://www.gymgrossisten.no/optimum-nutrition-gold-standard-casein',
+    url: 'https://www.gymgrossisten.no/gold-standard-100-kasein-908-g/6947-001R.html',
     image: '',
   },
   {
@@ -639,7 +639,7 @@ const rawProducts: RawProtein[] = [
     verdict: 'Vegan Protein Blend kombinerer erte og ris for bedre aminosyreprofil enn ren erte, men score under whey.',
     strengths: ['Vegan', 'Bedre profil enn ren erte', 'Rimelig'],
     watchouts: ['Lavere IAAS og leucin', 'Kornete smak'],
-    url: 'https://www.myprotein.no/sports-nutrition/vegan-protein-blend/11351679.html',
+    url: 'https://www.myprotein.no/p/sports-nutrition/myvegan-vegan-protein-blend/12370635/',
     image: '',
   },
   {
