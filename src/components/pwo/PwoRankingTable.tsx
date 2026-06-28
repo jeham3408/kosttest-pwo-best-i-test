@@ -135,21 +135,28 @@ export default function PwoRankingTable({
           <tbody>
             {products.map((p) => {
               const ranked = isPwoFullyRankable(p)
-              const copy = generatePwoProductCopy(p, badgeCtx)
               const priceGrade = ranked ? calculatePriceGrade(p.pricePerServing) : null
               const valueIndex = ranked ? calculatePwoValueIndex(p) : null
               const trust = resolvePwoTrust(p)
               const badges = getPwoBadges(p, badgeCtx)
               return (
-                <tr key={p.id} onClick={() => onSelect?.(p.id)} style={onSelect ? { cursor: 'pointer' } : undefined}>
-                  <td><span className="rank-badge">{ranked ? `#${p.rank}` : 'Venter'}</span></td>
+                <tr
+                  key={p.id}
+                  className={ranked ? undefined : 'ranking-table-row--pending'}
+                  onClick={() => onSelect?.(p.id)}
+                  style={onSelect ? { cursor: 'pointer' } : undefined}
+                >
+                  <td>
+                    <span className={`rank-badge${ranked ? '' : ' rank-badge--pending'}`}>
+                      {ranked ? `#${p.rank}` : '—'}
+                    </span>
+                  </td>
                   <td className="product-cell">
                     <ProductImage name={p.name} brand={p.brand} image={p.image} altSuffix="PWO" />
                     <div>
-                      <span>{p.name}</span>
+                      <span className="product-cell-name">{p.name}</span>
                       <span>{p.brand}</span>
-                      <PwoBadgeList badges={badges} compact />
-                      <span className="pwo-table-subcopy">{copy.bestFor}</span>
+                      <PwoBadgeList badges={badges} compact maxVisible={1} />
                     </div>
                   </td>
                   <td>
@@ -176,7 +183,7 @@ export default function PwoRankingTable({
                   </td>
                   <td style={{ fontSize: 12 }}>{caffeineLabel(p.caffeineMg)}</td>
                   <td style={{ fontSize: 12 }}>
-                    <DataTransparencyPanel snapshot={trust} variant="compact" showFeedback={false} />
+                    <DataTransparencyPanel snapshot={trust} variant="chip" showFeedback={false} />
                   </td>
                   {onCompareToggle && compareSelected ? (
                     <td>

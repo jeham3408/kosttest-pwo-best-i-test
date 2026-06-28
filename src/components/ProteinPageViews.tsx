@@ -197,10 +197,10 @@ export function ProteinRankingTable({
               <td className="product-cell">
                 <ProductImage name={p.name} brand={p.brand} image={p.image} altSuffix="proteinpulver fra Kosttest.no" />
                 <div>
-                  <span>{p.name}</span>
+                  <span className="product-cell-name">{p.name}</span>
                   <span>{p.brand} · {model.proteinTypeLabel}</span>
                   <ProteinVerificationBadge productId={p.id} />
-                  <ProductBadgeList badges={badges} compact />
+                  <ProductBadgeList badges={badges} compact maxVisible={1} />
                 </div>
               </td>
               <td>
@@ -211,9 +211,9 @@ export function ProteinRankingTable({
               </td>
               <td><span style={{ color: 'var(--muted)' }}>{p.iaasScore}</span></td>
               <td><span style={{ fontSize: 11 }}>{p.pricePerGramProtein.toFixed(2).replace('.', ',')} kr/g</span></td>
-              <td style={{ fontSize: 12 }}>
-                <DataTransparencyPanel snapshot={trust} variant="compact" showFeedback={false} />
-                <span style={{ display: 'block', color: 'var(--muted)', fontSize: 11 }}>{data.label}</span>
+              <td>
+                <DataTransparencyPanel snapshot={trust} variant="chip" showFeedback={false} />
+                <span className="ranking-table-data-note">{data.label}</span>
               </td>
               {onCompareToggle && compareSelected ? (
                 <td>

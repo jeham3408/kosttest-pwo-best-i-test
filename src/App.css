@@ -195,6 +195,13 @@ h1 {
   font-weight: 820;
 }
 
+.rank-badge--pending {
+  background: #6b7280;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+}
+
 .hero-product strong {
   display: block;
   font-size: 17px;
@@ -521,8 +528,17 @@ tbody tr:last-child td {
 }
 
 .product-cell .product-image {
-  width: 60px;
-  height: 60px;
+  width: 80px;
+  height: 80px;
+  --product-image-fill: 92%;
+  flex-shrink: 0;
+}
+
+.product-cell-name {
+  display: block;
+  font-weight: 760;
+  color: var(--accent-strong);
+  line-height: 1.3;
 }
 
 .product-cell a,
@@ -3393,6 +3409,109 @@ body:has(.compare-bar) {
 
 .pwo-ranking-table .product-cell > div {
   min-width: 0;
+}
+
+/* Desktop rangeringstabell — tettere rader, sticky produktkolonne */
+.ranking-table-desktop .ranking-table th,
+.ranking-table-desktop .ranking-table td {
+  padding: 12px 14px;
+}
+
+.ranking-table-desktop .ranking-table tbody tr:hover td {
+  background: #fbfcfa;
+}
+
+.ranking-table-desktop .ranking-table tbody tr.ranking-table-row--pending td {
+  background: #fafbf9;
+}
+
+.ranking-table-desktop .ranking-table tbody tr.ranking-table-row--pending:hover td {
+  background: #f3f6f2;
+}
+
+.ranking-table-desktop .ranking-table th:first-child,
+.ranking-table-desktop .ranking-table td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  min-width: 52px;
+  background: #fff;
+}
+
+.ranking-table-desktop .ranking-table th:nth-child(2),
+.ranking-table-desktop .ranking-table td:nth-child(2) {
+  position: sticky;
+  left: 52px;
+  z-index: 2;
+  background: #fff;
+  box-shadow: 4px 0 12px -8px rgba(16, 24, 20, 0.14);
+}
+
+.ranking-table-desktop .ranking-table tbody tr:hover td:first-child,
+.ranking-table-desktop .ranking-table tbody tr:hover td:nth-child(2) {
+  background: #fbfcfa;
+}
+
+.ranking-table-desktop .ranking-table tbody tr.ranking-table-row--pending td:first-child,
+.ranking-table-desktop .ranking-table tbody tr.ranking-table-row--pending td:nth-child(2) {
+  background: #fafbf9;
+}
+
+.ranking-table-desktop .ranking-table tbody tr.ranking-table-row--pending:hover td:first-child,
+.ranking-table-desktop .ranking-table tbody tr.ranking-table-row--pending:hover td:nth-child(2) {
+  background: #f3f6f2;
+}
+
+.ranking-table-data-note {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.35;
+}
+
+.product-data-status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  max-width: 100%;
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--paper-strong);
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1.3;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+.product-data-status-chip-icon {
+  flex-shrink: 0;
+  color: var(--accent);
+}
+
+.product-data-status-chip--high {
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
+}
+
+.product-data-status-chip--limited .product-data-status-chip-icon {
+  color: #b45309;
+}
+
+.product-data-status-chip--unranked {
+  color: var(--muted);
+}
+
+.product-data-status-chip--unranked .product-data-status-chip-icon {
+  color: var(--muted);
+}
+
+.data-transparency-panel--chip {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
 }
 
 @media (max-width: 640px) {

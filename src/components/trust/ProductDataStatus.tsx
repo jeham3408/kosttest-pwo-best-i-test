@@ -20,6 +20,8 @@ type ProductDataStatusProps = {
   lastChecked?: string
   dataSource?: string
   compact?: boolean
+  /** Én linje for tabellceller — f.eks. «Høy tillit · Etikett». */
+  chip?: boolean
   className?: string
 }
 
@@ -29,6 +31,7 @@ export default function ProductDataStatus({
   lastChecked: lastCheckedProp,
   dataSource: dataSourceProp,
   compact = true,
+  chip = false,
   className = '',
 }: ProductDataStatusProps) {
   const trustLevel = snapshot?.trustLevel ?? trustLevelProp ?? 'medium'
@@ -41,6 +44,37 @@ export default function ProductDataStatus({
 
   const copy = TRUST_LEVEL_COPY[trustLevel]
   const Icon = iconByLevel[trustLevel]
+
+  const chipLabel = [
+    confidenceShort ?? (trustLevel === 'unranked' ? 'Ikke vurdert' : copy.short),
+    dataSourceShort,
+  ]
+    .filter(Boolean)
+    .join(' · ')
+
+  const chipTitle = [
+    missingPerProduct
+      ? `Felles testgjennomgang: ${lastUpdated}. Produktspesifikk kontroll ikke registrert.`
+      : `Sist kontrollert: ${lastChecked}.`,
+    copy.explanation,
+    dataSourceShort ? `Kilde: ${dataSourceShort}.` : '',
+  ]
+    .filter(Boolean)
+    .join(' ')
+
+  if (chip) {
+    return (
+      <span
+        className={`product-data-status-chip product-data-status-chip--${trustLevel} ${className}`.trim()}
+        role="status"
+        title={chipTitle}
+        aria-label={chipTitle}
+      >
+        <Icon size={12} aria-hidden="true" className="product-data-status-chip-icon" />
+        {chipLabel}
+      </span>
+    )
+  }
 
   if (compact) {
     return (

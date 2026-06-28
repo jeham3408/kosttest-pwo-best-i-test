@@ -4,12 +4,15 @@ import type { ProductBadge } from '../data/badges/types'
 export default function ProductBadgeList({
   badges,
   compact = false,
+  maxVisible,
 }: {
   badges: ProductBadge[]
   compact?: boolean
+  maxVisible?: number
 }) {
   if (!badges.length) return null
-  const visible = compact ? badges.slice(0, 2) : badges
+  const limit = maxVisible ?? (compact ? 2 : badges.length)
+  const visible = badges.slice(0, limit)
   return (
     <ul className={`pwo-badge-list${compact ? ' pwo-badge-list--compact' : ''}`} aria-label="Produktmerker">
       {visible.map((badge) => (

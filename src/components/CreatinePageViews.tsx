@@ -193,9 +193,9 @@ export function CreatineRankingTable({
               <td className="product-cell">
                 <ProductImage name={p.name} brand={p.brand} image={p.image} altSuffix="kreatin fra Kosttest.no" />
                 <div>
-                  <span>{p.name}</span>
+                  <span className="product-cell-name">{p.name}</span>
                   <span>{p.brand} · {p.formLabel}</span>
-                  <ProductBadgeList badges={badges} compact />
+                  <ProductBadgeList badges={badges} compact maxVisible={1} />
                 </div>
               </td>
               <td><span style={{ fontSize: 12 }}>{formatCreatineSource(p)}</span></td>

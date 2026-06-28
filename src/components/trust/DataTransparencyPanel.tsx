@@ -9,7 +9,7 @@ import ProductFeedbackForm from './ProductFeedbackForm'
 
 type DataTransparencyPanelProps = {
   snapshot: ProductTrustSnapshot
-  variant?: 'compact' | 'full' | 'drawer'
+  variant?: 'chip' | 'compact' | 'full' | 'drawer'
   showFeedback?: boolean
   className?: string
 }
@@ -44,6 +44,14 @@ export default function DataTransparencyPanel({
   const [drawerOpen, setDrawerOpen] = useState(false)
   const trustCopy = TRUST_LEVEL_COPY[snapshot.trustLevel]
   const confidenceCopy = DATA_CONFIDENCE_KIND_LABELS[snapshot.dataConfidence]
+
+  if (variant === 'chip') {
+    return (
+      <div className={`data-transparency-panel data-transparency-panel--chip ${className}`.trim()}>
+        <ProductDataStatus snapshot={snapshot} chip />
+      </div>
+    )
+  }
 
   if (variant === 'compact') {
     return (
