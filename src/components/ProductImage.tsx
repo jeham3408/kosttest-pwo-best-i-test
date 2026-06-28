@@ -33,14 +33,14 @@ export default function ProductImage({
 
   if (showFallback) {
     return (
-      <div className={className} aria-hidden="true" style={{ width, height, maxWidth: width }}>
+      <div className={className} aria-hidden="true">
         <span className="product-image-fallback">{brandInitial(brand, name)}</span>
       </div>
     )
   }
 
   return (
-    <div className={className} style={{ width, height, maxWidth: width }}>
+    <div className={className}>
       <img
         src={image}
         alt={alt}

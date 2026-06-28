@@ -210,27 +210,33 @@ h1 {
 }
 
 .product-image {
+  --product-image-fill: 82%;
   display: grid;
   place-items: center;
+  flex-shrink: 0;
   width: 86px;
   height: 86px;
   border: 1px solid #e8eee8;
   border-radius: 8px;
   background: #fff;
+  overflow: hidden;
 }
 
 .product-image img {
   display: block;
-  max-width: 78px;
-  max-height: 78px;
+  width: auto;
+  height: auto;
+  max-width: var(--product-image-fill);
+  max-height: var(--product-image-fill);
   object-fit: contain;
+  object-position: center;
 }
 
 .product-image-fallback {
   display: grid;
   place-items: center;
-  width: 100%;
-  height: 100%;
+  width: var(--product-image-fill);
+  height: var(--product-image-fill);
   font-size: 28px;
   font-weight: 700;
   color: var(--accent, #1a6b3c);
@@ -519,11 +525,6 @@ tbody tr:last-child td {
   height: 60px;
 }
 
-.product-cell .product-image img {
-  max-width: 54px;
-  max-height: 54px;
-}
-
 .product-cell a,
 td a {
   color: var(--accent-strong);
@@ -641,11 +642,6 @@ td a:hover,
 .review-card > .product-image {
   width: 150px;
   height: 150px;
-}
-
-.review-card > .product-image img {
-  max-width: 132px;
-  max-height: 132px;
 }
 
 .review-heading {
@@ -1260,11 +1256,6 @@ code {
   .product-image {
     width: 70px;
     height: 70px;
-  }
-
-  .product-image img {
-    max-width: 64px;
-    max-height: 64px;
   }
 
   .content-section,
@@ -2323,7 +2314,7 @@ code {
 
 .ranking-card-head {
   display: grid;
-  grid-template-columns: auto 56px minmax(0, 1fr) auto;
+  grid-template-columns: auto 76px minmax(0, 1fr) auto;
   gap: 10px;
   align-items: center;
 }
@@ -2335,13 +2326,8 @@ code {
 }
 
 .ranking-card-head .product-image {
-  width: 56px;
-  height: 56px;
-}
-
-.ranking-card-head .product-image img {
-  max-width: 48px;
-  max-height: 48px;
+  width: 76px;
+  height: 76px;
 }
 
 .ranking-card-title {
@@ -3121,6 +3107,12 @@ body:has(.compare-bar) {
   font: inherit;
   padding: 0;
   width: 100%;
+}
+
+.compare-product-card-main .product-image {
+  width: 100%;
+  max-width: 120px;
+  height: 120px;
 }
 
 .compare-product-card-actions {

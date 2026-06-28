@@ -518,24 +518,7 @@ body:has(.compare-bar) {
   }
 }
 
-/* —— Product image — no layout shift —— */
-.product-image {
-  aspect-ratio: 1;
-  width: 100%;
-  max-width: 150px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-surface);
-  border-radius: var(--radius-md);
-}
-
-.product-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
+/* —— Product image — sizing & fill live in App.css —— */
 
 /* —— Data status — readable on mobile —— */
 .product-data-status-label {
