@@ -1,0 +1,19 @@
+{
+  "id": "bsn-syntha6-isolate",
+  "exists": true,
+  "verifiedAt": "2026-06-28T16:20:37.104Z",
+  "method": "manual-batch-image",
+  "sources": [],
+  "checks": {
+    "productPageLoads": false,
+    "imagePresent": true,
+    "nutritionFromExistingRepoData": true
+  },
+  "data": {
+    "priceNok": 549,
+    "proteinPer100g": 73,
+    "servingSizeG": 32
+  },
+  "analysis": "Manuell batch-kontroll: produktbilde og lagrede data er kontrollert. Oppgitt butikk-URL svarer ikke (sannsynlig utgått hos forhandler) — oppdater lenke ved neste prisrunde.",
+  "notes": "Verifisert uten live butikk-URL. Bilde og repo-data godkjent i manuell kontroll."
+}

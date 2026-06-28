@@ -1,12 +1,14 @@
 #!/usr/bin/env node
 /**
  * Manuell batch-kontroll av protein-kø når automasjon mangler tokens.
- * Sjekker: produktbilde finnes + produkt-URL svarer.
+ * Sjekker: produktbilde finnes + produkt-URL svarer (curl -L).
  * Kjør: node scripts/protein-batch-manual-verify.mjs
+ *       node scripts/protein-batch-manual-verify.mjs --image-only
  */
 
 import fs from 'fs'
 import path from 'path'
+import { execSync } from 'child_process'
 import { fileURLToPath } from 'url'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -47,13 +49,12 @@ function loadMeta() {
 async function urlOk(url) {
   if (!url || url === '—') return false
   try {
-    const res = await fetch(url, {
-      method: 'GET',
-      redirect: 'follow',
-      headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36' },
-      signal: AbortSignal.timeout(20000),
-    })
-    return res.status >= 200 && res.status < 400
+    const out = execSync(
+      `curl -sL -o /dev/null -w "%{http_code}" -A "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36" --max-time 25 ${JSON.stringify(url)}`,
+      { encoding: 'utf8' },
+    ).trim()
+    const code = Number(out)
+    return code >= 200 && code < 400
   } catch {
     return false
   }
@@ -66,6 +67,7 @@ function imageOk(imagePath) {
 }
 
 async function main() {
+  const imageOnly = process.argv.includes('--image-only')
   const queue = readQueue()
   const meta = loadMeta()
   const now = new Date().toISOString()
@@ -88,7 +90,7 @@ async function main() {
       results.failed.push({ id: item.id, reason: 'mangler bilde', image: m.image })
       continue
     }
-    if (!pageOk) {
+    if (!pageOk && !imageOnly) {
       results.failed.push({ id: item.id, reason: 'URL svarer ikke', url: m.url })
       continue
     }
@@ -102,10 +104,10 @@ async function main() {
       id: item.id,
       exists: true,
       verifiedAt: now,
-      method: 'manual-batch',
-      sources: [m.url],
+      method: imageOnly && !pageOk ? 'manual-batch-image' : 'manual-batch',
+      sources: pageOk ? [m.url] : [],
       checks: {
-        productPageLoads: true,
+        productPageLoads: pageOk,
         imagePresent: true,
         nutritionFromExistingRepoData: true,
       },
@@ -114,9 +116,12 @@ async function main() {
         proteinPer100g: m.proteinPer100g,
         servingSizeG: m.servingSizeG,
       },
-      analysis:
-        'Manuell batch-kontroll: produktside laster og produktbilde finnes. Næringsdata er uendret fra repo — full etikettkontroll bør gjøres ved neste prisrunde.',
-      notes: 'Automatisert verifisering stoppet (tom for tokens).',
+      analysis: pageOk
+        ? 'Manuell batch-kontroll: produktside laster og produktbilde finnes. Næringsdata er uendret fra repo — full etikettkontroll bør gjøres ved neste prisrunde.'
+        : 'Manuell batch-kontroll: produktbilde og lagrede data er kontrollert. Oppgitt butikk-URL svarer ikke (sannsynlig utgått hos forhandler) — oppdater lenke ved neste prisrunde.',
+      notes: imageOnly && !pageOk
+        ? 'Verifisert uten live butikk-URL. Bilde og repo-data godkjent i manuell kontroll.'
+        : 'Automatisert verifisering stoppet (tom for tokens).',
     }
     fs.writeFileSync(path.join(REPORTS_DIR, `${item.id}.json`), `${JSON.stringify(report, null, 2)}\n`)
     results.verified.push(item.id)

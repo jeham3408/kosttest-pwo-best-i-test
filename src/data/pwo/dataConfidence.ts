@@ -9,6 +9,14 @@ const levelRank: Record<DataConfidenceLevel, number> = {
   insufficient: 0,
 }
 
+/** Samme pump-ekvivalent som i formelscoren (citrullin + arginin/2 + rødbete×0,9). */
+export function pumpEquivalentMg(product: TestedProduct): number {
+  const citrulline = product.citrullineMg ?? 0
+  const arginine = product.extraDoses?.arginine ?? 0
+  const beetroot = product.extraDoses?.beetroot ?? 0
+  return citrulline + arginine * 0.5 + beetroot * 0.9
+}
+
 export function dataConfidenceMeetsMinimum(
   level: DataConfidenceLevel,
   minimum: DataConfidenceLevel,
@@ -28,9 +36,11 @@ export function getPwoDataConfidence(product: TestedProduct): {
 
   const hasServing = Boolean(product.servingSize?.trim())
   const hasIngredients = product.keyIngredients.length >= 3
-  const citrullineClear =
+  const pumpEq = pumpEquivalentMg(product)
+  const citrullineFormUnclear =
     Boolean(product.citrullineMg && product.citrullineMg > 0) &&
-    !/uklar|proprietary|blend/i.test(product.citrullineForm)
+    /uklar|proprietary|blend/i.test(product.citrullineForm ?? '')
+  const pumpDeclarationClear = pumpEq > 0 && !citrullineFormUnclear
   const caffeineKnown = product.caffeineMg !== null
   const hasBreakdown = Boolean(product.gradeBreakdown?.length)
 
@@ -41,13 +51,15 @@ export function getPwoDataConfidence(product: TestedProduct): {
   }
   if (hasIngredients) points += 1
   else reasons.push('Få ingredienser dokumentert i tabellen')
-  if (citrullineClear) points += 1
-  else if (product.citrullineMg) reasons.push('Pump-ingrediens med uklar form eller ratio')
+  if (pumpDeclarationClear) points += 1
+  else if (pumpEq > 0) reasons.push('Pump-ingrediens med uklar form eller ratio')
+  else reasons.push('Ingen dokumentert pump-ingrediens (citrullin/rødbete/arginin)')
   if (caffeineKnown) points += 1
   else reasons.push('Koffein ikke oppgitt')
   if (hasBreakdown) points += 1
 
-  const fullDeclaration = hasServing && hasIngredients && citrullineClear && caffeineKnown && hasBreakdown
+  const fullDeclaration =
+    hasServing && hasIngredients && pumpDeclarationClear && caffeineKnown && hasBreakdown
 
   let level: DataConfidenceLevel
   if (points >= 5) level = 'high'

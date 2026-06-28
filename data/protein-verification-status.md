@@ -15,25 +15,25 @@
 | `star-whey-100` | Star Nutrition | Whey-100 | 2026-06-26 17:13 | ✅ ferdig (har bilde) |
 | `myprotein-impact-whey` | MyProtein | Impact Whey Protein | 2026-06-28 13:54 | ✅ ferdig (har bilde) |
 | `scitec-100-whey-professional` | Scitec Nutrition | 100% Whey Protein Professional | 2026-06-28 13:54 | ✅ ferdig (har bilde) |
-| `applied-critical-whey` | Applied Nutrition | Critical Whey | — | ✅ ferdig (har bilde) |
+| `applied-critical-whey` | Applied Nutrition | Critical Whey | 2026-06-28 16:20 | ✅ ferdig (har bilde) |
 | `mutant-iso-surge` | Mutant | ISO Surge | 2026-06-28 13:54 | ✅ ferdig (har bilde) |
-| `rule1-r1-protein` | Rule 1 | R1 Protein | — | ✅ ferdig (har bilde) |
-| `muscletech-nitrotech` | MuscleTech | Nitro-Tech Whey Gold | — | ✅ ferdig (har bilde) |
-| `kevin-levrone-levro-whey` | Kevin Levrone | Levro Whey Supreme | — | ✅ ferdig (har bilde) |
-| `ghost-whey` | Ghost | Ghost Whey | — | ✅ ferdig (har bilde) |
-| `esn-designer-whey` | ESN | Designer Whey Protein | — | ✅ ferdig (har bilde) |
-| `biotech-iso-whey-zero` | BioTech USA | Iso Whey Zero | — | ✅ ferdig (har bilde) |
-| `weider-premium-whey` | Weider | Premium Whey Protein | — | ✅ ferdig (har bilde) |
+| `rule1-r1-protein` | Rule 1 | R1 Protein | 2026-06-28 16:20 | ✅ ferdig (har bilde) |
+| `muscletech-nitrotech` | MuscleTech | Nitro-Tech Whey Gold | 2026-06-28 16:20 | ✅ ferdig (har bilde) |
+| `kevin-levrone-levro-whey` | Kevin Levrone | Levro Whey Supreme | 2026-06-28 16:20 | ✅ ferdig (har bilde) |
+| `ghost-whey` | Ghost | Ghost Whey | 2026-06-28 16:20 | ✅ ferdig (har bilde) |
+| `esn-designer-whey` | ESN | Designer Whey Protein | 2026-06-28 16:20 | ✅ ferdig (har bilde) |
+| `biotech-iso-whey-zero` | BioTech USA | Iso Whey Zero | 2026-06-28 16:20 | ✅ ferdig (har bilde) |
+| `weider-premium-whey` | Weider | Premium Whey Protein | 2026-06-28 16:20 | ✅ ferdig (har bilde) |
 | `proteinfabrikken-whey` | Proteinfabrikken | 100% Whey | 2026-06-28 13:54 | ✅ ferdig (har bilde) |
 | `smartsupps-whey` | SmartSupps | Whey Protein | 2026-06-28 13:47 | ✅ ferdig (har bilde) |
-| `bsn-syntha6-isolate` | BSN | Syntha-6 Isolate | — | ✅ ferdig (har bilde) |
-| `olimp-pure-whey` | Olimp | Pure Whey Isolate 95 | — | ✅ ferdig (har bilde) |
-| `qnt-delicious-whey` | QNT | Delicious Whey Protein | — | ✅ ferdig (har bilde) |
-| `esn-isoclear` | ESN | Isoclear Whey Isolate | — | ✅ ferdig (har bilde) |
+| `bsn-syntha6-isolate` | BSN | Syntha-6 Isolate | 2026-06-28 16:20 | ✅ ferdig (har bilde) |
+| `olimp-pure-whey` | Olimp | Pure Whey Isolate 95 | 2026-06-28 16:20 | ✅ ferdig (har bilde) |
+| `qnt-delicious-whey` | QNT | Delicious Whey Protein | 2026-06-28 16:20 | ✅ ferdig (har bilde) |
+| `esn-isoclear` | ESN | Isoclear Whey Isolate | 2026-06-28 16:20 | ✅ ferdig (har bilde) |
 | `optimum-gold-standard-casein` | Optimum Nutrition | Gold Standard 100% Casein | 2026-06-28 13:54 | ✅ ferdig (har bilde) |
-| `myprotein-soy-isolate` | MyProtein | Soy Protein Isolate | — | ✅ ferdig (har bilde) |
+| `myprotein-soy-isolate` | MyProtein | Soy Protein Isolate | 2026-06-28 16:20 | ✅ ferdig (har bilde) |
 | `myprotein-vegan-blend` | MyProtein | Vegan Protein Blend | 2026-06-28 13:54 | ✅ ferdig (har bilde) |
-| `proteinseries-100-whey` | Protein Series | 100% Whey | — | ✅ ferdig (har bilde) |
+| `proteinseries-100-whey` | Protein Series | 100% Whey | 2026-06-28 16:20 | ✅ ferdig (har bilde) |
 | `bulk-pure-whey` | Bulk | Pure Whey Protein | 2026-06-28 13:47 | ✅ ferdig (har bilde) |
 
 **FORBUDT å teste på nytt:** `dymatize-iso100`, `optimum-gold-standard`, `bodylab-whey-100`, `star-whey-100`, `myprotein-impact-whey`, `scitec-100-whey-professional`, `applied-critical-whey`, `mutant-iso-surge`, `rule1-r1-protein`, `muscletech-nitrotech`, `kevin-levrone-levro-whey`, `ghost-whey`, `esn-designer-whey`, `biotech-iso-whey-zero`, `weider-premium-whey`, `proteinfabrikken-whey`, `smartsupps-whey`, `bsn-syntha6-isolate`, `olimp-pure-whey`, `qnt-delicious-whey`, `esn-isoclear`, `optimum-gold-standard-casein`, `myprotein-soy-isolate`, `myprotein-vegan-blend`, `proteinseries-100-whey`, `bulk-pure-whey`
@@ -56,13 +56,13 @@ Alle produkter har bilde eller er avvist. Ingen oppgave igjen.
 
 | Felt | Verdi |
 |------|-------|
-| productId | `myprotein-vegan-blend` |
-| merke | MyProtein |
-| navn | Vegan Protein Blend |
+| productId | `proteinseries-100-whey` |
+| merke | Protein Series |
+| navn | 100% Whey |
 | resultat | ✅ ferdig (har bilde) |
-| ferdig | 2026-06-28 13:54 |
+| ferdig | 2026-06-28 16:20 |
 
-Sist ferdig var `myprotein-vegan-blend`. Neste uten bilde: `—`.
+Sist ferdig var `proteinseries-100-whey`. Neste uten bilde: `—`.
 
 ## Oppsummering
 
@@ -72,7 +72,7 @@ Sist ferdig var `myprotein-vegan-blend`. Neste uten bilde: `—`.
 | Mangler bilde | 0 |
 | Avvist | 0 |
 | Neste uten bilde | `—` |
-| Siste kjøring | 2026-06-28 13:54 |
+| Siste kjøring | 2026-06-28 16:20 |
 | Live-liste | https://kosttest.no/tester/protein/ |
 | Cron | `*/5 * * * *` (hvert 5. min) |
 
@@ -86,25 +86,25 @@ Sist ferdig var `myprotein-vegan-blend`. Neste uten bilde: `—`.
 | 4 | star-whey-100 | Star Nutrition | Whey-100 | ✅ verified | 🖼️ ✅ | 2026-06-26 |
 | 5 | myprotein-impact-whey | MyProtein | Impact Whey Protein | ✅ verified | 🖼️ ✅ | 2026-06-28 |
 | 6 | scitec-100-whey-professional | Scitec Nutrition | 100% Whey Protein Professional | ✅ verified | 🖼️ ✅ | 2026-06-28 |
-| 7 | applied-critical-whey | Applied Nutrition | Critical Whey | ⏳ pending | 🖼️ ✅ | — |
+| 7 | applied-critical-whey | Applied Nutrition | Critical Whey | ✅ verified | 🖼️ ✅ | 2026-06-28 |
 | 8 | mutant-iso-surge | Mutant | ISO Surge | ✅ verified | 🖼️ ✅ | 2026-06-28 |
-| 9 | rule1-r1-protein | Rule 1 | R1 Protein | ⏳ pending | 🖼️ ✅ | — |
-| 10 | muscletech-nitrotech | MuscleTech | Nitro-Tech Whey Gold | ⏳ pending | 🖼️ ✅ | — |
-| 11 | kevin-levrone-levro-whey | Kevin Levrone | Levro Whey Supreme | ⏳ pending | 🖼️ ✅ | — |
-| 12 | ghost-whey | Ghost | Ghost Whey | ⏳ pending | 🖼️ ✅ | — |
-| 13 | esn-designer-whey | ESN | Designer Whey Protein | ⏳ pending | 🖼️ ✅ | — |
-| 14 | biotech-iso-whey-zero | BioTech USA | Iso Whey Zero | ⏳ pending | 🖼️ ✅ | — |
-| 15 | weider-premium-whey | Weider | Premium Whey Protein | ⏳ pending | 🖼️ ✅ | — |
+| 9 | rule1-r1-protein | Rule 1 | R1 Protein | ✅ verified | 🖼️ ✅ | 2026-06-28 |
+| 10 | muscletech-nitrotech | MuscleTech | Nitro-Tech Whey Gold | ✅ verified | 🖼️ ✅ | 2026-06-28 |
+| 11 | kevin-levrone-levro-whey | Kevin Levrone | Levro Whey Supreme | ✅ verified | 🖼️ ✅ | 2026-06-28 |
+| 12 | ghost-whey | Ghost | Ghost Whey | ✅ verified | 🖼️ ✅ | 2026-06-28 |
+| 13 | esn-designer-whey | ESN | Designer Whey Protein | ✅ verified | 🖼️ ✅ | 2026-06-28 |
+| 14 | biotech-iso-whey-zero | BioTech USA | Iso Whey Zero | ✅ verified | 🖼️ ✅ | 2026-06-28 |
+| 15 | weider-premium-whey | Weider | Premium Whey Protein | ✅ verified | 🖼️ ✅ | 2026-06-28 |
 | 16 | proteinfabrikken-whey | Proteinfabrikken | 100% Whey | ✅ verified | 🖼️ ✅ | 2026-06-28 |
 | 17 | smartsupps-whey | SmartSupps | Whey Protein | ✅ verified | 🖼️ ✅ | 2026-06-28 |
-| 18 | bsn-syntha6-isolate | BSN | Syntha-6 Isolate | ⏳ pending | 🖼️ ✅ | — |
-| 19 | olimp-pure-whey | Olimp | Pure Whey Isolate 95 | ⏳ pending | 🖼️ ✅ | — |
-| 20 | qnt-delicious-whey | QNT | Delicious Whey Protein | ⏳ pending | 🖼️ ✅ | — |
-| 21 | esn-isoclear | ESN | Isoclear Whey Isolate | ⏳ pending | 🖼️ ✅ | — |
+| 18 | bsn-syntha6-isolate | BSN | Syntha-6 Isolate | ✅ verified | 🖼️ ✅ | 2026-06-28 |
+| 19 | olimp-pure-whey | Olimp | Pure Whey Isolate 95 | ✅ verified | 🖼️ ✅ | 2026-06-28 |
+| 20 | qnt-delicious-whey | QNT | Delicious Whey Protein | ✅ verified | 🖼️ ✅ | 2026-06-28 |
+| 21 | esn-isoclear | ESN | Isoclear Whey Isolate | ✅ verified | 🖼️ ✅ | 2026-06-28 |
 | 22 | optimum-gold-standard-casein | Optimum Nutrition | Gold Standard 100% Casein | ✅ verified | 🖼️ ✅ | 2026-06-28 |
-| 23 | myprotein-soy-isolate | MyProtein | Soy Protein Isolate | ⏳ pending | 🖼️ ✅ | — |
-| 24 | myprotein-vegan-blend ← forrige | MyProtein | Vegan Protein Blend | ✅ verified | 🖼️ ✅ | 2026-06-28 |
-| 25 | proteinseries-100-whey | Protein Series | 100% Whey | ⏳ pending | 🖼️ ✅ | — |
+| 23 | myprotein-soy-isolate | MyProtein | Soy Protein Isolate | ✅ verified | 🖼️ ✅ | 2026-06-28 |
+| 24 | myprotein-vegan-blend | MyProtein | Vegan Protein Blend | ✅ verified | 🖼️ ✅ | 2026-06-28 |
+| 25 | proteinseries-100-whey ← forrige | Protein Series | 100% Whey | ✅ verified | 🖼️ ✅ | 2026-06-28 |
 | 26 | bulk-pure-whey | Bulk | Pure Whey Protein | ✅ verified | 🖼️ ✅ | 2026-06-28 |
 
 ## Kjøringslogg

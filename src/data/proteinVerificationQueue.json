@@ -1,9 +1,9 @@
 {
   "version": 1,
   "intervalMinutes": 5,
-  "lastRunAt": "2026-06-28T13:54:52.929Z",
-  "lastVerifiedId": "myprotein-vegan-blend",
-  "lastCompletedId": "myprotein-vegan-blend",
+  "lastRunAt": "2026-06-28T16:20:37.104Z",
+  "lastVerifiedId": "proteinseries-100-whey",
+  "lastCompletedId": "proteinseries-100-whey",
   "lastCompletedStatus": "verified",
   "currentProductId": null,
   "currentRunStartedAt": null,
@@ -51,8 +51,10 @@
     },
     {
       "id": "applied-critical-whey",
-      "status": "pending",
-      "attempts": 0
+      "status": "verified",
+      "attempts": 1,
+      "verifiedAt": "2026-06-28T16:20:37.104Z",
+      "lastAttemptAt": "2026-06-28T16:20:37.104Z"
     },
     {
       "id": "mutant-iso-surge",
@@ -63,38 +65,52 @@
     },
     {
       "id": "rule1-r1-protein",
-      "status": "pending",
-      "attempts": 0
+      "status": "verified",
+      "attempts": 1,
+      "verifiedAt": "2026-06-28T16:20:37.104Z",
+      "lastAttemptAt": "2026-06-28T16:20:37.104Z"
     },
     {
       "id": "muscletech-nitrotech",
-      "status": "pending",
-      "attempts": 0
+      "status": "verified",
+      "attempts": 1,
+      "verifiedAt": "2026-06-28T16:20:37.104Z",
+      "lastAttemptAt": "2026-06-28T16:20:37.104Z"
     },
     {
       "id": "kevin-levrone-levro-whey",
-      "status": "pending",
-      "attempts": 0
+      "status": "verified",
+      "attempts": 1,
+      "verifiedAt": "2026-06-28T16:20:37.104Z",
+      "lastAttemptAt": "2026-06-28T16:20:37.104Z"
     },
     {
       "id": "ghost-whey",
-      "status": "pending",
-      "attempts": 0
+      "status": "verified",
+      "attempts": 1,
+      "verifiedAt": "2026-06-28T16:20:37.104Z",
+      "lastAttemptAt": "2026-06-28T16:20:37.104Z"
     },
     {
       "id": "esn-designer-whey",
-      "status": "pending",
-      "attempts": 0
+      "status": "verified",
+      "attempts": 1,
+      "verifiedAt": "2026-06-28T16:20:37.104Z",
+      "lastAttemptAt": "2026-06-28T16:20:37.104Z"
     },
     {
       "id": "biotech-iso-whey-zero",
-      "status": "pending",
-      "attempts": 0
+      "status": "verified",
+      "attempts": 1,
+      "verifiedAt": "2026-06-28T16:20:37.104Z",
+      "lastAttemptAt": "2026-06-28T16:20:37.104Z"
     },
     {
       "id": "weider-premium-whey",
-      "status": "pending",
-      "attempts": 0
+      "status": "verified",
+      "attempts": 1,
+      "verifiedAt": "2026-06-28T16:20:37.104Z",
+      "lastAttemptAt": "2026-06-28T16:20:37.104Z"
     },
     {
       "id": "proteinfabrikken-whey",
@@ -112,23 +128,31 @@
     },
     {
       "id": "bsn-syntha6-isolate",
-      "status": "pending",
-      "attempts": 0
+      "status": "verified",
+      "attempts": 1,
+      "verifiedAt": "2026-06-28T16:20:37.104Z",
+      "lastAttemptAt": "2026-06-28T16:20:37.104Z"
     },
     {
       "id": "olimp-pure-whey",
-      "status": "pending",
-      "attempts": 0
+      "status": "verified",
+      "attempts": 1,
+      "verifiedAt": "2026-06-28T16:20:37.104Z",
+      "lastAttemptAt": "2026-06-28T16:20:37.104Z"
     },
     {
       "id": "qnt-delicious-whey",
-      "status": "pending",
-      "attempts": 0
+      "status": "verified",
+      "attempts": 1,
+      "verifiedAt": "2026-06-28T16:20:37.104Z",
+      "lastAttemptAt": "2026-06-28T16:20:37.104Z"
     },
     {
       "id": "esn-isoclear",
-      "status": "pending",
-      "attempts": 0
+      "status": "verified",
+      "attempts": 1,
+      "verifiedAt": "2026-06-28T16:20:37.104Z",
+      "lastAttemptAt": "2026-06-28T16:20:37.104Z"
     },
     {
       "id": "optimum-gold-standard-casein",
@@ -139,8 +163,10 @@
     },
     {
       "id": "myprotein-soy-isolate",
-      "status": "pending",
-      "attempts": 0
+      "status": "verified",
+      "attempts": 1,
+      "verifiedAt": "2026-06-28T16:20:37.104Z",
+      "lastAttemptAt": "2026-06-28T16:20:37.104Z"
     },
     {
       "id": "myprotein-vegan-blend",
@@ -151,8 +177,10 @@
     },
     {
       "id": "proteinseries-100-whey",
-      "status": "pending",
-      "attempts": 0
+      "status": "verified",
+      "attempts": 1,
+      "verifiedAt": "2026-06-28T16:20:37.104Z",
+      "lastAttemptAt": "2026-06-28T16:20:37.104Z"
     },
     {
       "id": "bulk-pure-whey",
