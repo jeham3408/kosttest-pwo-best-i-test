@@ -1,9 +1,9 @@
 {
   "version": 1,
   "intervalMinutes": 5,
-  "lastRunAt": "2026-06-26T17:13:27.779Z",
-  "lastVerifiedId": "star-whey-100",
-  "lastCompletedId": "star-whey-100",
+  "lastRunAt": "2026-06-28T12:54:29.026Z",
+  "lastVerifiedId": "bodylab-whey-100",
+  "lastCompletedId": "bodylab-whey-100",
   "lastCompletedStatus": "verified",
   "currentProductId": null,
   "currentRunStartedAt": null,
@@ -11,8 +11,8 @@
     {
       "id": "dymatize-iso100",
       "status": "verified",
-      "attempts": 1,
-      "lastAttemptAt": "2026-06-26T15:51:01.139Z",
+      "attempts": 2,
+      "lastAttemptAt": "2026-06-28T12:53:03.703Z",
       "verifiedAt": "2026-06-26T15:51:44.234Z"
     },
     {
@@ -26,7 +26,7 @@
       "id": "bodylab-whey-100",
       "status": "verified",
       "attempts": 1,
-      "verifiedAt": "2026-06-26T12:00:00.000Z"
+      "verifiedAt": "2026-06-28T12:54:29.026Z"
     },
     {
       "id": "star-whey-100",
