@@ -52,7 +52,7 @@ export default function ProteinLeaderboardSection({
           return (
             <div key={chart.label} className="lb-col" style={chart.highlight ? { border: '2px solid var(--accent)', borderRadius: 8 } : undefined}>
               <h3>{chart.label}</h3>
-              <p className="lb-desc">{chart.highlight ? 'Primær kvalitetsmåling i scoren.' : 'Klikk på søyle for detaljar.'}</p>
+              <p className="lb-desc">{chart.highlight ? 'Primær kvalitetsmåling i scoren.' : 'Klikk på søyle for detaljer.'}</p>
               <div className="lb-chart-wrap">
                 <div className="lb-vbars">
                   {chart.items.map((p) => {

@@ -7,13 +7,11 @@ import {
 import './App.css'
 import JsonLd from './components/JsonLd'
 import ProductImage from './components/ProductImage'
-import SubmissionPanel from './components/SubmissionPanel'
-import UnrankedProductsSection from './components/UnrankedProductsSection'
 import {
-  calculateProductGrade,
+  calculatePriceGrade,
   ingredientRules,
+  PWO_FORMULA_MAX_POINTS,
   priceRule,
-  sourceLinks,
   testedProducts,
   type GradeBreakdown,
   type GradeLetter,
@@ -21,12 +19,11 @@ import {
 } from './data/pwoProducts'
 import { blogPosts } from './data/blog'
 import { generateProductContent } from './productContent'
-import LeaderboardSection from './LeaderboardSection'
+import { testedProteinProducts } from './data/proteinProducts'
 import {
   ProteinLeaderboardBlock,
   ProteinMetodeSection,
   ProteinProductPageView,
-  testedProteinProducts,
 } from './components/ProteinPageViews'
 import {
   CreatineLeaderboardBlock,
@@ -35,15 +32,36 @@ import {
 } from './components/CreatinePageViews'
 import HomePage from './components/HomePage'
 import SiteHeader from './components/SiteHeader'
+import AssessmentDisclaimer from './components/AssessmentDisclaimer'
+import ScoreLockup from './components/ScoreLockup'
+import ProductDataQuality from './components/ProductDataQuality'
+import DataFreshnessPage from './components/trust/DataFreshnessPage'
+import OmKosttestPage from './components/OmKosttestPage'
+import NotFoundPage from './components/NotFoundPage'
+import ProductTrustStrip from './components/trust/ProductTrustStrip'
+import { resolvePwoTrust } from './data/trust/resolvers/pwo'
+import PwoLeaderboardPage from './components/pwo/PwoLeaderboardPage'
+import PwoBadgeList from './components/pwo/PwoBadgeList'
+import { buildPwoBadgeContext, getPwoBadges, calculatePwoValueIndex } from './data/pwo'
+import ProductCompareView from './components/ProductCompareView'
+import ProductCompareBar from './components/ProductCompareBar'
+import CompareCategoryNotice from './components/compare/CompareCategoryNotice'
+import { resolveCompareBarItems } from './compare'
+import CompareToggle from './components/CompareToggle'
+import { useProductCompare, type CompareCategory } from './hooks/useProductCompare'
+import {
+  buildCompareUrl,
+  pageToCompareCategory,
+  parseCompareIdsFromSearch,
+  parseCompareRoute,
+  trackCompareEvent,
+} from './compare'
 import { PwoMethodRulesCards, type PwoMethodRuleItem } from './components/MethodRulesDisplay'
 import SiteFooter, { KilderPageContent } from './components/SiteFooter'
 import { testedCreatineProducts } from './data/creatineProducts'
 import { RANKING_TIEBREAKER_NOTE, RANKING_TIEBREAKER_SHORT } from './data/rankingNotes'
 import { getPageMeta, isCaseinProtein, isVeganProtein, isWheyProtein, normalizePath, parseRoute, routeToPath, type AppPage, type RouteState } from './routing'
-import { siteStats } from './siteStats'
-import { getRelatedProducts, kgPrice } from './utils/productHelpers'
-
-const enablePwoScan = import.meta.env.VITE_ENABLE_PWO_SCAN === 'true'
+import { getRelatedProducts } from './utils/productHelpers'
 
 const formatPrice = (price: number) =>
   new Intl.NumberFormat('nb-NO', {
@@ -58,88 +76,14 @@ const gradeScale: Array<{ grade: GradeLetter; label: string; description: string
   { grade: 'A', label: 'Maks effektiv dose', description: 'Ved eller over øvre effektiv dose.' },
   { grade: 'B', label: 'Nær maks', description: 'Mellom minimum og maks effektiv dose.' },
   { grade: 'C', label: 'Minst effektiv dose', description: 'Treffer nedre effektive dose.' },
-  { grade: 'D', label: 'Under effektiv dose', description: 'Halvveis til minimum, men ikkje nok.' },
-  { grade: 'E', label: 'Svært lavt', description: 'Rundt 25-50% av minimumsdosen.' },
-  { grade: 'F', label: 'Tragisk lite', description: 'Manglar eller er under 25% av minimumsdosen.' },
+  { grade: 'D', label: 'Under effektiv dose', description: 'Halvveis til minimum, men ikke nok.' },
+  { grade: 'E', label: 'Svært lavt', description: 'Rundt 25–50 % av minimumsdosen.' },
+  { grade: 'F', label: 'Utilstrekkelig', description: 'Mangler eller er under 25 % av minimumsdosen.' },
 ]
 
 const formatMg = (value: number) => `${Math.round(value).toLocaleString('nb-NO')} mg`
 
-function ScoreBar({ product }: { product: TestedProduct }) {
-  return (
-    <div className="scorebar" aria-label={`${product.score} av 100 poeng`}>
-      <span style={{ width: `${product.score}%` }} />
-    </div>
-  )
-}
-
-
-function SortableTh({ label, col, sortCol, sortAsc, onSort }: { label: string; col: string; sortCol: string; sortAsc: boolean; onSort: (c: string) => void }) {
-  const isPrice = ['price-asc','price-desc','kgprice-asc','kgprice-desc'].includes(sortCol)
-  const active = (col === 'price' && isPrice) || sortCol === col
-  const arrow = active ? (sortAsc ? ' ▲' : ' ▼') : ' ⇅'
-  let mode = ''
-  if (col === 'price' && active) {
-    if (sortCol === 'price-asc' || sortCol === 'price-desc') mode = 'krukke'
-    else if (sortCol === 'kgprice-asc' || sortCol === 'kgprice-desc') mode = 'kg'
-  }
-  return <th className={active ? 'sort-active' : ''} onClick={() => onSort(col)} style={{cursor:'pointer', whiteSpace:'nowrap'}}>
-    {label}{mode ? <span style={{fontSize:10,fontWeight:400,opacity:0.6,marginLeft:2}}>/{mode}</span> : null}
-    <span style={{fontSize:10,marginLeft:2,opacity:0.5}}>{arrow}</span>
-  </th>
-}
-
-function RankingTable({ products, sortCol, sortAsc, onSort, kgPrice, onSelect }: { products: TestedProduct[]; sortCol: string; sortAsc: boolean; onSort: (c: string) => void; kgPrice: (p: TestedProduct) => number; onSelect?: (id: string) => void }) {
-  return (
-    <>
-      <div className="ranking-cards-mobile" role="list" aria-label="PWO-rangering">
-        {products.map((p) => (
-          <button
-            key={p.id}
-            type="button"
-            className="ranking-card"
-            onClick={() => onSelect?.(p.id)}
-            role="listitem"
-          >
-            <div className="ranking-card-head">
-              <span className="rank-badge">#{p.rank}</span>
-              <ProductImage name={p.name} brand={p.brand} image={p.image} altSuffix="PWO" />
-              <div className="ranking-card-title">
-                <strong>{p.name}</strong>
-                <span>{p.brand}{p.award ? ` · ${p.award}` : ''}</span>
-              </div>
-              <div className="ranking-card-score">
-                <span className={gradeClass(p.overallGrade)}>{p.overallGrade}</span>
-                <strong>{p.score}</strong>
-              </div>
-            </div>
-            <dl className="ranking-card-stats ranking-card-stats--2">
-              <div><dt>Pris</dt><dd>{formatPrice(p.priceNok)}</dd></div>
-              <div><dt>kr/kg</dt><dd>{Math.round(kgPrice(p)).toLocaleString('nb-NO')} kr</dd></div>
-            </dl>
-            <div className="ranking-card-foot">
-              <span>{p.servingSize} pr. porsjon</span>
-              <ScoreBar product={p} />
-            </div>
-          </button>
-        ))}
-      </div>
-      <div className="table-shell ranking-table-desktop">
-      <table className="ranking-table">
-        <thead><tr><th>#</th><th>Produkt</th><SortableTh label="Pris" col="price" sortCol={sortCol} sortAsc={sortAsc} onSort={onSort} /><SortableTh label="Poeng" col="score" sortCol={sortCol} sortAsc={sortAsc} onSort={onSort} /></tr></thead>
-        <tbody>{products.map(p => (
-          <tr key={p.id} onClick={() => onSelect?.(p.id)} style={onSelect ? { cursor: 'pointer' } : undefined}>
-            <td><span className="rank-badge">#{p.rank}</span></td>
-            <td className="product-cell"><ProductImage name={p.name} brand={p.brand} image={p.image} altSuffix="PWO fra Kosttest.no" /><div><span>{p.name}</span><span>{p.brand} · {p.award}</span></div></td>
-            <td><span style={{display:'block',fontSize:11,color:'var(--muted)'}}>{'kr ' + p.priceNok}</span><span style={{display:'block',fontSize:11,color:'var(--muted)'}}>{Math.round(kgPrice(p)).toLocaleString('nb-NO')} kr/kg</span></td>
-            <td><span className={gradeClass(p.overallGrade)}>{p.overallGrade}</span><strong>{p.score}</strong><ScoreBar product={p} /></td>
-          </tr>
-        ))}</tbody>
-      </table>
-      </div>
-    </>
-  )
-}
+const pwoBadgeCtx = buildPwoBadgeContext(testedProducts)
 
 function GradeBreakdownList({ breakdown }: { breakdown: GradeBreakdown[] | undefined }) {
   if (!breakdown?.length) return null
@@ -184,21 +128,21 @@ function buildPwoMethodRules(): PwoMethodRuleItem[] {
     {
       key: 'price',
       label: priceRule.label,
-      weight: `${priceRule.weight} poeng`,
-      note: 'Pris er eigen karakter. Låg pris hjelper, men kan ikkje redde svak formel.',
+      weight: 'Referanse',
+      note: 'Pris per dose påvirker ikke formelscoren. Vi viser pris som egen referansekarakter (A–F) og bruker lavest pris per dose kun som utslagsfaktor når to produkter har lik formelscore.',
       doses: [
-        { grade: 'E', value: `≤ ${priceRule.thresholdsNok.E} kr` },
-        { grade: 'D', value: `≤ ${priceRule.thresholdsNok.D} kr` },
-        { grade: 'C', value: `≤ ${priceRule.thresholdsNok.C} kr` },
-        { grade: 'B', value: `≤ ${priceRule.thresholdsNok.B} kr` },
         { grade: 'A', value: `≤ ${priceRule.thresholdsNok.A} kr` },
+        { grade: 'B', value: `≤ ${priceRule.thresholdsNok.B} kr` },
+        { grade: 'C', value: `≤ ${priceRule.thresholdsNok.C} kr` },
+        { grade: 'D', value: `≤ ${priceRule.thresholdsNok.D} kr` },
+        { grade: 'E', value: `≤ ${priceRule.thresholdsNok.E} kr` },
       ],
     },
     {
       key: 'tiebreak',
-      label: 'Lik score',
+      label: 'Lik formelscore',
       weight: 'Rekkefølge',
-      note: 'Ved lik totalscore rangeres lavest pris per porsjon øverst. Pris påvirker ikkje poengsummen.',
+      note: 'Ved lik formelscore rangeres lavest pris per dose øverst. Pris påvirker ikke poengsummen.',
     },
   ]
 }
@@ -208,11 +152,12 @@ function GradingSystemSection() {
     <section className="grade-system-section" id="karakter">
       <div className="section-heading section-heading--compact">
         <span>Karaktermodell</span>
-        <h2>F til A, rekna automatisk</h2>
+        <h2>F til A, beregnet automatisk</h2>
         <p>
-          Kvar ingrediens får karakter etter dose. C betyr at produktet akkurat treff minimum
-          effektiv dose. A betyr maks effektiv dose. B, D og E blir rekna ut frå avstanden mellom
-          manglande dose, minimumsdose og maksdose.
+          Hver ingrediens får karakter etter dose. C betyr at produktet treffer minimum
+          effektiv dose. A betyr maks effektiv dose. B, D og E beregnes ut fra avstanden mellom
+          manglende dose, minimumsdose og maksdose. Formelscoren er summen av ingredienspoeng
+          (maks {PWO_FORMULA_MAX_POINTS} poeng).
         </p>
       </div>
 
@@ -228,16 +173,17 @@ function GradingSystemSection() {
 
       <PwoMethodRulesCards
         rules={buildPwoMethodRules()}
-        caption="Open vekting og dosegrenser for PWO-karakter."
+        caption="Åpen vekting og dosegrenser for PWO-formelscore."
       />
 
       <div className="open-method">
-        <h3>Open testmetode</h3>
+        <h3>Åpen testmetode</h3>
         <p>
-          Regelsettet ligg i kode som <code>ingredientRules</code>, <code>priceRule</code> og{' '}
-          <code>calculateProductGrade</code>. For kvar PWO normaliserer vi først citrulline-forma,
-          legg inn deklarerte mg per full dose, gir F-A per ingrediens, multipliserer med vektinga,
-          trekkjer for svært høg koffein og sorterer lista automatisk etter totalscore.
+          Regelsettet ligger i kode som <code>ingredientRules</code> og{' '}
+          <code>calculateProductGrade</code>. For hver PWO normaliserer vi først citrullinformen,
+          legger inn deklarerte mg per full dose, gir F–A per ingrediens, multipliserer med vektingen,
+          trekker for svært høy arginindose og sorterer listen etter formelscore.
+          Bitter orange (synefrin) står oppført på enkelte etiketter, men gir verken bonus eller trekk.
           Doseringsgrensene er basert på <a href="https://jissn.biomedcentral.com/articles/10.1186/s12970-020-00383-4" target="_blank" rel="noreferrer">ISSN sine retningslinjer</a>.
         </p>
         <p style={{ marginTop: 12 }}>{RANKING_TIEBREAKER_NOTE}</p>
@@ -254,6 +200,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
   const [sortAsc, setSortAsc] = useState(initialRoute.sortAsc)
   const [caffeineFilter, setCaffeineFilter] = useState<'alle' | 'med' | 'uten'>(initialRoute.caffeineFilter)
   const [betaFilter, setBetaFilter] = useState<'med' | 'uten'>(initialRoute.betaFilter)
+  const compare = useProductCompare()
   const [proteinFilter, setProteinFilter] = useState<'alle' | 'whey' | 'vegan' | 'kasein'>(initialRoute.proteinFilter)
   const [creapureFilter, setCreapureFilter] = useState<'alle' | 'creapure'>(initialRoute.creapureFilter)
 
@@ -269,7 +216,11 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
   })
 
   const applyRoute = (path: string) => {
-    const route = parseRoute(path)
+    const normalized = path.startsWith('/') ? path : `/${path}`
+    const qIndex = normalized.indexOf('?')
+    const pathname = qIndex >= 0 ? normalized.slice(0, qIndex) : normalized
+    const search = qIndex >= 0 ? normalized.slice(qIndex) : ''
+    const route = parseRoute(pathname)
     setPage(route.page)
     setSelectedProduct(route.selectedProduct)
     setSortCol(route.sortCol)
@@ -278,37 +229,24 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
     setBetaFilter(route.betaFilter)
     setProteinFilter(route.proteinFilter)
     setCreapureFilter(route.creapureFilter)
+    window.history.pushState({}, '', window.location.origin + normalizePath(pathname) + search)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const openCompare = (category: CompareCategory) => {
+    const ids = compare.getIds(category)
+    const comparePage =
+      category === 'pwo' ? 'compare-pwo' : category === 'protein' ? 'compare-protein' : 'compare-creatine'
+    setPage(comparePage)
+    const url = buildCompareUrl(category, ids)
+    window.history.pushState({}, '', window.location.origin + url)
+    trackCompareEvent({ type: 'compare_open', category, productIds: ids })
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   const navigate = (nextPage: AppPage, productId: string | null = null) => {
     applyRoute(routeToPath({ ...currentRoute(), page: nextPage, selectedProduct: productId }))
   }
-
-  const toggleSort = (col: string) => {
-    if (col === 'price') {
-      const cycle = ['price-asc', 'price-desc', 'kgprice-asc', 'kgprice-desc', 'score']
-      const cur = ['price-asc','price-desc','kgprice-asc','kgprice-desc'].includes(sortCol) ? sortCol : 'score'
-      const next = cycle[(cycle.indexOf(cur) + 1) % cycle.length]
-      if (next === 'score') { setSortCol('score'); setSortAsc(false); return }
-      setSortCol(next); setSortAsc(next.includes('asc')); return
-    }
-    if (sortCol === col) { setSortAsc(!sortAsc); return }
-    setSortCol(col); setSortAsc(false)
-  }
-
-  const sortedProducts = useMemo(() => {
-    let filtered = [...testedProducts]
-    if (caffeineFilter === 'med') filtered = filtered.filter(p => (p.caffeineMg ?? 0) > 0)
-    if (caffeineFilter === 'uten') filtered = filtered.filter(p => !p.caffeineMg || p.caffeineMg === 0)
-    if (betaFilter === 'uten') filtered = filtered.map(p => ({ ...p, ...calculateProductGrade(p, { excludeBetaAlanine: true }) }))
-    const cmp = (a: TestedProduct, b: TestedProduct) => {
-      if (sortCol === 'price-asc' || sortCol === 'price-desc') return a.priceNok - b.priceNok
-      if (sortCol === 'kgprice-asc' || sortCol === 'kgprice-desc') return kgPrice(a) - kgPrice(b)
-      return (b.score ?? 0) - (a.score ?? 0) || a.pricePerServing - b.pricePerServing
-    }
-    return filtered.sort((a, b) => sortAsc ? cmp(b, a) : cmp(a, b)).map((p, i) => ({ ...p, rank: i + 1 }))
-  }, [sortCol, sortAsc, caffeineFilter, betaFilter])
 
   const toggleProteinSort = (col: string) => {
     if (sortCol === col) { setSortAsc(!sortAsc); return }
@@ -349,6 +287,19 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
   // URL sync on mount
   useEffect(() => {
     const syncFromUrl = () => {
+      const compareCategory = parseCompareRoute(window.location.pathname)
+      if (compareCategory) {
+        const ids = parseCompareIdsFromSearch(window.location.search)
+        compare.setIds(compareCategory, ids)
+        setPage(
+          compareCategory === 'pwo'
+            ? 'compare-pwo'
+            : compareCategory === 'protein'
+              ? 'compare-protein'
+              : 'compare-creatine',
+        )
+        return
+      }
       const route = parseRoute(window.location.pathname)
       setPage(route.page)
       setSelectedProduct(route.selectedProduct)
@@ -366,15 +317,29 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
 
   // URL update on state change — behold filter-paths (vegan, stim-free, osv.)
   useEffect(() => {
+    if (page === 'not-found') return
+    const compareCategory = pageToCompareCategory(page)
+    if (compareCategory) {
+      const ids = compare.getIds(compareCategory)
+      const target = buildCompareUrl(compareCategory, ids)
+      const current = window.location.pathname + window.location.search
+      if (current !== target) {
+        window.history.replaceState(null, '', window.location.origin + target)
+      }
+      return
+    }
     const target = normalizePath(routeToPath(currentRoute()))
     const current = normalizePath(window.location.pathname)
     if (current === target) return
     window.history.pushState({}, '', window.location.origin + target)
-  }, [page, selectedProduct, sortCol, sortAsc, caffeineFilter, betaFilter, proteinFilter, creapureFilter])
+  }, [page, selectedProduct, sortCol, sortAsc, caffeineFilter, betaFilter, proteinFilter, creapureFilter, compare.pwoIds, compare.proteinIds, compare.creatineIds])
+
+  const seoPath =
+    typeof window !== 'undefined' ? normalizePath(window.location.pathname) : normalizePath(initialPath)
 
   const pageMeta = useMemo(
-    () => getPageMeta({ page, selectedProduct, sortCol, sortAsc, caffeineFilter, betaFilter, proteinFilter, creapureFilter }),
-    [page, selectedProduct, sortCol, sortAsc, caffeineFilter, betaFilter, proteinFilter, creapureFilter],
+    () => getPageMeta({ page, selectedProduct, sortCol, sortAsc, caffeineFilter, betaFilter, proteinFilter, creapureFilter }, seoPath),
+    [page, selectedProduct, sortCol, sortAsc, caffeineFilter, betaFilter, proteinFilter, creapureFilter, seoPath],
   )
 
   useEffect(() => {
@@ -396,6 +361,11 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
     setMeta('property', 'og:url', pageMeta.canonical)
     setMeta('property', 'og:type', pageMeta.ogType)
     setMeta('property', 'og:image', pageMeta.ogImage)
+    setMeta('property', 'og:image:width', '1200')
+    setMeta('property', 'og:image:height', '630')
+    setMeta('name', 'twitter:title', pageMeta.title)
+    setMeta('name', 'twitter:description', pageMeta.description)
+    setMeta('name', 'twitter:image', pageMeta.ogImage)
 
     let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null
     if (!canonical) {
@@ -404,38 +374,64 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
       document.head.appendChild(canonical)
     }
     canonical.href = pageMeta.canonical
-  }, [pageMeta])
 
-  const seoPath =
-    typeof window !== 'undefined' ? normalizePath(window.location.pathname) : normalizePath(initialPath)
+    const setRobots = (content: string | null) => {
+      let robots = document.querySelector('meta[name="robots"]') as HTMLMetaElement | null
+      if (!content) {
+        robots?.remove()
+        return
+      }
+      if (!robots) {
+        robots = document.createElement('meta')
+        robots.name = 'robots'
+        document.head.appendChild(robots)
+      }
+      robots.content = content
+    }
+    setRobots(pageMeta.robots ?? null)
+  }, [pageMeta])
 
   const ProductPage = ({ product }: { product: TestedProduct }) => {
     const content = generateProductContent(product)
+    const badges = getPwoBadges(product, pwoBadgeCtx)
+    const valueIndex = calculatePwoValueIndex(product)
     const related = getRelatedProducts(product)
+    const priceGrade = calculatePriceGrade(product.pricePerServing)
     return (
     <section className="content-section">
       <button className="button secondary" onClick={() => { setPage('lb-pwo'); setSelectedProduct(null) }} style={{ marginBottom: 16 }}>← Tilbake til benchmark</button>
+      <AssessmentDisclaimer className="assessment-disclaimer--spaced" category="pwo" />
+      <ProductTrustStrip snapshot={resolvePwoTrust(product)} />
       <div className="review-card">
         <ProductImage name={product.name} brand={product.brand} image={product.image} altSuffix="PWO fra Kosttest.no" />
         <div className="review-body">
           <div className="review-heading">
             <div>
-              <span className="award">{product.award}</span>
+              <PwoBadgeList badges={badges} />
               <h1 style={{ marginTop: 4, fontSize: 22 }}>#{product.rank} {product.name}</h1>
               <p>{content.summary}</p>
             </div>
-            <div className="score-lockup">
-              <span className={gradeClass(product.overallGrade)}>{product.overallGrade}</span>
-              <strong>{product.score}</strong>
-              <span>/100</span>
+            <div className="score-lockup-wrap">
+              <ScoreLockup grade={product.overallGrade} score={product.score} maxPoints={PWO_FORMULA_MAX_POINTS} />
             </div>
           </div>
           
           <div className="spec-row">
-            <span>Pris: {formatPrice(product.priceNok)}</span>
+            <span>Pris/dose: {formatPrice(product.pricePerServing)}</span>
+            <span>Verdi (ref.): {priceGrade.grade} · indeks {valueIndex.index}</span>
             <span>{product.servings} porsjoner</span>
-            <span>{formatPrice(product.pricePerServing)}/pors</span>
-            <span>{product.servingSize} pr. dose</span>
+            <span>{product.servingSize} per dose</span>
+          </div>
+
+          <div className="product-highlight-row">
+            <div><strong>Passer best for:</strong> {content.bestFor}</div>
+            <div><strong>Viktig å vite:</strong> {content.importantToKnow}</div>
+          </div>
+
+          <div className="product-editorial-block" style={{ marginTop: 12, fontSize: 13, lineHeight: 1.55 }}>
+            <p style={{ margin: '0 0 8px' }}><strong>Datastatus:</strong> {content.dataStatus}</p>
+            <p style={{ margin: '0 0 8px' }}><strong>Prisvurdering:</strong> {content.priceAssessment}</p>
+            <p style={{ margin: 0 }}><strong>Score:</strong> {content.scoreExplanation}</p>
           </div>
 
           <div className="ingredients-list" style={{ marginTop: 10 }}>
@@ -444,20 +440,29 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
 
           <GradeBreakdownList breakdown={product.gradeBreakdown} />
 
+          <ProductDataQuality category="pwo" product={product} />
+
           <div className="pros-cons" style={{ marginTop: 14 }}>
             <div>
-              <h4><CheckCircle2 size={18} /> Vurdering</h4>
+              <h4><CheckCircle2 size={18} /> Styrker</h4>
               <ul>
+                {content.strengths.length > 0 ? (
+                  content.strengths.map((s) => <li key={s}>{s}</li>)
+                ) : (
+                  <li>Ingen tydelige styrker ut fra tilgjengelig deklarasjon.</li>
+                )}
                 <li><strong>Pump:</strong> {content.pumpAnalysis}</li>
-                <li><strong>Passer for:</strong> {content.bestFor}</li>
-                <li><strong>Passer ikke for:</strong> {content.notFor}</li>
-                {product.strengths.map(s => <li key={s}>{s}</li>)}
               </ul>
             </div>
             <div>
               <h4><AlertTriangle size={18} /> Begrensninger</h4>
               <ul>
-                {product.watchouts.map(w => <li key={w}>{w}</li>)}
+                {content.limitations.length > 0 ? (
+                  content.limitations.map((w) => <li key={w}>{w}</li>)
+                ) : (
+                  <li>Ingen spesielle begrensninger utover pris og individuell toleranse.</li>
+                )}
+                <li><strong>Passer ikke for:</strong> {content.notFor}</li>
                 <li><strong>Bunnlinje:</strong> {content.bottomLine}</li>
               </ul>
             </div>
@@ -478,6 +483,16 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
           <a className="source-link" href={product.url} target="_blank" rel="noreferrer" style={{ marginTop: 14, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
             Kjøp hos {product.merchant} <ExternalLink size={16} />
           </a>
+
+          <div style={{ marginTop: 12 }}>
+            <CompareToggle
+              category="pwo"
+              productId={product.id}
+              selected={compare.isSelected('pwo', product.id)}
+              disabled={compare.isAtMax('pwo') && !compare.isSelected('pwo', product.id)}
+              onToggle={compare.toggle}
+            />
+          </div>
 
           {related.length > 0 && (
             <div style={{ marginTop: 20 }}>
@@ -521,14 +536,24 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
         proteinProduct={page === 'protein-product' && selectedProduct ? testedProteinProducts.find((p) => p.id === selectedProduct) : undefined}
         creatineProduct={page === 'creatine-product' && selectedProduct ? testedCreatineProducts.find((p) => p.id === selectedProduct) : undefined}
       />
-      <SiteHeader page={page} onNavigate={navigate} onNavigatePath={applyRoute} />
+      <SiteHeader
+        page={page}
+        onNavigate={navigate}
+        onNavigatePath={applyRoute}
+        compareCount={compare.pwoIds.length + compare.proteinIds.length + compare.creatineIds.length}
+        onOpenCompare={() => {
+          if (compare.pwoIds.length) openCompare('pwo')
+          else if (compare.proteinIds.length) openCompare('protein')
+          else if (compare.creatineIds.length) openCompare('creatine')
+        }}
+      />
 
       <main id="top">
         {page === 'home' && <HomePage onNavigate={navigate} onNavigatePath={applyRoute} />}
 
         {page === 'blog' && (
           <section className="content-section">
-            <div className="section-heading"><span>Blogg</span><h2>Ingredienser og vitenskap</h2></div>
+            <div className="section-heading"><span>Blogg</span><h1>Ingredienser og vitenskap</h1></div>
             <div className="blog-grid">
               {blogPosts.map(post => (
                 <button key={post.id} className="blog-card" onClick={() => { setSelectedProduct(post.id); setPage('blog-post') }}>
@@ -542,9 +567,18 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
 
         {page === 'blog-post' && selectedProduct && (() => {
           const post = blogPosts.find(p => p.id === selectedProduct)
-          if (!post) return null
+          if (!post) {
+            return (
+              <NotFoundPage
+                title="Artikkelen finnes ikke"
+                description="Blogginnlegget kan være flyttet eller slettet."
+                onNavigateHome={() => { setPage('home'); setSelectedProduct(null) }}
+                onNavigateTests={() => { setPage('blog'); setSelectedProduct(null) }}
+              />
+            )
+          }
           return (<section className="content-section"><button className="button secondary" onClick={() => setPage('blog')} style={{marginBottom:16}}>← Blogg</button><article><h1>{post.title}</h1><p className="muted" style={{marginTop:-8}}>{post.category} · {post.readMinutes} min · Av Kosttest.no</p>
-          {post.category === 'Samanlikning' && post.relatedProducts && (
+          {post.category === 'Sammenligning' && post.relatedProducts && (
             <div style={{display:'flex',gap:14,margin:'16px 0',padding:16,background:'var(--paper)',borderRadius:8}}>
               {post.relatedProducts.map(id => {
                 const prod = testedProducts.find(p => p.id === id)
@@ -558,7 +592,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
             </div>
           )}
           {post.content.map((p, i) => <p key={i} style={{marginTop:14,lineHeight:1.65}}>{p}</p>)}
-          {post.relatedProducts && post.relatedProducts.length > 0 && post.category !== 'Samanlikning' && (
+          {post.relatedProducts && post.relatedProducts.length > 0 && post.category !== 'Sammenligning' && (
             <div style={{marginTop:24,padding:16,background:'var(--paper)',borderRadius:8}}>
               <h3 style={{fontSize:14,margin:'0 0 8px'}}>🔗 Produkter med dette innholdsstoffet</h3>
               <div style={{display:'flex',flexWrap:'wrap',gap:6}}>
@@ -578,58 +612,82 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
           </article></section>)
         })()}
 
+        <CompareCategoryNotice message={compare.categoryNotice} onDismiss={compare.dismissNotice} />
+
         {page === 'lb-pwo' && (
-          <>
-            <section className="hub-page-hero">
-              <p className="test-badge-inline">Test</p>
-              <h1>PWO best i test 2026</h1>
-              <p className="lead">{siteStats.pwoTestedCount} pre-workout produkter rangert etter ingredienser og dose per serving. {RANKING_TIEBREAKER_SHORT}</p>
-            </section>
-            <LeaderboardSection kgPrice={kgPrice} onSelectProduct={(id) => { setSelectedProduct(id); setPage('product') }} />
-            <section className="content-section">
-              <div className="section-heading"><span>PWO best i test</span><h2>Fullstendig rangering</h2><p>⇅ Klikk på kolonneoverskrift for å sortere. {RANKING_TIEBREAKER_NOTE}</p></div>
-              <div className="filter-bar">
-                <span className="filter-label" style={{fontSize:11}}>Koffein:</span>
-                {(['alle','med','uten'] as const).map(v => (<button key={v} className={'toggle-btn '+(caffeineFilter===v?'on':'off')} onClick={()=>setCaffeineFilter(v)}><span className="toggle-track"><span className="toggle-thumb"/></span><span className="toggle-label">{v==='alle'?'Alle':v==='med'?'Med':'Uten'}</span></button>))}
-                <span className="filter-label" style={{fontSize:11,marginLeft:10}}>Beta-alanin:</span>
-                {(['med','uten'] as const).map(v => (<button key={v} className={'toggle-btn '+(betaFilter===v?'on':'off')} onClick={()=>setBetaFilter(v)}><span className="toggle-track"><span className="toggle-thumb"/></span><span className="toggle-label">{v==='med'?'Med':'Uten'}</span></button>))}
-              </div>
-              <RankingTable
-                products={sortedProducts}
-                sortCol={sortCol}
-                sortAsc={sortAsc}
-                onSort={toggleSort}
-                kgPrice={kgPrice}
-                onSelect={(id) => { setSelectedProduct(id); setPage('product') }}
-              />
-            </section>
-            <UnrankedProductsSection />
-            {enablePwoScan && <SubmissionPanel />}
-            <section className="source-section" id="kilder"><div className="section-heading"><span>Kilder</span><h2>Åpne kilder</h2></div><ul className="source-list">{sourceLinks.map(s => <li key={s.url}><a href={s.url} target="_blank" rel="noreferrer">{s.label}<ExternalLink size={15} /></a></li>)}</ul></section>
-          </>
+          <PwoLeaderboardPage
+            sortCol={sortCol}
+            caffeineFilter={caffeineFilter}
+            onNavigatePath={applyRoute}
+            onSelectProduct={(id) => { setSelectedProduct(id); setPage('product') }}
+            compareSelected={(id) => compare.isSelected('pwo', id)}
+            onCompareToggle={(id) => compare.toggle('pwo', id)}
+            compareAtMax={compare.isAtMax('pwo')}
+            compareCount={compare.pwoIds.length}
+            compareMax={compare.maxCompare}
+            compareIds={compare.pwoIds}
+            onRemoveCompare={(id) => compare.remove('pwo', id)}
+            onOpenCompare={() => openCompare('pwo')}
+            onClearCompare={() => compare.clear('pwo')}
+          />
         )}
 
         {page === 'lb-protein' && (
           <ProteinLeaderboardBlock
             onSelectProduct={(id) => { setSelectedProduct(id); setPage('protein-product') }}
+            onNavigatePath={applyRoute}
             sortCol={sortCol}
             sortAsc={sortAsc}
             proteinFilter={proteinFilter}
             onSort={toggleProteinSort}
             onFilterChange={setProteinFilter}
             sortedProducts={sortedProteinProducts}
+            compareSelected={(id) => compare.isSelected('protein', id)}
+            onCompareToggle={(id) => compare.toggle('protein', id)}
+            compareAtMax={compare.isAtMax('protein')}
+            onOpenCompare={() => openCompare('protein')}
+            onClearCompare={() => compare.clear('protein')}
+            compareCount={compare.proteinIds.length}
+            compareMax={compare.maxCompare}
+            compareIds={compare.proteinIds}
+            onRemoveCompare={(id) => compare.remove('protein', id)}
           />
         )}
 
         {page === 'protein-product' && selectedProduct && (() => {
           const product = testedProteinProducts.find((p) => p.id === selectedProduct)
-          if (!product) return null
+          if (!product) {
+            return (
+              <NotFoundPage
+                title="Produktet finnes ikke"
+                description="Proteinproduktet finnes ikke i databasen vår, eller lenken er utdatert."
+                onNavigateHome={() => { setPage('home'); setSelectedProduct(null) }}
+                onNavigateTests={() => { setPage('lb-protein'); setSelectedProduct(null) }}
+              />
+            )
+          }
           return (
-            <ProteinProductPageView
-              product={product}
-              onBack={() => { setPage('lb-protein'); setSelectedProduct(null) }}
-              onSelect={(id) => { setSelectedProduct(id); setPage('protein-product') }}
-            />
+            <>
+              <ProteinProductPageView
+                product={product}
+                onBack={() => { setPage('lb-protein'); setSelectedProduct(null) }}
+                onSelect={(id) => { setSelectedProduct(id); setPage('protein-product') }}
+                compareSelected={(id) => compare.isSelected('protein', id)}
+                onCompareToggle={(id) => compare.toggle('protein', id)}
+                compareAtMax={compare.isAtMax('protein')}
+              />
+              {compare.proteinIds.length > 0 ? (
+                <ProductCompareBar
+                  category="protein"
+                  count={compare.proteinIds.length}
+                  max={compare.maxCompare}
+                  items={resolveCompareBarItems('protein', compare.proteinIds)}
+                  onCompare={() => openCompare('protein')}
+                  onClear={() => compare.clear('protein')}
+                  onRemove={(id) => compare.remove('protein', id)}
+                />
+              ) : null}
+            </>
           )
         })()}
 
@@ -672,24 +730,92 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
         {page === 'lb-creatine' && (
           <CreatineLeaderboardBlock
             onSelectProduct={(id) => { setSelectedProduct(id); setPage('creatine-product') }}
+            onNavigatePath={applyRoute}
             sortCol={sortCol}
             sortAsc={sortAsc}
             creapureFilter={creapureFilter}
             onSort={toggleCreatineSort}
             onFilterChange={setCreapureFilter}
             sortedProducts={sortedCreatineProducts}
+            compareSelected={(id) => compare.isSelected('creatine', id)}
+            onCompareToggle={(id) => compare.toggle('creatine', id)}
+            compareAtMax={compare.isAtMax('creatine')}
+            onOpenCompare={() => openCompare('creatine')}
+            onClearCompare={() => compare.clear('creatine')}
+            compareCount={compare.creatineIds.length}
+            compareMax={compare.maxCompare}
+            compareIds={compare.creatineIds}
+            onRemoveCompare={(id) => compare.remove('creatine', id)}
+          />
+        )}
+
+        {page === 'compare-pwo' && (
+          <ProductCompareView
+            category="pwo"
+            ids={compare.pwoIds}
+            onBack={() => setPage('lb-pwo')}
+            onSelectProduct={(id) => { setSelectedProduct(id); setPage('product') }}
+            onRemoveProduct={(id) => compare.remove('pwo', id)}
+            onIdsChange={(ids) => compare.setIds('pwo', ids)}
+          />
+        )}
+
+        {page === 'compare-protein' && (
+          <ProductCompareView
+            category="protein"
+            ids={compare.proteinIds}
+            onBack={() => setPage('lb-protein')}
+            onSelectProduct={(id) => { setSelectedProduct(id); setPage('protein-product') }}
+            onRemoveProduct={(id) => compare.remove('protein', id)}
+            onIdsChange={(ids) => compare.setIds('protein', ids)}
+          />
+        )}
+
+        {page === 'compare-creatine' && (
+          <ProductCompareView
+            category="creatine"
+            ids={compare.creatineIds}
+            onBack={() => setPage('lb-creatine')}
+            onSelectProduct={(id) => { setSelectedProduct(id); setPage('creatine-product') }}
+            onRemoveProduct={(id) => compare.remove('creatine', id)}
+            onIdsChange={(ids) => compare.setIds('creatine', ids)}
           />
         )}
 
         {page === 'creatine-product' && selectedProduct && (() => {
           const product = testedCreatineProducts.find((p) => p.id === selectedProduct)
-          if (!product) return null
+          if (!product) {
+            return (
+              <NotFoundPage
+                title="Produktet finnes ikke"
+                description="Kreatinproduktet finnes ikke i databasen vår, eller lenken er utdatert."
+                onNavigateHome={() => { setPage('home'); setSelectedProduct(null) }}
+                onNavigateTests={() => { setPage('lb-creatine'); setSelectedProduct(null) }}
+              />
+            )
+          }
           return (
-            <CreatineProductPageView
-              product={product}
-              onBack={() => { setPage('lb-creatine'); setSelectedProduct(null) }}
-              onSelect={(id) => { setSelectedProduct(id); setPage('creatine-product') }}
-            />
+            <>
+              <CreatineProductPageView
+                product={product}
+                onBack={() => { setPage('lb-creatine'); setSelectedProduct(null) }}
+                onSelect={(id) => { setSelectedProduct(id); setPage('creatine-product') }}
+                compareSelected={(id) => compare.isSelected('creatine', id)}
+                onCompareToggle={(id) => compare.toggle('creatine', id)}
+                compareAtMax={compare.isAtMax('creatine')}
+              />
+              {compare.creatineIds.length > 0 ? (
+                <ProductCompareBar
+                  category="creatine"
+                  count={compare.creatineIds.length}
+                  max={compare.maxCompare}
+                  items={resolveCompareBarItems('creatine', compare.creatineIds)}
+                  onCompare={() => openCompare('creatine')}
+                  onClear={() => compare.clear('creatine')}
+                  onRemove={(id) => compare.remove('creatine', id)}
+                />
+              ) : null}
+            </>
           )
         })()}
 
@@ -709,11 +835,11 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
             <p className="muted" style={{ fontSize: 13, marginTop: -8 }}>Oppdatert juni 2026</p>
             <div style={{ marginTop: 24 }}>
               <h2>1. Velg merkevare-kreatin om du kan</h2>
-              <p style={{ lineHeight: 1.65 }}>Creapure® og andre merkevarer har kontrollert råstoff og høyest score hos oss. Generisk mono kan fungere, men krever mer dokumentasjon fra produsenten.</p>
+              <p style={{ lineHeight: 1.65 }}>Creapure® og andre merkevarer har kontrollert råstoff og høyest score hos oss. Produkter uten oppgitt merkevare kan fungere, men krever mer dokumentasjon fra produsenten.</p>
             </div>
             <div style={{ marginTop: 24 }}>
-              <h2>2. Generisk? Krev dopingtest</h2>
-              <p style={{ lineHeight: 1.65 }}>Uten merkevare-kreatin bør du se etter Cologne List®, Informed Sport eller tilsvarende — særlig om du konkurrerer. Vi trekker 15 poeng på generisk uten dokumentert test.</p>
+              <h2>2. Krev dopingtest — også på Creapure</h2>
+              <p style={{ lineHeight: 1.65 }}>Creapure sikrer råstoffkvalitet, men ferdigproduktet må testes separat. Se etter Cologne List®, Informed Sport eller tilsvarende — særlig om du konkurrerer. Vi trekker 15 poeng uten dokumentert produkttest, uansett merkevare.</p>
             </div>
             <div style={{ marginTop: 24 }}>
               <h2>3. Daglig inntak</h2>
@@ -735,8 +861,32 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
 
         {page === 'product' && selectedProduct && (() => {
           const product = testedProducts.find(p => p.id === selectedProduct)
-          if (!product) return null
-          return <ProductPage product={product} />
+          if (!product) {
+            return (
+              <NotFoundPage
+                title="Produktet finnes ikke"
+                description="PWO-produktet finnes ikke i databasen vår, eller lenken er utdatert."
+                onNavigateHome={() => { setPage('home'); setSelectedProduct(null) }}
+                onNavigateTests={() => { setPage('lb-pwo'); setSelectedProduct(null) }}
+              />
+            )
+          }
+          return (
+            <>
+              <ProductPage product={product} />
+              {compare.pwoIds.length > 0 ? (
+                <ProductCompareBar
+                  category="pwo"
+                  count={compare.pwoIds.length}
+                  max={compare.maxCompare}
+                  items={resolveCompareBarItems('pwo', compare.pwoIds)}
+                  onCompare={() => openCompare('pwo')}
+                  onClear={() => compare.clear('pwo')}
+                  onRemove={(id) => compare.remove('pwo', id)}
+                />
+              ) : null}
+            </>
+          )
         })()}
 
         {page === 'buying-guide' && (
@@ -807,13 +957,26 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
 
         {page === 'kilder' && <KilderPageContent />}
 
+        {page === 'not-found' && (
+          <NotFoundPage
+            onNavigateHome={() => { setPage('home'); setSelectedProduct(null) }}
+            onNavigateTests={() => { setPage('lb-pwo'); setSelectedProduct(null) }}
+          />
+        )}
+
+        {page === 'om-kosttest' && <OmKosttestPage />}
+
+        {page === 'data-freshness' && (
+          <DataFreshnessPage onBack={() => setPage('home')} />
+        )}
+
         {page === 'metode' && (
           <section className="content-section">
             <button type="button" className="button secondary" onClick={() => setPage('home')} style={{ marginBottom: 16 }}>← Forside</button>
             <div className="section-heading">
               <span>Metode</span>
               <h1>Slik tester vi kosttilskudd</h1>
-              <p>Hver kategori har egen scoring tilpasset produkttypen. PWO vektlegger ingredienser per dose, protein bruker DIAAS, kreatin skiller merkevare-kreatin fra generisk — med krav om dopingtest på sistnevnte. {RANKING_TIEBREAKER_SHORT}</p>
+              <p>Hver kategori har egen scoring tilpasset produkttypen. PWO vektlegger ingredienser per dose, protein bruker DIAAS, kreatin vektlegger merkevare på råstoff og dokumentasjon — med poengtrekk når data mangler. {RANKING_TIEBREAKER_SHORT}</p>
             </div>
             <div className="category-grid" style={{ marginBottom: 32 }}>
               <button type="button" className="editorial-card" onClick={() => setPage('metode')}>
@@ -829,7 +992,7 @@ function App({ initialPath = '/' }: { initialPath?: string }) {
               <button type="button" className="editorial-card" onClick={() => setPage('creatine-metode')}>
                 <span className="test-badge test-badge-new">Kreatin</span>
                 <strong>Merkevare og dopingtest</strong>
-                <p>Creapure scorer høyest. Generisk krever dokumentert dopingtest, renhet og mesh.</p>
+                <p>Creapure scorer høyest på råstoff. Dopingtest, renhet og mesh gir poengtrekk når produsent ikke dokumenterer dem.</p>
               </button>
             </div>
             <GradingSystemSection />

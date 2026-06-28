@@ -1,3 +1,5 @@
+import type { ProductDataTrust } from './trust/types'
+
 export type GradeLetter = 'A' | 'B' | 'C' | 'D' | 'E' | 'F'
 
 export type IngredientKey =
@@ -11,7 +13,6 @@ export type IngredientKey =
   | 'glycerol'
   | 'rhodiola'
   | 'electrolytes'
-  | 'bitterOrange'
   | 'bVitamins'
 
 export type GradeBreakdown = {
@@ -62,6 +63,8 @@ export type TestedProduct = {
   watchouts: string[]
   url: string
   image: string
+  /** Valfri utvidet datatillit — kun verifiserte felt. */
+  dataTrust?: ProductDataTrust
 }
 
 export type ListedProduct = {
@@ -76,7 +79,7 @@ export type ListedProduct = {
   url: string
 }
 
-export const lastUpdated = '26. juni 2026'
+export const lastUpdated = '28. juni 2026'
 
 export const ingredientRules: IngredientRule[] = [
   {
@@ -117,7 +120,7 @@ export const ingredientRules: IngredientRule[] = [
     weight: 4,
     cDoseMg: 10000,
     aDoseMg: 15000,
-    note: 'Fokus under stress. Høgt dosekrav, låg vekt.',
+    note: 'Fokus under stress. Høgt dosekrav, lav vekt.',
   },
   {
     key: 'glycerol',
@@ -133,7 +136,7 @@ export const ingredientRules: IngredientRule[] = [
     weight: 2,
     cDoseMg: 200,
     aDoseMg: 400,
-    note: 'Adaptogen. Maks 2 poeng. Låg vekt, men anerkjent effekt.',
+    note: 'Adaptogen. Maks 2 poeng. Lav vekt, men anerkjent effekt.',
   },
   {
     key: 'electrolytes',
@@ -145,9 +148,22 @@ export const ingredientRules: IngredientRule[] = [
   },
 ]
 
+/** Maks oppnåelige formelpoeng (ingredienser + bonuser, før trekk). */
+export const PWO_FORMULA_MAX_POINTS =
+  ingredientRules.reduce((sum, rule) => sum + rule.weight, 0) + 2 + 1
+
+export const overallGradeLabels: Record<GradeLetter, string> = {
+  A: 'Svært sterk formel',
+  B: 'Sterk formel',
+  C: 'Middels formel',
+  D: 'Svak formel',
+  E: 'Svært svak formel',
+  F: 'Utilstrekkelig formel',
+}
+
+/** Pris per dose — kun referanse og utslagsfaktor ved lik formelscore. Påvirker ikke poengsummen. */
 export const priceRule = {
-  label: 'Pris per porsjon',
-  weight: 10,
+  label: 'Pris per dose',
   thresholdsNok: {
     A: 5,
     B: 10,
@@ -155,6 +171,16 @@ export const priceRule = {
     D: 22,
     E: 30,
   },
+}
+
+export function calculatePriceGrade(pricePerServing: number): { grade: GradeLetter; label: string } {
+  const t = priceRule.thresholdsNok
+  if (pricePerServing <= t.A) return { grade: 'A', label: `≤ ${t.A} kr/dose` }
+  if (pricePerServing <= t.B) return { grade: 'B', label: `≤ ${t.B} kr/dose` }
+  if (pricePerServing <= t.C) return { grade: 'C', label: `≤ ${t.C} kr/dose` }
+  if (pricePerServing <= t.D) return { grade: 'D', label: `≤ ${t.D} kr/dose` }
+  if (pricePerServing <= t.E) return { grade: 'E', label: `≤ ${t.E} kr/dose` }
+  return { grade: 'F', label: `> ${t.E} kr/dose` }
 }
 
 export const gradeColors: Record<GradeLetter, string> = {
@@ -269,7 +295,6 @@ export function calculateProductGrade(product: TestedProduct, options?: GradeOpt
     } satisfies GradeBreakdown
   })
 
-  const hasBitterOrange = product.extraDoses?.bitterOrange ? 1 : 0
   const hasBVitamins = product.extraDoses?.bVitamins ? 1 : 0
 
   const beetrootSynergy =
@@ -278,13 +303,13 @@ export function calculateProductGrade(product: TestedProduct, options?: GradeOpt
   const rawScore =
     ingredientBreakdown.reduce((sum, item) => sum + item.points, 0) +
     beetrootSynergy +
-    hasBitterOrange +
     hasBVitamins -
     nauseaPenalty(product)
-  const score = Math.max(0, Math.min(100, Math.round(rawScore)))
+  const score = Math.max(0, Math.min(PWO_FORMULA_MAX_POINTS, Math.round(rawScore)))
 
   return {
     score,
+    formulaMaxPoints: PWO_FORMULA_MAX_POINTS,
     overallGrade: letterFromScore(score),
     gradeBreakdown: ingredientBreakdown,
   }
@@ -567,7 +592,7 @@ export const testedProducts: TestedProduct[] = [
   {
     id: 'peveo-maxed',
     rank: 2,
-    award: 'Best i test totalt',
+    award: 'Best formel totalt',
     score: 89,
     name: 'Peveo Maxed 700 g',
     brand: 'Peveo',
@@ -639,7 +664,7 @@ export const testedProducts: TestedProduct[] = [
       'koffein 150 mg',
     ],
     verdict:
-      'Billig og greit balansert, men pump-scoren faller når citrullinmalat uten ratio ikke regnes som ren L-citrulline.',
+      'Billig og gret balansert, men pump-scoren faller når citrullinmalat uten ratio ikke regnes som ren L-citrulline.',
     strengths: [
       'Lav porsjonspris',
       'Lav pris og moderate doser',
@@ -814,7 +839,7 @@ export const testedProducts: TestedProduct[] = [
       'koffein 100 mg',
     ],
     verdict:
-      'Et greit mildt valg, men markedsføringen høres sterkere ut enn ingredienstabellen tilsier.',
+      'Et gret mildt valg, men markedsføringen høres sterkere ut enn ingredienstabellen tilsier.',
     strengths: [
       '100 mg koffein passer nybegynnere bedre',
       'Ryddig ingrediensliste',
@@ -872,7 +897,7 @@ export const testedProducts: TestedProduct[] = [
   {
     id: 'nutritac-sickpump',
     rank: 7,
-    award: 'Best pump med låg stim',
+    award: 'Best pump med lav stim',
     score: 80,
     name: 'SickPump VeinBlaster',
     brand: 'NutriTac',
@@ -905,7 +930,7 @@ export const testedProducts: TestedProduct[] = [
       '9000 mg L-citrulline sit tett på A-nivå saman med arginin. Høg porsjonspris, men færre porsjonar.',
     strengths: [
       '9000 mg L-citrulline + 6000 mg arginin gir solid pump',
-      'Låg koffein per mg citrulline samanlikna med mange andre',
+      'Lav koffein per mg citrulline sammenligna med mange andre',
     ],
     watchouts: [
       'Høg porsjonspris',
@@ -980,7 +1005,6 @@ export const testedProducts: TestedProduct[] = [
       betaine: 4000,
       taurine: 3000,
       beetroot: 10000,
-      bitterOrange: 1,
     },
     keyIngredients: [
       'rødbetekstrakt 4:1 10000 mg',
@@ -998,7 +1022,7 @@ export const testedProducts: TestedProduct[] = [
     ],
     watchouts: [
       'Ingen citrulline i formelen',
-      'Bitter orange/synefrin bør ikke kombineres ukritisk med koffein',
+      'Bitter orange (synefrin) står på etiketten, men påvirker ikke scoren',
     ],
     url: 'https://nutritac.no/products/midnight-pump-stim-free',
     image:
@@ -1079,7 +1103,7 @@ export const testedProducts: TestedProduct[] = [
       'L-tyrosin 250 mg',
       'koffein 100 mg + grønn kaffebønne 310 mg',
     ],
-    verdict: 'Greit balansert PWO med moderate doser. Ren L-citrullin er et pluss, men dosen er for lav til å konkurrere i toppen.',
+    verdict: 'Gret balansert PWO med moderate doser. Ren L-citrullin er et pluss, men dosen er for lav til å konkurrere i toppen.',
     strengths: [
       'Ren L-citrullin (ikke malat)',
       'Moderat koffein (100 mg)',
@@ -1277,7 +1301,7 @@ export const testedProducts: TestedProduct[] = [
   {
     id: 'biosalma-pwo',
     rank: 1,
-    award: 'Best budsjett-PWO',
+    award: 'Laveste pris per dose',
     score: 1,
     name: 'PWO 500 g',
     brand: 'BioSalma',
@@ -1839,7 +1863,7 @@ export const testedProducts: TestedProduct[] = [
       'kreatin monohydrat 500 mg',
       'taurin 500 mg',
     ],
-    verdict: 'Greit balansert PWO til OK porsjonspris. Beta-alanin er god, men L-citrulline er lav.',
+    verdict: 'Gret balansert PWO til OK porsjonspris. Beta-alanin er god, men L-citrulline er lav.',
     strengths: [
       'God beta-alanin (2000 mg)',
       'Inneholder kreatin',
@@ -2570,7 +2594,7 @@ export const listedProducts: ListedProduct[] = [
     priceNok: 259,
     packageSize: '525 g',
     status: 'Koffeinfri',
-    reason: 'Stim-free variant av Off The Hook. Må dosekontrollerast før ev. score.',
+    reason: 'Stim-free variant av Off The Hook. Må dosekontrolleres før ev. score.',
     url: 'https://www.gymgrossisten.no/off-the-hook-pwo-stim-free-525-g/5889R.html',
   },
   {
@@ -2614,7 +2638,7 @@ export const listedProducts: ListedProduct[] = [
     priceNok: 368,
     packageSize: '270 g',
     status: 'Ikke rangert',
-    reason: 'Mildare PWO med aminosyrer; må kontrollerast mot full PWO-definisjon.',
+    reason: 'Mildare PWO med aminosyrer; må kontrolleres mot full PWO-definisjon.',
     url: 'https://www.gymgrossisten.no/amino-energy-pwo-270-g/6947-655R.html',
   },
   {
@@ -2790,7 +2814,7 @@ export const listedProducts: ListedProduct[] = [
     priceNok: 349,
     packageSize: '400 g',
     status: 'Ikke rangert',
-    reason: 'Ikkje tradisjonell PWO; endurance-fokus. Treng eigen vurdering.',
+    reason: 'Ikke tradisjonell PWO; endurance-fokus. Treng eigen vurdering.',
     url: 'https://www.kost1.no/products/marathon-endurance-400-gram',
   },
   {

@@ -31,7 +31,7 @@ Det jeg synes er kult:
 
 Topp 3 i testen ble:
 1. Peveo Maxed – 58 poeng (best totalt)
-2. NutriTac Midnight Pump – 58 poeng (best uten koffein)
+2. NutriTac Midnight Pump – 57 poeng (best uten koffein)
 3. Peveo Stim-free – 56 poeng
 
 Hva synes dere? Savner dere noen produkter i testen?

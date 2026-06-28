@@ -119,6 +119,30 @@ const PRODUCTS = {
     type: 'direct',
     url: 'https://static.thcdn.com/productimg/original/11776868-3235180485987971.jpg',
   },
+  'kevin-levrone-levro-whey': {
+    type: 'gg',
+    q: 'levro whey kevin levrone',
+    brand: 'Kevin Levrone',
+    must: ['levro', 'whey'],
+  },
+  'qnt-delicious-whey': {
+    type: 'gg',
+    q: 'delicious whey qnt',
+    brand: 'QNT',
+    must: ['delicious', 'whey'],
+  },
+  'proteinseries-100-whey': {
+    type: 'gg',
+    q: 'protein series 100 whey',
+    brand: 'Protein Series',
+    must: ['100%', 'whey'],
+  },
+  'bulk-pure-whey': {
+    type: 'gg',
+    q: 'pure whey bulk',
+    brand: 'Bulk',
+    must: ['pure', 'whey'],
+  },
 }
 
 function decode(s) {

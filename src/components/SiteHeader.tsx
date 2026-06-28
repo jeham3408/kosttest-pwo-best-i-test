@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
+import { Menu, X } from 'lucide-react'
 import { brand } from '../brand'
 import type { AppPage } from '../routing'
 
@@ -7,12 +8,50 @@ type SiteHeaderProps = {
   page: AppPage
   onNavigate: (page: AppPage, productId?: string | null) => void
   onNavigatePath: (path: string) => void
+  compareCount?: number
+  onOpenCompare?: () => void
 }
 
-export default function SiteHeader({ page, onNavigate, onNavigatePath }: SiteHeaderProps) {
-  const [testsOpen, setTestsOpen] = useState(false)
+type NavLink = { label: string; path: string }
+
+const testLinks: NavLink[] = [
+  { label: 'PWO-rangering', path: '/tester/pwo/' },
+  { label: 'Protein sammenligning', path: '/tester/protein/' },
+  { label: 'Kreatin-rangering', path: '/tester/kreatin/' },
+]
+
+const guideLinks: NavLink[] = [
+  { label: 'Slik velger du PWO', path: '/tester/pwo/slik-velger-du/' },
+  { label: 'Slik velger du protein', path: '/tester/protein/slik-velger-du/' },
+  { label: 'Slik velger du kreatin', path: '/tester/kreatin/slik-velger-du/' },
+  { label: 'Ingrediensertikler', path: '/blogg/' },
+  { label: 'Metodeforklaring', path: '/om-metoden/' },
+]
+
+const aboutLinks: NavLink[] = [
+  { label: 'Om Kosttest', path: '/om-kosttest/' },
+  { label: 'Metode', path: '/om-metoden/' },
+  { label: 'Kilder', path: '/kilder/' },
+  { label: 'Hvor ferske er dataene?', path: '/hvor-ferske-er-dataene/' },
+  { label: 'Slik finansieres siden', path: '/om-kosttest/#finansiering' },
+  { label: 'Meld feil eller produkt', path: '/om-kosttest/#kontakt' },
+]
+
+export default function SiteHeader({
+  page,
+  onNavigate,
+  onNavigatePath,
+  compareCount = 0,
+  onOpenCompare,
+}: SiteHeaderProps) {
+  const [openMenu, setOpenMenu] = useState<'tests' | 'guides' | 'about' | null>(null)
+  const [mobileOpen, setMobileOpen] = useState(false)
   const [menuPos, setMenuPos] = useState({ top: 0, left: 0 })
-  const triggerRef = useRef<HTMLDivElement>(null)
+  const triggerRefs = {
+    tests: useRef<HTMLDivElement>(null),
+    guides: useRef<HTMLDivElement>(null),
+    about: useRef<HTMLDivElement>(null),
+  }
 
   const isTestActive =
     page === 'lb-pwo' ||
@@ -20,28 +59,39 @@ export default function SiteHeader({ page, onNavigate, onNavigatePath }: SiteHea
     page === 'lb-creatine' ||
     page === 'product' ||
     page === 'protein-product' ||
-    page === 'creatine-product' ||
+    page === 'creatine-product'
+
+  const isGuideActive =
+    page === 'buying-guide' ||
+    page === 'protein-guide' ||
+    page === 'creatine-guide' ||
+    page === 'blog' ||
+    page === 'blog-post' ||
     page === 'metode' ||
     page === 'protein-metode' ||
-    page === 'creatine-metode' ||
-    page === 'buying-guide' ||
-    page === 'protein-guide'
+    page === 'creatine-metode'
+
+  const isAboutActive =
+    page === 'om-kosttest' ||
+    page === 'kilder' ||
+    page === 'data-freshness'
 
   const go = (path: string) => {
     onNavigatePath(path)
-    setTestsOpen(false)
+    setOpenMenu(null)
+    setMobileOpen(false)
   }
 
   useEffect(() => {
-    if (!testsOpen || !triggerRef.current) return
+    if (!openMenu) return
+    const ref = triggerRefs[openMenu]
+    if (!ref.current) return
     const update = () => {
-      const rect = triggerRef.current!.getBoundingClientRect()
-      const menuWidth = 480
+      const rect = ref.current!.getBoundingClientRect()
+      const menuWidth = 280
       const margin = 12
       let left = rect.left
-      if (left + menuWidth > window.innerWidth - margin) {
-        left = window.innerWidth - menuWidth - margin
-      }
+      if (left + menuWidth > window.innerWidth - margin) left = window.innerWidth - menuWidth - margin
       left = Math.max(margin, left)
       setMenuPos({ top: rect.bottom + 4, left })
     }
@@ -52,44 +102,60 @@ export default function SiteHeader({ page, onNavigate, onNavigatePath }: SiteHea
       window.removeEventListener('resize', update)
       window.removeEventListener('scroll', update, true)
     }
-  }, [testsOpen])
+  }, [openMenu])
 
-  const menu = testsOpen
+  useEffect(() => {
+    document.body.classList.toggle('nav-mobile-open', mobileOpen)
+    return () => document.body.classList.remove('nav-mobile-open')
+  }, [mobileOpen])
+
+  const dropdownMenu = openMenu
     ? createPortal(
         <>
           <button
             type="button"
             className="nav-dropdown-backdrop"
-            aria-label="Lukk testmeny"
-            onClick={() => setTestsOpen(false)}
+            aria-label="Lukk meny"
+            onClick={() => setOpenMenu(null)}
           />
           <div
-            className="nav-dropdown-menu nav-dropdown-wide nav-dropdown-fixed"
-            style={{ top: menuPos.top, left: menuPos.left }}
+            className="nav-dropdown-menu nav-dropdown-fixed"
+            style={{ top: menuPos.top, left: menuPos.left, minWidth: 260 }}
           >
-            <div className="nav-dropdown-col">
-              <span className="nav-dropdown-label">Pre-workout</span>
-              <a href="/tester/pwo/" onClick={(e) => { e.preventDefault(); go('/tester/pwo/') }}>PWO best i test</a>
-              <a href="/tester/pwo/stim-free/" onClick={(e) => { e.preventDefault(); go('/tester/pwo/stim-free/') }}>Stim-free</a>
-              <a href="/tester/pwo/slik-velger-du/" onClick={(e) => { e.preventDefault(); go('/tester/pwo/slik-velger-du/') }}>Kjøpsguide PWO</a>
-            </div>
-            <div className="nav-dropdown-col">
-              <span className="nav-dropdown-label">Protein</span>
-              <a href="/tester/protein/" onClick={(e) => { e.preventDefault(); go('/tester/protein/') }}>Protein best i test</a>
-              <a href="/tester/protein/vegan/" onClick={(e) => { e.preventDefault(); go('/tester/protein/vegan/') }}>Vegan protein</a>
-              <a href="/tester/protein/metode/" onClick={(e) => { e.preventDefault(); go('/tester/protein/metode/') }}>Metode protein</a>
-            </div>
-            <div className="nav-dropdown-col">
-              <span className="nav-dropdown-label">Kreatin</span>
-              <a href="/tester/kreatin/" onClick={(e) => { e.preventDefault(); go('/tester/kreatin/') }}>Kreatin best i test</a>
-              <a href="/tester/kreatin/creapure/" onClick={(e) => { e.preventDefault(); go('/tester/kreatin/creapure/') }}>Creapure</a>
-              <a href="/tester/kreatin/metode/" onClick={(e) => { e.preventDefault(); go('/tester/kreatin/metode/') }}>Metode kreatin</a>
-            </div>
+            {(openMenu === 'tests' ? testLinks : openMenu === 'guides' ? guideLinks : aboutLinks).map((link) => (
+              <a
+                key={link.path}
+                href={link.path}
+                onClick={(e) => {
+                  e.preventDefault()
+                  go(link.path)
+                }}
+              >
+                {link.label}
+              </a>
+            ))}
           </div>
         </>,
         document.body,
       )
     : null
+
+  const navDropdown = (
+    key: 'tests' | 'guides' | 'about',
+    label: string,
+    active: boolean,
+  ) => (
+    <div ref={triggerRefs[key]} className={`nav-dropdown${openMenu === key ? ' is-open' : ''}`}>
+      <button
+        type="button"
+        className={`nav-link${active ? ' nav-active' : ''}`}
+        onClick={() => setOpenMenu(openMenu === key ? null : key)}
+        aria-expanded={openMenu === key}
+      >
+        {label} ▾
+      </button>
+    </div>
+  )
 
   return (
     <header className="site-header">
@@ -99,6 +165,7 @@ export default function SiteHeader({ page, onNavigate, onNavigatePath }: SiteHea
         onClick={(e) => {
           e.preventDefault()
           onNavigate('home')
+          setMobileOpen(false)
         }}
       >
         <img
@@ -110,7 +177,8 @@ export default function SiteHeader({ page, onNavigate, onNavigatePath }: SiteHea
           decoding="async"
         />
       </a>
-      <nav aria-label="Hovednavigasjon" className="nav-main">
+
+      <nav aria-label="Hovednavigasjon" className="nav-main nav-main-desktop">
         <a
           href="/"
           onClick={(e) => {
@@ -121,51 +189,73 @@ export default function SiteHeader({ page, onNavigate, onNavigatePath }: SiteHea
         >
           Forside
         </a>
-        <div
-          ref={triggerRef}
-          className={`nav-dropdown${testsOpen ? ' is-open' : ''}`}
-        >
-          <button
-            type="button"
-            className={`nav-link${isTestActive ? ' nav-active' : ''}`}
-            onClick={() => setTestsOpen(!testsOpen)}
-            aria-expanded={testsOpen}
-          >
-            Tester ▾
+        {navDropdown('tests', 'Tester', isTestActive)}
+        {navDropdown('guides', 'Guider', isGuideActive)}
+        {navDropdown('about', 'Om Kosttest', isAboutActive)}
+        {compareCount > 0 && onOpenCompare ? (
+          <button type="button" className="nav-link nav-compare-link" onClick={onOpenCompare}>
+            Sammenlign ({compareCount})
           </button>
-        </div>
-        {menu}
-        <a
-          href="/blogg/"
-          onClick={(e) => {
-            e.preventDefault()
-            onNavigate('blog')
-          }}
-          className={page === 'blog' || page === 'blog-post' ? 'nav-active' : ''}
-        >
-          Blogg
-        </a>
-        <a
-          href="/kilder/"
-          onClick={(e) => {
-            e.preventDefault()
-            onNavigate('kilder')
-          }}
-          className={page === 'kilder' ? 'nav-active' : ''}
-        >
-          Kilder
-        </a>
-        <a
-          href="/om-metoden/"
-          onClick={(e) => {
-            e.preventDefault()
-            onNavigate('metode')
-          }}
-          className={page === 'metode' ? 'nav-active' : ''}
-        >
-          Metode
-        </a>
+        ) : null}
       </nav>
+
+      <button
+        type="button"
+        className="nav-mobile-toggle"
+        aria-expanded={mobileOpen}
+        aria-controls="mobile-nav-panel"
+        aria-label={mobileOpen ? 'Lukk meny' : 'Åpne meny'}
+        onClick={() => setMobileOpen(!mobileOpen)}
+      >
+        {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+      </button>
+
+      {dropdownMenu}
+
+      {mobileOpen ? (
+        <nav id="mobile-nav-panel" className="nav-mobile-panel" aria-label="Mobilmeny">
+          <a
+            href="/"
+            className={page === 'home' ? 'nav-active' : ''}
+            onClick={(e) => {
+              e.preventDefault()
+              onNavigate('home')
+              setMobileOpen(false)
+            }}
+          >
+            Forside
+          </a>
+          <details className="nav-mobile-group">
+            <summary>Tester</summary>
+            {testLinks.map((l) => (
+              <a key={l.path} href={l.path} onClick={(e) => { e.preventDefault(); go(l.path) }}>{l.label}</a>
+            ))}
+          </details>
+          <details className="nav-mobile-group">
+            <summary>Guider</summary>
+            {guideLinks.map((l) => (
+              <a key={l.path} href={l.path} onClick={(e) => { e.preventDefault(); go(l.path) }}>{l.label}</a>
+            ))}
+          </details>
+          <details className="nav-mobile-group">
+            <summary>Om Kosttest</summary>
+            {aboutLinks.map((l) => (
+              <a key={l.path} href={l.path} onClick={(e) => { e.preventDefault(); go(l.path) }}>{l.label}</a>
+            ))}
+          </details>
+          {compareCount > 0 && onOpenCompare ? (
+            <button type="button" className="nav-mobile-compare" onClick={() => { onOpenCompare(); setMobileOpen(false) }}>
+              Sammenlign ({compareCount})
+            </button>
+          ) : null}
+          <div className="nav-mobile-quick">
+            <span className="nav-mobile-quick-label">Snarveier</span>
+            <a href="/tester/pwo/stim-free/" onClick={(e) => { e.preventDefault(); go('/tester/pwo/stim-free/') }}>Koffeinfri PWO</a>
+            <a href="/tester/protein/billigste/" onClick={(e) => { e.preventDefault(); go('/tester/protein/billigste/') }}>Billig protein</a>
+            <a href="/tester/kreatin/?doping=1" onClick={(e) => { e.preventDefault(); go('/tester/kreatin/?doping=1') }}>Dopingtesta kreatin</a>
+          </div>
+        </nav>
+      ) : null}
     </header>
   )
 }

@@ -5,7 +5,9 @@ import {
   type ProteinSourceType,
 } from './proteinScoring'
 import { getProteinVerificationStatus, proteinVerificationQueue } from './proteinVerification'
+import { proteinImageFor } from './proteinImages'
 import type { GradeLetter } from './pwoProducts'
+import type { ProductDataTrust } from './trust/types'
 
 export type TestedProteinProduct = {
   id: string
@@ -44,6 +46,17 @@ export type TestedProteinProduct = {
   image: string
   verificationStatus?: 'pending' | 'verified' | 'rejected'
   verifiedAt?: string
+  /** Eksplisitt dokumentert — ikke anta uten data. */
+  lactoseFree?: boolean | null
+  sweetenerFree?: boolean | null
+  unflavored?: boolean | null
+  suitableForBaking?: boolean | null
+  caloriesPer100g?: number | null
+  caloriesPerServing?: number | null
+  allergenNote?: string | null
+  availableInNorway?: boolean | null
+  /** Valfri utvidet datatillit — kun verifiserte felt. */
+  dataTrust?: ProductDataTrust
 }
 
 type RawProtein = Omit<
@@ -51,9 +64,6 @@ type RawProtein = Omit<
   'rank' | 'score' | 'overallGrade' | 'gradeBreakdown' | 'diaasScore' | 'diaasValue' | 'diaasIsOfficial' | 'iaasScore' | 'aminoAcidProfile' | 'leucinePer30gProtein' | 'pricePerGramProtein'
 >
 
-const IMG = 'https://www.gymgrossisten.no/on/demandware.static/-/Sites-hsng-master-catalog/default/dw8a8c8c8c/Hi-res/p/protein_whey_generic.jpg'
-
-/** Kun produkter som faktisk selges som proteinpulver — med lenke til ekte produktside. */
 const rawProducts: RawProtein[] = [
   {
     id: 'dymatize-iso100',
@@ -77,7 +87,7 @@ const rawProducts: RawProtein[] = [
     strengths: ['Hydrolysert for rask absorpsjon', 'Laktosefattig (filtrert)', 'Høy protein per dose (25 g)'],
     watchouts: ['Dyr per kg (899 kr/932 g)', 'Melkeallergen — ikke melkefri', 'Inneholder soya (lecitin)'],
     url: 'https://www.gymgrossisten.no/iso-100-myseproteinisolat-932-g/9922-098R.html',
-    image: '/images/protein/dymatize-iso100.jpg',
+    image: '',
   },
   {
     id: 'optimum-gold-standard',
@@ -101,7 +111,7 @@ const rawProducts: RawProtein[] = [
     strengths: ['Pålitelig merke', 'Balansert pris og kvalitet', 'Tilgjengelig overalt'],
     watchouts: ['Inneholder laktose (whey concentrate)', 'Protein% varierer 72–82 % etter smak', 'Melke- og soyaallergen'],
     url: 'https://www.gymgrossisten.no/100-whey-gold-standard-myseprotein-908-g/6870R.html',
-    image: '/images/protein/optimum-gold-standard.jpg',
+    image: '',
   },
   {
     id: 'bodylab-whey-100',
@@ -125,7 +135,7 @@ const rawProducts: RawProtein[] = [
     strengths: ['Pålitelig merke', 'Protein fra fersk melk', 'Ingen aspartam'],
     watchouts: ['Solges på bodylab.no — ikke Gymgrossisten', 'Lavere protein% enn mange isolates'],
     url: 'https://www.bodylab.no/shop/bodylab-whey-100-663p.html',
-    image: IMG,
+    image: '',
   },
   {
     id: 'star-whey-100',
@@ -149,7 +159,7 @@ const rawProducts: RawProtein[] = [
     strengths: ['Høy protein% for isolate', 'Nordisk merke med bred tilgjengelighet', 'Lavt fett og karbohydrat'],
     watchouts: ['Inneholder laktose — ikke for alvorlig intoleranse', '549 kr/1 kg — høyere enn opprinnelig antatt', 'Melke-, soya- og fenylalanin-allergen'],
     url: 'https://www.gymgrossisten.no/whey-100-myseprotein-1-kg/575R.html',
-    image: '/images/protein/star-whey-100.jpg',
+    image: '',
   },
   {
     id: 'myprotein-impact-whey',
@@ -173,7 +183,7 @@ const rawProducts: RawProtein[] = [
     strengths: ['Svært konkurransedyktig pris', 'Høy protein% for concentrate', 'Mange smaker'],
     watchouts: ['Kvalitet varierer med smak/batch', 'Leveringstid fra UK'],
     url: 'https://www.myprotein.no/sports-nutrition/impact-whey-protein/10852500.html',
-    image: IMG,
+    image: '',
   },
   {
     id: 'scitec-100-whey-professional',
@@ -197,7 +207,7 @@ const rawProducts: RawProtein[] = [
     strengths: ['Digestive enzymes', 'God smak', 'Etablert europeisk merke'],
     watchouts: ['Lavere protein% enn rene isolates', 'Noe tilsatt glutamin'],
     url: 'https://www.gymgrossisten.no/scitec-100-whey-protein-professional',
-    image: IMG,
+    image: '',
   },
   {
     id: 'applied-critical-whey',
@@ -221,7 +231,7 @@ const rawProducts: RawProtein[] = [
     strengths: ['Stor pakke = lav kr/kg', 'Balansert profil', 'God smak'],
     watchouts: ['Ikke topp proteinrenhet'],
     url: 'https://www.gymgrossisten.no/applied-nutrition-critical-whey',
-    image: IMG,
+    image: '',
   },
   {
     id: 'mutant-iso-surge',
@@ -245,7 +255,7 @@ const rawProducts: RawProtein[] = [
     strengths: ['Svært høy leucin', 'Ren isolate', 'Lavt fett og karbo'],
     watchouts: ['Dyr per kg', 'Mindre pakke'],
     url: 'https://www.gymgrossisten.no/mutant-iso-surge',
-    image: IMG,
+    image: '',
   },
   {
     id: 'rule1-r1-protein',
@@ -269,7 +279,7 @@ const rawProducts: RawProtein[] = [
     strengths: ['Ekstremt ren', 'Høy leucin', 'Ingen unødvendige tilsetninger'],
     watchouts: ['Premium pris'],
     url: 'https://www.gymgrossisten.no/rule1-r1-protein',
-    image: IMG,
+    image: '',
   },
   {
     id: 'muscletech-nitrotech',
@@ -293,7 +303,7 @@ const rawProducts: RawProtein[] = [
     strengths: ['Creatin inkludert', 'Sterk merkevare', 'God leucin'],
     watchouts: ['Lavere ren protein% pga creatin', 'Dyrere per ren g protein'],
     url: 'https://www.gymgrossisten.no/muscletech-nitro-tech',
-    image: IMG,
+    image: '',
   },
   {
     id: 'kevin-levrone-levro-whey',
@@ -317,7 +327,7 @@ const rawProducts: RawProtein[] = [
     strengths: ['Stor pakke', 'Balansert profil', 'Konkurransedyktig pris'],
     watchouts: ['Ikke topp proteinrenhet'],
     url: 'https://www.gymgrossisten.no/kevin-levrone-levro-whey-supreme',
-    image: IMG,
+    image: '',
   },
   {
     id: 'ghost-whey',
@@ -341,7 +351,7 @@ const rawProducts: RawProtein[] = [
     strengths: ['Unike smaker', 'Digestive enzymes', 'God IAAS'],
     watchouts: ['Premium pris per g protein'],
     url: 'https://www.gymgrossisten.no/ghost-whey',
-    image: IMG,
+    image: '',
   },
   {
     id: 'esn-designer-whey',
@@ -365,7 +375,7 @@ const rawProducts: RawProtein[] = [
     strengths: ['Høy protein% for concentrate', 'Tysk kvalitet', 'God balanse'],
     watchouts: ['Concentrate — noe laktose'],
     url: 'https://www.gymgrossisten.no/esn-designer-whey',
-    image: IMG,
+    image: '',
   },
   {
     id: 'biotech-iso-whey-zero',
@@ -384,12 +394,13 @@ const rawProducts: RawProtein[] = [
     leucinePerServingG: 2.6,
     sourceType: 'whey-isolate',
     sourceLabel: 'Whey isolate (laktosefri)',
+    lactoseFree: true,
     keyFeatures: ['Laktosefri', '84% protein', 'BioTech USA'],
     verdict: 'BioTech Iso Whey Zero er et av de beste laktosefrie alternativene med sterk IAAS-profil.',
     strengths: ['Laktosefri', 'Høy proteinrenhet', 'God leucin'],
     watchouts: ['Middels pris per kg'],
     url: 'https://www.gymgrossisten.no/biotech-iso-whey-zero',
-    image: IMG,
+    image: '',
   },
   {
     id: 'weider-premium-whey',
@@ -413,7 +424,7 @@ const rawProducts: RawProtein[] = [
     strengths: ['Lav pris', 'Bred tilgjengelighet', 'Enkel å bruke'],
     watchouts: ['Lavere protein% og leucin enn topp produkter'],
     url: 'https://www.gymgrossisten.no/weider-premium-whey',
-    image: IMG,
+    image: '',
   },
   {
     id: 'proteinfabrikken-whey',
@@ -437,7 +448,7 @@ const rawProducts: RawProtein[] = [
     strengths: ['Norsk nettbutikk', 'God pris', 'Rask levering'],
     watchouts: ['Concentrate — ikke topp proteinrenhet'],
     url: 'https://www.proteinfabrikken.no/products/100-whey-1-kg',
-    image: IMG,
+    image: '',
   },
   {
     id: 'smartsupps-whey',
@@ -461,7 +472,7 @@ const rawProducts: RawProtein[] = [
     strengths: ['Lav pris', 'Norsk merke', 'Enkel tilgang'],
     watchouts: ['Middels protein% og IAAS'],
     url: 'https://www.gymgrossisten.no/smartsupps-whey-protein-1-kg-unflavoured/901906-01R.html',
-    image: IMG,
+    image: '',
   },
   {
     id: 'bsn-syntha6-isolate',
@@ -485,7 +496,7 @@ const rawProducts: RawProtein[] = [
     strengths: ['Kremet konsistens', 'God smak', 'BSN kvalitet'],
     watchouts: ['Lavere ren whey-andel', 'Høyere karbo/fett'],
     url: 'https://www.gymgrossisten.no/bsn-syntha6-isolate',
-    image: IMG,
+    image: '',
   },
   {
     id: 'olimp-pure-whey',
@@ -509,7 +520,7 @@ const rawProducts: RawProtein[] = [
     strengths: ['Svært høy protein%', 'Sterk leucin', 'Ren isolate'],
     watchouts: ['Mindre pakke', 'Færre smaker'],
     url: 'https://www.gymgrossisten.no/olimp-pure-whey-isolate-95',
-    image: IMG,
+    image: '',
   },
   {
     id: 'qnt-delicious-whey',
@@ -533,7 +544,7 @@ const rawProducts: RawProtein[] = [
     strengths: ['God smak', 'Rimelig', 'Tilgjengelig'],
     watchouts: ['Lavere protein% enn isolates'],
     url: 'https://www.gymgrossisten.no/qnt-delicious-whey',
-    image: IMG,
+    image: '',
   },
   {
     id: 'esn-isoclear',
@@ -557,7 +568,7 @@ const rawProducts: RawProtein[] = [
     strengths: ['Unik juice-konsistens', 'Høy proteinrenhet', 'God leucin'],
     watchouts: ['Premium pris', 'Ikke for shakes med fett'],
     url: 'https://www.gymgrossisten.no/esn-isoclear',
-    image: IMG,
+    image: '',
   },
   {
     id: 'optimum-gold-standard-casein',
@@ -581,7 +592,7 @@ const rawProducts: RawProtein[] = [
     strengths: ['Langsom absorpsjon', 'God IAAS for kasein', 'Pålitelig merke'],
     watchouts: ['Tykkere konsistens', 'Dyrere per g protein enn whey'],
     url: 'https://www.gymgrossisten.no/optimum-nutrition-gold-standard-casein',
-    image: IMG,
+    image: '',
   },
   {
     id: 'myprotein-soy-isolate',
@@ -605,7 +616,7 @@ const rawProducts: RawProtein[] = [
     strengths: ['Vegan', 'Høy protein%', 'Komplett EAA-profil'],
     watchouts: ['Lavere leucin enn whey', 'Soya-allergi'],
     url: 'https://www.myprotein.no/sports-nutrition/soy-protein-isolate/10529293.html',
-    image: IMG,
+    image: '',
   },
   {
     id: 'myprotein-vegan-blend',
@@ -629,7 +640,7 @@ const rawProducts: RawProtein[] = [
     strengths: ['Vegan', 'Bedre profil enn ren erte', 'Rimelig'],
     watchouts: ['Lavere IAAS og leucin', 'Kornete smak'],
     url: 'https://www.myprotein.no/sports-nutrition/vegan-protein-blend/11351679.html',
-    image: IMG,
+    image: '',
   },
   {
     id: 'proteinseries-100-whey',
@@ -650,10 +661,10 @@ const rawProducts: RawProtein[] = [
     sourceLabel: 'Whey concentrate',
     keyFeatures: ['Gymgrossisten husmerke', 'Laveste pris', 'Enkel'],
     verdict: 'Protein Series 100% Whey er budsjettvalget — akseptabel profil til lavest pris per dose.',
-    strengths: ['Svært lav pris', 'Tilgjengelig', 'Greit for nybegynnere'],
+    strengths: ['Svært lav pris', 'Tilgjengelig', 'Gret for nybegynnere'],
     watchouts: ['Lavere IAAS og protein%', 'Færre smaker'],
     url: 'https://www.gymgrossisten.no/protein-series-100-whey',
-    image: IMG,
+    image: '',
   },
   {
     id: 'bulk-pure-whey',
@@ -677,7 +688,7 @@ const rawProducts: RawProtein[] = [
     strengths: ['Høy protein% for prisen', 'God IAAS', 'Konkurransedyktig'],
     watchouts: ['Levering fra Bulk', 'Færre norske forhandlere'],
     url: 'https://www.bulk.no',
-    image: IMG,
+    image: '',
   },
 ]
 
@@ -692,7 +703,13 @@ function gradeProduct(raw: RawProtein): TestedProteinProduct {
   const leucinePer30g = raw.leucinePerServingG != null
     ? (raw.leucinePerServingG / raw.proteinPerServingG) * 30
     : 2.5
-  return { ...raw, ...graded, leucinePer30gProtein: Math.round(leucinePer30g * 10) / 10, rank: 0 }
+  return {
+    ...raw,
+    ...graded,
+    image: proteinImageFor(raw.id) ?? '',
+    leucinePer30gProtein: Math.round(leucinePer30g * 10) / 10,
+    rank: 0,
+  }
 }
 
 export const testedProteinProducts: TestedProteinProduct[] = rawProducts

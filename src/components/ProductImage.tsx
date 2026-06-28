@@ -6,6 +6,10 @@ type ProductImageProps = {
   image?: string
   altSuffix?: string
   className?: string
+  /** Set for above-the-fold / LCP images */
+  priority?: boolean
+  width?: number
+  height?: number
 }
 
 function brandInitial(brand?: string, name?: string) {
@@ -19,6 +23,9 @@ export default function ProductImage({
   image,
   altSuffix = '',
   className = 'product-image',
+  priority = false,
+  width = 150,
+  height = 150,
 }: ProductImageProps) {
   const [failed, setFailed] = useState(false)
   const alt = altSuffix ? `${name} – ${altSuffix}` : name
@@ -26,21 +33,22 @@ export default function ProductImage({
 
   if (showFallback) {
     return (
-      <div className={className} aria-hidden="true">
+      <div className={className} aria-hidden="true" style={{ width, height, maxWidth: width }}>
         <span className="product-image-fallback">{brandInitial(brand, name)}</span>
       </div>
     )
   }
 
   return (
-    <div className={className}>
+    <div className={className} style={{ width, height, maxWidth: width }}>
       <img
         src={image}
         alt={alt}
-        loading="lazy"
-        decoding="async"
-        width="150"
-        height="150"
+        loading={priority ? 'eager' : 'lazy'}
+        decoding={priority ? 'sync' : 'async'}
+        fetchPriority={priority ? 'high' : 'auto'}
+        width={width}
+        height={height}
         onError={() => setFailed(true)}
       />
     </div>

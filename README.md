@@ -12,6 +12,7 @@ npm install
 npm run dev
 npm run build
 npm run lint
+npm run trust:test
 ```
 
 `npm run build` gjør følgende:
@@ -26,10 +27,13 @@ npm run lint
 
 | Sti | Formål |
 |-----|--------|
+| `src/compare/` | Kategoriuavhengig produkt­samanlikning — sjå [docs/compare.md](docs/compare.md) |
+| `src/data/trust/` | Datatillit-modell og resolvere — sjå [docs/data-trust.md](docs/data-trust.md) |
+| `src/components/trust/` | ProductDataStatus, DataTransparencyPanel, feilmelding |
 | `src/data/pwoProducts.ts` | Produkter, karaktermotor, regler |
 | `src/data/blog.ts` | Bloggposter |
 | `src/routing.ts` | URL-parsing, meta, sitemap, prerender-ruter |
-| `src/components/` | JsonLd, SubmissionPanel, UnrankedProductsSection |
+| `src/components/` | JsonLd, SubmissionPanel, PendingReviewSection |
 | `scripts/prerender.mjs` | SSR + sitemap ved build |
 | `api/scan-pwo.js` | Vercel serverless – AI etikett-scanning |
 

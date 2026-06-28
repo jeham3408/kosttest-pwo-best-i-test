@@ -65,7 +65,7 @@ export default async function handler(request, response) {
   if (!process.env.OPENAI_API_KEY) {
     return response.status(200).json({
       status: 'needs_api_key',
-      message: 'OPENAI_API_KEY manglar. Innsendinga er klar, men AI-skanning er ikkje aktivert.',
+      message: 'OPENAI_API_KEY mangler. Innsendingen er klar, men AI-skanning er ikke aktivert.',
     })
   }
 

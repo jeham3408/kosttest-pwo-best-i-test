@@ -203,7 +203,7 @@ export function calculateProteinGrade(input: ProteinProductInput) {
       key: 'diaas',
       label: 'DIAAS (kvalitet)',
       doseLabel: diaasIsOfficial
-        ? `${diaasScore} — laboratorietestet`
+        ? `${diaasScore} — dokumentert lab-DIAAS`
         : `${diaasScore} — estimat (${input.sourceType})`,
       grade: letterFromRatio(diaasRatio),
       points: Math.round(diaasPoints * 10) / 10,

@@ -18,9 +18,9 @@ const fileToDataUrl = (file: File) =>
     const reader = new FileReader()
     reader.onload = () => {
       if (typeof reader.result === 'string') resolve(reader.result)
-      else reject(new Error('Kunne ikkje lese bilde som data-URL.'))
+      else reject(new Error('Kunne ikke lese bilde som data-URL.'))
     }
-    reader.onerror = () => reject(reader.error ?? new Error('Kunne ikkje lese bilde.'))
+    reader.onerror = () => reject(reader.error ?? new Error('Kunne ikke lese bilde.'))
     reader.readAsDataURL(file)
   })
 
@@ -89,7 +89,7 @@ export default function SubmissionPanel() {
       }
 
       if (result.status === 'needs_api_key') {
-        setScanMessage(result.message ?? 'OPENAI_API_KEY manglar. Utkastet er lagra lokalt.')
+        setScanMessage(result.message ?? 'OPENAI_API_KEY mangler. Utkastet er lagret lokalt.')
         return
       }
 
@@ -97,12 +97,12 @@ export default function SubmissionPanel() {
         const ingredientCount = result.parsed?.ingredients?.length ?? 0
         const scannedName = result.parsed?.productName || productName || 'produktet'
         setScanMessage(
-          `AI-skanning ferdig for ${scannedName}: ${ingredientCount} ingrediensar funne. Klar for manuell kontroll før publisering.`,
+          `AI-skanning ferdig for ${scannedName}: ${ingredientCount} ingredienser funne. Klar for manuell kontroll før publisering.`,
         )
         return
       }
 
-      setScanMessage('AI fann tekst, men ikkje strukturert JSON. Utkastet er lagra for manuell kontroll.')
+      setScanMessage('AI fant tekst, men ikke strukturert JSON. Utkastet er lagret for manuell kontroll.')
     } catch {
       setScanMessage('Utkastet er lagra lokalt. AI-skanning køyrer på Vercel når API og OPENAI_API_KEY er klart.')
     } finally {
@@ -162,10 +162,10 @@ export default function SubmissionPanel() {
             <span style={{ width: `${readiness}%` }} />
           </div>
           <ol>
-            <li>AI les ingrediensar, mg, porsjonar og pris frå bilde/tekst.</li>
-            <li>Citrulline-form blir normalisert til L-citrulline-ekvivalent.</li>
-            <li>Regelmotoren gir F-A per ingrediens og reknar totalpoeng.</li>
-            <li>Produktet blir lagt inn i rangeringa med kjelde og kontrollspor.</li>
+            <li>AI leser ingredienser, mg, porsjoner og pris fra bilde/tekst.</li>
+            <li>Citrulline-form normaliseres til L-citrulline-ekvivalent.</li>
+            <li>Regelmotoren gir F–A per ingrediens og beregner formelscore.</li>
+            <li>Produktet legges inn i rangeringen med kilde og kontrollspor.</li>
           </ol>
         </div>
       </div>

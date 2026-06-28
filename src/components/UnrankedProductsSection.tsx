@@ -16,10 +16,10 @@ export default function UnrankedProductsSection() {
     <section className="content-section" id="venter-rangering">
       <div className="section-heading">
         <span>Kartlagt</span>
-        <h2>{pending.length} produkter ventar dosekontroll</h2>
+        <h2>{pending.length} produkter venter dosekontroll</h2>
         <p>
-          Desse er funne i norske butikkar, men er ikkje rangert enno fordi vi manglar full
-          deklarasjon eller manuell verifisering av per-dose-innhold.
+          Disse er funnet i norske butikker, men er ikke rangert ennå fordi vi mangler full
+          deklarasjon eller manuell verifisering av innhold per dose.
         </p>
       </div>
       <div className="table-shell">

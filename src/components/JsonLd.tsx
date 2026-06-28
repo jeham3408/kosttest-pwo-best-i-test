@@ -1,7 +1,7 @@
 import { blogPosts } from '../data/blog'
 import { testedCreatineProducts, type TestedCreatineProduct } from '../data/creatineProducts'
 import { testedProteinProducts, type TestedProteinProduct } from '../data/proteinProducts'
-import { testedProducts, type TestedProduct } from '../data/pwoProducts'
+import { testedProducts, PWO_FORMULA_MAX_POINTS, type TestedProduct } from '../data/pwoProducts'
 import { siteStats } from '../siteStats'
 import { normalizePath } from '../routing'
 
@@ -12,7 +12,8 @@ const orgSchema = {
   '@type': 'Organization',
   name: 'Kosttest.no',
   url: `${base}/`,
-  description: 'Uavhengig rangering av kosttilskudd med åpen karaktermotor. Ingen sponsede plasseringer.',
+  logo: `${base}/brand/logo-light.png`,
+  description: 'Deklarasjonsanalyse av kosttilskudd med åpen metode. Ingen sponsede plasseringer.',
   sameAs: [`${base}/`, 'https://www.facebook.com/kosttest.no', 'https://twitter.com/kosttestno'],
 }
 
@@ -21,11 +22,7 @@ const webSiteSchema = {
   '@type': 'WebSite',
   name: 'Kosttest.no',
   url: `${base}/`,
-  potentialAction: {
-    '@type': 'SearchAction',
-    target: `${base}/tester/pwo/?q={search_term_string}`,
-    'query-input': 'required name=search_term_string',
-  },
+  inLanguage: 'nb-NO',
 }
 
 const breadcrumb = (items: { name: string; url: string }[]) => ({
@@ -37,6 +34,59 @@ const breadcrumb = (items: { name: string; url: string }[]) => ({
     item: base + item.url,
   })),
 })
+
+const faqPage = (items: { q: string; a: string }[]) => ({
+  '@type': 'FAQPage',
+  mainEntity: items.map(({ q, a }) => ({
+    '@type': 'Question',
+    name: q,
+    acceptedAnswer: { '@type': 'Answer', text: a },
+  })),
+})
+
+type ProductSchemaInput = {
+  name: string
+  verdict: string
+  brand: string
+  image?: string | null
+  priceNok?: number | null
+}
+
+/** Product schema uten Review/Rating — unngår misvisande «testresultat» i søk. */
+function productSchema(product: ProductSchemaInput, path: string) {
+  const schema: Record<string, unknown> = {
+    '@type': 'Product',
+    name: product.name,
+    description: product.verdict.substring(0, 500),
+    url: `${base}${path}/`,
+    brand: { '@type': 'Brand', name: product.brand },
+  }
+  if (product.image) {
+    schema.image = product.image.startsWith('/') ? `${base}${product.image}` : product.image
+  }
+  if (product.priceNok != null && product.priceNok > 0) {
+    schema.offers = {
+      '@type': 'Offer',
+      price: product.priceNok,
+      priceCurrency: 'NOK',
+      availability: 'https://schema.org/InStock',
+    }
+  }
+  return schema
+}
+
+const blogPublishedDates: Record<string, { published: string; modified: string }> = {
+  'l-citrulline': { published: '2026-05-04', modified: '2026-06-20' },
+  'beta-alanin': { published: '2026-05-06', modified: '2026-06-18' },
+  kreatin: { published: '2026-05-08', modified: '2026-06-22' },
+  koffein: { published: '2026-05-10', modified: '2026-06-15' },
+  arginin: { published: '2026-05-12', modified: '2026-06-10' },
+  'sammenligning-peveo-sickpump': { published: '2026-05-20', modified: '2026-06-27' },
+  'sammenligning-peveo-supervillain': { published: '2026-05-20', modified: '2026-06-27' },
+  'sammenligning-midnight-stimfree': { published: '2026-05-22', modified: '2026-06-27' },
+  'sammenligning-sickpump-noxplode': { published: '2026-05-22', modified: '2026-06-27' },
+  'sammenligning-gold-supreme': { published: '2026-05-22', modified: '2026-06-27' },
+}
 
 type JsonLdProps = {
   path?: string
@@ -56,29 +106,10 @@ export default function JsonLd({ path: rawPath, product, proteinProduct, creatin
         dangerouslySetInnerHTML={{
           __html: JSON.stringify([
             ...def,
-            {
-              '@type': 'Product',
-              name: creatineProduct.name,
-              description: creatineProduct.verdict,
-              url: `${base}${path}/`,
-              image: creatineProduct.image?.startsWith('/') ? `${base}${creatineProduct.image}` : creatineProduct.image,
-              brand: { '@type': 'Brand', name: creatineProduct.brand },
-              offers: {
-                '@type': 'Offer',
-                price: creatineProduct.priceNok,
-                priceCurrency: 'NOK',
-                availability: 'https://schema.org/InStock',
-              },
-              aggregateRating: {
-                '@type': 'AggregateRating',
-                ratingValue: creatineProduct.score,
-                bestRating: 100,
-                ratingCount: 1,
-              },
-            },
+            productSchema(creatineProduct, path),
             breadcrumb([
               { name: 'Hjem', url: '/' },
-              { name: 'Kreatin best i test', url: '/tester/kreatin/' },
+              { name: 'Kreatin – sammenligning', url: '/tester/kreatin/' },
               { name: creatineProduct.name, url: `/kreatin/${creatineProduct.id}/` },
             ]),
           ]),
@@ -94,29 +125,10 @@ export default function JsonLd({ path: rawPath, product, proteinProduct, creatin
         dangerouslySetInnerHTML={{
           __html: JSON.stringify([
             ...def,
-            {
-              '@type': 'Product',
-              name: proteinProduct.name,
-              description: proteinProduct.verdict,
-              url: `${base}${path}/`,
-              image: proteinProduct.image?.startsWith('/') ? `${base}${proteinProduct.image}` : proteinProduct.image,
-              brand: { '@type': 'Brand', name: proteinProduct.brand },
-              offers: {
-                '@type': 'Offer',
-                price: proteinProduct.priceNok,
-                priceCurrency: 'NOK',
-                availability: 'https://schema.org/InStock',
-              },
-              aggregateRating: {
-                '@type': 'AggregateRating',
-                ratingValue: proteinProduct.score,
-                bestRating: 100,
-                ratingCount: 1,
-              },
-            },
+            productSchema(proteinProduct, path),
             breadcrumb([
               { name: 'Hjem', url: '/' },
-              { name: 'Proteinpulver best i test', url: '/tester/protein/' },
+              { name: 'Proteinpulver – sammenligning', url: '/tester/protein/' },
               { name: proteinProduct.name, url: `/protein/${proteinProduct.id}/` },
             ]),
           ]),
@@ -126,36 +138,16 @@ export default function JsonLd({ path: rawPath, product, proteinProduct, creatin
   }
 
   if (path.startsWith('/pwo/') && product) {
-    const content = product.verdict
     return (
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify([
             ...def,
-            {
-              '@type': 'Product',
-              name: product.name,
-              description: content,
-              url: `${base}${path}/`,
-              image: product.image,
-              brand: { '@type': 'Brand', name: product.brand },
-              offers: {
-                '@type': 'Offer',
-                price: product.priceNok,
-                priceCurrency: 'NOK',
-                availability: 'https://schema.org/InStock',
-              },
-              aggregateRating: {
-                '@type': 'AggregateRating',
-                ratingValue: product.score,
-                bestRating: 100,
-                ratingCount: 1,
-              },
-            },
+            productSchema(product, path),
             breadcrumb([
               { name: 'Hjem', url: '/' },
-              { name: 'PWO best i test', url: '/tester/pwo/' },
+              { name: 'PWO – sammenligning', url: '/tester/pwo/' },
               { name: product.name, url: `/pwo/${product.id}/` },
             ]),
           ]),
@@ -179,7 +171,7 @@ export default function JsonLd({ path: rawPath, product, proteinProduct, creatin
               step: isCreatine
                 ? [
                     { '@type': 'HowToStep', position: 1, name: 'Velg monohydrat', text: 'Kreatin monohydrat er best dokumentert. Creapure er en kvalitetssertifisert variant.' },
-                    { '@type': 'HowToStep', position: 2, name: 'Sjekk dokumentasjon', text: 'Se etter oppgitt renhet, mesh og dopingtest — særlig for generisk kreatin uten merkevare-råstoff.' },
+                    { '@type': 'HowToStep', position: 2, name: 'Sjekk dokumentasjon', text: 'Se etter oppgitt renhet, mesh og dopingtest på ferdigproduktet — også Creapure må ha produkttest (Cologne List, Informed Sport m.fl.).' },
                   ]
                 : [
                     { '@type': 'HowToStep', position: 1, name: 'Forstå hva en PWO er', text: 'En PWO (Pre-Workout) er et kosttilskudd du tar før trening for energi, fokus, utholdenhet og muskelpump.' },
@@ -197,6 +189,7 @@ export default function JsonLd({ path: rawPath, product, proteinProduct, creatin
   }
 
   if (path.startsWith('/tester/kreatin')) {
+    const top = testedCreatineProducts[0]
     return (
       <script
         type="application/ld+json"
@@ -205,8 +198,9 @@ export default function JsonLd({ path: rawPath, product, proteinProduct, creatin
             ...def,
             {
               '@type': 'ItemList',
-              name: 'Kreatin best i test 2026',
+              name: 'Kreatin – sammenligning 2026',
               url: `${base}${path}/`,
+              numberOfItems: testedCreatineProducts.length,
               itemListElement: testedCreatineProducts.map((item, index) => ({
                 '@type': 'ListItem',
                 position: index + 1,
@@ -214,9 +208,21 @@ export default function JsonLd({ path: rawPath, product, proteinProduct, creatin
                 url: `${base}/kreatin/${item.id}/`,
               })),
             },
+            faqPage([
+              {
+                q: 'Hva er det beste kreatinet i Norge 2026?',
+                a: top
+                  ? `${top.name} topper rangeringen vår med score ${top.score}/100 basert på merkevare-kreatin, renhet, mesh og dokumentasjon.`
+                  : 'Se hele kreatinrangeringen for oppdatert topp 1 basert på åpen score.',
+              },
+              {
+                q: 'Er Creapure bedre enn kreatin uten oppgitt merkevare?',
+                a: 'Creapure er sertifisert tysk monohydrat med dokumentert renhet. I vår test krever vi likevel dopingtest på ferdigproduktet — uten det får også Creapure poengtrekk.',
+              },
+            ]),
             breadcrumb([
               { name: 'Hjem', url: '/' },
-              { name: 'Kreatin best i test', url: '/tester/kreatin/' },
+              { name: 'Kreatin – sammenligning', url: '/tester/kreatin/' },
             ]),
           ]),
         }}
@@ -225,6 +231,7 @@ export default function JsonLd({ path: rawPath, product, proteinProduct, creatin
   }
 
   if (path.startsWith('/tester/protein')) {
+    const top = testedProteinProducts[0]
     return (
       <script
         type="application/ld+json"
@@ -233,8 +240,9 @@ export default function JsonLd({ path: rawPath, product, proteinProduct, creatin
             ...def,
             {
               '@type': 'ItemList',
-              name: 'Proteinpulver best i test 2026',
+              name: 'Proteinpulver – sammenligning 2026',
               url: `${base}${path}/`,
+              numberOfItems: testedProteinProducts.length,
               itemListElement: testedProteinProducts.map((item, index) => ({
                 '@type': 'ListItem',
                 position: index + 1,
@@ -242,9 +250,21 @@ export default function JsonLd({ path: rawPath, product, proteinProduct, creatin
                 url: `${base}/protein/${item.id}/`,
               })),
             },
+            faqPage([
+              {
+                q: 'Hvilket proteinpulver topper rangeringen 2026?',
+                a: top
+                  ? `${top.name} leder rangeringen med score ${top.score}/100. Vi bruker DIAAS som primær kvalitetsmåling for protein.`
+                  : 'Se proteinrangeringen for oppdatert topp 1 basert på DIAAS og åpen metode.',
+              },
+              {
+                q: 'Hva er DIAAS for proteinpulver?',
+                a: 'DIAAS (Digestible Indispensable Amino Acid Score) måler hvor godt proteinet dekker kroppens aminosyrebehov. FAO anbefaler DIAAS som gullstandard fremfor PDCAAS.',
+              },
+            ]),
             breadcrumb([
               { name: 'Hjem', url: '/' },
-              { name: 'Proteinpulver best i test', url: '/tester/protein/' },
+              { name: 'Proteinpulver – sammenligning', url: '/tester/protein/' },
             ]),
           ]),
         }}
@@ -253,6 +273,7 @@ export default function JsonLd({ path: rawPath, product, proteinProduct, creatin
   }
 
   if (path.startsWith('/tester/pwo')) {
+    const top = testedProducts[0]
     return (
       <script
         type="application/ld+json"
@@ -261,18 +282,35 @@ export default function JsonLd({ path: rawPath, product, proteinProduct, creatin
             ...def,
             {
               '@type': 'ItemList',
-              name: 'PWO best i test 2026',
+              name: 'PWO – sammenligning 2026',
               url: `${base}${path}/`,
-              itemListElement: testedProducts.slice(0, 45).map((item, index) => ({
+              numberOfItems: testedProducts.length,
+              itemListElement: testedProducts.map((item, index) => ({
                 '@type': 'ListItem',
                 position: index + 1,
                 name: item.name,
                 url: `${base}/pwo/${item.id}/`,
               })),
             },
+            faqPage([
+              {
+                q: 'Hva er den beste PWO i Norge 2026?',
+                a: top
+                  ? `${top.name} leder rangeringen per ${new Date().getFullYear()} med formelscore ${top.score}/${PWO_FORMULA_MAX_POINTS} basert på deklarerte ingredienser og dose per serving.`
+                  : 'Se PWO-rangeringen for oppdatert topp 1 uten sponsede plasseringer.',
+              },
+              {
+                q: 'Hvordan vurderer Kosttest.no PWO?',
+                a: 'Vi scorer deklarerte ingredienser og doser per serving etter publiserte kriterier. Ingen produsent kan kjøpe plassering. Dette er deklarasjonsanalyse — ikke laboratorietest av Kosttest.',
+              },
+              {
+                q: 'Hvilken PWO er best for nybegynnere?',
+                a: 'Velg produkter med moderat koffein (100–200 mg) og dokumenterte doser av L-citrulline. Se filteret for nybegynnere eller stim-free alternativer.',
+              },
+            ]),
             breadcrumb([
               { name: 'Hjem', url: '/' },
-              { name: 'PWO best i test', url: '/tester/pwo/' },
+              { name: 'PWO – sammenligning', url: '/tester/pwo/' },
             ]),
           ]),
         }}
@@ -284,6 +322,10 @@ export default function JsonLd({ path: rawPath, product, proteinProduct, creatin
     const slug = path.replace('/blogg/', '')
     const post = blogPosts.find((entry) => entry.slug === slug || entry.id === slug)
     if (post) {
+      const dates = blogPublishedDates[post.slug] ?? blogPublishedDates[post.id] ?? {
+        published: '2026-06-01',
+        modified: '2026-06-27',
+      }
       return (
         <script
           type="application/ld+json"
@@ -294,10 +336,15 @@ export default function JsonLd({ path: rawPath, product, proteinProduct, creatin
                 '@type': 'Article',
                 headline: post.title,
                 description: post.excerpt,
-                datePublished: '2026-05-04',
-                dateModified: '2026-06-26',
+                datePublished: dates.published,
+                dateModified: dates.modified,
+                inLanguage: 'nb-NO',
                 author: { '@type': 'Organization', name: 'Kosttest.no' },
-                publisher: { '@type': 'Organization', name: 'Kosttest.no' },
+                publisher: {
+                  '@type': 'Organization',
+                  name: 'Kosttest.no',
+                  logo: { '@type': 'ImageObject', url: `${base}/brand/logo-light.png` },
+                },
                 mainEntityOfPage: `${base}/blogg/${post.slug}/`,
               },
               breadcrumb([
@@ -321,10 +368,21 @@ export default function JsonLd({ path: rawPath, product, proteinProduct, creatin
             ...def,
             {
               '@type': 'WebPage',
-              name: 'Tester og guider for kosttilskudd',
-              description: `Uavhengige tester av ${siteStats.totalTestedCount} kosttilskudd i ${siteStats.categoryCount} kategorier.`,
+              name: 'PWO, protein og kreatin – sammenligning 2026',
+              description: `Deklarasjonsanalyse av ${siteStats.totalTestedCount} kosttilskudd i ${siteStats.categoryCount} kategorier.`,
               url: `${base}/`,
+              inLanguage: 'nb-NO',
             },
+            faqPage([
+              {
+                q: 'Hva er Kosttest.no?',
+                a: 'Kosttest.no sammenligner PWO, proteinpulver og kreatin etter åpen metode basert på deklarasjon — uten sponsede plasseringer.',
+              },
+              {
+                q: 'Hvilke kosttilskudd tester dere?',
+                a: `Vi tester pre-workout (PWO), proteinpulver og kreatin. Totalt ${siteStats.totalTestedCount} produkter med offentlig score og dokumentert metode.`,
+              },
+            ]),
             breadcrumb([{ name: 'Hjem', url: '/' }]),
           ]),
         }}

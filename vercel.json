@@ -7,6 +7,18 @@
     { "source": "/(.*)", "has": [{ "type": "host", "value": "kosttest.online" }], "destination": "https://kosttest.no/$1", "permanent": true },
     { "source": "/(.*)", "has": [{ "type": "host", "value": "www.kosttest.online" }], "destination": "https://kosttest.no/$1", "permanent": true },
     { "source": "/(.*)", "has": [{ "type": "host", "value": "tilskuddtest.online" }], "destination": "https://kosttest.no/$1", "permanent": true },
-    { "source": "/(.*)", "has": [{ "type": "host", "value": "www.tilskuddtest.online" }], "destination": "https://kosttest.no/$1", "permanent": true }
+    { "source": "/(.*)", "has": [{ "type": "host", "value": "www.tilskuddtest.online" }], "destination": "https://kosttest.no/$1", "permanent": true },
+    { "source": "/tester", "destination": "/tester/pwo/", "permanent": true },
+    { "source": "/metode", "destination": "/om-metoden/", "permanent": true },
+    { "source": "/kor-ferske-er-dataa", "destination": "/hvor-ferske-er-dataene/", "permanent": true },
+    { "source": "/kor-ferske-er-dataa/:path*", "destination": "/hvor-ferske-er-dataene/", "permanent": true },
+    { "source": "/tester/pwo/samanlikn", "destination": "/tester/pwo/sammenlign/", "permanent": true },
+    { "source": "/tester/protein/samanlikn", "destination": "/tester/protein/sammenlign/", "permanent": true },
+    { "source": "/tester/kreatin/samanlikn", "destination": "/tester/kreatin/sammenlign/", "permanent": true },
+    { "source": "/blogg/samanlikning-peveo-sickpump", "destination": "/blogg/sammenligning-peveo-sickpump/", "permanent": true },
+    { "source": "/blogg/samanlikning-peveo-supervillain", "destination": "/blogg/sammenligning-peveo-supervillain/", "permanent": true },
+    { "source": "/blogg/samanlikning-midnight-stimfree", "destination": "/blogg/sammenligning-midnight-stimfree/", "permanent": true },
+    { "source": "/blogg/samanlikning-sickpump-noxplode", "destination": "/blogg/sammenligning-sickpump-noxplode/", "permanent": true },
+    { "source": "/blogg/samanlikning-gold-supreme", "destination": "/blogg/sammenligning-gold-supreme/", "permanent": true }
   ]
 }

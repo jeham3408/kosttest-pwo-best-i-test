@@ -1,0 +1,171 @@
+/**
+ * Kosttest design tokens — single source of truth.
+ * Legacy aliases (--bg, --paper, …) map here for gradual migration.
+ */
+:root {
+  color-scheme: light;
+
+  /* —— Color: brand —— */
+  --color-brand-navy: #04172b;
+  --color-brand-navy-strong: #02101f;
+  --color-brand-green: #32c96a;
+  --color-brand-green-muted: rgba(50, 201, 106, 0.12);
+  --color-brand-green-border: rgba(50, 201, 106, 0.35);
+
+  /* —— Color: surfaces —— */
+  --color-bg: #ffffff;
+  --color-surface: #f4f6f8;
+  --color-surface-strong: #e8ecf0;
+  --color-overlay: rgba(6, 13, 20, 0.96);
+  --color-overlay-light: rgba(255, 255, 255, 0.94);
+
+  /* —— Color: text —— */
+  --color-text: #04172b;
+  --color-text-muted: #5c6b7a;
+  --color-text-inverse: #ffffff;
+
+  /* —— Color: border —— */
+  --color-border: #dde3ea;
+  --color-border-strong: #c5ced8;
+
+  /* —— Color: semantic —— */
+  --color-focus: #116149;
+  --color-link: #116149;
+  --color-warning: #b87414;
+  --color-warning-bg: #fff6e5;
+  --color-error: #a13d35;
+  --color-error-bg: #fef2f2;
+  --color-info: #2b4c6f;
+  --color-success: #32c96a;
+
+  /* —— Score grades (formula / quality) —— */
+  --grade-a: #116149;
+  --grade-b: #1a7a52;
+  --grade-c: #6b8f3c;
+  --grade-d: #b87414;
+  --grade-e: #c45c3e;
+  --grade-f: #a13d35;
+  --grade-bg-a: rgba(17, 97, 73, 0.1);
+  --grade-bg-f: rgba(161, 61, 53, 0.1);
+
+  /* —— Data trust levels —— */
+  --trust-high: #116149;
+  --trust-high-bg: rgba(17, 97, 73, 0.08);
+  --trust-medium: #2b4c6f;
+  --trust-medium-bg: rgba(43, 76, 111, 0.08);
+  --trust-limited: #b87414;
+  --trust-limited-bg: rgba(184, 116, 20, 0.1);
+  --trust-unranked: #5c6b7a;
+  --trust-unranked-bg: rgba(92, 107, 122, 0.1);
+
+  /* —— Typography —— */
+  --font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-size-xs: 0.6875rem;   /* 11px */
+  --font-size-sm: 0.8125rem;   /* 13px */
+  --font-size-md: 0.875rem;    /* 14px */
+  --font-size-base: 1rem;      /* 16px */
+  --font-size-lg: 1.125rem;    /* 18px */
+  --font-size-xl: 1.25rem;     /* 20px */
+  --font-size-2xl: 1.5rem;     /* 24px */
+  --font-size-3xl: clamp(1.75rem, 4vw, 2.75rem);
+  --font-weight-normal: 400;
+  --font-weight-medium: 600;
+  --font-weight-bold: 700;
+  --font-weight-heavy: 800;
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.65;
+  --letter-spacing-tight: -0.02em;
+
+  /* —— Spacing —— */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-touch: 44px;
+  --space-page-x: clamp(16px, 4vw, 32px);
+  --space-page-y: clamp(24px, 5vw, 54px);
+  --space-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --space-safe-top: env(safe-area-inset-top, 0px);
+
+  /* —— Radius —— */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 999px;
+
+  /* —— Shadow —— */
+  --shadow-sm: 0 2px 8px rgba(4, 23, 43, 0.06);
+  --shadow-md: 0 12px 32px rgba(4, 23, 43, 0.08);
+  --shadow-lg: 0 20px 48px rgba(4, 23, 43, 0.12);
+  --shadow-sheet: 0 -8px 32px rgba(4, 23, 43, 0.15);
+
+  /* —— Focus —— */
+  --focus-ring-width: 2px;
+  --focus-ring-color: var(--color-focus);
+  --focus-ring-offset: 2px;
+
+  /* —— Z-index scale —— */
+  --z-base: 0;
+  --z-sticky: 10;
+  --z-header: 100;
+  --z-dropdown: 200;
+  --z-sheet-backdrop: 280;
+  --z-sheet: 300;
+  --z-compare-tray: 350;
+  --z-modal: 400;
+  --z-toast: 500;
+
+  /* —— Breakpoints (reference; use in JS: tokens.breakpoints) —— */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 900px;
+  --breakpoint-xl: 1180px;
+
+  /* —— Motion —— */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* —— Layout —— */
+  --layout-max: 1180px;
+  --header-height: 68px;
+
+  /* —— Legacy aliases (keep until full migration) —— */
+  --bg: var(--color-bg);
+  --paper: var(--color-surface);
+  --paper-strong: var(--color-surface-strong);
+  --text: var(--color-text);
+  --muted: var(--color-text-muted);
+  --border: var(--color-border);
+  --accent: var(--color-brand-navy);
+  --accent-strong: var(--color-brand-navy-strong);
+  --brand-navy: var(--color-brand-navy);
+  --brand-green: var(--color-brand-green);
+  --accent-editorial: var(--color-brand-green);
+  --amber: var(--color-warning);
+  --amber-bg: var(--color-warning-bg);
+  --red: var(--color-error);
+  --blue: var(--color-info);
+  --shadow: var(--shadow-md);
+
+  font-family: var(--font-family);
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-normal: 0ms;
+  }
+}

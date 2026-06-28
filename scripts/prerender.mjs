@@ -21,7 +21,7 @@ const routes = getAllPrerenderRoutes()
 
 for (const route of routes) {
   const appHtml = render(route)
-  const meta = getPageMeta(parseRoute(route))
+  const meta = getPageMeta(parseRoute(route), route)
   const html = applyMetaToHtml(template.replace('<!--app-html-->', appHtml), meta)
 
   if (route === '/') {

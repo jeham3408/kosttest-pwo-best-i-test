@@ -21,8 +21,10 @@ export type CreatineGradeBreakdown = {
 export const PURITY_DISCLOSURE_PENALTY = 10
 /** Trekk når produsent/butikk ikke oppgir mesh / partikkelstørrelse. */
 export const MESH_DISCLOSURE_PENALTY = 10
-/** Trekk for generisk kreatin uten dokumentert dopingtest (Cologne List, Informed Sport m.fl.). */
-export const GENERIC_DOPING_TEST_PENALTY = 15
+/** Trekk når produsent/butikk ikke dokumenterer dopingtest (Cologne List, Informed Sport m.fl.). Gjelder også Creapure. */
+export const DOPING_TEST_PENALTY = 15
+/** @deprecated Bruk DOPING_TEST_PENALTY */
+export const GENERIC_DOPING_TEST_PENALTY = DOPING_TEST_PENALTY
 
 const formQuality: Record<CreatineForm, number> = {
   'monohydrate-creapure': 100,
@@ -35,8 +37,8 @@ const formQuality: Record<CreatineForm, number> = {
 
 const formLabels: Record<CreatineForm, string> = {
   'monohydrate-creapure': 'Creapure monohydrat',
-  monohydrate: 'Generisk kreatin monohydrat',
-  micronized: 'Generisk mikronisert monohydrat',
+  monohydrate: 'Monohydrat — merkevare ikke oppgitt',
+  micronized: 'Mikronisert monohydrat — merkevare ikke oppgitt',
   hcl: 'Kreatin HCl',
   blend: 'Blanding / matrix',
   capsules: 'Kapsler / tabletter',
@@ -72,6 +74,17 @@ export function isBrandedCreatine(input: {
   return Boolean(getCreatineBrandLabel(input))
 }
 
+/** Visningslabel når produsent ikke oppgir merkevare på kreatin-råstoffet. */
+export function formatCreatineSourceLabel(input: {
+  creatineBrand?: string | null
+  isCreapure?: boolean
+}) {
+  const brand = getCreatineBrandLabel(input)
+  if (brand) return brand
+  if (isBrandedCreatine(input)) return 'Merkevare'
+  return 'Ikke oppgitt'
+}
+
 export function hasPurityDisclosure(purityPercent: number | null | undefined) {
   return purityPercent != null && purityPercent > 0
 }
@@ -104,7 +117,7 @@ export function calculateCreatineGrade(input: {
 
   const purityPenalty = purityDeclared ? 0 : PURITY_DISCLOSURE_PENALTY
   const meshPenalty = meshDeclared ? 0 : MESH_DISCLOSURE_PENALTY
-  const dopingPenalty = !branded && !dopingDeclared ? GENERIC_DOPING_TEST_PENALTY : 0
+  const dopingPenalty = dopingDeclared ? 0 : DOPING_TEST_PENALTY
 
   const score = Math.max(0, formBase - purityPenalty - meshPenalty - dopingPenalty)
 
@@ -140,14 +153,14 @@ export function calculateCreatineGrade(input: {
     {
       key: 'doping',
       label: 'Dopingtest dokumentert',
-      grade: dopingDeclared ? 'A' : branded ? 'B' : 'F',
+      grade: dopingDeclared ? 'A' : 'F',
       points: -dopingPenalty,
       maxPoints: 0,
       doseLabel: dopingDeclared
         ? input.dopingTestLabel!
         : branded
-          ? 'Merkevare-kreatin med egen kvalitetssikring — produkttest valgfritt'
-          : `Generisk uten test (−${GENERIC_DOPING_TEST_PENALTY} poeng)`,
+          ? `Creapure/merkevare uten produkttest (−${DOPING_TEST_PENALTY} poeng)`
+          : `Uten dokumentert test (−${DOPING_TEST_PENALTY} poeng)`,
     },
   ]
 
@@ -161,9 +174,9 @@ export function calculateCreatineGrade(input: {
 
 export const creatineScoringRules = [
   {
-    label: 'Merkevare vs. generisk kreatin',
+    label: 'Merkevare på råstoff',
     weight: 'Grunnscore',
-    note: 'Creapure og annet merkevare-kreatin scorer høyest. Generisk mono/mikronisert starter lavere — da er dokumentasjon ekstra viktig.',
+    note: 'Creapure og annet merkevare-kreatin scorer høyest. Uten oppgitt merkevare starter scoren lavere — da er dokumentasjon ekstra viktig.',
   },
   {
     label: 'Kreatinrenhet oppgitt',
@@ -176,9 +189,9 @@ export const creatineScoringRules = [
     note: 'Partikkelstørrelse (mesh) må være oppgitt — «mikronisert» alene er ikke nok.',
   },
   {
-    label: 'Dopingtest (kun generisk)',
-    weight: `−${GENERIC_DOPING_TEST_PENALTY} poeng`,
-    note: 'Uten merkevare-kreatin krever vi dokumentert dopingtest (Cologne List®, Informed Sport, NSF m.fl.). Konkurransesportive bør unngå generisk uten test.',
+    label: 'Dopingtest dokumentert',
+    weight: `−${DOPING_TEST_PENALTY} poeng`,
+    note: 'Dopingtest, renhet og mesh gir poengtrekk når de mangler (Cologne List®, Informed Sport, NSF m.fl.). Merkevare-kreatin uten produkttest får samme trekk som produkter uten dokumentert test.',
   },
   {
     label: 'Lik score',
@@ -188,7 +201,7 @@ export const creatineScoringRules = [
 ]
 
 export const creatineMethodNote =
-  'Kreatinscoren er 100 % kvalitet. Merkevare-kreatin (Creapure m.fl.) veier tyngst. Generisk mono må dokumentere renhet, mesh og dopingtest — ellers trekkes det poeng. Pris påvirker ikke poengsummen, men ved lik score rangeres billigst kr/g kreatin øverst.'
+  'Kreatinscoren er 100 % kvalitet. Merkevare-kreatin (Creapure m.fl.) veier tyngst. Dopingtest, renhet og mesh gir poengtrekk når de mangler — ikke absolutte krav, men uten dokumentasjon kan produktet ikke nå toppscore. Pris påvirker ikke poengsummen; ved lik score rangeres billigst kr/g kreatin øverst.'
 
 export const creatineSourceLinks = [
   { label: 'ISSN position stand: kreatin', url: 'https://jissn.biomedcentral.com/articles/10.1186/s12970-017-0177-8' },

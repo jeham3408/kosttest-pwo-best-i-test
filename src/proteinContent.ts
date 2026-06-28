@@ -2,7 +2,7 @@ import { type TestedProteinProduct } from './data/proteinProducts'
 
 export function generateProteinContent(product: TestedProteinProduct) {
   const diaasLabel = product.diaasIsOfficial
-    ? `DIAAS ${product.diaasScore} (laboratorietestet)`
+    ? `DIAAS ${product.diaasScore} (dokumentert lab-DIAAS)`
     : `DIAAS ${product.diaasScore} (estimat — ikke lab-testet ferdig blanding)`
 
   const summary =
@@ -73,7 +73,7 @@ export function generateProteinContent(product: TestedProteinProduct) {
     {
       question: 'Hvorfor står det «estimat»?',
       answer: product.diaasIsOfficial
-        ? 'Dette produktet har laboratorietestet DIAAS for ferdig blanding.'
+        ? 'DIAAS-score bygger på dokumentert laboratorietest av ferdig produkt — ikke test utført av Kosttest.'
         : 'Offisiell DIAAS kan ikke påstås uten test av ferdig produkt. Vi bruker publiserte DIAAS-estimater per proteintype til produktet er lab-testet.',
     },
     {

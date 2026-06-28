@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build && vite build --ssr src/entry-server.tsx --outDir dist/server && node scripts/prerender.mjs",
+    "generate:favicons": "node scripts/generate-favicons.mjs",
     "postbuild": "node scripts/indexnow.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
@@ -16,7 +17,22 @@
     "feedback:pull": "node scripts/feedback-process-queue.mjs pull",
     "feedback:pull-github": "node scripts/feedback-process-queue.mjs pull-github",
     "feedback:process": "node scripts/feedback-process-queue.mjs process",
-    "feedback:status": "node scripts/feedback-process-queue.mjs status"
+    "feedback:status": "node scripts/feedback-process-queue.mjs status",
+    "pwo:test:badges": "npx tsx scripts/pwo-badges-test.ts",
+    "pwo:test:text": "npx tsx scripts/pwo-text-uniqueness-test.ts",
+    "pwo:test:editorial": "npx tsx scripts/pwo-editorial-test.ts",
+    "compare:test": "npx tsx scripts/compare-test.ts",
+    "trust:test": "npx tsx scripts/trust-test.ts",
+    "trust:validate": "npx tsx scripts/trust-validation-test.ts",
+    "protein:test:badges": "npx tsx scripts/protein-badges-test.ts",
+    "protein:test:editorial": "npx tsx scripts/protein-editorial-test.ts",
+    "release:validate": "npx tsx scripts/scoring-validation-test.ts && npm run pwo:test:badges && npm run pwo:test:editorial && npm run pwo:test:text && npm run protein:test:badges && npm run protein:test:editorial && npm run compare:test && npm run trust:test && npm run trust:validate",
+    "seo:check": "node scripts/seo-check.mjs",
+    "a11y:check": "node scripts/a11y-check.mjs",
+    "perf:check": "node scripts/perf-check.mjs",
+    "mobile:check": "node scripts/mobile-check.mjs",
+    "data:validate": "npx tsx scripts/data-validation-test.ts",
+    "quality:check": "npm run build && npm run lint && npm run release:validate && npm run data:validate && npm run seo:check && npm run a11y:check && npm run perf:check && npm run mobile:check"
   },
   "dependencies": {
     "lucide-react": "^1.14.0",

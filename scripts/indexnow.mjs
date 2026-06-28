@@ -1,28 +1,31 @@
 // IndexNow URL submission script
 // Runs after build to notify search engines of updated content
 
+import { readFile } from 'node:fs/promises'
+import { resolve, dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
+const root = resolve(__dirname, '..')
+
 const API_KEY = '31be3d16a6bf4450b524610c44164a85'
 const HOST = 'kosttest.no'
 const INDEXNOW_URL = 'https://api.indexnow.org/IndexNow'
 
-const urls = [
-  'https://kosttest.no/',
-  'https://kosttest.no/tester/pwo/',
-  'https://kosttest.no/tester/pwo/beste/',
-  'https://kosttest.no/tester/pwo/sterkeste/',
-  'https://kosttest.no/tester/pwo/billigste/',
-  'https://kosttest.no/tester/pwo/stim-free/',
-  'https://kosttest.no/tester/pwo/slik-velger-du/',
-  'https://kosttest.no/blogg/',
-  'https://kosttest.no/om-metoden/',
-  'https://kosttest.no/sitemap.xml',
-]
+const sitemapPath = resolve(root, 'public/sitemap.xml')
+const sitemap = await readFile(sitemapPath, 'utf8')
+const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1])
+
+if (urls.length === 0) {
+  console.log('IndexNow: no URLs found in sitemap — skipped')
+  process.exit(0)
+}
 
 const body = JSON.stringify({
   host: HOST,
   key: API_KEY,
   keyLocation: `https://${HOST}/${API_KEY}.txt`,
-  urlList: urls,
+  urlList: urls.slice(0, 10000),
 })
 
 try {

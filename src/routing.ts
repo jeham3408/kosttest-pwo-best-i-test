@@ -20,7 +20,13 @@ export type AppPage =
   | 'metode'
   | 'protein-metode'
   | 'creatine-metode'
+  | 'compare-pwo'
+  | 'compare-protein'
+  | 'compare-creatine'
   | 'kilder'
+  | 'om-kosttest'
+  | 'data-freshness'
+  | 'not-found'
 
 export type RouteState = {
   page: AppPage
@@ -39,6 +45,8 @@ export type PageMeta = {
   canonical: string
   ogType: string
   ogImage: string
+  /** noindex for dynamiske sammenlignings-URL-ar */
+  robots?: string
 }
 
 const SITE = 'https://kosttest.no'
@@ -78,6 +86,9 @@ export function parseRoute(path: string): RouteState {
   if (route.startsWith('/tester/protein/slik-velger-du')) {
     return { ...defaultRoute(), page: 'protein-guide' }
   }
+  if (route === '/tester/protein/sammenlign' || route === '/tester/protein/samanlikn') {
+    return { ...defaultRoute(), page: 'compare-protein' }
+  }
   if (route === '/tester/protein/metode' || route === '/om-metoden/protein') {
     return { ...defaultRoute(), page: 'protein-metode' }
   }
@@ -97,6 +108,9 @@ export function parseRoute(path: string): RouteState {
   }
   if (route.startsWith('/tester/kreatin/slik-velger-du')) {
     return { ...defaultRoute(), page: 'creatine-guide' }
+  }
+  if (route === '/tester/kreatin/sammenlign' || route === '/tester/kreatin/samanlikn') {
+    return { ...defaultRoute(), page: 'compare-creatine' }
   }
   if (route === '/tester/kreatin/metode') {
     return { ...defaultRoute(), page: 'creatine-metode' }
@@ -118,11 +132,17 @@ export function parseRoute(path: string): RouteState {
   if (route === '/tester/pwo/stim-free') {
     return { ...defaultRoute(), page: 'lb-pwo', sortCol: 'score', sortAsc: false, caffeineFilter: 'uten' }
   }
+  if (route === '/tester/pwo/verdi') {
+    return { ...defaultRoute(), page: 'lb-pwo', sortCol: 'value', sortAsc: false }
+  }
   if (route === '/tester/pwo/nybegynner') {
-    return { ...defaultRoute(), page: 'lb-pwo', sortCol: 'score', sortAsc: false }
+    return { ...defaultRoute(), page: 'lb-pwo', sortCol: 'nybegynner', sortAsc: false }
   }
   if (route.startsWith('/tester/pwo/slik-velger-du')) {
     return { ...defaultRoute(), page: 'buying-guide' }
+  }
+  if (route === '/tester/pwo/sammenlign' || route === '/tester/pwo/samanlikn') {
+    return { ...defaultRoute(), page: 'compare-pwo' }
   }
   if (route.startsWith('/pwo/')) {
     const id = route.replace('/pwo/', '')
@@ -132,7 +152,8 @@ export function parseRoute(path: string): RouteState {
     return { ...defaultRoute(), page: 'blog' }
   }
   if (route.startsWith('/blogg/')) {
-    const slug = route.replace('/blogg/', '')
+    let slug = route.replace('/blogg/', '')
+    slug = slug.replace(/^samanlikning-/, 'sammenligning-')
     return { ...defaultRoute(), page: 'blog-post', selectedProduct: slug }
   }
   if (route === '/om-metoden' || route === '/metode') {
@@ -141,19 +162,118 @@ export function parseRoute(path: string): RouteState {
   if (route === '/kilder') {
     return { ...defaultRoute(), page: 'kilder' }
   }
+  if (route === '/om-kosttest') {
+    return { ...defaultRoute(), page: 'om-kosttest' }
+  }
+  if (route === '/hvor-ferske-er-dataene' || route === '/kor-ferske-er-dataa') {
+    return { ...defaultRoute(), page: 'data-freshness' }
+  }
+  if (route === '/404') {
+    return { ...defaultRoute(), page: 'not-found' }
+  }
 
-  return defaultRoute()
+  if (route === '/') {
+    return defaultRoute()
+  }
+
+  return { ...defaultRoute(), page: 'not-found' }
 }
 
-export function getPageMeta(state: RouteState): PageMeta {
-  const def = {
-    title: 'Kosttest.no – Tester og guider for kosttilskudd',
-    description: `Uavhengige tester av kosttilskudd i Norge. ${siteStats.totalTestedCount} produkter i ${siteStats.categoryCount} kategorier — åpen metode, ingen sponsede plasseringer.`,
+export function getPageMeta(state: RouteState, routePath?: string): PageMeta {
+  const path = normalizePath(routePath ?? routeToPath(state))
+  const def: PageMeta = {
+    title: 'PWO, protein og kreatin — sammenlign etter deklarasjon | Kosttest.no',
+    description: `Sammenlign ${siteStats.totalTestedCount} kosttilskudd i Norge med åpen metode. PWO, proteinpulver og kreatin rangert etter publiserte regler — uten betalte plasseringer.`,
     canonical: `${SITE}/`,
     ogType: 'website',
     ogImage: DEFAULT_OG,
   }
 
+  if (path === '/' || state.page === 'home') {
+    return {
+      ...def,
+      title: 'Kosttest.no — sammenlign PWO, protein og kreatin',
+      description:
+        'Deklarasjonsanalyse av kosttilskudd i Norge. Finn PWO, protein og kreatin etter åpne kriterier — score, pris og datakvalitet synlig.',
+    }
+  }
+
+  const pathLandingMeta: Record<string, PageMeta> = {
+    '/tester/pwo/beste': {
+      title: 'Beste PWO 2026 – Topp rangerte pre-workout | Kosttest.no',
+      description: `De beste PWO-ene i Norge: ${siteStats.pwoTestedCount} pre-workout rangert etter ingredienser, dose per serving og åpen formelscore. Ingen sponsing.`,
+      canonical: `${SITE}/tester/pwo/beste/`,
+      ogType: 'website',
+      ogImage: DEFAULT_OG,
+    },
+    '/tester/pwo/sterkeste': {
+      title: 'Sterkeste PWO 2026 – Høyest formelscore | Kosttest.no',
+      description: 'Pre-workout med høyest formelscore etter deklarerte ingredienser og dose — ikke laboratorietest av Kosttest.',
+      canonical: `${SITE}/tester/pwo/sterkeste/`,
+      ogType: 'website',
+      ogImage: DEFAULT_OG,
+    },
+    '/tester/pwo/nybegynner': {
+      title: 'Beste PWO for nybegynnere 2026 | Kosttest.no',
+      description: 'Milde og balanserte PWO-er for deg som starter med pre-workout. Lavere koffein og oversiktlige doser — rangert etter deklarasjon.',
+      canonical: `${SITE}/tester/pwo/nybegynner/`,
+      ogType: 'website',
+      ogImage: DEFAULT_OG,
+    },
+    '/tester/pwo/verdi': {
+      title: 'Best verdi PWO 2026 – God formel til lav pris | Kosttest.no',
+      description: 'PWO med sterk formelscore og god verdikarakter (A/B). Skiller beste formel fra billigst — finn balansen mellom dose og pris.',
+      canonical: `${SITE}/tester/pwo/verdi/`,
+      ogType: 'website',
+      ogImage: DEFAULT_OG,
+    },
+    '/tester/protein/beste': {
+      title: 'Beste proteinpulver 2026 – Topp rangert med DIAAS | Kosttest.no',
+      description: `${siteStats.proteinTestedCount} proteinpulver rangert etter DIAAS-kvalitet. Finn det beste whey, vegan og kasein i Norge.`,
+      canonical: `${SITE}/tester/protein/beste/`,
+      ogType: 'website',
+      ogImage: DEFAULT_OG,
+    },
+    '/tester/kreatin/beste': {
+      title: 'Beste kreatin 2026 – Topp rangert monohydrat | Kosttest.no',
+      description: `${siteStats.creatineTestedCount} kreatinprodukter rangert etter merkevare-kreatin, renhet, mesh og dokumentasjon.`,
+      canonical: `${SITE}/tester/kreatin/beste/`,
+      ogType: 'website',
+      ogImage: DEFAULT_OG,
+    },
+  }
+
+  if (pathLandingMeta[path]) {
+    return pathLandingMeta[path]
+  }
+
+  const legacyDef = {
+    title: 'Kosttest.no – Tester og guider for kosttilskudd',
+    description: `Åpen sammenligning av kosttilskudd i Norge. ${siteStats.totalTestedCount} produkter i ${siteStats.categoryCount} kategorier — publiserte kriterier, ingen sponsede plasseringer.`,
+    canonical: `${SITE}/`,
+    ogType: 'website',
+    ogImage: DEFAULT_OG,
+  }
+
+  if (state.page === 'om-kosttest') {
+    return {
+      title: 'Om Kosttest.no – Sammenligning av kosttilskudd | Kosttest.no',
+      description: 'Hvem står bak Kosttest, hva som vurderes, finansiering, kilder og hvordan feil rettes.',
+      canonical: `${SITE}/om-kosttest/`,
+      ogType: 'website',
+      ogImage: DEFAULT_OG,
+    }
+  }
+  if (state.page === 'data-freshness') {
+    return {
+      title: 'Hvor ferske er dataene? – Datatillit og oppdatering | Kosttest.no',
+      description:
+        'Hvordan Kosttest oppdaterer priser, deklarasjoner og rangeringer. Forskjell på deklarasjonsanalyse og laboratorietest — og hvor du kan melde feil.',
+      canonical: `${SITE}/hvor-ferske-er-dataene/`,
+      ogType: 'article',
+      ogImage: DEFAULT_OG,
+    }
+  }
   if (state.page === 'kilder') {
     return {
       title: 'Kilder og referanser | Kosttest.no',
@@ -165,8 +285,8 @@ export function getPageMeta(state: RouteState): PageMeta {
   }
   if (state.page === 'metode') {
     return {
-      title: 'Slik tester vi kosttilskudd – Åpen metode | Kosttest.no',
-      description: 'Uavhengig testmetode for PWO, proteinpulver og kreatin. Scoring-reglene ligger åpent i kode — ingen sponsede plasseringer.',
+      title: 'Slik vurderer vi kosttilskudd – Åpen metode | Kosttest.no',
+      description: 'Regelbasert sammenligning av PWO, proteinpulver og kreatin. Scoring-reglene ligger åpent — ingen sponsede plasseringer.',
       canonical: `${SITE}/om-metoden/`,
       ogType: 'article',
       ogImage: DEFAULT_OG,
@@ -176,7 +296,7 @@ export function getPageMeta(state: RouteState): PageMeta {
   if (state.page === 'lb-creatine') {
     if (state.creapureFilter === 'creapure') {
       return {
-        title: 'Creapure kreatin best i test 2026 | Kosttest.no',
+        title: 'Creapure kreatin – sammenligning 2026 | Kosttest.no',
         description: 'Kreatin med Creapure-sertifisert monohydrat — rangert etter form, renhet og mesh.',
         canonical: `${SITE}/tester/kreatin/creapure/`,
         ogType: 'website',
@@ -193,8 +313,8 @@ export function getPageMeta(state: RouteState): PageMeta {
       }
     }
     return {
-      title: 'Kreatin best i test 2026 – Form, renhet og mesh | Kosttest.no',
-      description: `${siteStats.creatineTestedCount} kreatinprodukter rangert etter merkevare-kreatin, renhet, mesh og dopingtest. Generisk uten test faller kraftig.`,
+      title: 'Kreatin sammenligning 2026 – Form, renhet og mesh | Kosttest.no',
+      description: `${siteStats.creatineTestedCount} kreatinprodukter rangert etter merkevare-kreatin, renhet, mesh og dopingtest. Uten dokumentert produkttest faller også Creapure.`,
       canonical: `${SITE}/tester/kreatin/`,
       ogType: 'website',
       ogImage: DEFAULT_OG,
@@ -224,7 +344,7 @@ export function getPageMeta(state: RouteState): PageMeta {
   if (state.page === 'creatine-metode') {
     return {
       title: 'Slik scorer vi kreatin – Form, renhet og mesh | Kosttest.no',
-      description: 'Kreatinscoren skiller merkevare-kreatin fra generisk. Uten merkevare kreves dopingtest, renhet og mesh — ellers poengtrekk.',
+      description: 'Kreatinscoren vektlegger merkevare på råstoff, renhet, mesh og dopingtest. Manglende dokumentasjon gir poengtrekk — uten data kan produktet ikke nå toppscore.',
       canonical: `${SITE}/tester/kreatin/metode/`,
       ogType: 'article',
       ogImage: DEFAULT_OG,
@@ -233,7 +353,7 @@ export function getPageMeta(state: RouteState): PageMeta {
   if (state.page === 'lb-protein') {
     if (state.proteinFilter === 'kasein') {
       return {
-        title: 'Kasein proteinpulver best i test 2026 | Kosttest.no',
+        title: 'Kasein proteinpulver – sammenligning 2026 | Kosttest.no',
         description: 'Kasein rangert etter DIAAS-estimat — langsom frigjøring for kveldsbruk.',
         canonical: `${SITE}/tester/protein/kasein/`,
         ogType: 'website',
@@ -242,7 +362,7 @@ export function getPageMeta(state: RouteState): PageMeta {
     }
     if (state.proteinFilter === 'vegan') {
       return {
-        title: 'Vegan proteinpulver best i test 2026 | Kosttest.no',
+        title: 'Vegan proteinpulver – sammenligning 2026 | Kosttest.no',
         description: 'Soya og erte/ris-protein rangert etter DIAAS-estimat og IAAS-profil.',
         canonical: `${SITE}/tester/protein/vegan/`,
         ogType: 'website',
@@ -259,7 +379,7 @@ export function getPageMeta(state: RouteState): PageMeta {
       }
     }
     return {
-      title: 'Proteinpulver best i test 2026 – DIAAS + IAAS | Kosttest.no',
+      title: 'Proteinpulver sammenligning 2026 – DIAAS + IAAS | Kosttest.no',
       description: `${siteStats.proteinTestedCount} proteinpulver rangert etter DIAAS (kvalitet). IAAS vises for sammenligning. Pris påvirker ikke scoren.`,
       canonical: `${SITE}/tester/protein/`,
       ogType: 'website',
@@ -297,9 +417,27 @@ export function getPageMeta(state: RouteState): PageMeta {
     }
   }
   if (state.page === 'lb-pwo') {
+    if (state.sortCol === 'value') {
+      return {
+        title: 'Best verdi PWO 2026 – God formel til lav pris | Kosttest.no',
+        description: 'PWO med sterk formelscore og verdikarakter A/B. Skiller beste formel fra billigst.',
+        canonical: `${SITE}/tester/pwo/verdi/`,
+        ogType: 'website',
+        ogImage: DEFAULT_OG,
+      }
+    }
+    if (state.sortCol === 'nybegynner') {
+      return {
+        title: 'Beste PWO for nybegynnere 2026 | Kosttest.no',
+        description: 'Milde PWO-er med koffeinfritt eller ≤ 200 mg koffein — rangert etter formelscore.',
+        canonical: `${SITE}/tester/pwo/nybegynner/`,
+        ogType: 'website',
+        ogImage: DEFAULT_OG,
+      }
+    }
     if (state.caffeineFilter === 'uten') {
       return {
-        title: 'Stim-free PWO best i test 2026 | Kosttest.no',
+        title: 'Stim-free PWO sammenligning 2026 | Kosttest.no',
         description: 'Koffeinfrie pre-workout rangert etter ingredienser og dose — uten koffein i scoren.',
         canonical: `${SITE}/tester/pwo/stim-free/`,
         ogType: 'website',
@@ -309,15 +447,15 @@ export function getPageMeta(state: RouteState): PageMeta {
     if (state.sortCol === 'kgprice-asc' || state.sortCol === 'kgprice-desc') {
       return {
         title: 'Billigste PWO per kg 2026 | Kosttest.no',
-        description: `Sammenlign pris per kilogram på ${siteStats.pwoTestedCount} PWO-produkter. Se også effekt-score i hovedrangeringen.`,
+        description: `Sammenlign pris per kilogram på ${siteStats.pwoTestedCount} PWO-produkter. Formelscore vises i hovedrangeringen.`,
         canonical: `${SITE}/tester/pwo/billigste/`,
         ogType: 'website',
         ogImage: DEFAULT_OG,
       }
     }
     return {
-      title: 'PWO best i test 2026 – Fullstendig rangering | Kosttest.no',
-      description: `Se hele rangeringen av ${siteStats.pwoTestedCount} PWO-produkter. Sorter på pris, effekt og ingredienser.`,
+      title: 'PWO best formel 2026 – Fullstendig rangering | Kosttest.no',
+      description: `Se hele rangeringen av ${siteStats.pwoTestedCount} PWO-produkter etter formelscore. Verdikarakter vises separat.`,
       canonical: `${SITE}/tester/pwo/`,
       ogType: 'website',
       ogImage: DEFAULT_OG,
@@ -356,17 +494,57 @@ export function getPageMeta(state: RouteState): PageMeta {
       }
     }
   }
+  if (state.page === 'compare-pwo') {
+    return {
+      title: 'Sammenlign PWO – side om side | Kosttest.no',
+      description: 'Sammenlign opptil tre pre-workout produkt etter formelscore, pris, koffein og dokumentasjon.',
+      canonical: `${SITE}/tester/pwo/`,
+      ogType: 'website',
+      ogImage: DEFAULT_OG,
+      robots: 'noindex, follow',
+    }
+  }
+  if (state.page === 'compare-protein') {
+    return {
+      title: 'Sammenlign proteinpulver | Kosttest.no',
+      description: 'Sammenlign protein etter DIAAS, pris og dokumentasjon.',
+      canonical: `${SITE}/tester/protein/`,
+      ogType: 'website',
+      ogImage: DEFAULT_OG,
+      robots: 'noindex, follow',
+    }
+  }
+  if (state.page === 'compare-creatine') {
+    return {
+      title: 'Sammenlign kreatin | Kosttest.no',
+      description: 'Sammenlign kreatin etter score, råvare, renhet og pris.',
+      canonical: `${SITE}/tester/kreatin/`,
+      ogType: 'website',
+      ogImage: DEFAULT_OG,
+      robots: 'noindex, follow',
+    }
+  }
   if (state.page === 'buying-guide') {
     return {
       title: 'Slik velger du riktig PWO – Kjøpsguide 2026 | Kosttest.no',
-      description: 'Lær hvordan du velger beste PWO basert på ingredienser, koffein, pris og effekt.',
+      description: 'Lær hvordan du velger PWO basert på deklarerte ingredienser, koffein og pris — uten medisinske løfter.',
       canonical: `${SITE}/tester/pwo/slik-velger-du/`,
       ogType: 'article',
       ogImage: DEFAULT_OG,
     }
   }
+  if (state.page === 'not-found') {
+    return {
+      title: 'Siden finnes ikke | Kosttest.no',
+      description: 'Siden du leter etter finnes ikke. Gå til forsiden eller testoversikten for PWO, protein og kreatin.',
+      canonical: `${SITE}${path}/`,
+      ogType: 'website',
+      ogImage: DEFAULT_OG,
+      robots: 'noindex, follow',
+    }
+  }
 
-  return def
+  return legacyDef
 }
 
 export function getAllPrerenderRoutes(): string[] {
@@ -378,6 +556,7 @@ export function getAllPrerenderRoutes(): string[] {
     '/tester/pwo/billigste',
     '/tester/pwo/stim-free',
     '/tester/pwo/nybegynner',
+    '/tester/pwo/verdi',
     '/tester/protein',
     '/tester/protein/beste',
     '/tester/protein/billigste',
@@ -394,7 +573,10 @@ export function getAllPrerenderRoutes(): string[] {
     '/blogg',
     '/om-metoden',
     '/kilder',
+    '/om-kosttest',
+    '/hvor-ferske-er-dataene',
     '/tester/pwo/slik-velger-du',
+    '/404',
   ]
 
   for (const product of testedProducts) {
@@ -425,6 +607,7 @@ export function buildSitemapXml(routes: string[], lastmod = new Date().toISOStri
   }
 
   const urls = routes
+    .filter((route) => route !== '/404')
     .map((route) => {
       const loc = route === '/' ? `${SITE}/` : `${SITE}${route}/`
       return `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${lastmod}</lastmod>\n    <priority>${priorityFor(route)}</priority>\n  </url>`
@@ -441,7 +624,10 @@ export function applyMetaToHtml(html: string, meta: PageMeta) {
       .replace(/"/g, '&quot;')
       .replace(/</g, '&lt;')
 
-  return html
+  const upsertMeta = (source: string, pattern: RegExp, replacement: string) =>
+    pattern.test(source) ? source.replace(pattern, replacement) : source.replace('</head>', `    ${replacement}\n  </head>`)
+
+  let out = html
     .replace(/<title>.*?<\/title>/, `<title>${esc(meta.title)}</title>`)
     .replace(
       /<meta\s+name="description"\s+content="[^"]*"\s*\/>/,
@@ -465,11 +651,54 @@ export function applyMetaToHtml(html: string, meta: PageMeta) {
       /<meta\s+property="og:image"\s+content="[^"]*"\s*\/>/,
       `<meta property="og:image" content="${esc(meta.ogImage)}" />`,
     )
+
+  out = upsertMeta(
+    out,
+    /<meta\s+property="og:image:width"\s+content="[^"]*"\s*\/>/,
+    `<meta property="og:image:width" content="1200" />`,
+  )
+  out = upsertMeta(
+    out,
+    /<meta\s+property="og:image:height"\s+content="[^"]*"\s*\/>/,
+    `<meta property="og:image:height" content="630" />`,
+  )
+  out = upsertMeta(
+    out,
+    /<meta\s+name="twitter:title"\s+content="[^"]*"\s*\/>/,
+    `<meta name="twitter:title" content="${esc(meta.title)}" />`,
+  )
+  out = upsertMeta(
+    out,
+    /<meta\s+name="twitter:description"\s+content="[^"]*"\s*\/>/,
+    `<meta name="twitter:description" content="${esc(meta.description)}" />`,
+  )
+  out = upsertMeta(
+    out,
+    /<meta\s+name="twitter:image"\s+content="[^"]*"\s*\/>/,
+    `<meta name="twitter:image" content="${esc(meta.ogImage)}" />`,
+  )
+
+  if (meta.robots) {
+    out = upsertMeta(
+      out,
+      /<meta\s+name="robots"\s+content="[^"]*"\s*\/>/,
+      `<meta name="robots" content="${esc(meta.robots)}" />`,
+    )
+  } else {
+    out = out.replace(/\s*<meta\s+name="robots"\s+content="[^"]*"\s*\/>/g, '')
+  }
+
+  return out
 }
 
-export function routeToPath(state: RouteState): string {
+export function routeToPath(state: RouteState, pathHint?: string): string {
+  if (state.page === 'not-found') {
+    return pathHint ? normalizePath(pathHint) : '/404/'
+  }
   if (state.page === 'home') return '/'
   if (state.page === 'kilder') return '/kilder/'
+  if (state.page === 'om-kosttest') return '/om-kosttest/'
+  if (state.page === 'data-freshness') return '/hvor-ferske-er-dataene/'
   if (state.page === 'metode') return '/om-metoden/'
   if (state.page === 'buying-guide') return '/tester/pwo/slik-velger-du/'
   if (state.page === 'protein-guide') return '/tester/protein/slik-velger-du/'
@@ -485,7 +714,13 @@ export function routeToPath(state: RouteState): string {
   if (state.page === 'protein-product' && state.selectedProduct) return `/protein/${state.selectedProduct}/`
   if (state.page === 'creatine-product' && state.selectedProduct) return `/kreatin/${state.selectedProduct}/`
 
+  if (state.page === 'compare-pwo') return '/tester/pwo/sammenlign/'
+  if (state.page === 'compare-protein') return '/tester/protein/sammenlign/'
+  if (state.page === 'compare-creatine') return '/tester/kreatin/sammenlign/'
+
   if (state.page === 'lb-pwo') {
+    if (state.sortCol === 'value') return '/tester/pwo/verdi/'
+    if (state.sortCol === 'nybegynner') return '/tester/pwo/nybegynner/'
     if (state.caffeineFilter === 'uten') return '/tester/pwo/stim-free/'
     if (state.sortCol === 'kgprice-asc' || state.sortCol === 'kgprice-desc') return '/tester/pwo/billigste/'
     return '/tester/pwo/'

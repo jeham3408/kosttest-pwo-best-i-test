@@ -9,25 +9,34 @@ export default function SiteFooter() {
   return (
     <footer className="site-footer">
       <p className="footer-trust-line">
-        Uavhengig testing · Åpen metode · Alle kan sende inn tilbakemelding
+        Åpen metode · Synlige kilder · Produkter rangeres etter publiserte regler
       </p>
       <FeedbackBar />
       <div className="site-footer-inner">
         <div>
           <img src={brand.logoDark} alt="Kosttest.no" className="footer-logo" width={150} height={40} decoding="async" />
-          <p>Uavhengige tester av kosttilskudd i Norge. Åpen metode — ingen sponsede plasseringer.</p>
+          <p>Sammenligning av kosttilskudd i Norge basert på deklarasjonsanalyse og åpen metode.</p>
         </div>
         <div>
           <span className="site-footer-label">Tester</span>
-          <a href="/tester/pwo/">PWO best i test</a>
-          <a href="/tester/protein/">Proteinpulver</a>
+          <a href="/tester/pwo/">PWO</a>
+          <a href="/tester/protein/">Protein</a>
           <a href="/tester/kreatin/">Kreatin</a>
         </div>
         <div>
-          <span className="site-footer-label">Om oss</span>
+          <span className="site-footer-label">Guider</span>
+          <a href="/tester/pwo/slik-velger-du/">Slik velger du PWO</a>
+          <a href="/tester/protein/slik-velger-du/">Slik velger du protein</a>
+          <a href="/tester/kreatin/slik-velger-du/">Slik velger du kreatin</a>
+          <a href="/blogg/">Ingrediensertikler</a>
+        </div>
+        <div>
+          <span className="site-footer-label">Om Kosttest</span>
+          <a href="/om-kosttest/">Om oss</a>
           <a href="/om-metoden/">Metode</a>
+          <a href="/hvor-ferske-er-dataene/">Hvor ferske er dataene?</a>
           <a href="/kilder/">Kilder</a>
-          <a href="/blogg/">Blogg</a>
+          <a href="/om-kosttest/#kontakt">Meld feil</a>
         </div>
       </div>
       <p className="site-footer-note">

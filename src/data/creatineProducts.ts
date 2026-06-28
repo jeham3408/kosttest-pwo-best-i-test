@@ -1,6 +1,7 @@
 import { calculateCreatineGrade, type CreatineForm, type CreatineGradeBreakdown } from './creatineScoring'
 import { creatineImageFor } from './creatineImages'
 import type { GradeLetter } from './pwoProducts'
+import type { ProductDataTrust } from './trust/types'
 
 export type TestedCreatineProduct = {
   id: string
@@ -25,13 +26,13 @@ export type TestedCreatineProduct = {
   formLabel: string
   isCreapure: boolean
   isMicronized: boolean
-  /** Merkevare på kreatin-råstoffet, f.eks. Creapure®. Null = generisk. */
+  /** Merkevare på kreatin-råstoffet, f.eks. Creapure®. Null = ikke oppgitt. */
   creatineBrand: string | null
   /** Oppgitt renhet i % — null hvis ikke dokumentert av produsent/butikk. */
   purityPercent: number | null
   /** Oppgitt mesh / partikkelstørrelse — null hvis ikke dokumentert. */
   meshLabel: string | null
-  /** Dokumentert dopingtest — viktig særlig for generisk kreatin. */
+  /** Dokumentert dopingtest på ferdigproduktet — poengtrekk (−15) når ikke oppgitt, ikke utelukking fra lista. */
   dopingTestLabel: string | null
   keyFeatures: string[]
   verdict: string
@@ -39,6 +40,8 @@ export type TestedCreatineProduct = {
   watchouts: string[]
   url: string
   image: string
+  /** Valfri utvidet datatillit — kun verifiserte felt. */
+  dataTrust?: ProductDataTrust
 }
 
 type RawCreatine = Omit<
@@ -70,9 +73,9 @@ const rawProducts: RawCreatine[] = [
     meshLabel: '200 mesh (Creapure)',
     dopingTestLabel: null,
     keyFeatures: ['Creapure', '500 g', '200 mesh', 'Uten smak'],
-    verdict: 'ESN Ultrapure leverer Creapure med dokumentert renhet og mesh — topp kvalitet for daglig bruk.',
+    verdict: 'ESN Ultrapure leverer Creapure med dokumentert renhet og mesh — solid kvalitet, men uten dokumentert dopingtest på produktet.',
     strengths: ['Creapure-sertifisert', '99,9 % renhet (Creapure-standard)', '200 mesh oppgitt'],
-    watchouts: ['Dyrere per kg enn generisk mono'],
+    watchouts: ['Ingen dokumentert dopingtest på ferdigproduktet', 'Dyrere per kg enn produkter uten merkevare-råstoff'],
     url: 'https://www.gymgrossisten.no/esn-ultrapure-creatine-500g',
     image: '',
   },
@@ -98,9 +101,9 @@ const rawProducts: RawCreatine[] = [
     meshLabel: '200 mesh (Creapure)',
     dopingTestLabel: null,
     keyFeatures: ['Creapure', 'Mikronisert', '317 g', '200 mesh'],
-    verdict: 'Pålitelig Creapure fra ON — mikronisert monohydrat med høy renhet og dokumentert kvalitet.',
+    verdict: 'Pålitelig Creapure fra ON — mikronisert monohydrat med høy renhet, men uten dokumentert dopingtest på produktet.',
     strengths: ['Creapure', 'Mikronisert', 'Godt kjent merke'],
-    watchouts: ['Generisk mono-alternativer er billigere per kg'],
+    watchouts: ['Ingen dokumentert dopingtest på ferdigproduktet', 'Alternativer uten merkevare-råstoff er billigere per kg'],
     url: 'https://www.gymgrossisten.no/gold-standard-100-creatine-317g',
     image: '',
   },
@@ -126,15 +129,15 @@ const rawProducts: RawCreatine[] = [
     meshLabel: null,
     dopingTestLabel: null,
     keyFeatures: ['500 g', 'Norsk favoritt', 'Smakløs'],
-    verdict: 'Solid norsk standard — generisk monohydrat til lav pris, men uten merkevare-kreatin, renhetsdata eller dopingtest.',
+    verdict: 'Solid norsk standard — monohydrat til lav pris, men uten oppgitt merkevare på råstoff, renhetsdata eller dopingtest.',
     strengths: ['Lav pris per kg', 'Enkel smakløs formel', 'Tilgjengelig i Norge'],
-    watchouts: ['Generisk mono — ikke Creapure', 'Renhet, mesh og dopingtest ikke oppgitt'],
+    watchouts: ['Merkevare på råstoff ikke oppgitt', 'Renhet, mesh og dopingtest ikke oppgitt'],
     url: 'https://www.tights.no/butikk/creatine-monohydrate-500g/',
     image: '',
   },
   {
     id: 'myprotein-creatine',
-    award: 'Billigst generisk',
+    award: 'Billigst uten merkevare-råstoff',
     name: 'Creatine Monohydrate',
     brand: 'MyProtein',
     merchant: 'MyProtein',
@@ -154,9 +157,9 @@ const rawProducts: RawCreatine[] = [
     meshLabel: null,
     dopingTestLabel: null,
     keyFeatures: ['500 g', 'Impact-serien', 'Smakløs'],
-    verdict: 'Billig generisk monohydrat — god pris, men uten merkevare-kreatin eller dokumentert kvalitet/dopingtest.',
+    verdict: 'Billig monohydrat — god pris, men uten oppgitt merkevare på råstoff eller dokumentert kvalitet/dopingtest.',
     strengths: ['Lav pris', 'Stort utvalg smaker', '500 g pakke'],
-    watchouts: ['Generisk mono', 'Renhet, mesh og dopingtest ikke oppgitt'],
+    watchouts: ['Merkevare på råstoff ikke oppgitt', 'Renhet, mesh og dopingtest ikke oppgitt'],
     url: 'https://www.myprotein.no/sports-nutrition/creatine-monohydrate-powder/10530050.html',
     image: '',
   },
@@ -184,7 +187,7 @@ const rawProducts: RawCreatine[] = [
     keyFeatures: ['500 g', 'Norsk merke', 'Smakløs'],
     verdict: 'Star Nutrition Creatine er en ukomplisert monohydrat — god standard i norsk marked.',
     strengths: ['Tilgjengelig i Norge', 'Enkel formel', 'Lav pris per kg'],
-    watchouts: ['Generisk mono', 'Renhet, mesh og dopingtest ikke oppgitt'],
+    watchouts: ['Merkevare på råstoff ikke oppgitt', 'Renhet, mesh og dopingtest ikke oppgitt'],
     url: 'https://www.gymgrossisten.no/star-nutrition-creatine-monohydrate-500g',
     image: '',
   },
@@ -212,7 +215,7 @@ const rawProducts: RawCreatine[] = [
     keyFeatures: ['500 g', 'Pharma-grade', 'Smakløs'],
     verdict: 'Scitec 100% Creatine er ren monohydrat — solid mellomting mellom budget og Creapure.',
     strengths: ['Ren formel', 'God tilgjengelighet', '500 g pakke'],
-    watchouts: ['Generisk mono', 'Renhet, mesh og dopingtest ikke oppgitt'],
+    watchouts: ['Merkevare på råstoff ikke oppgitt', 'Renhet, mesh og dopingtest ikke oppgitt'],
     url: 'https://www.gymgrossisten.no/scitec-nutrition-100-creatine-monohydrate-500g',
     image: '',
   },
@@ -238,9 +241,9 @@ const rawProducts: RawCreatine[] = [
     meshLabel: null,
     dopingTestLabel: null,
     keyFeatures: ['300 g', 'Mikronisert', 'Smakløs'],
-    verdict: 'Generisk mikronisert mono — oppløses lettere, men uten merkevare-kreatin eller dokumentert test.',
+    verdict: 'Mikronisert monohydrat — oppløses lettere, men uten oppgitt merkevare på råstoff eller dokumentert test.',
     strengths: ['Mikronisert', 'Kjent merke', 'Ren pulverform'],
-    watchouts: ['Generisk mono', 'Renhet, mesh og dopingtest ikke oppgitt'],
+    watchouts: ['Merkevare på råstoff ikke oppgitt', 'Renhet, mesh og dopingtest ikke oppgitt'],
     url: 'https://www.gymgrossisten.no/dymatize-creatine-monohydrate-300g',
     image: '',
   },
@@ -268,7 +271,7 @@ const rawProducts: RawCreatine[] = [
     keyFeatures: ['500 g', 'Norsk butikk', 'Smakløs'],
     verdict: 'Proteinfabrikken Creatine er en enkel monohydrat — god for daglig bruk til lav pris.',
     strengths: ['Lav pris', 'Norsk leverandør', '500 g pakke'],
-    watchouts: ['Generisk mono', 'Renhet, mesh og dopingtest ikke oppgitt'],
+    watchouts: ['Merkevare på råstoff ikke oppgitt', 'Renhet, mesh og dopingtest ikke oppgitt'],
     url: 'https://www.proteinfabrikken.no/creatine-monohydrate-500g',
     image: '',
   },
@@ -324,13 +327,13 @@ const rawProducts: RawCreatine[] = [
     keyFeatures: ['Tablettformat', '120 tabletter', 'Reisevennlig'],
     verdict: 'Praktiske tabletter, men kapsel/tablettform scorer lavere på renhet enn pulver. God som supplement på reise.',
     strengths: ['Enkelt å ta med', 'Ingen shaker'],
-    watchouts: ['Generisk mono i tablettform', 'Renhet, mesh og dopingtest ikke oppgitt'],
+    watchouts: ['Merkevare på råstoff ikke oppgitt (tablett)', 'Renhet, mesh og dopingtest ikke oppgitt'],
     url: 'https://www.tights.no/butikk/creatine-tabs-120-tabletter/',
     image: '',
   },
   {
     id: 'nutritac-bare-creatine',
-    award: 'Premium Creapure fra NutriTac',
+    award: 'Best Creapure totalt',
     name: 'Bare Kreatin Monohydrat (Creapure®)',
     brand: 'NutriTac',
     merchant: 'NutriTac',
