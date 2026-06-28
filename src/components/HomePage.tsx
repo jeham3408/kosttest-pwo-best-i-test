@@ -4,6 +4,7 @@ import { homeGoalGroups } from '../data/homeGoals'
 import { getHomeWinnersByCategory } from '../data/homeWinners'
 import type { AppPage } from '../routing'
 import HomeHeroSection from './HomeHeroSection'
+import HomeHeroSlider from './HomeHeroSlider'
 
 type HomePageProps = {
   onNavigate: (page: AppPage, productId?: string | null) => void
@@ -54,6 +55,7 @@ export default function HomePage({ onNavigate, onNavigatePath }: HomePageProps) 
 
   return (
     <>
+      <HomeHeroSlider />
       <HomeHeroSection onNavigatePath={onNavigatePath} />
 
       <section className="content-section home-goals-section" aria-labelledby="home-goals-heading">
